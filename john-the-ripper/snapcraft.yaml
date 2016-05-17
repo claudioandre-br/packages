@@ -1,0 +1,33 @@
+name: john-the-ripper
+version: 1.8.0-11765-g9a09113
+summary: John the Ripper Jumbo password cracker
+description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers in the community-enhanced version. This is the community-enhanced "jumbo" version of John the Ripper.
+
+apps:
+  john-the-ripper:
+    command: run/john
+
+parts:
+  john-the-ripper:
+    plugin: autotools
+    source: git://github.com/magnumripper/JohnTheRipper
+    source-type: git
+    source-subdir: ./src
+
+    build-packages: 
+      - build-essential 
+      - libssl-dev 
+      - git 
+      - libgmp-dev 
+      - libpcap-dev
+      - libbz2-dev
+    stage-packages:
+      - openssl 
+      - libgomp1
+      - libgmp10
+      - libbz2-1.0
+
+#slots:
+#    security-override:
+#      syscalls: setpriority
+#      add '@{HOME}/alltests.in' to 'read-paths' in security-override

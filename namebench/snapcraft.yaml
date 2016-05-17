@@ -1,0 +1,25 @@
+name: namebench
+version: 1.3.1
+architectures: [all]
+summary: Provides personalized DNS server recommendations
+description: Searches the fastest DNS servers available for your computer to use. namebench runs a fair and thorough benchmark using your web browser history, tcpdump output, or standardized datasets in order to provide an individualized recommendation. namebench is completely free and does not modify your system in any way.
+
+apps:
+  namebench:
+    command: namebench.py
+    plugs: [network, x11]
+
+parts:
+  namebench:
+    plugin: python2
+    source: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/namebench/namebench-1.3.1-source.tgz
+
+    stage-packages:
+      - tcl
+      - blt 
+      - python-dnspython   
+      - python-graphy
+      - python-jinja2
+      - python-simplejson
+      - python-tk
+      - tk8.6-blt2.5
