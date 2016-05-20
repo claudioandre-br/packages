@@ -7,6 +7,10 @@ apps:
   john-the-ripper:
     command: run/john
 
+  opencl:
+    command: opencl/john
+    plugs: [opencl]
+
 parts:
   john-the-ripper:
     plugin: autotools
@@ -21,13 +25,31 @@ parts:
       - libgmp-dev 
       - libpcap-dev
       - libbz2-dev
+
+  opencl:
+    plugin: autotools
+    source: git://github.com/magnumripper/JohnTheRipper
+    source-type: git
+    source-subdir: ./src
+
+  libs:
+    plugin: nil
     stage-packages:
       - openssl 
       - libgomp1
       - libgmp10
       - libbz2-1.0
+      - ocl-icd-libopencl1
 
-#slots:
-#    security-override:
-#      syscalls: setpriority
-#      add '@{HOME}/alltests.in' to 'read-paths' in security-override
+  transfer:
+    plugin: copy
+    files:
+      ../../john-the-ripper/build/run/*: run/
+      ../../opencl/build/run/*: opencl/
+      ../../opencl/build/doc/*: doc/
+      ../../opencl/build/README: README
+      ../../opencl/build/README.md: README.md
+      ../../opencl/build/README-jumbo: README-jumbo
+      ../install/opencl/john.bash_completion: etc/bash_completion.d/
+    after: [john-the-ripper, opencl]
+
