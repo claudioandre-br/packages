@@ -17,6 +17,7 @@ make clean
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mavx2 -D_SNAP' --disable-openmp && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mavx2 -D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-non-omp\"" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY="\"john-xop\""' && make -s clean && make -sj2 
 
+cd -
 rm -rf parts/john-the-ripper/build/run/kernels
 
-cd -
+
