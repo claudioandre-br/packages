@@ -1,7 +1,8 @@
 name: john-the-ripper
-version: 1.8.0-11765-g9a09113
-summary: John the Ripper Jumbo password cracker
-description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers in the community-enhanced version. This is the community-enhanced "jumbo" version of John the Ripper.
+version: 1.8.0-J1-f22de0a
+confinement: devmode
+summary: John the Ripper "Jumbo" password cracker
+description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers. This package supports OpenCL.
 
 apps:
   john-the-ripper:
@@ -25,6 +26,7 @@ parts:
       - libgmp-dev 
       - libpcap-dev
       - libbz2-dev
+      - opencl-headers
 
   opencl:
     plugin: autotools
@@ -43,6 +45,7 @@ parts:
 
   transfer:
     plugin: copy
+    after: [john-the-ripper, opencl]
     files:
       ../../john-the-ripper/build/run/*: run/
       ../../opencl/build/run/*: opencl/
@@ -51,5 +54,4 @@ parts:
       ../../opencl/build/README.md: README.md
       ../../opencl/build/README-jumbo: README-jumbo
       ../install/opencl/john.bash_completion: etc/bash_completion.d/
-    after: [john-the-ripper, opencl]
 
