@@ -1,21 +1,18 @@
 name: john-the-ripper
 version: 1.8.0-J1-f22de0a
-confinement: devmode
+confinement: strict
 summary: John the Ripper "Jumbo" password cracker
-description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers. This package supports OpenCL (it requires a '--devmode' instalation).
+description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers.
 
 apps:
   john-the-ripper:
     command: run/john
 
-  opencl:
-    command: opencl/john
-    plugs: [opencl]
-
 parts:
   john-the-ripper:
     plugin: autotools
-    source: git://github.com/magnumripper/JohnTheRipper
+    source: https://github.com/claudioandre/JohnTheRipper.git
+    source-branch: snap_package
     source-type: git
     source-subdir: ./src
 
@@ -28,12 +25,6 @@ parts:
       - libbz2-dev
       - opencl-headers
 
-  opencl:
-    plugin: autotools
-    source: git://github.com/magnumripper/JohnTheRipper
-    source-type: git
-    source-subdir: ./src
-
   libs:
     plugin: nil
     stage-packages:
@@ -45,13 +36,12 @@ parts:
 
   transfer:
     plugin: copy
-    after: [john-the-ripper, opencl]
+    after: [john-the-ripper, libs]
     files:
       ../../john-the-ripper/build/run/*: run/
-      ../../opencl/build/run/*: opencl/
-      ../../opencl/build/doc/*: doc/
-      ../../opencl/build/README: README
-      ../../opencl/build/README.md: README.md
-      ../../opencl/build/README-jumbo: README-jumbo
-      ../install/opencl/john.bash_completion: etc/bash_completion.d/
+      ../../john-the-ripper/build/doc/*: doc/
+      ../../john-the-ripper/build/README: README
+      ../../john-the-ripper/build/README.md: README.md
+      ../../john-the-ripper/build/README-jumbo: README-jumbo
+      ../../john-the-ripper/build/run/john.bash_completion: bash_completion/john.bash_completion
 

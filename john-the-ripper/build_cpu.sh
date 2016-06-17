@@ -1,9 +1,13 @@
 #!/bin/bash
 
-rm parts/john-the-ripper/build/run/john-*
-
+snapcraft clean transfer
+snapcraft clean libs
+rm -rf stage
+rm -rf prime
+rm parts/john-the-ripper/state/prime
 rm parts/john-the-ripper/state/stage
-rm parts/john-the-ripper/state/strip
+
+rm parts/john-the-ripper/build/run/john-*
 
 cd parts/john-the-ripper/build/src
 make clean
@@ -19,5 +23,4 @@ make clean
 
 cd -
 rm -rf parts/john-the-ripper/build/run/kernels
-
 
