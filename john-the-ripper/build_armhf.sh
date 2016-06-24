@@ -12,24 +12,20 @@
 
 # To CHANGE the golden image: sudo schroot -c source:xenial-armhf -u root
 # To ENTER an image snapshot: schroot -c xenial-armhf
+#/var/lib/schroot/mount
+## ----------------------------------
 
-
-snapcraft clean transfer
-snapcraft clean libs
-rm -rf stage
-rm -rf prime
-rm parts/john-the-ripper/state/prime
-rm parts/john-the-ripper/state/stage
-
-rm parts/john-the-ripper/build/run/john-*
+#snapcraft clean --step build transfer
+#snapcraft clean --step build libs
+#rm parts/john-the-ripper/build/run/john-*
 
 cd parts/john-the-ripper/build/src
-make clean
+git fetch --unshallow
+
+make distclean
 
 ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS='-D_SNAP' && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-non-omp\""' && make -s clean && make -sj2 
 
 cd -
 rm -rf parts/john-the-ripper/build/run/kernels
-
-

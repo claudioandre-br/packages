@@ -1,5 +1,5 @@
 name: john-the-ripper
-version: 1.8.0-J1-f22de0a
+version: 1.8.0-J1-0220646
 confinement: strict
 summary: John the Ripper "Jumbo" password cracker
 description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers.
@@ -7,6 +7,32 @@ description: John the Ripper is a fast password cracker, currently available for
 apps:
   john-the-ripper:
     command: run/john
+  dmg2john:
+    command: run/dmg2john 
+  hccap2john:
+    command: run/hccap2john    
+  pfx2john:
+    command: run/pfx2john    
+  racf2john:
+    command: run/racf2john  
+  ssh2john:
+    command: run/ssh2john  
+  vncpcap2john:
+    command: run/vncpcap2john  
+  zip2john:
+    command: run/zip2john
+  gpg2john:
+    command: run/gpg2john  
+  keepass2john:
+    command: run/keepass2john  
+  putty2john:
+    command: run/putty2john  
+  rar2john:
+    command: run/rar2john   
+  uaf2john:
+    command: run/uaf2john  
+  wpapcap2john:
+    command: run/wpapcap2john
 
 parts:
   john-the-ripper:
@@ -15,6 +41,9 @@ parts:
     source-branch: snap_package
     source-type: git
     source-subdir: ./src
+
+    snap:
+      - -run/kernels
 
     build-packages: 
       - build-essential 
