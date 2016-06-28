@@ -4,8 +4,18 @@
 #snapcraft clean --step build libs
 #rm parts/john-the-ripper/build/run/john-*
 
-cd parts/john-the-ripper/build/src
+#cd parts/john-the-ripper/build/src
+#git fetch --unshallow
+
+cd parts/john-the-ripper
+git clone --depth 1 https://github.com/magnumripper/JohnTheRipper.git build
+cd build/src
 git fetch --unshallow
+
+wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
+wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/Temporary%20-%20disable%20nice
+patch < 0001-Handle-self-confined-system-wide-build.patch
+patch < Temporary\ -\ disable\ nice
 
 make distclean
 
