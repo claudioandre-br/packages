@@ -7,6 +7,8 @@ description: John the Ripper is a fast password cracker, currently available for
 apps:
   john-the-ripper:
     command: run/john
+  opencl:
+    command: run/john-opencl
   dmg2john:
     command: run/dmg2john 
   hccap2john:
@@ -36,14 +38,11 @@ apps:
 
 parts:
   john-the-ripper:
-    plugin: nil
-#    plugin: autotools
+    plugin: make
+    source: ./
 #    source: https://github.com/magnumripper/JohnTheRipper.git
 #    source-type: git
 #    source-subdir: ./src
-
-    snap:
-      - -run/kernels
 
     build-packages: 
       - build-essential 
@@ -67,10 +66,10 @@ parts:
     plugin: copy
     after: [john-the-ripper, libs]
     files:
+      ../../john-the-ripper/build/john-the-ripper.opencl: john-the-ripper.opencl
       ../../john-the-ripper/build/run/*: run/
       ../../john-the-ripper/build/doc/*: doc/
       ../../john-the-ripper/build/README: README
       ../../john-the-ripper/build/README.md: README.md
       ../../john-the-ripper/build/README-jumbo: README-jumbo
-      ../../john-the-ripper/build/run/john.bash_completion: bash_completion/john.bash_completion
 
