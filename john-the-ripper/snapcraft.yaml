@@ -7,8 +7,8 @@ description: John the Ripper is a fast password cracker, currently available for
 apps:
   john-the-ripper:
     command: run/john
-  opencl:
-    command: run/john-opencl
+#  opencl:
+#    command: run/john-opencl
   dmg2john:
     command: run/dmg2john 
   hccap2john:

@@ -8,6 +8,7 @@ MYPWD=$(pwd)
 
 git clone https://github.com/magnumripper/JohnTheRipper.git tmp
 mv tmp/* ./
+mv tmp/.git ./
 cd src
 
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch

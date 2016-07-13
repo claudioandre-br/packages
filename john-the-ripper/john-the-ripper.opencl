@@ -4,12 +4,12 @@
 if [ -z ${SNAP+x} ]; then 
    echo "========================================================"
    echo "Set the SNAP env var to point to the right location"
-   echo "Something like this: export SNAP=/snap/john-the-ripper/9"
+   echo "Something like this: export SNAP=/snap/john-the-ripper/12"
    echo "========================================================"
    exit 0
 fi
 
-#export SNAP="/snap/john-the-ripper/9"
+#export SNAP="/snap/john-the-ripper/12"
 export SNAP_USER_DATA="$HOME$SNAP"
 
 if [ ! -d "$SNAP_USER_DATA" ]; then
