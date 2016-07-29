@@ -1,5 +1,8 @@
 #!/bin/sh
 
+DIR="$(dirname $0)"
+export SNAP="$DIR"
+
 # snap info
 if [ -z ${SNAP+x} ]; then 
    echo "========================================================"

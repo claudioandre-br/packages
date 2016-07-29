@@ -22,19 +22,18 @@
 #cd parts/john-the-ripper/build/src
 #git fetch --unshallow
 
-cd parts/john-the-ripper
-git clone --depth 1 https://github.com/magnumripper/JohnTheRipper.git build
-cd build/src
-git fetch --unshallow
+git clone https://github.com/magnumripper/JohnTheRipper.git tmp
+mv tmp/* ./
+mv tmp/.git ./
+cd src
 
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/Temporary%20-%20disable%20nice
 patch < 0001-Handle-self-confined-system-wide-build.patch
 patch < Temporary\ -\ disable\ nice
 
-make distclean
 ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS='-D_SNAP' && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-non-omp\""' && make -s clean && make -sj2 
 
 cd -
-rm -rf parts/john-the-ripper/build/run/kernels
+rm -rf run/kernels

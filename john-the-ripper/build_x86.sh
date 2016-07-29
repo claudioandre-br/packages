@@ -4,8 +4,6 @@
 #snapcraft clean --step build libs
 #rm parts/john-the-ripper/build/run/john-*
 
-MYPWD=$(pwd)
-
 git clone https://github.com/magnumripper/JohnTheRipper.git tmp
 mv tmp/* ./
 mv tmp/.git ./
@@ -27,5 +25,3 @@ patch < Temporary\ -\ disable\ nice
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mxop -D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-xop-non-omp\"" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY="\"john-avx\""' && make -s clean && make -sj2 && mv ../run/john ../run/john-xop       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mavx2 -D_SNAP' --disable-openmp && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mavx2 -D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-non-omp\"" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY="\"john-xop\""' && make -s clean && make -sj2 
-
-cd $MYPWD
