@@ -7,8 +7,8 @@ description: John the Ripper is a fast password cracker, currently available for
 apps:
   john-the-ripper:
     command: run/john
-#  opencl:
-#    command: run/john-opencl
+  opencl:
+    command: run/john-opencl
   dmg2john:
     command: run/dmg2john 
   hccap2john:
@@ -39,22 +39,30 @@ apps:
 parts:
   john-the-ripper:
     plugin: make
-    source: ./
-#    source: https://github.com/magnumripper/JohnTheRipper.git
-#    source-type: git
-#    source-subdir: ./src
+    source: .
 
     build-packages: 
       - build-essential 
       - libssl-dev 
-      - git 
       - libgmp-dev 
       - libpcap-dev
       - libbz2-dev
       - opencl-headers
+      - git
+      - wget
+      - patch
+
+    organize:
+      ../build/run/: run/
+      ../build/doc/: doc/
+      ../build/README: README
+      ../build/README.md: README.md
+      ../build/README-jumbo: README-jumbo
+      ../build/john-the-ripper.opencl: john-the-ripper.opencl
 
   libs:
     plugin: nil
+
     stage-packages:
       - openssl 
       - libgomp1
@@ -62,14 +70,26 @@ parts:
       - libbz2-1.0
       - ocl-icd-libopencl1
 
+    filesets:
+      extras:
+        - -usr/local/man
+        - -usr/share/
+    snap:
+      - $extras
+    stage:
+      - $extras
+
   transfer:
-    plugin: copy
-    after: [john-the-ripper, libs]
-    files:
-      ../../john-the-ripper/build/john-the-ripper.opencl: john-the-ripper.opencl
-      ../../john-the-ripper/build/run/*: run/
-      ../../john-the-ripper/build/doc/*: doc/
-      ../../john-the-ripper/build/README: README
-      ../../john-the-ripper/build/README.md: README.md
-      ../../john-the-ripper/build/README-jumbo: README-jumbo
+    plugin: dump
+    after: [john-the-ripper]
+    source: https://github.com/magnumripper/JohnTheRipper/archive/bleeding-jumbo.zip
+
+    snap:
+      - etc/
+    stage:
+      - etc/
+
+    organize:
+      JohnTheRipper-bleeding-jumbo/run/john.bash_completion: etc/bash_completion/john.bash_completion
+      JohnTheRipper-bleeding-jumbo/run/john.zsh_completion: etc/bash_completion/john.zsh_completion
 
