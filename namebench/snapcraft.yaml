@@ -1,18 +1,27 @@
-name: namebench
+name: namebench-snap
 version: 1.3.1
-architectures: [all]
-summary: Provides personalized DNS server recommendations
+confinement: strict
+summary: namebench, DNS service benchmarking tool
 description: Searches the fastest DNS servers available for your computer to use. namebench runs a fair and thorough benchmark using your web browser history, tcpdump output, or standardized datasets in order to provide an individualized recommendation. namebench is completely free and does not modify your system in any way.
 
 apps:
-  namebench:
-    command: namebench.py
-    plugs: [network, x11]
+  namebench-snap:
+    command: desktop-launch namebench.py
+    plugs: [network-bind, x11, unity7]
+
+  launch:
+    command: desktop-launch namebench.py
+    plugs: [network-bind, x11, unity7]
+
+  console:
+    command: namebench.py --no_gui
+    plugs: [network-bind]
 
 parts:
   namebench:
     plugin: python2
-    source: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/namebench/namebench-1.3.1-source.tgz
+    after: [desktop-gtk2]
+    source: https://github.com/claudioandre/namebench.git
 
     stage-packages:
       - tcl

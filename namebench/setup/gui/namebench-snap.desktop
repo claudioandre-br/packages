@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=namebench
+GenericName=namebench benchmark DNS servers
+Comment=It hunts down the fastest DNS servers available for your computer to use
+
+Exec=namebench-snap
+
+Icon=${SNAP}/meta/gui/namebench-snap.png
+Terminal=false
+Type=Application
+Categories=Network;Settings;Utility;
+Keywords=DNS;Benchmark;
+Name[pt_BR]=namebench-snap.desktop
