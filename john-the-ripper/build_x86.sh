@@ -13,9 +13,21 @@ wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/Temp
 patch < 0001-Handle-self-confined-system-wide-build.patch
 patch < Temporary\ -\ disable\ nice
 
+if [[ "$TEST" = "yes" ]]; then
+    ./configure --with-systemwide CPPFLAGS='-D_SNAP' && make -s clean && make -s
+    ../run/john --list=build-info
+    ../run/john --stdout --regex='[0-2]password[A-C]'
+    ../run/john -test-full=0 --format=raw-sha256
+    ../run/john -test-full=0 --format=sha512crypt
+
+    exit 0
+fi
+
+# OpenCL (OMP fallback)
 ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_SNAP' && make -s clean && make -s && mv ../run/john ../run/john-opencl-non-omp       &&
 ./configure --disable-native-tests --with-systemwide CPPFLAGS='-D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-opencl-non-omp\""' && make -s clean && make -s && mv ../run/john ../run/john-opencl   
 
+# CPU (OMP and extensions fallback)
 ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS='-D_SNAP' && make -s clean && make -s && mv ../run/john ../run/john-sse2-non-omp       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-sse2-non-omp\""' && make -s clean && make -s && mv ../run/john ../run/john-sse2       &&
 ./configure --disable-native-tests --disable-opencl --with-systemwide CPPFLAGS='-mavx -D_SNAP' --disable-openmp && make -s clean && make -s && mv ../run/john ../run/john-avx-non-omp       &&
