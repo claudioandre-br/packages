@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.4.0
+Name=doctl
+GenericName=DigitalOcean doctl
+Comment=doctl is a command line interface for the DigitalOcean API
+
+Exec=bash 
+
+Icon=${SNAP}/meta/gui/doctl.png
+Terminal=true
+Type=Application
+Categories=Network;Utility;
+Keywords=DNS;Benchmark;
+
