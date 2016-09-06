@@ -23,6 +23,9 @@ if [[ "$TEST" = "yes" ]]; then
     exit 0
 fi
 
+# CFLAGS is set when regex is build. Harm JtR configure process.
+unset CFLAGS
+
 # OpenCL (OMP fallback)
 ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_SNAP' && make -s clean && make -s && mv ../run/john ../run/john-opencl-non-omp       &&
 ./configure --disable-native-tests --with-systemwide CPPFLAGS='-D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY="\"john-opencl-non-omp\""' && make -s clean && make -s && mv ../run/john ../run/john-opencl   
