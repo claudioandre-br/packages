@@ -20,8 +20,27 @@ TMP_FLAGS="$CFLAGS"
 unset CFLAGS
 
 arch=`uname -m`
+text='x'
+git_tag=$(git describe --dirty=+ --always 2>/dev/null)
 
-if [[ "$arch" == "x86_64" ]]; then
+case "$arch" in
+    'x86_64')
+        text='J1'
+        ;;
+    'armhf' | 'armv7l')
+        text='a1'
+        ;;
+    'aarch64' | 'arm64')
+        text='B1'
+        ;;
+    'ppc64le' | 'powerpc64le')
+        text='P1'
+        ;;
+esac
+# Set package version
+sed -i "s/edge/1.8.0-$text-$git_tag/g" ../../../../snapcraft.yaml
+
+if [[ "$arch" == 'x86_64' ]]; then
     # OpenCL (OMP fallback)
     ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS="$TMP_FLAGS -D_SNAP" && make -s clean && make -s && mv ../run/john ../run/john-opencl-non-omp
     ./configure --disable-native-tests --with-systemwide                  CPPFLAGS="$TMP_FLAGS -D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-opencl-non-omp\\\"\"" && make -s clean && make -s && mv ../run/john ../run/john-opencl
