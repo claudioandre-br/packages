@@ -11,9 +11,7 @@ chmod +x john-the-ripper.opencl
 cd src
 
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/Temporary%20-%20disable%20nice
 patch < 0001-Handle-self-confined-system-wide-build.patch
-patch < Temporary\ -\ disable\ nice
 
 # CFLAGS is set when regex is build. Harm JtR configure process.
 TMP_FLAGS="$CFLAGS"
