@@ -66,7 +66,7 @@ parts:
     source: https://github.com/teeshop/rexgen.git
     source-type: git
     source-subdir: ./src
-    #source-tag: release #159baaf6ad123dcd5b02672b424049527677aef3
+    source-tag: 1.4.0
 
     build-packages:
       - build-essential
