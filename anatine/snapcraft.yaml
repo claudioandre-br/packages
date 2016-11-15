@@ -1,0 +1,25 @@
+name: anatine
+version: edge
+confinement: strict
+summary: Pristine Twitter app
+description: This app is based the awesome Mobile Twitter site, but modifies a lot of things and makes it more usable on the desktop.
+
+apps:
+  anatine:
+    command: desktop-launch $SNAP/bin/Anatine
+    plugs: [home, x11, unity7, gsettings, network, network-bind, process-control, browser-support]
+
+  sh:
+    command: bash
+    plugs: [home, x11, unity7, gsettings, network, network-bind, process-control, browser-support]
+
+parts:
+  anatine:
+    plugin: make
+    after: [desktop-gtk3]
+    source: .
+
+    build-packages:
+      - git
+      - npm
+      - nodejs-legacy

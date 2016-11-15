@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0.0
+Name=anatine
+GenericName=Anatine
+Comment=Pristine Twitter app
+
+Exec=anatine
+Icon=${SNAP}/meta/gui/anatine.png
+Terminal=false
+Type=Application
+Categories=Network;Utility;
+Keywords=Twitter;
+Name[pt_BR]=anatine
