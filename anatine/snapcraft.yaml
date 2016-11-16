@@ -7,11 +7,7 @@ description: This app is based the awesome Mobile Twitter site, but modifies a l
 apps:
   anatine:
     command: desktop-launch $SNAP/bin/Anatine
-    plugs: [home, x11, unity7, gsettings, network, network-bind, process-control, browser-support]
-
-  sh:
-    command: bash
-    plugs: [home, x11, unity7, gsettings, network, network-bind, process-control, browser-support]
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, process-control, browser-support]
 
 parts:
   anatine:
@@ -23,3 +19,11 @@ parts:
       - git
       - npm
       - nodejs-legacy
+
+    stage-packages:
+      - libnss3
+      - overlay-scrollbar
+      - libgail-common
+      - libatk-adaptor
+      - unity-gtk-module-common
+      - libcanberra-gtk3-module
