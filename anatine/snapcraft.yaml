@@ -9,16 +9,21 @@ apps:
     command: desktop-launch $SNAP/bin/Anatine
     plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, process-control, browser-support]
 
+  debug:
+    command: bash
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, process-control, browser-support]
+
 parts:
   anatine:
     plugin: make
-    after: [desktop-gtk3]
+    after: [desktop-gtk2]
     source: .
 
     build-packages:
       - git
       - npm
       - nodejs-legacy
+      - build-essential
 
     stage-packages:
       - libnss3
@@ -26,4 +31,4 @@ parts:
       - libgail-common
       - libatk-adaptor
       - unity-gtk-module-common
-      - libcanberra-gtk3-module
+      - libcanberra-gtk-module
