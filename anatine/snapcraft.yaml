@@ -23,7 +23,6 @@ parts:
       - git
       - npm
       - nodejs-legacy
-      - build-essential
 
     stage-packages:
       - libnss3
@@ -32,3 +31,4 @@ parts:
       - libatk-adaptor
       - unity-gtk-module-common
       - libcanberra-gtk-module
+      - xdg-utils

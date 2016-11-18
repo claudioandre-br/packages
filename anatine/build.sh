@@ -25,6 +25,5 @@ esac
 sed -i "s/edge/$git_tag-$text/g" ../../../snapcraft.yaml
 
 npm install
-npm run build:linux
+nodejs ./node_modules/.bin/electron-packager . --out=dist --ignore='^media$' --platform=linux --arch=x64
 cp -r dist/Anatine-linux-x64/. ../install/bin/
-
