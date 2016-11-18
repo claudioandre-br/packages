@@ -13,28 +13,40 @@ apps:
     plugs: [home, process-control]
   dmg2john:
     command: run/dmg2john 
+    plugs: [home]
   hccap2john:
     command: run/hccap2john    
+    plugs: [home]
   pfx2john:
     command: run/pfx2john    
+    plugs: [home]
   racf2john:
     command: run/racf2john  
+    plugs: [home]
   vncpcap2john:
     command: run/vncpcap2john  
+    plugs: [home]
   zip2john:
     command: run/zip2john
+    plugs: [home]
   gpg2john:
     command: run/gpg2john  
+    plugs: [home]
   keepass2john:
     command: run/keepass2john  
+    plugs: [home]
   putty2john:
     command: run/putty2john  
+    plugs: [home]
   rar2john:
     command: run/rar2john   
+    plugs: [home]
   uaf2john:
     command: run/uaf2john  
+    plugs: [home]
   wpapcap2john:
     command: run/wpapcap2john
+    plugs: [home]
 
 parts:
   john-the-ripper:
