@@ -7,15 +7,15 @@ description: Searches the fastest DNS servers available for your computer to use
 apps:
   namebench-snap:
     command: desktop-launch namebench.py
-    plugs: [network-bind, x11, unity7]
+    plugs: [x11, unity7, network, network-bind, browser-support]
 
   launch:
     command: desktop-launch namebench.py
-    plugs: [network-bind, x11, unity7]
+    plugs: [x11, unity7, network, network-bind, browser-support]
 
   console:
     command: namebench.py --no_gui
-    plugs: [network-bind]
+    plugs: [network, network-bind]
 
 parts:
   namebench:
