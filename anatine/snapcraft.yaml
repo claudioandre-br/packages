@@ -25,10 +25,30 @@ parts:
       - nodejs-legacy
 
     stage-packages:
+      - libxtst6
+      - libxss1
+      - indicator-appmenu
+      - libappindicator1
+      - libdbusmenu-gtk4
+      - unity-gtk2-module
+      - libnotify4
+      - libgconf2-4
       - libnss3
       - overlay-scrollbar
       - libgail-common
       - libatk-adaptor
       - unity-gtk-module-common
       - libcanberra-gtk-module
-      - xdg-utils
+
+    stage:
+      - -usr/sbin/update-icon-caches
+
+  snapd-xdg-open:
+    plugin: dump
+    source: https://github.com/ubuntu-core/snapd-xdg-open.git
+
+    snap:
+      - bin/xdg-open
+
+    organize:
+      data/xdg-open: bin/xdg-open
