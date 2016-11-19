@@ -9,3 +9,7 @@ My Ubuntu Snap packages. See:
 - [doctl](https://github.com/digitalocean/doctl) for more details (*not published yet*).
 
 Anyone can get, for free (as in beer and in freedom), the reviewed packages from https://uappexplorer.com. Despite the fact it is unofficial, all packages are hosted and reviewed (automatically) by Ubuntu.
+
+## License
+
+GPL 2.0
