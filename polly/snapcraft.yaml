@@ -1,0 +1,58 @@
+name: polly
+version: 0.93.12
+confinement: strict
+summary: Twitter client
+description: Linux Twitter client designed for multiple columns of multiple accounts.
+
+apps:
+  polly:
+    command: desktop-launch $SNAP/bin/polly
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, browser-support]
+
+  debug:
+    command: bash
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, browser-support]
+
+parts:
+  polly:
+    plugin: python
+    python-version: python2
+    after: [desktop-gtk2]
+    source: https://github.com/claudioandre/polly.git
+
+    stage-packages:
+      - python-indicate
+      - overlay-scrollbar
+      - libgail-common
+      - libatk-adaptor
+      - libcanberra-gtk-module
+      - python-gtk2
+      - python-dbus 
+      - python-xdg 
+      - python-notify
+      - python-oauth2client
+      - python-gconf 
+      - python-socks
+      - python-httplib2
+      - python-pycurl
+      - python-numpy
+      - python-gdbm
+      - python-gtkspellcheck
+      - python-pyasn1
+      - python-pyasn1-modules
+      - python-rsa
+      - python-uritemplate
+      - hicolor-icon-theme
+
+    stage:
+      - -usr/sbin/update-icon-caches
+
+  snapd-xdg-open:
+    plugin: dump
+    source: https://github.com/ubuntu-core/snapd-xdg-open.git
+
+    snap:
+      - bin/xdg-open
+
+    organize:
+      data/xdg-open: bin/xdg-open
