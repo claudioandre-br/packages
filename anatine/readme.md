@@ -24,5 +24,5 @@ Known issues:
 - You need to install snapd-xdg-open on your computer `sudo apt-get install snapd-xdg-open`. Upstream is working to fix this.
 - Tray integration. This is fixed upstream (not released yet).
 - None should use the Ubuntu Software UI to install any snap package: it requires an Ubuntu Store account and it fails.
-- If you see an error like: "invalid system call", just do sudo snap connect anatine:process-control ubuntu-core:process-control.
+- If you see an error like: "invalid system call", just do `sudo snap connect anatine:process-control ubuntu-core:process-control`.
 
