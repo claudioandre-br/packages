@@ -3,6 +3,7 @@ Version=1.0.0
 Name=anatine
 GenericName=Anatine
 Comment=Pristine Twitter app
+Keywords=twitter;
 
 Exec=anatine
 Icon=${SNAP}/meta/gui/anatine.png
