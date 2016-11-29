@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#snapcraft clean --step build transfer
-#snapcraft clean --step build libs
-#rm parts/john-the-ripper/build/run/john-*
-
 git clone https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/john-the-ripper.opencl
@@ -36,7 +32,7 @@ case "$arch" in
         ;;
 esac
 # Set package version
-sed -i "s/edge/1.8.0-$text-$git_tag/g" ../../../../snapcraft.yaml
+sed -i "s/edge/1.8-$text-$git_tag/g" ../../../../snapcraft.yaml
 
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
@@ -68,17 +64,17 @@ if [[ "$TEST" = "yes" ]]; then
     echo ""
     echo "---------------------------- TESTING -----------------------------"
     ../run/john --list=build-info
-    echo "==> T1:"
+    echo "====> T1:"
     ../run/john --stdout --regex='[0-2]password[A-C]'
-    echo "==> T2:"
+    echo "====> T2:"
     echo magnum | ../run/john -stdout -stdin -regex='\0[01]'
-    echo "==> T3:"
+    echo "====> T3:"
     echo müller | iconv -f UTF-8 -t cp850 | ../run/john -inp=cp850 -stdout -stdin -regex='\0[01]'
-    echo "==> T4:"
+    echo "====> T4:"
     ../run/john -test-full=0 --format=nt
-    echo "==> T5:"
+    echo "====> T5:"
     ../run/john -test-full=0 --format=raw-sha256
-    echo "==> T6:"
+    echo "====> T6:"
     ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
     echo "------------------------------------------------------------------"
     echo ""
