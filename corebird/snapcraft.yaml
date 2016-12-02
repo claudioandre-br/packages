@@ -1,0 +1,51 @@
+name: corebird
+version: edge
+confinement: strict
+summary: Twitter Client
+description: Use Twitter from within a normal desktop application.
+
+apps:
+  corebird:
+    command: desktop-launch $SNAP/bin/corebird
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, browser-support]
+
+  debug:
+    command: bash
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, browser-support]
+
+parts:
+  corebird:
+    plugin: make
+    after: [desktop-gtk3]
+    source: .
+
+    build-packages:
+      - git
+      - wget
+      - build-essential
+      - libtool
+      - autopoint
+      - librest-dev
+      - libsqlite3-dev
+      - libsoup2.4-dev
+      - libgtk2.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libgstreamer-plugins-good1.0-dev
+      - libgstreamer-plugins-bad1.0-dev
+
+    stage-packages:
+      - librest-0.7-0
+      - json-glib-tools
+      - sqlite3
+      - libsoup2.4-1
+      - gettext
+
+  snapd-xdg-open:
+    plugin: dump
+    source: https://github.com/ubuntu-core/snapd-xdg-open.git
+
+    snap:
+      - bin/xdg-open
+
+    organize:
+      data/xdg-open: bin/xdg-open
