@@ -6,7 +6,7 @@ Comment=Pristine Twitter app
 Keywords=twitter;
 
 Exec=anatine
-Icon=${SNAP}/meta/gui/anatine.png
+Icon=${SNAP}/meta/gui/anatine.svg
 Terminal=false
 Type=Application
 Categories=Network;Utility;
