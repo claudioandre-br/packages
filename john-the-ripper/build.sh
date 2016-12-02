@@ -63,6 +63,8 @@ else
 fi
 
 # Do some testing
+TEST=yes #always
+
 if [[ "$TEST" = "yes" ]]; then
     echo ""
     echo "---------------------------- TESTING -----------------------------"
