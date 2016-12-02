@@ -38,6 +38,9 @@ echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
 if [[ "$arch" == 'x86_64' ]]; then
+    # Allow an OpenCL build
+    sudo apt-get install -y beignet-dev
+
     # OpenCL (OMP fallback)
     ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS="$TMP_FLAGS -D_SNAP" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl-non-omp
     ./configure --disable-native-tests --with-systemwide                  CPPFLAGS="$TMP_FLAGS -D_SNAP -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-opencl-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl
