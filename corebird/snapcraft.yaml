@@ -33,6 +33,9 @@ parts:
       - libgstreamer-plugins-good1.0-dev
       - libgstreamer-plugins-bad1.0-dev
 
+    organize:
+      share/: usr/share/
+
     stage-packages:
       - librest-0.7-0
       - json-glib-tools
