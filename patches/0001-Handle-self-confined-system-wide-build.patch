@@ -1,13 +1,14 @@
-From 7b2a4074da69d658c7fbe8225df1671d8670b79e Mon Sep 17 00:00:00 2001
+From 34529d5958005600ec69b0a41ce7e5ee098cf2bd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
 
 ---
- src/john.c     |  8 ++++----
- src/listconf.c |  7 +++++++
- src/path.c     | 61 ++++++++++++++++++++++++++++++----------------------------
- 3 files changed, 43 insertions(+), 33 deletions(-)
+ src/john.c     | 8 ++++----
+ src/listconf.c | 7 +++++++
+ src/params.h   | 4 ++--
+ src/path.c     | 4 ++--
+ 4 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/src/john.c b/src/john.c
 index e5c7863..ee9e576 100644
@@ -69,91 +70,45 @@ index 5add6ac..50d76f8 100644
  #if CPU_FALLBACK
  	puts("CPU fallback binary: " CPU_FALLBACK_BINARY);
  #endif
-diff --git a/src/path.c b/src/path.c
-index af97e38..fd9b4fa 100644
---- a/src/path.c
-+++ b/src/path.c
-@@ -46,14 +46,44 @@ void path_init(char **argv)
- #ifdef JOHN_PRIVATE_HOME
- 	char *private;
- #endif
--#else
--	char *pos;
- #endif
-+	char *pos;
-+
-+	if (argv[0]) {
-+		int dos=0;
-+		if (!john_home_path) {
-+			pos = strrchr(argv[0], '/');
-+			if (!pos) {
-+				pos = strrchr(argv[0], '\\'); // handle this for MSVC and MinGW which use 'DOS' style C:\path\run\john  syntax.
-+				if (pos>argv[0] && argv[0][1] == ':') {
-+					argv[0] += 2;
-+					dos = 1;
-+				}
-+			}
-+			if (pos) {
-+				john_home_length = pos - argv[0] + 1;
-+				if (john_home_length >= PATH_BUFFER_SIZE) return;
-+
-+				john_home_path = mem_alloc(PATH_BUFFER_SIZE);
-+				memcpy(john_home_path, argv[0], john_home_length);
-+				john_home_path[john_home_length] = 0;
-+				pos = strchr(john_home_path, '\\');
-+				while (dos && pos) {
-+					*pos = '/';
-+					pos = strchr(pos, '\\');
-+				}
-+			}
-+		}
-+	}
+diff --git a/src/params.h b/src/params.h
+index a29c9db..39015a8 100644
+--- a/src/params.h
++++ b/src/params.h
+@@ -94,10 +94,10 @@
  
  #if JOHN_SYSTEMWIDE
-+#if !defined(_SNAP)
-+	MEM_FREE(john_home_path);
-+
+ #ifndef JOHN_SYSTEMWIDE_EXEC /* please refer to the notes above */
+-#define JOHN_SYSTEMWIDE_EXEC		"/usr/libexec/john"
++#define JOHN_SYSTEMWIDE_EXEC		"/app/bin"
+ #endif
+ #ifndef JOHN_SYSTEMWIDE_HOME
+-#define JOHN_SYSTEMWIDE_HOME		"/usr/share/john"
++#define JOHN_SYSTEMWIDE_HOME		"/app/bin"
+ #endif
+ #define JOHN_PRIVATE_HOME		"~/.john"
+ #endif
+diff --git a/src/path.c b/src/path.c
+index af97e38..8704f20 100644
+--- a/src/path.c
++++ b/src/path.c
+@@ -41,7 +41,7 @@ static int user_home_length;
+ 
+ void path_init(char **argv)
+ {
+-#if JOHN_SYSTEMWIDE
++#if defined(JOHN_SYSTEMWIDE) && !defined(_UBUNTU)
+ 	char *home_dir;
+ #ifdef JOHN_PRIVATE_HOME
+ 	char *private;
+@@ -50,7 +50,7 @@ void path_init(char **argv)
+ 	char *pos;
+ #endif
+ 
+-#if JOHN_SYSTEMWIDE
++#if defined(JOHN_SYSTEMWIDE) && !defined(_UBUNTU)
  	john_home_path = mem_alloc(PATH_BUFFER_SIZE);
  	strnzcpy(john_home_path, JOHN_SYSTEMWIDE_HOME "/", PATH_BUFFER_SIZE);
  	john_home_length = strlen(john_home_path);
-+#endif
- 
- 	if (user_home_path) return;
- 
-@@ -82,33 +112,6 @@ void path_init(char **argv)
- 	} else
- 		fprintf(stderr, "Created directory: %s\n", private);
- #endif
--#else
--	if (argv[0]) {
--		int dos=0;
--		if (!john_home_path) {
--			pos = strrchr(argv[0], '/');
--			if (!pos) {
--				pos = strrchr(argv[0], '\\'); // handle this for MSVC and MinGW which use 'DOS' style C:\path\run\john  syntax.
--				if (pos>argv[0] && argv[0][1] == ':') {
--					argv[0] += 2;
--					dos = 1;
--				}
--			}
--			if (pos) {
--				john_home_length = pos - argv[0] + 1;
--				if (john_home_length >= PATH_BUFFER_SIZE) return;
--
--				john_home_path = mem_alloc(PATH_BUFFER_SIZE);
--				memcpy(john_home_path, argv[0], john_home_length);
--				john_home_path[john_home_length] = 0;
--				pos = strchr(john_home_path, '\\');
--				while (dos && pos) {
--					*pos = '/';
--					pos = strchr(pos, '\\');
--				}
--			}
--		}
--	}
- #endif
- }
- 
 -- 
 2.7.4
 
