@@ -1,4 +1,4 @@
-From 34529d5958005600ec69b0a41ce7e5ee098cf2bd Mon Sep 17 00:00:00 2001
+From 4d31eed10669b50ceff40ea8cc81e829f072b46a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
@@ -11,7 +11,7 @@ Subject: [PATCH] Handle self confined system wide build.
  4 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/src/john.c b/src/john.c
-index e5c7863..ee9e576 100644
+index e5c7863..38635cf 100644
 --- a/src/john.c
 +++ b/src/john.c
 @@ -446,7 +446,7 @@ static void john_omp_init(void)
@@ -19,7 +19,7 @@ index e5c7863..ee9e576 100644
  	if (!getenv("JOHN_NO_OMP_FALLBACK") && john_omp_threads_new <= 1) {
  		rec_done(-2);
 -#ifdef JOHN_SYSTEMWIDE_EXEC
-+#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_SNAP)
++#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_BOXED)
  #define OMP_FALLBACK_PATHNAME JOHN_SYSTEMWIDE_EXEC "/" OMP_FALLBACK_BINARY
  #else
  #define OMP_FALLBACK_PATHNAME path_expand("$JOHN/" OMP_FALLBACK_BINARY)
@@ -28,7 +28,7 @@ index e5c7863..ee9e576 100644
  #endif
  		execv(OMP_FALLBACK_PATHNAME, argv);
 -#ifdef JOHN_SYSTEMWIDE_EXEC
-+#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_SNAP)
++#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_BOXED)
  		perror("execv: " OMP_FALLBACK_PATHNAME);
  #else
  		perror("execv: $JOHN/" OMP_FALLBACK_BINARY);
@@ -37,26 +37,26 @@ index e5c7863..ee9e576 100644
  #endif
  		if (!make_check) {
 -#ifdef JOHN_SYSTEMWIDE_EXEC
-+#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_SNAP)
++#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_BOXED)
  #define CPU_FALLBACK_PATHNAME JOHN_SYSTEMWIDE_EXEC "/" CPU_FALLBACK_BINARY
  #else
  #define CPU_FALLBACK_PATHNAME path_expand("$JOHN/" CPU_FALLBACK_BINARY)
  #endif
  			execv(CPU_FALLBACK_PATHNAME, argv);
 -#ifdef JOHN_SYSTEMWIDE_EXEC
-+#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_SNAP)
++#if defined(JOHN_SYSTEMWIDE_EXEC) && !defined(_BOXED)
  			perror("execv: " CPU_FALLBACK_PATHNAME);
  #else
  			perror("execv: $JOHN/" CPU_FALLBACK_BINARY);
 diff --git a/src/listconf.c b/src/listconf.c
-index 5add6ac..50d76f8 100644
+index 5add6ac..12481a7 100644
 --- a/src/listconf.c
 +++ b/src/listconf.c
 @@ -127,10 +127,17 @@ static void listconf_list_build_info(void)
  	       SIMD_PARA_SHA256, SIMD_PARA_SHA512);
  #endif
  #if JOHN_SYSTEMWIDE
-+#if defined(_SNAP)
++#if defined(_BOXED)
 +	puts("Environment: " "Secure and sandboxed");
 +	puts("System-wide exec: " "$JOHN/");
 +	puts("System-wide home: " "$JOHN/");
@@ -88,7 +88,7 @@ index a29c9db..39015a8 100644
  #define JOHN_PRIVATE_HOME		"~/.john"
  #endif
 diff --git a/src/path.c b/src/path.c
-index af97e38..8704f20 100644
+index af97e38..e60c7db 100644
 --- a/src/path.c
 +++ b/src/path.c
 @@ -41,7 +41,7 @@ static int user_home_length;
@@ -96,7 +96,7 @@ index af97e38..8704f20 100644
  void path_init(char **argv)
  {
 -#if JOHN_SYSTEMWIDE
-+#if defined(JOHN_SYSTEMWIDE) && !defined(_UBUNTU)
++#if defined(JOHN_SYSTEMWIDE) && !defined(_SNAP)
  	char *home_dir;
  #ifdef JOHN_PRIVATE_HOME
  	char *private;
@@ -105,7 +105,7 @@ index af97e38..8704f20 100644
  #endif
  
 -#if JOHN_SYSTEMWIDE
-+#if defined(JOHN_SYSTEMWIDE) && !defined(_UBUNTU)
++#if defined(JOHN_SYSTEMWIDE) && !defined(_SNAP)
  	john_home_path = mem_alloc(PATH_BUFFER_SIZE);
  	strnzcpy(john_home_path, JOHN_SYSTEMWIDE_HOME "/", PATH_BUFFER_SIZE);
  	john_home_length = strlen(john_home_path);
