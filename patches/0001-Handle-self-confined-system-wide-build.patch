@@ -1,4 +1,4 @@
-From 4d31eed10669b50ceff40ea8cc81e829f072b46a Mon Sep 17 00:00:00 2001
+From f7ae3b41a8bce75f63993a2531911301c32a0fd0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
@@ -88,7 +88,7 @@ index a29c9db..39015a8 100644
  #define JOHN_PRIVATE_HOME		"~/.john"
  #endif
 diff --git a/src/path.c b/src/path.c
-index af97e38..e60c7db 100644
+index af97e38..e82a365 100644
 --- a/src/path.c
 +++ b/src/path.c
 @@ -41,7 +41,7 @@ static int user_home_length;
@@ -96,7 +96,7 @@ index af97e38..e60c7db 100644
  void path_init(char **argv)
  {
 -#if JOHN_SYSTEMWIDE
-+#if defined(JOHN_SYSTEMWIDE) && !defined(_SNAP)
++#if JOHN_SYSTEMWIDE && !defined(_SNAP)
  	char *home_dir;
  #ifdef JOHN_PRIVATE_HOME
  	char *private;
@@ -105,7 +105,7 @@ index af97e38..e60c7db 100644
  #endif
  
 -#if JOHN_SYSTEMWIDE
-+#if defined(JOHN_SYSTEMWIDE) && !defined(_SNAP)
++#if JOHN_SYSTEMWIDE && !defined(_SNAP)
  	john_home_path = mem_alloc(PATH_BUFFER_SIZE);
  	strnzcpy(john_home_path, JOHN_SYSTEMWIDE_HOME "/", PATH_BUFFER_SIZE);
  	john_home_length = strlen(john_home_path);
