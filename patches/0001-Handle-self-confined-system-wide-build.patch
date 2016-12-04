@@ -56,6 +56,7 @@ index 4531993..1c0b813 100644
  #endif
  #if JOHN_SYSTEMWIDE
 +#if defined(_SNAP)
++	puts("Environment: " "Secure and sandboxed");
 +	puts("System-wide exec: " "$JOHN/");
 +	puts("System-wide home: " "$JOHN/");
 +	printf("Private home is %s\n", path_expand(JOHN_PRIVATE_HOME));
