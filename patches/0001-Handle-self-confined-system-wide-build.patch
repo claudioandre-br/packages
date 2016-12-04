@@ -1,19 +1,19 @@
-From f5e4e45f891ba29cba0ed450a674372cfad7110f Mon Sep 17 00:00:00 2001
+From 7b2a4074da69d658c7fbe8225df1671d8670b79e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
-Date: Tue, 26 Apr 2016 10:49:58 -0300
+Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
 
 ---
  src/john.c     |  8 ++++----
- src/listconf.c |  6 ++++++
+ src/listconf.c |  7 +++++++
  src/path.c     | 61 ++++++++++++++++++++++++++++++----------------------------
- 3 files changed, 42 insertions(+), 33 deletions(-)
+ 3 files changed, 43 insertions(+), 33 deletions(-)
 
 diff --git a/src/john.c b/src/john.c
-index 3b0c44f..d9b15ac 100644
+index e5c7863..ee9e576 100644
 --- a/src/john.c
 +++ b/src/john.c
-@@ -454,7 +454,7 @@ static void john_omp_init(void)
+@@ -446,7 +446,7 @@ static void john_omp_init(void)
  static void john_omp_fallback(char **argv) {
  	if (!getenv("JOHN_NO_OMP_FALLBACK") && john_omp_threads_new <= 1) {
  		rec_done(-2);
@@ -22,7 +22,7 @@ index 3b0c44f..d9b15ac 100644
  #define OMP_FALLBACK_PATHNAME JOHN_SYSTEMWIDE_EXEC "/" OMP_FALLBACK_BINARY
  #else
  #define OMP_FALLBACK_PATHNAME path_expand("$JOHN/" OMP_FALLBACK_BINARY)
-@@ -463,7 +463,7 @@ static void john_omp_fallback(char **argv) {
+@@ -455,7 +455,7 @@ static void john_omp_fallback(char **argv) {
  		mpi_teardown();
  #endif
  		execv(OMP_FALLBACK_PATHNAME, argv);
@@ -31,7 +31,7 @@ index 3b0c44f..d9b15ac 100644
  		perror("execv: " OMP_FALLBACK_PATHNAME);
  #else
  		perror("execv: $JOHN/" OMP_FALLBACK_BINARY);
-@@ -1367,13 +1367,13 @@ static void CPU_detect_or_fallback(char **argv, int make_check)
+@@ -1356,13 +1356,13 @@ static void CPU_detect_or_fallback(char **argv, int make_check)
  #error CPU_FALLBACK is incompatible with the current DOS and Windows code
  #endif
  		if (!make_check) {
@@ -48,10 +48,10 @@ index 3b0c44f..d9b15ac 100644
  #else
  			perror("execv: $JOHN/" CPU_FALLBACK_BINARY);
 diff --git a/src/listconf.c b/src/listconf.c
-index 4531993..1c0b813 100644
+index 5add6ac..50d76f8 100644
 --- a/src/listconf.c
 +++ b/src/listconf.c
-@@ -134,10 +134,16 @@ static void listconf_list_build_info(void)
+@@ -127,10 +127,17 @@ static void listconf_list_build_info(void)
  	       SIMD_PARA_SHA256, SIMD_PARA_SHA512);
  #endif
  #if JOHN_SYSTEMWIDE
