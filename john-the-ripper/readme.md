@@ -35,6 +35,11 @@ The highlights:
 - regex and prince modes available.
 - available for X86_64, armhf, arm64 and ppc64.
 
+Known issues: snap is evolving. If you see something like 'invalid syscall', please execute the following command:
+```
+$ sudo snap connect john-the-ripper:process-control ubuntu-core:process-control
+```
+
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To get your current revision (**Rev**), execute:
 ```
