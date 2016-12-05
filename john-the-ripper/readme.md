@@ -53,3 +53,17 @@ Then (replace 60 wiht your current version number):
 $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=build-info
 $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
 ```
+
+## Flatpak
+
+[**Flatpak**](http://flatpak.org//) is a new framework for desktop applications on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
+
+Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
+
+It is our first alpha version of John the Ripper single-file flatpak bundle; it is working fine. You can get it at [github](https://github.com/claudioandre/packages/releases/tag/v0.1-alpha). To import it, do:
+```
+$ flatpak build-import-bundle ~/my-apps john.flatpak
+```
+
+The highlights:
+- fallback for CPU and OMP.
