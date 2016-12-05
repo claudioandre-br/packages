@@ -1,7 +1,7 @@
 Packages
 =============
 
-My Ubuntu Snap packages. See:
+There are **Snap** and **Flatpak** packages here. My Ubuntu Snap packages are:
 
 - [anatine](https://github.com/sindresorhus/anatine) for more details.
 - [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details.
@@ -10,7 +10,9 @@ My Ubuntu Snap packages. See:
 - [doctl](https://github.com/digitalocean/doctl) for more details (*not published*).
 - [polly](https://launchpad.net/polly) for more details (*not published*; upstream is dead).
 
-Anyone can get, for free (as in beer and in freedom), the reviewed packages from https://uappexplorer.com. Despite the fact it is unofficial, all packages are hosted and reviewed (automatically) by Ubuntu.
+Anyone can get, for free (as in beer and in freedom), the reviewed packages from https://uappexplorer.com. Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
+
+More information is available inside each project (sub-folder).
 
 ## License
 
