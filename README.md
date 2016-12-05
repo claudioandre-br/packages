@@ -14,6 +14,9 @@ Anyone can get, for free (as in beer and in freedom), the reviewed packages from
 
 More information is available inside each project sub-folder (at least, some of them).
 
+#### Flatpak
+- John the Ripper has also a flatpak package available. [Click here](https://github.com/claudioandre/packages/tree/master/john-the-ripper#flatpak) for more details.
+
 ## License
 
 GPL 2.0
