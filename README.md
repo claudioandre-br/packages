@@ -12,7 +12,7 @@ There are **Snap** and **Flatpak** packages here. My Ubuntu Snap packages are:
 
 Anyone can get, for free (as in beer and in freedom), the reviewed packages from https://uappexplorer.com. Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
 
-More information is available inside each project (sub-folder).
+More information is available inside each project sub-folder (at least, some of them).
 
 ## License
 
