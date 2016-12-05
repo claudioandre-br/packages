@@ -13,19 +13,15 @@ If you are using Ubuntu (or if your distro already has a Snap Store), do:
 $ sudo snap install john-the-ripper
 ```
 
-To test it, do:
-```
-$ john-the-ripper --list=build-info
-```
-
 If you distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/app/john-the-ripper.claudioandre-br). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
 
 ```
 $ sudo snap install *.snap
 ```
 
-John run confined under a restrictive security sandbox by default. Nevertheless, you can access and audit any file located in your home. Below, an example:
+John run confined under a restrictive security sandbox by default. Nevertheless, you can access and audit any file located in your home. Below, an usage example:
 ```
+$ john-the-ripper -list=build-info
 $ john-the-ripper -list=format-tests | cut -f3 > ~/alltests.in
 $ john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
