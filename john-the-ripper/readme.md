@@ -4,7 +4,7 @@
 
 [Openwall](http://openwall.com/) John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers in this community-enhanced version.
 
-### Snap
+## Snap
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
@@ -33,4 +33,18 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 The highlights:
 - fallback for CPU and OMP.
 - regex and prince modes available.
+- available for X86_64, armhf, arm64 and ppc64.
 
+### Acessing OpenCL
+It is possible to run the JtR OpenCL binary using the workaround seen below. To get your current revision (**Rev**), execute:
+```
+$ snap list john-the-ripper
+Name             Version          Rev  Developer        Notes
+john-the-ripper  1.8-J1-fb051f3+  60   claudioandre-br  -
+```
+
+Then (replace 60 wiht your current version number):
+```
+$ /snap/john-the-ripper/60/john-the-ripper.opencl -list=build-info
+$ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
+```
