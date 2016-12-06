@@ -1,4 +1,4 @@
-From e68502a6cf4b4086c51b14016fb1bd99af1357d2 Mon Sep 17 00:00:00 2001
+From 15e1c65dd89b3ccd96f0008da8ca411aa5e7a19f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
@@ -88,10 +88,10 @@ index a29c9db..39015a8 100644
  #define JOHN_PRIVATE_HOME		"~/.john"
  #endif
 diff --git a/src/path.c b/src/path.c
-index af97e38..939b33d 100644
+index af97e38..512dbe6 100644
 --- a/src/path.c
 +++ b/src/path.c
-@@ -82,7 +82,12 @@ void path_init(char **argv)
+@@ -82,9 +82,14 @@ void path_init(char **argv)
  	} else
  		fprintf(stderr, "Created directory: %s\n", private);
  #endif
@@ -99,12 +99,14 @@ index af97e38..939b33d 100644
 +#endif
 +
 +#if defined(_SNAP)
-+	char *pos;
 +	MEM_FREE(john_home_path);
 +
  	if (argv[0]) {
  		int dos=0;
++		char *pos;
  		if (!john_home_path) {
+ 			pos = strrchr(argv[0], '/');
+ 			if (!pos) {
 -- 
 2.7.4
 
