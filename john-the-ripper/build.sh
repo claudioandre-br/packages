@@ -19,20 +19,20 @@ git_tag=$(git describe --dirty=+ --always 2>/dev/null)
 
 case "$arch" in
     'x86_64')
-        text='J1'
+        text='X'
         ;;
     'armhf' | 'armv7l')
-        text='a1'
+        text='a'
         ;;
     'aarch64' | 'arm64')
-        text='B1'
+        text='B'
         ;;
     'ppc64le' | 'powerpc64le')
-        text='P1'
+        text='P'
         ;;
 esac
 # Set package version
-sed -i "s/edge/1.8-$text-$git_tag/g" ../../../../snapcraft.yaml
+sed -i "s/edge/1.8J1-$git_tag$text/g" ../../../../snapcraft.yaml
 
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
