@@ -1,0 +1,128 @@
+{
+    "id": "com.openwall.John",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "1.4",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "john",
+    "tags": [ "edge" ],
+    "finish-args": [ "--filesystem=home" ],
+    "modules": [
+        {
+            "name": "libpcap",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz",
+                    "sha256": "673dbc69fdc3f5a86fb5759ab19899039a8e5e6c631749e48dcd9c6f0c83541e"
+                }
+            ]
+        },
+        {
+            "name": "librex",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/teeshop/rexgen.git",
+                    "branch": "1.4.0",
+                    "subdir": "./src",
+                    "cmake": true
+                }
+            ]
+        },
+        {
+            "name": "john",
+            "no-autogen": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/magnumripper/johnTheRipper.git"
+                },
+                {
+                    "type": "file",
+                    "url": "https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch",
+                    "dest-filename": "01.patch",
+                    "sha256": "f8f39aa297c33083b5ab5a12802e365c784a630f4963a82e228739308376da31"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "configure",
+                    "commands": [
+                        "#-- Do a checkout; specify a branch was failing. --#",
+                        "git checkout bleeding-jumbo",
+                        "#-- Fake build. --#",
+                        "echo all: > Makefile",
+                        "echo install: >> Makefile",
+                        "#-- Apply the confinement patch.",
+                        "cd src",
+                        "patch < ../01.patch"
+                    ]
+                }                
+            ],
+            "post-install": [
+                "cd src; ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_BOXED'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-sse2-non-omp",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide                  CPPFLAGS='-D_BOXED       -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-sse2",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_BOXED -mavx'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-avx-non-omp",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide                  CPPFLAGS='-D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-avx",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_BOXED -mxop'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-xop-non-omp",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide                  CPPFLAGS='-D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-xop",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_BOXED -mavx2'",
+                "cd src; make -s clean",
+                "cd src; make -sj4 && mv ../run/john ../run/john-non-omp",
+                " ",
+                "cd src; ./configure --disable-native-tests --with-systemwide                  CPPFLAGS='-D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"    -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"'",
+                "cd src; make -s clean",
+                "cd src; make -sj4",
+                " ",
+                "cp -r run/. /app/bin"
+            ]
+        },
+        {
+            "name": "tests",
+            "no-autogen": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/magnumripper/johnTheRipper.git"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "configure",
+                    "commands": [
+                        "#-- Fake build. --#",
+                        "echo all: > Makefile",
+                        "echo install: >> Makefile"
+                    ]
+                }                
+            ],
+            "post-install": [
+                "echo ",
+                "echo ---------------------------- TESTING -----------------------------",
+                "/app/bin/john --list=build-info",
+                "echo ====> T4:",
+                "/app/bin/john -test-full=0 --format=nt",
+                "echo ====> T5:",
+                "/app/bin/john -test-full=0 --format=raw-sha256",
+                "echo ------------------------------------------------------------------",
+                "echo "
+            ]
+        }
+    ]
+}
