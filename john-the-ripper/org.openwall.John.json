@@ -18,14 +18,14 @@
             ]
         },
         {
-            "name": "librex",
+            "name": "librexgen",
+            "cmake": true,
+            "subdir": "./src",
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/teeshop/rexgen.git",
-                    "branch": "1.4.0",
-                    "subdir": "./src",
-                    "cmake": true
+                    "branch": "1.4.0"
                 }
             ]
         },
