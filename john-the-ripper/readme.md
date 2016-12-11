@@ -2,7 +2,7 @@
 
 > John the Ripper password cracker
 
-[Openwall](http://openwall.com/) John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers in this community-enhanced version.
+[Openwall](http://openwall.com/) John the Ripper (JtR) is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers in this community-enhanced version.
 
 ## Snap
 
@@ -51,7 +51,7 @@ $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
 ```
 
 ### Deployments
-Currently, we are deploying a developing version of JtR in all channels (even in the stable channel). That situation might change in the future when a new jumbo 2 stable john version becames available. That said, if you want to access the hot and bleeding john, you should follow the development channel. For a clean installation:
+Currently, we are deploying a developing version of JtR in all channels (even in the stable channel). That situation might change in the future when a new jumbo 2 stable john version becames available. That said, if you want to access the hot and bleeding JtR, you should follow the development channel. For a clean installation:
 ```
 sudo snap install --channel=edge john-the-rippper
 ```
