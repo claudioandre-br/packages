@@ -50,6 +50,19 @@ $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=build-info
 $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
 ```
 
+### Deployments
+Currently, we are deploying a developing version of JtR in all channels (even in the stable channel). That situation might change in the future when a new jumbo 2 stable john version becames available. That said, if you want to access the hot and bleeding john, you should follow the development channel. For a clean installation:
+```
+sudo snap install --channel=edge john-the-rippper
+```
+
+If you already has JtR installed:
+```
+sudo snap refresh --channel=edge john-the-rippper
+```
+
+If you do so, you will be running the development version available on gitbub. The expected average gap should be 1 week.
+
 ## Flatpak
 
 [**Flatpak**](http://flatpak.org//) is a new framework for desktop applications on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
