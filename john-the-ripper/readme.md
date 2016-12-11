@@ -27,8 +27,8 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
 The highlights:
-- fallback for CPU and OMP.
-- regex and prince modes available.
+- fallback for CPU and OMP;
+- regex and prince modes available;
 - available for X86_64, armhf, arm64 and ppc64.
 
 Known issues: snap is evolving. If you see something like 'invalid syscall', please execute the following command:
@@ -75,4 +75,5 @@ $ flatpak build-import-bundle ~/my-apps john.flatpak
 ```
 
 The highlights:
-- fallback for CPU and OMP.
+- fallback for CPU and OMP;
+- regex and prince modes available.
