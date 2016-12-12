@@ -71,9 +71,23 @@ Flatpak is available for the [most common Linux distributions](http://flatpak.or
 
 It is our first alpha version of John the Ripper single-file flatpak bundle; it is working fine. You can get it at [github](https://github.com/claudioandre/packages/releases/tag/v0.1-alpha). To import it, do:
 ```
-$ flatpak build-import-bundle ~/my-apps john.flatpak
+$ flatpak build-import-bundle ~/repo john.flatpak
 ```
 
 The highlights:
 - fallback for CPU and OMP;
 - regex and prince modes available.
+
+******
+It is not clear to me what you really need to do in order to execute the flatpak bundle. Below, a list os commands you might need (don't worry, they can't hurt your environment).
+
+```
+$ dnf install -y flatpak # install the flatpak (or 'yum install', 'apt-get install', etc.)
+$ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the remote (flatpak itself) repository
+$ flatpak install gnome org.freedesktop.Platform//1.4 org.freedesktop.Sdk//1.4 # add the runtime (the base "container")
+# 
+# So, you have a local repository, let's install the software.
+$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user means you only (not system wide)
+$ flatpak --user install tutorial-repo com.openwall.John
+$ flatpak run com.openwall.John
+```
