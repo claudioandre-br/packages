@@ -13,7 +13,7 @@ If you are using Ubuntu (or if your distro already has a Snap Store), do:
 $ sudo snap install john-the-ripper
 ```
 
-**Known issues:** snap is evolving. If you see the error message 'invalid syscall', please execute the following command:`
+**Known issues:** snap is evolving. If you see the error message 'invalid syscall', please execute the following command:
 ```
 $ sudo snap connect john-the-ripper:process-control ubuntu-core:process-control
 ```
@@ -37,14 +37,14 @@ The highlights:
 - available for X86_64, armhf, arm64 and ppc64.
 
 ### Acessing OpenCL
-It is possible to run the JtR OpenCL binary using the workaround seen below. To get your current revision (**Rev**), execute:
+It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
 ```
 $ snap list john-the-ripper
 Name             Version          Rev  Developer        Notes
 john-the-ripper  1.8-J1-fb051f3+  60   claudioandre-br  -
 ```
 
-Then (replace 60 wiht your current version number):
+Then (replace 60 with your current version number):
 ```
 $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=build-info
 $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
