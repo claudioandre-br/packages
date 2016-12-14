@@ -53,12 +53,12 @@ $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
 ### Deployments
 Currently, we are deploying a developing version of JtR in all channels (even in the stable channel). That situation might change in the future when a new john Jumbo 2 version becames available. That said, if you want to access the hot and bleeding JtR, you should follow the development channel. For a clean installation:
 ```
-sudo snap install --channel=edge john-the-rippper
+sudo snap install --channel=edge john-the-ripper
 ```
 
 If you already has JtR installed:
 ```
-sudo snap refresh --channel=edge john-the-rippper
+sudo snap refresh --channel=edge john-the-ripper
 ```
 
 If you do so, you will be running the development version available on gitbub. The average gap expected is 1 week.
@@ -84,13 +84,13 @@ It is not clear to me what you really need to do in order to execute the flatpak
 Install and configure flatpak itself.
 ```
 $ dnf install -y flatpak # (or 'yum install', 'apt-get install', etc.)
-$ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the remote (flatpak itself) repository
-$ flatpak install gnome org.freedesktop.Platform//1.4 org.freedesktop.Sdk//1.4 # add the runtime (the base "container")
+$ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
+$ flatpak install gnome org.freedesktop.Platform//1.4  # add the runtime (the base "container")
 ```
 
 So, now you have Flatpak installed and a local repository; let's install the software.
 ```
-$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user (not system wide)
+$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user = not system wide
 $ flatpak --user install tutorial-repo com.openwall.John
 $ flatpak run com.openwall.John
 $ flatpak run com.openwall.John --list=build-info
