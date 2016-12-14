@@ -18,7 +18,7 @@ $ sudo snap install john-the-ripper
 $ sudo snap connect john-the-ripper:process-control ubuntu-core:process-control
 ```
 
-If you distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/app/john-the-ripper.claudioandre-br). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
+If your distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/app/john-the-ripper.claudioandre-br). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
 
 ```
 $ sudo snap install *.snap
@@ -81,13 +81,17 @@ The highlights:
 ******
 It is not clear to me what you really need to do in order to execute the flatpak bundle. Below, a list os commands you might need (don't worry, they can't hurt your environment).
 
+Install and configure flatpak itself.
 ```
-$ dnf install -y flatpak # install the flatpak (or 'yum install', 'apt-get install', etc.)
+$ dnf install -y flatpak # (or 'yum install', 'apt-get install', etc.)
 $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the remote (flatpak itself) repository
 $ flatpak install gnome org.freedesktop.Platform//1.4 org.freedesktop.Sdk//1.4 # add the runtime (the base "container")
- # -----------------------------------------------------------
- # So, you have a local repository, let's install the software.
-$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user means you only (not system wide)
+```
+
+So, now you have Flatpak installed and a local repository; let's install the software.
+```
+$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user (not system wide)
 $ flatpak --user install tutorial-repo com.openwall.John
 $ flatpak run com.openwall.John
+$ flatpak run com.openwall.John --list=build-info
 ```
