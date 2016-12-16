@@ -19,6 +19,12 @@ parts:
     after: [desktop-gtk3]
     source: .
 
+    slots:
+      dbus-corebird:
+        interface: dbus
+        bus: session
+        name: org.baedert.corebird
+
     build-packages:
       - git
       - wget
