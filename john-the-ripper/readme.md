@@ -71,29 +71,33 @@ If you do so, you will be running the development version available on gitbub. T
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-It is our first alpha version of John the Ripper single-file flatpak bundle; it is working fine. You can get it at [github](https://github.com/claudioandre/packages/releases/tag/v0.1-alpha). To import it, do:
-```
-$ flatpak build-import-bundle ~/repo john.flatpak
-```
+John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it at [GitHub](https://github.com/claudioandre/packages/releases/download/v1.0/artifacts.zip).
 
 The highlights:
 - fallback for CPU and OMP;
 - regex and prince modes available.
 
 ******
-It is not clear to me what you really need to do in order to execute the flatpak bundle. Below, a list os commands you might need (don't worry, they can't hurt your environment).
+The necessary steps to run the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
 
-Install and configure flatpak itself.
+Install and configure flatpak itself:
 ```
-$ dnf install -y flatpak # (or 'yum install', 'apt-get install', etc.)
+$ dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
 $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
-$ flatpak install gnome org.freedesktop.Platform//1.4  # add the runtime (the base "container")
+$ flatpak install gnome org.freedesktop.Platform//1.4 # install the runtime (base "container")
 ```
 
-So, now you have Flatpak installed and a local repository; let's install the software.
+Unzip the downloaded file, and save the john.flatpak file. Now, let's install the software:
 ```
-$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo ~/repo # --user = not system wide
+$ mkdir repo
+$ ostree --repo=repo init --mode=archive-z2
+$ flatpak build-import-bundle repo john.flatpak
+$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo # not system wide (--user)
 $ flatpak --user install tutorial-repo com.openwall.John
+```
+
+Run John the Ripper and check if it is working:
+```
 $ flatpak run com.openwall.John
 $ flatpak run com.openwall.John --list=build-info
 ```
