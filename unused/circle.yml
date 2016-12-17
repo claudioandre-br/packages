@@ -1,0 +1,19 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  pre:
+    - docker pull fedora:latest
+    - docker run --name=build_sys fedora:latest sh -c 'dnf install -y flatpak flatpak-builder; flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo; flatpak install gnome org.freedesktop.Platform//1.4 org.freedesktop.Sdk//1.4'
+    - docker commit build_sys build/ready
+    - docker run -v $(pwd):/cwd build/ready sh -c 'cd /cwd/john-the-ripper; mkdir /claudio; ls -la /; flatpak-builder --repo=repo build org.openwall.John.json'
+    - docker run -v $(pwd):/cwd build/ready sh -c 'cd /cwd/john-the-ripper; ls -la'
+
+test:
+  override:
+    - ls -la john-the-ripper
+    - docker run -v $(pwd):/cwd build/ready sh -c 'cd /cwd/john-the-ripper; flatpak build-bundle repo john.flatpak com.openwall.John'
+    - cp john-the-ripper/org.openwall.John.json $CIRCLE_ARTIFACTS;
+    - cp john-the-ripper/john.flatpak $CIRCLE_ARTIFACTS;
+
