@@ -5,6 +5,7 @@
 [Openwall](http://openwall.com/) John the Ripper (JtR) is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers.
 
 ## Snap
+> Built and deployed using Launchpad
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
@@ -64,6 +65,7 @@ sudo snap refresh --channel=edge john-the-ripper
 If you do so, you will be running the development version available on gitbub. The average gap expected is 1 week.
 
 ## Flatpak
+> Built and deployed using GitLab CI
 
 [**Flatpak**](http://flatpak.org//) is a new framework for desktop applications on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
 
