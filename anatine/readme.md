@@ -2,7 +2,7 @@
 
 > Pristine Twitter app
 
-Anatine is an open-source Desktop Twitter Multiplatform App. It is based the awesome [Mobile Twitter](https://mobile.twitter.com) site, but modifies a lot of things and makes it more usable on the desktop.
+Anatine is an open-source Desktop Twitter Multiplatform App. It is based the awesome [Mobile Twitter](https://mobile.twitter.com) site, but modifies a lot of things and makes it more usable on the desktop. It offers some nice features which includes a Dark mode theme, keyboard shortcuts support and extended features.
 
 ## Snap
 > Built and deployed using Launchpad
