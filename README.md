@@ -1,7 +1,7 @@
 Packages
 =============
 
-[Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways of distributing Linux applications among a wide range of different distros. They are technologies/frameworks to deploy applications in a secure, sandboxed and containerised way.
+[Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways of distributing Linux applications among a wide range of different distros. They are technologies to deploy applications in a secure, sandboxed and containerised way.
 
 In here there are **Snap** and **Flatpak** packages.
 
