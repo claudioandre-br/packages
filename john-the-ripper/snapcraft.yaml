@@ -7,45 +7,59 @@ description: John the Ripper is a fast password cracker, currently available for
 apps:
   john-the-ripper:
     command: run/john
+    aliases: [john]
     plugs: [home, process-control]
   opencl:
     command: run/john-opencl
+    aliases: [john.opencl]
     plugs: [home, process-control]
   dmg2john:
-    command: run/dmg2john 
+    command: run/dmg2john
+    aliases: [john.dmg2john, dmg2john]
     plugs: [home]
   hccap2john:
-    command: run/hccap2john    
+    command: run/hccap2john
+    aliases: [john.hccap2john, hccap2john]
     plugs: [home]
   pfx2john:
-    command: run/pfx2john    
+    command: run/pfx2john
+    aliases: [john.pfx2john, pfx2john]
     plugs: [home]
   racf2john:
-    command: run/racf2john  
+    command: run/racf2john
+    aliases: [john.racf2john, racf2john]
     plugs: [home]
   vncpcap2john:
-    command: run/vncpcap2john  
+    command: run/vncpcap2john
+    aliases: [john.vncpcap2john, vncpcap2john]
     plugs: [home]
   zip2john:
     command: run/zip2john
+    aliases: [john.zip2john, zip2john]
     plugs: [home]
   gpg2john:
-    command: run/gpg2john  
+    command: run/gpg2john
+    aliases: [john.gpg2john, gpg2john]
     plugs: [home]
   keepass2john:
-    command: run/keepass2john  
+    command: run/keepass2john
+    aliases: [john.keepass2john, keepass2john]
     plugs: [home]
   putty2john:
-    command: run/putty2john  
+    command: run/putty2john
+    aliases: [john.putty2john, putty2john]
     plugs: [home]
   rar2john:
-    command: run/rar2john   
+    command: run/rar2john
+    aliases: [john.rar2john, rar2john]
     plugs: [home]
   uaf2john:
-    command: run/uaf2john  
+    command: run/uaf2john
+    aliases: [john.uaf2john, uaf2john]
     plugs: [home]
   wpapcap2john:
     command: run/wpapcap2john
+    aliases: [john.wpapcap2john, wpapcap2john]
     plugs: [home]
 
 parts:
@@ -54,10 +68,10 @@ parts:
     after: [regex]
     source: .
 
-    build-packages: 
-      - build-essential 
-      - libssl-dev 
-      - libgmp-dev 
+    build-packages:
+      - build-essential
+      - libssl-dev
+      - libgmp-dev
       - libpcap-dev
       - libbz2-dev
       - opencl-headers
@@ -90,7 +104,7 @@ parts:
     plugin: nil
 
     stage-packages:
-      - openssl 
+      - openssl
       - libgomp1
       - libgmp10
       - libpcap0.8
