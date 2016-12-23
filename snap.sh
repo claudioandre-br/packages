@@ -1,4 +1,8 @@
 #!/bin/sh -e
+echo ""
+echo "---------------------------- INFO -----------------------------"
+gcc --version
+snap --version
 
 if [ "$SNAP" != "yes" ]; then
     exit 0
