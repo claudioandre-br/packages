@@ -78,7 +78,7 @@ The highlights:
 - regex and prince modes available.
 
 ******
-The necessary steps to run the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
+The necessary steps to install the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
 
 Install and configure flatpak itself:
 ```
@@ -87,7 +87,7 @@ $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add 
 $ flatpak install gnome org.freedesktop.Platform//1.4 # install the runtime (base "container")
 ```
 
-Unzip the downloaded file, and save the john.flatpak file. Now, let's install the software:
+Unzip the downloaded file to get the john.flatpak file stored inside it. Now, let's install the software:
 ```
 $ mkdir repo
 $ ostree --repo=repo init --mode=archive-z2
