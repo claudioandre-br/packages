@@ -1,0 +1,121 @@
+environment:
+  global:
+    PROJ_FOLDER: C:\projects
+    BUILD_FOLDER: C:\projects\john\src
+
+  matrix:
+    # 64bits build
+    - arch: x86_64
+      bits: 64
+
+    # 32bits build
+    - arch: i686
+      bits: 32
+
+install:
+  - cd %PROJ_FOLDER%
+  - git clone https://github.com/magnumripper/JohnTheRipper.git john
+
+  - cd %BUILD_FOLDER%
+  - git describe --dirty=+ --always 2>nul > __git.tmp
+  - set /p gitDescribe=<__git.tmp
+  # - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
+
+  - ps: |
+      [Environment]::SetEnvironmentVariable("MSYS2_PATH_TYPE", "inherit", "Machine")
+      $arch = $env:Arch
+      $bits = $env:Bits
+      $msys = "msys64"
+      $mingw = "mingw$bits"
+      $mhost = "$arch-w$bits-$mingw"
+      $mingwUpper = $mingw.ToUpper()
+      $buildFolder = $env:BUILD_FOLDER
+      $posixBuildFolder = $buildFolder -Replace '\\', '/'
+      $env:PATH="C:\$msys\$mingw\bin;C:\$msys\usr\bin;$env:PATH"
+
+      function shell($command, $dieOnError = $true) {
+
+        Write-Host "Executing '$command'"
+        & "C:\$msys\usr\bin\sh" -lc "MSYSTEM_CARCH=$arch MSYSTEM_PREFIX=/$mingw MSYSTEM=$mingwUpper MINGW_CHOST=$mhost . /etc/profile && cd $posixBuildFolder && $command"
+
+        if ($LASTEXITCODE -ne 0) {
+          Write-Host "'$command' failed with exit code $LASTEXITCODE! " -ForegroundColor Red -NoNewline
+
+          if ($dieOnError) {
+            exit $LASTEXITCODE
+          }
+        }
+      }
+
+build_script:
+  - ps: |
+      Write-Host "----------------------------"
+      Write-Host "   =====  Building  =====   " -ForegroundColor White
+      Write-Host "----------------------------"
+
+  - ps: |
+      shell "gcc --version"
+
+      if ($arch -eq "x86_64") {
+        shell "./configure --enable-memdbg --disable-native-tests --disable-openmp CPPFLAGS='-msse2'"
+      } else {
+        shell "./configure --enable-memdbg --disable-native-tests --disable-openmp CPPFLAGS='-msse2' --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
+      }
+      shell "make -sj2"
+
+      xcopy C:\$msys\$mingw\bin\libgomp-1.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\libgmp-10.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\libbz2-1.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\libeay32.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\libwinpthread-1.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\ssleay32.dll ..\run\
+      xcopy C:\$msys\$mingw\bin\zlib1.dll ..\run\
+
+      if ($arch -eq "i686") {
+        xcopy C:\$msys\$mingw\bin\libgcc_s_dw2-1.dll ..\run\
+      }
+
+test_script:
+  - ps: |
+      Write-Host "----------------------------"
+      Write-Host "    =====  Testing  =====   " -ForegroundColor White
+      Write-Host "----------------------------"
+
+  - cd %PROJ_FOLDER%\john\run
+  - john --list=build-info
+
+  - echo $NT$066ddfd4ef0e9cd7c256fe77191ef43c > tests.in
+  - echo $NT$8846f7eaee8fb117ad06bdd830b7586c >> tests.in
+  - echo df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2 >> tests.in
+  - echo 73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f >> tests.in
+  - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
+
+  - echo "====> T0:"
+  - john -test-full=0
+
+  - echo "====> T4:"
+  - john -test-full=0 --format=nt
+  - echo "====> T5:"
+  - john -test-full=0 --format=raw-sha256
+  - echo "====> T6:"
+  - john -test-full=0 --format=sha512crypt
+  - echo "====> T10:"
+  - john tests.in --format=nt
+  - echo "====> T11:"
+  - john tests.in --format=raw-sha256 
+  - echo "====> T12:"
+  - john tests.in --format=sha512crypt
+
+on_failure:
+  - dir ..\ /s > dir.txt
+  - if exist "dir.txt" 7z a -tzip debug_logs.zip "dir.txt" > nul
+  - if exist "..\src\config.log" 7z a -tzip debug_logs.zip "..\src\config.log" > nul
+  - if exist "debug_logs.zip" appveyor PushArtifact "debug_logs.zip"
+
+on_finish:
+  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\run"
+  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\doc"
+  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\READ*"
+  - if exist "win_x%bits%.zip" appveyor PushArtifact "win_x%bits%.zip"
+  - ps: Get-FileHash "win_x$bits.zip"
+
