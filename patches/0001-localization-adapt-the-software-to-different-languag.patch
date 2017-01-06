@@ -1,0 +1,532 @@
+From edb7b517ac23984d62ed011fe5ed17d5c0c75762 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Mon, 2 Jan 2017 10:04:23 -0200
+Subject: [PATCH] localization: adapt the software to different languages
+
+Add internationalization and localization to Anatine menus.
+---
+ index.js           |  4 ++-
+ locales/en.json    | 28 +++++++++++++++++
+ locales/es.json    | 28 +++++++++++++++++
+ locales/i18n.js    | 28 +++++++++++++++++
+ locales/pt-BR.json | 28 +++++++++++++++++
+ locales/pt.json    | 28 +++++++++++++++++
+ menu.js            | 92 ++++++++++++++++++++++++++++--------------------------
+ 7 files changed, 190 insertions(+), 46 deletions(-)
+ create mode 100644 locales/en.json
+ create mode 100644 locales/es.json
+ create mode 100644 locales/i18n.js
+ create mode 100644 locales/pt-BR.json
+ create mode 100644 locales/pt.json
+
+diff --git a/index.js b/index.js
+index aae7206..79bb3b0 100644
+--- a/index.js
++++ b/index.js
+@@ -2,7 +2,6 @@
+ const path = require('path');
+ const fs = require('fs');
+ const electron = require('electron');
+-const appMenu = require('./menu');
+ const tray = require('./tray');
+ const config = require('./config');
+ 
+@@ -35,6 +34,8 @@ function createMainWindow() {
+ 	const maxWindowInteger = 2147483647; // Used to set max window width/height when toggling fullscreen
+ 	const maxWidthValue = 850;
+ 
++	console.log(app.getLocale());
++
+ 	const win = new electron.BrowserWindow({
+ 		title: app.getName(),
+ 		show: false,
+@@ -91,6 +92,7 @@ function createMainWindow() {
+ }
+ 
+ app.on('ready', () => {
++	const appMenu = require('./menu');
+ 	electron.Menu.setApplicationMenu(appMenu);
+ 	mainWindow = createMainWindow();
+ 	tray.create(mainWindow);
+diff --git a/locales/en.json b/locales/en.json
+new file mode 100644
+index 0000000..d3923b0
+--- /dev/null
++++ b/locales/en.json
+@@ -0,0 +1,28 @@
++{
++  "About": "About",
++  "Help": "Help",
++  "Undo": "Undo",
++  "Redo": "Redo",
++  "Cut": "Cut",
++  "Copy": "Copy",
++  "Paste": "Paste",
++  "Paste and Match Style": "Paste and Match Style",
++  "Delete": "Delete",
++  "Select All": "Select All",
++  "Reset Text Size": "Reset Text Size",
++  "Increase Text Size": "Increase Text Size",
++  "Decrease Text Size": "Decrease Text Size",
++  "Report an Issue...": "Report an Issue...",
++  "Created by Sindre Sorhus": "Created by Sindre Sorhus",
++  "Toggle Dark Mode": "Toggle Dark Mode",
++  "Log Out": "Log Out",
++  "Toggle": "Toggle",
++  "Quit": "Quit",
++  "File": "File",
++  "New Tweet...": "New Tweet...",
++  "New Direct Message...": "New Direct Message...",
++  "Edit": "Edit",
++  "View": "View",
++  "Next Tab": "Next Tab",
++  "Previous Tab": "Previous Tab"
++}
+diff --git a/locales/es.json b/locales/es.json
+new file mode 100644
+index 0000000..a085731
+--- /dev/null
++++ b/locales/es.json
+@@ -0,0 +1,28 @@
++{
++  "About": "Acerca de",
++  "Help": "Ayuda",
++  "Undo": "Deshacer",
++  "Redo": "Rehacer",
++  "Cut": "Cortar",
++  "Copy": "Copiar",
++  "Paste": "Pegar",
++  "Paste and Match Style": "Pegar y combinar estilo",
++  "Delete": "Borrar",
++  "Select All": "Seleccionar todo",
++  "Reset Text Size": "Restablecer tamaño del texto",
++  "Increase Text Size": "Aumentar el tamaño del texto",
++  "Decrease Text Size": "Diminuir el tamaño del texto",
++  "Report an Issue...": "Reportar un problema...",
++  "Created by Sindre Sorhus": "Creado por by Sindre Sorhus",
++  "Toggle Dark Mode": "Cambiar el Modo Oscuro",
++  "Log Out": "Cerrar sesión",
++  "Toggle": "Alternar",
++  "Quit": "Salir",
++  "File": "Archivo",
++  "New Tweet...": "Nuevo Tweet...",
++  "New Direct Message...": "Nuevo mensaje directo...",
++  "Edit": "Editar",
++  "View": "Ver",
++  "Next Tab": "Ficha Siguiente",
++  "Previous Tab": "Ficha Anterior"
++}
+diff --git a/locales/i18n.js b/locales/i18n.js
+new file mode 100644
+index 0000000..e1dbf83
+--- /dev/null
++++ b/locales/i18n.js
+@@ -0,0 +1,28 @@
++const path = require('path')
++const electron = require('electron')
++const fs = require('fs');
++
++const app = electron.app;
++
++let loadedLanguage;
++
++module.exports = i18n;
++
++function i18n() {
++
++	if(fs.existsSync(path.join(__dirname, app.getLocale() + '.json'))) {
++		loadedLanguage = JSON.parse(fs.readFileSync(path.join(__dirname, app.getLocale() + '.json'), 'utf8'))
++	}
++	else {
++		loadedLanguage = JSON.parse(fs.readFileSync(path.join(__dirname, 'en.json'), 'utf8'))
++	}
++}
++
++i18n.prototype.__ = function(key) {
++	let value = loadedLanguage[key]
++
++	if(value === undefined) {
++		value = key
++	}
++	return value
++}
+diff --git a/locales/pt-BR.json b/locales/pt-BR.json
+new file mode 100644
+index 0000000..7ebb78c
+--- /dev/null
++++ b/locales/pt-BR.json
+@@ -0,0 +1,28 @@
++{
++  "About": "Sobre",
++  "Help": "Ajuda",
++  "Undo": "Desfazer",
++  "Redo": "Refazer",
++  "Cut": "Cortar",
++  "Copy": "Copiar",
++  "Paste": "Colar",
++  "Paste and Match Style": "Colar e combinar estilo",
++  "Delete": "Apagar",
++  "Select All": "Selecionar tudo",
++  "Reset Text Size": "Em tamanho real",
++  "Increase Text Size": "Aumentar zoom",
++  "Decrease Text Size": "Diminuir zoom",
++  "Report an Issue...": "Notificar um problema...",
++  "Created by Sindre Sorhus": "Criado por by Sindre Sorhus",
++  "Toggle Dark Mode": "Alternar Modo Escuro",
++  "Log Out": "Desconectar",
++  "Toggle": "Alternar",
++  "Quit": "Sair",
++  "File": "Arquivo",
++  "New Tweet...": "Novo Tweet...",
++  "New Direct Message...": "Nova mensagem direta...",
++  "Edit": "Editar",
++  "View": "Visualizar",
++  "Next Tab": "Próxima Guia",
++  "Previous Tab": "Guia Anterior"
++}
+diff --git a/locales/pt.json b/locales/pt.json
+new file mode 100644
+index 0000000..7cf0852
+--- /dev/null
++++ b/locales/pt.json
+@@ -0,0 +1,28 @@
++{
++  "About": "Sobre",
++  "Help": "Ajuda",
++  "Undo": "Desfazer",
++  "Redo": "Refazer",
++  "Cut": "Cortar",
++  "Copy": "Copiar",
++  "Paste": "Colar",
++  "Paste and Match Style": "Colar e combinar estilo",
++  "Delete": "Apagar",
++  "Select All": "Selecionar tudo",
++  "Reset Text Size": "Exibir em tamanho real",
++  "Increase Text Size": "Aumentar zoom",
++  "Decrease Text Size": "Diminuir zoom",
++  "Report an Issue...": "Notificar um problema...",
++  "Created by Sindre Sorhus": "Criado por by Sindre Sorhus",
++  "Toggle Dark Mode": "Alternar Modo Escuro",
++  "Log Out": "Desconetar",
++  "Toggle": "Alternar",
++  "Quit": "Sair",
++  "File": "Ficheiro",
++  "New Tweet...": "Novo Tweet...",
++  "New Direct Message...": "Nova mensagem directa...",
++  "Edit": "Editar",
++  "View": "Ver",
++  "Next Tab": "Próxima Guia",
++  "Previous Tab": "Guia Anterior"
++}
+diff --git a/menu.js b/menu.js
+index 409ab33..043555a 100644
+--- a/menu.js
++++ b/menu.js
+@@ -8,6 +8,8 @@ const BrowserWindow = electron.BrowserWindow;
+ const shell = electron.shell;
+ const appName = app.getName();
+ 
++var i18n = new(require('./locales/i18n'))
++
+ function sendAction(action) {
+ 	const win = BrowserWindow.getAllWindows()[0];
+ 
+@@ -20,21 +22,21 @@ function sendAction(action) {
+ 
+ const viewSubmenu = [
+ 	{
+-		label: 'Reset Text Size',
++		label: i18n.__('Reset Text Size'),
+ 		accelerator: 'CmdOrCtrl+0',
+ 		click() {
+ 			sendAction('zoom-reset');
+ 		}
+ 	},
+ 	{
+-		label: 'Increase Text Size',
++		label: i18n.__('Increase Text Size'),
+ 		accelerator: 'CmdOrCtrl+Plus',
+ 		click() {
+ 			sendAction('zoom-in');
+ 		}
+ 	},
+ 	{
+-		label: 'Decrease Text Size',
++		label: i18n.__('Decrease Text Size'),
+ 		accelerator: 'CmdOrCtrl+-',
+ 		click() {
+ 			sendAction('zoom-out');
+@@ -50,7 +52,7 @@ const helpSubmenu = [
+ 		}
+ 	},
+ 	{
+-		label: 'Report an Issue...',
++		label: i18n.__('Report an Issue...'),
+ 		click() {
+ 			const body = `
+ <!-- Please succinctly describe your issue and steps to reproduce it. -->
+@@ -70,12 +72,12 @@ if (process.platform !== 'darwin') {
+ 	helpSubmenu.push({
+ 		type: 'separator'
+ 	}, {
+-		role: 'about',
++		role: 'about', label: i18n.__('About'),
+ 		click() {
+ 			electron.dialog.showMessageBox({
+ 				title: `About ${appName}`,
+ 				message: `${appName} ${app.getVersion()}`,
+-				detail: 'Created by Sindre Sorhus',
++				detail: i18n.__('Created by Sindre Sorhus'),
+ 				icon: path.join(__dirname, 'static/Icon.png')
+ 			});
+ 		}
+@@ -87,13 +89,13 @@ const darwinTpl = [
+ 		label: appName,
+ 		submenu: [
+ 			{
+-				role: 'about'
++				role: 'about', label: i18n.__('About')
+ 			},
+ 			{
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Toggle Dark Mode',
++				label: i18n.__('Toggle Dark Mode'),
+ 				accelerator: 'Cmd+Shift+D',
+ 				click() {
+ 					sendAction('toggle-dark-mode');
+@@ -103,7 +105,7 @@ const darwinTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Log Out',
++				label: i18n.__('Log Out'),
+ 				click() {
+ 					sendAction('log-out');
+ 				}
+@@ -131,22 +133,22 @@ const darwinTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				role: 'quit'
++				role: 'quit', label: i18n.__('Quit')
+ 			}
+ 		]
+ 	},
+ 	{
+-		label: 'File',
++		label: i18n.__('File'),
+ 		submenu: [
+ 			{
+-				label: 'New Tweet...',
++				label: i18n.__('New Tweet...'),
+ 				accelerator: 'Cmd+N',
+ 				click() {
+ 					sendAction('new-tweet');
+ 				}
+ 			},
+ 			{
+-				label: 'New Direct Message...',
++				label: i18n.__('New Direct Message...'),
+ 				accelerator: 'Shift+Cmd+N',
+ 				click() {
+ 					sendAction('new-dm');
+@@ -155,39 +157,39 @@ const darwinTpl = [
+ 		]
+ 	},
+ 	{
+-		label: 'Edit',
++		label: i18n.__('Edit'),
+ 		submenu: [
+ 			{
+-				role: 'undo'
++				role: 'undo', label: i18n.__('Undo')
+ 			},
+ 			{
+-				role: 'redo'
++				role: 'redo', label: i18n.__('Redo')
+ 			},
+ 			{
+ 				type: 'separator'
+ 			},
+ 			{
+-				role: 'cut'
++				role: 'cut', label: i18n.__('Cut')
+ 			},
+ 			{
+-				role: 'copy'
++				role: 'copy', label: i18n.__('Copy')
+ 			},
+ 			{
+-				role: 'paste'
++				role: 'paste', label: i18n.__('Paste')
+ 			},
+ 			{
+-				role: 'pasteandmatchstyle'
++				role: 'pasteandmatchstyle', label: i18n.__('Paste and Match Style')
+ 			},
+ 			{
+-				role: 'delete'
++				role: 'delete', label: i18n.__('Delete')
+ 			},
+ 			{
+-				role: 'selectall'
++				role: 'selectall', label: i18n.__('Select All')
+ 			}
+ 		]
+ 	},
+ 	{
+-		label: 'View',
++		label: i18n.__('View'),
+ 		submenu: viewSubmenu
+ 	},
+ 	{
+@@ -203,14 +205,14 @@ const darwinTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Next Tab',
++				label: i18n.__('Next Tab'),
+ 				accelerator: 'Ctrl+Tab',
+ 				click() {
+ 					sendAction('next-tab');
+ 				}
+ 			},
+ 			{
+-				label: 'Previous Tab',
++				label: i18n.__('Previous Tab'),
+ 				accelerator: 'Ctrl+Shift+Tab',
+ 				click() {
+ 					sendAction('previous-tab');
+@@ -228,24 +230,24 @@ const darwinTpl = [
+ 		]
+ 	},
+ 	{
+-		role: 'help',
++		role: 'help', label: i18n.__('Help'),
+ 		submenu: helpSubmenu
+ 	}
+ ];
+ 
+ const otherTpl = [
+ 	{
+-		label: 'File',
++		label: i18n.__('File'),
+ 		submenu: [
+ 			{
+-				label: 'New Tweet...',
++				label: i18n.__('New Tweet...'),
+ 				accelerator: 'Ctrl+N',
+ 				click() {
+ 					sendAction('new-tweet');
+ 				}
+ 			},
+ 			{
+-				label: 'New Direct Message...',
++				label: i18n.__('New Direct Message...'),
+ 				accelerator: 'Shift+Ctrl+N',
+ 				click() {
+ 					sendAction('new-dm');
+@@ -255,14 +257,14 @@ const otherTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Next Tab',
++				label: i18n.__('Next Tab'),
+ 				accelerator: 'Ctrl+Tab',
+ 				click() {
+ 					sendAction('next-tab');
+ 				}
+ 			},
+ 			{
+-				label: 'Previous Tab',
++				label: i18n.__('Previous Tab'),
+ 				accelerator: 'Ctrl+Shift+Tab',
+ 				click() {
+ 					sendAction('previous-tab');
+@@ -272,7 +274,7 @@ const otherTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Toggle Dark Mode',
++				label: i18n.__('Toggle Dark Mode'),
+ 				accelerator: 'Ctrl+Shift+D',
+ 				click() {
+ 					sendAction('toggle-dark-mode');
+@@ -282,7 +284,7 @@ const otherTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				label: 'Log Out',
++				label: i18n.__('Log Out'),
+ 				click() {
+ 					sendAction('log-out');
+ 				}
+@@ -291,51 +293,51 @@ const otherTpl = [
+ 				type: 'separator'
+ 			},
+ 			{
+-				role: 'quit'
++				role: 'quit', label: i18n.__('Quit')
+ 			}
+ 		]
+ 	},
+ 	{
+-		label: 'Edit',
++		label: i18n.__('Edit'),
+ 		submenu: [
+ 			{
+-				role: 'undo'
++				role: 'undo', label: i18n.__('Undo')
+ 			},
+ 			{
+-				role: 'redo'
++				role: 'redo', label: i18n.__('Redo')
+ 			},
+ 			{
+ 				type: 'separator'
+ 			},
+ 			{
+-				role: 'cut'
++				role: 'cut', label: i18n.__('Cut')
+ 			},
+ 			{
+-				role: 'copy'
++				role: 'copy', label: i18n.__('Copy')
+ 			},
+ 			{
+-				role: 'paste'
++				role: 'paste', label: i18n.__('Paste')
+ 			},
+ 			{
+-				role: 'pasteandmatchstyle'
++				role: 'pasteandmatchstyle', label: i18n.__('Paste and Match Style')
+ 			},
+ 			{
+-				role: 'delete'
++				role: 'delete', label: i18n.__('Delete')
+ 			},
+ 			{
+ 				type: 'separator'
+ 			},
+ 			{
+-				role: 'selectall'
++				role: 'selectall', label: i18n.__('Select All')
+ 			}
+ 		]
+ 	},
+ 	{
+-		label: 'View',
++		label: i18n.__('View'),
+ 		submenu: viewSubmenu
+ 	},
+ 	{
+-		role: 'help',
++		role: 'help', label: i18n.__('Help'),
+ 		submenu: helpSubmenu
+ 	}
+ ];
+-- 
+2.7.4
+
