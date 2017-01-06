@@ -1,18 +1,19 @@
-From edb7b517ac23984d62ed011fe5ed17d5c0c75762 Mon Sep 17 00:00:00 2001
+From 1a624fe7442ea612ec43c3f92dd1d01098acacf2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Mon, 2 Jan 2017 10:04:23 -0200
 Subject: [PATCH] localization: adapt the software to different languages
 
 Add internationalization and localization to Anatine menus.
 ---
- index.js           |  4 ++-
+ index.js           |  6 ++--
  locales/en.json    | 28 +++++++++++++++++
  locales/es.json    | 28 +++++++++++++++++
  locales/i18n.js    | 28 +++++++++++++++++
  locales/pt-BR.json | 28 +++++++++++++++++
  locales/pt.json    | 28 +++++++++++++++++
  menu.js            | 92 ++++++++++++++++++++++++++++--------------------------
- 7 files changed, 190 insertions(+), 46 deletions(-)
+ tray.js            |  8 +++--
+ 8 files changed, 197 insertions(+), 49 deletions(-)
  create mode 100644 locales/en.json
  create mode 100644 locales/es.json
  create mode 100644 locales/i18n.js
@@ -20,18 +21,19 @@ Add internationalization and localization to Anatine menus.
  create mode 100644 locales/pt.json
 
 diff --git a/index.js b/index.js
-index aae7206..79bb3b0 100644
+index aae7206..9321fba 100644
 --- a/index.js
 +++ b/index.js
-@@ -2,7 +2,6 @@
+@@ -2,8 +2,6 @@
  const path = require('path');
  const fs = require('fs');
  const electron = require('electron');
 -const appMenu = require('./menu');
- const tray = require('./tray');
+-const tray = require('./tray');
  const config = require('./config');
  
-@@ -35,6 +34,8 @@ function createMainWindow() {
+ const app = electron.app;
+@@ -35,6 +33,8 @@ function createMainWindow() {
  	const maxWindowInteger = 2147483647; // Used to set max window width/height when toggling fullscreen
  	const maxWidthValue = 850;
  
@@ -40,11 +42,12 @@ index aae7206..79bb3b0 100644
  	const win = new electron.BrowserWindow({
  		title: app.getName(),
  		show: false,
-@@ -91,6 +92,7 @@ function createMainWindow() {
+@@ -91,6 +91,8 @@ function createMainWindow() {
  }
  
  app.on('ready', () => {
 +	const appMenu = require('./menu');
++	const tray = require('./tray');
  	electron.Menu.setApplicationMenu(appMenu);
  	mainWindow = createMainWindow();
  	tray.create(mainWindow);
@@ -527,6 +530,51 @@ index 409ab33..043555a 100644
  		submenu: helpSubmenu
  	}
  ];
+diff --git a/tray.js b/tray.js
+index 5bc6e78..1ff6c39 100644
+--- a/tray.js
++++ b/tray.js
+@@ -5,12 +5,15 @@ const electron = require('electron');
+ const app = electron.app;
+ let tray = null;
+ 
++var i18n = new(require('./locales/i18n'))
++
+ exports.create = win => {
+ 	if (process.platform === 'darwin' || tray) {
+ 		return;
+ 	}
+ 
+ 	const iconPath = path.join(__dirname, 'static/IconTray.png');
++	console.log('Create: ' + iconPath);
+ 
+ 	const toggleWin = () => {
+ 		if (win.isVisible()) {
+@@ -22,7 +25,7 @@ exports.create = win => {
+ 
+ 	const contextMenu = electron.Menu.buildFromTemplate([
+ 		{
+-			label: 'Toggle',
++			label: i18n.__('Toggle'),
+ 			click() {
+ 				toggleWin();
+ 			}
+@@ -31,7 +34,7 @@ exports.create = win => {
+ 			type: 'separator'
+ 		},
+ 		{
+-			role: 'quit'
++			role: 'quit', label: i18n.__('Quit')
+ 		}
+ 	]);
+ 
+@@ -48,5 +51,6 @@ exports.setBadge = shouldDisplayUnread => {
+ 
+ 	const icon = shouldDisplayUnread ? 'IconTrayUnread.png' : 'IconTray.png';
+ 	const iconPath = path.join(__dirname, `static/${icon}`);
++	console.log('Set: ' + iconPath);
+ 	tray.setImage(iconPath);
+ };
 -- 
 2.7.4
 
