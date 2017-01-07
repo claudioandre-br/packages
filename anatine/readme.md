@@ -25,10 +25,11 @@ $ sudo snap install *.snap
 
 Known issues:
 - You need to install snapd-xdg-open on your computer `sudo apt-get install snapd-xdg-open`. [1]
+- You need to enable alsa access `sudo snap connect anatine:alsa ubuntu-core:alsa`. [1]
 - Tray integration. [2]
 - No sound. [2]
 - On "invalid system call" error, do `sudo snap connect anatine:process-control ubuntu-core:process-control`
 - None should use the Ubuntu Software UI to install any snap package: it requires an Ubuntu Store account and it fails.
 
 [1] Upstream is working to fix this. <br />
-[2] This is fixed upstream (not released yet).
+[2] This is fixed upstream.
