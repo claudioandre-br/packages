@@ -6,32 +6,32 @@ description: This app is based the awesome Mobile Twitter site, but modifies a l
 
 apps:
   anatine:
-    command: desktop-launch $SNAP/bin/Anatine
-    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, process-control, browser-support]
+    command: bin/wrapper desktop-launch $SNAP/bin/Anatine
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, alsa, network, network-bind, process-control, browser-support]
 
   debug:
     command: bash
-    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, network, network-bind, process-control, browser-support]
+    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, alsa, network, network-bind, process-control, browser-support]
 
 parts:
   anatine:
     plugin: make
-    after: [desktop-gtk2]
+    after: [desktop-gtk2, indicator-gtk2]
     source: .
 
     build-packages:
       - git
       - npm
       - nodejs-legacy
+      - wget
+      - sed
+      - gnome-common
+      - gtk-doc-tools
 
     stage-packages:
       - libxtst6
       - libxss1
-      - indicator-appmenu
-      - libappindicator1
       - libdbusmenu-gtk4
-      - unity-gtk2-module
-      - libnotify4
       - libgconf2-4
       - libnss3
       - overlay-scrollbar
@@ -43,6 +43,9 @@ parts:
     stage:
       - -usr/sbin/update-icon-caches
 
+  desktop-gtk2:
+    stage: [ -./**/libappindicator*.so.* ]
+
   snapd-xdg-open:
     plugin: dump
     source: https://github.com/ubuntu-core/snapd-xdg-open.git
@@ -52,3 +55,11 @@ parts:
 
     organize:
       data/xdg-open: bin/xdg-open
+
+  wrapper:
+    plugin: dump
+    source: alsa/
+
+    stage-packages:
+      - alsa-utils
+
