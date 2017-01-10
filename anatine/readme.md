@@ -23,6 +23,9 @@ In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The in
 $ sudo snap install *.snap
 ```
 
+The highlights:
+- available for X86_64 and armhf.
+
 Known issues:
 - You need to install snapd-xdg-open on your computer `sudo apt-get install snapd-xdg-open`. [1]
 - You need to enable alsa access `sudo snap connect anatine:alsa ubuntu-core:alsa`. [1]
