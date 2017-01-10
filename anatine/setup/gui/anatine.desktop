@@ -1,7 +1,9 @@
 [Desktop Entry]
-Version=1.0.0
-Name=anatine
-GenericName=Anatine
+Version=1.1.0
+Name=Anatine
+GenericName=Twitter Client
+X-GNOME-FullName=Anatine Twitter Client
+
 Comment=Pristine Twitter app
 Keywords=twitter;
 
@@ -9,6 +11,6 @@ Exec=anatine
 Icon=${SNAP}/meta/gui/anatine.svg
 Terminal=false
 Type=Application
-Categories=Network;Utility;
+Categories=Network;Utility;GTK;
 Keywords=Twitter;
 Name[pt_BR]=anatine
