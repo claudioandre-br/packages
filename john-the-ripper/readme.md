@@ -36,6 +36,7 @@ The highlights:
 - fallback for CPU and OMP;
 - regex and prince modes available;
 - available for X86_64, armhf, arm64 and ppc64.
+- you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
