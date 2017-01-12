@@ -1,0 +1,41 @@
+name: peazip
+version: 6.3.0
+confinement: strict
+grade: stable
+summary: Free file archiver and encryption software
+description: >
+             PeaZip is a free file archiver utility, based on Open Source technologies of 7-Zip, p7zip, FreeArc, PAQ, and PEA projects. It deploys a powerful and complete file manager, featuring a wide set of data security functions: strong encryption, encrypted password manager, secure delete, and file hashing.
+
+apps:
+  peazip:
+    command: desktop-launch $SNAP/bin/peazip
+    plugs: [home, x11, unity7, gsettings]
+
+  debug:
+    command: bash
+    plugs: [home, x11, unity7, gsettings]
+
+parts:
+  peazip:
+    plugin: dump
+    after: [desktop-gtk2]
+    source: ./peazip_portable-6.3.0.LINUX.x86_64.GTK2
+
+    stage-packages:
+      - overlay-scrollbar
+      - libgail-common
+      - libatk-adaptor
+      - unity-gtk-module-common
+      - libcanberra-gtk-module
+      - libc6:i386
+      - libglib2.0-0:i386
+
+    snap:
+      - -readme_Linux1.txt
+      - -FreeDesktop_integration
+
+    organize:
+      res/*: bin/res
+      peazip: bin/peazip
+      peazip_help.pdf: bin/peazip_help.pdf
+
