@@ -1,0 +1,48 @@
+From 67bf48455307f15676b83654ac5db8973a07facf Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Tue, 10 Jan 2017 11:18:35 -0200
+Subject: [PATCH] localization: add German translation
+
+Review needed from a native speaker.
+---
+ locales/de.json | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 locales/de.json
+
+diff --git a/locales/de.json b/locales/de.json
+new file mode 100644
+index 0000000..7e406a1
+--- /dev/null
++++ b/locales/de.json
+@@ -0,0 +1,28 @@
++{
++  "About": "Über",
++  "Help": "Hilfe",
++  "Undo": "Undo",
++  "Redo": "Redo",
++  "Cut": "Cut",
++  "Copy": "Copy",
++  "Paste": "Paste",
++  "Paste and Match Style": "Einfügen und Abgleichen",
++  "Delete": "Löschen",
++  "Select All": "Alles Auswählen",
++  "Reset Text Size": "Textgröße Zurücksetzen",
++  "Increase Text Size": "Textgröße Vergrößern",
++  "Decrease Text Size": "Textgröße Reduzieren",
++  "Report an Issue...": "Ein Problem Melden...",
++  "Created by Sindre Sorhus": "Erstellt von Sindre Sorhus",
++  "Toggle Dark Mode": "Toggle Dark Mode",
++  "Log Out": "Ausloggen",
++  "Toggle": "Umschalten",
++  "Quit": "Verlassen",
++  "File": "Feile",
++  "New Tweet...": "Neuer Tweet...",
++  "New Direct Message...": "Neue Direktnachricht...",
++  "Edit": "Edieren",
++  "View": "Ansehen",
++  "Next Tab": "Next Tab",
++  "Previous Tab": "Previous Tab"
++}
+-- 
+2.7.4
+
