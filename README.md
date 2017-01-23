@@ -15,12 +15,17 @@ In here there are **Snap** and **Flatpak** packages.
 
 All the Snap packages are built using a build server. At this moment, I'm using **Launchpad** to build the Snap packages.
 
-Anyone can get, for free (as in beer and in freedom), the reviewed packages from https://uappexplorer.com. Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
+Anyone can get, for free (as in beer and in freedom), the reviewed packages from [**uAppExplorer**](https://uappexplorer.com/apps?q=author%3AClaudio+Andr%C3%A9&type=all_types&sort=-points). Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
 
 #### Flatpak Package
 - John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre/packages/tree/master/john-the-ripper#flatpak) for more details.
 
 At this moment, I'm using **GitLab** to build the Flatpak package.
+
+#### Windows Package
+- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre/packages/releases/tag/v1.0) for more details.
+
+At this moment, I'm using **AppVeyor CI** to build the Windows package.
 
 ## License
 

@@ -9,20 +9,18 @@
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
-If you are using Ubuntu (or if your distro already has a Snap Store), do:
+If you are using Ubuntu, or if your distro already has a Snap Store, do:
 ```
 $ sudo snap install john-the-ripper
+$ sudo snap connect john-the-ripper:process-control core:process-control
 ```
-
-**Known issues:** snap is evolving. If you see the error message 'invalid syscall', please execute the following command:
-```
-$ sudo snap connect john-the-ripper:process-control ubuntu-core:process-control
-```
+By the way, `core` could be named `ubuntu-core` in your machine.
 
 If your distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/app/john-the-ripper.claudioandre-br). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
 
 ```
 $ sudo snap install *.snap
+$ sudo snap connect john-the-ripper:process-control core:process-control
 ```
 
 John run confined under a restrictive security sandbox by default. Nevertheless, you can access and audit any file located in your home. Below, an usage example:
@@ -37,6 +35,15 @@ The highlights:
 - regex and prince modes available;
 - available for X86_64, armhf, arm64 and ppc64.
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
+
+### Enabling Aliases
+To enable the usage of aliases defined by John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
+```
+$ sudo snap alias john-the-ripper john
+$ sudo snap alias john-the-ripper dmg2john
+```
+
+Once enabled, John itself plus all *2john tools can be invoked using the aliases.
 
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
@@ -63,7 +70,7 @@ If you already has JtR installed:
 sudo snap refresh --channel=edge john-the-ripper
 ```
 
-If you do so, you will be running the development version available on gitbub. The average gap expected is 1 week.
+If you do so, you will be running the development version available on GitHub. The average gap expected is 1 week.
 
 ## Flatpak
 > Built and deployed using GitLab CI
