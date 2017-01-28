@@ -31,7 +31,7 @@ case "$arch" in
         ;;
 esac
 # Set package version
-sed -i "s/edge/$git_tag-$text+/g" ../../../snapcraft.yaml
+sed -i "s/edge/$git_tag+$text/g" ../../../snapcraft.yaml
 
 npm install
 nodejs ./node_modules/.bin/electron-packager . --out=dist --ignore='^media$' --platform=linux --arch="$arch_id"
