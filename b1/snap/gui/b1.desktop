@@ -1,0 +1,9 @@
+[Desktop Entry]
+Exec=b1freearchiver %F
+Icon=${SNAP}/meta/gui/b1.png
+Type=Application
+Terminal=false
+Name=B1 Free Archiver
+GenericName=B1 Free Archiver
+MimeType=application/x-b1;application/zip;application/x-zip;application/x-zip-compressed;application/x-zoo;application/x-rar;application/x-rar-compressed;application/x-7z-compressed;application/x-7z-compressed-tar;application/x-tar;application/x-tarz;application/x-bzip;application/x-bzip-compressed-tar;application/x-bzip1;application/x-bzip1-compressed-tar;application/x-bzip2;application/x-bzip2-compressed-tar;application/x-gtar;application/x-gzip;application/x-compressed-tar;application/arj;application/x-arj;application/x-ar;application/x-archive;application/lzh;application/x-lzh;application/x-lha;application/x-lzh-archive;application/x-deb;
+Categories=Utility;Archiving;Compression;
