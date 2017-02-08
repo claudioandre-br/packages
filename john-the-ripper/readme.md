@@ -42,7 +42,7 @@ $ sudo snap alias john-the-ripper john
 $ sudo snap alias john-the-ripper dmg2john
 ```
 
-Once enabled, John itself plus all *2john tools can be invoked using the aliases.
+Once enabled, John itself plus the *2john tools can be invoked using the aliases.
 
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
