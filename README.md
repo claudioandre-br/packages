@@ -6,14 +6,14 @@ Packages
 In here there are **Snap** and **Flatpak** packages.
 
 #### Ubuntu Snap Packages
-- Check [anatine](https://github.com/sindresorhus/anatine) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/anatine#anatine).
-- Check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/john-the-ripper#john-the-ripper).
-- Check [namebench](https://code.google.com/archive/p/namebench) for more details.
-- Check [B1](http://b1.org/) for more details.
-- Check [corebird](https://github.com/baedert/corebird) for more details (*not published*; works only on --devmode).
-- Check [doctl](https://github.com/digitalocean/doctl) for more details (*not published*).
-- Check [peazip](http://www.peazip.org/) for more details (*not published*; upstream is not working on Linux).
-- Check [polly](https://launchpad.net/polly) for more details (*not published*; upstream is dead).
+- Twitter client: check [anatine](https://github.com/sindresorhus/anatine) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/anatine#anatine).
+- Password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/john-the-ripper#john-the-ripper).
+- Benchmark tool: check [namebench](https://code.google.com/archive/p/namebench) for more details.
+- Archiver tool: check [B1](http://b1.org/) for more details.
+- Twitter client: check [corebird](https://github.com/baedert/corebird) for more details (*not published*).
+- Digital Ocean tool: check [doctl](https://github.com/digitalocean/doctl) for more details (*not published*).
+- Archiver tool: check [peazip](http://www.peazip.org/) for more details (*not published*; upstream is not working on Linux).
+- Twitter client: check [polly](https://launchpad.net/polly) for more details (*not published*; upstream is dead).
 
 All the Snap packages are built using a build server. At this moment, I'm using **Launchpad** to build the Snap packages.
 
