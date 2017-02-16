@@ -1,0 +1,81 @@
+language: c
+dist: trusty
+services: docker
+
+env:
+  global:
+   # The next declration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "FJ1/E5vVttd4+cFLQVdFt4rHNX28aGIvAWXduy6ZqQgZbfa0omsHcZXAq0t1qFz14ryTxEtxqY/aXw6OSG+t6a8OyrOi9jEdTIUpEDCyPvdZ299injPt1SiJRxzoDNo1CquwUE20y2pFOnTpVp6bIkH49o0oAxBijtb5fDj54KY="
+
+matrix:
+  include:
+  #Test JtR using a clang build with asan and OpenCL
+  - compiler: gcc     #better to use CLANG
+    env: TEST="usual" ASAN="yes" OPENCL="yes" F=1
+
+  #Test JtR using a clang build with asan and OpenCL
+  - compiler: gcc     #better to use CLANG
+    env: TEST="usual" ASAN="yes" OPENCL="yes" F=2
+
+  #Test JtR using an ordinary OpenCL build
+  - compiler: clang   #better to use GCC
+    env: TEST="usual" OPENCL="yes"
+
+  #Test JtR using a "hot" OS/compiler
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror"
+
+  #Test a non OpenMP build with clang (unusual test environment) 
+  - compiler: clang
+    env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
+
+  #Test a non SIMD build with clang (unusual test environment) #better to use CLANG
+  - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
+
+  #Test --restore using TS
+  #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
+
+  #Test using TS - CPU formats
+  - compiler: clang
+    env: TEST="TS"
+
+  #Test using TS - OpenCL
+  - compiler: clang
+    env: TEST="TS" OPENCL="yes"
+
+  #Test --internal using TS
+  - compiler: clang
+    env: TEST="TS --internal" OPENCL="yes"
+
+  allow_failures:
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror"
+
+  - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
+
+  - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
+
+  #- env: TEST="TS --restore"
+
+  - env: TEST="TS"
+
+  - env: TEST="TS" OPENCL="yes"
+
+  - env: TEST="TS --internal" OPENCL="yes"
+
+  fast_finish: true
+
+before_install:
+  - export OMP_NUM_THREADS=4
+
+script:
+  - .travis/travis_ci.sh
+
+addons:
+  coverity_scan:
+    project:
+      name: "magnumripper/JohnTheRipper"
+      description: "http://openwall.com/john"
+    notification_email: john.magnum@hushmail.com
+    build_command_prepend:
+    build_command: "cd src && ./configure && make -sj4 && echo -e '[Disabled:Formats]\nRaw-SHA512-free-opencl = Y\nXSHA512-free-opencl = Y' > john-local.conf && ../run/john -test-full=0"
+    branch_pattern: coverity_scan
