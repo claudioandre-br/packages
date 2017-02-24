@@ -21,10 +21,6 @@ apps:
     command: run/hccap2john
     aliases: [john.hccap2john, hccap2john]
     plugs: [home]
-  pfx2john:
-    command: run/pfx2john
-    aliases: [john.pfx2john, pfx2john]
-    plugs: [home]
   racf2john:
     command: run/racf2john
     aliases: [john.racf2john, racf2john]
