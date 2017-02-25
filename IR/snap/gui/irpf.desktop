@@ -1,0 +1,8 @@
+[Desktop Entry]
+Exec=irpf2017
+Icon=${SNAP}/meta/gui/icon.png
+Type=Application
+Terminal=false
+Name=Imposto de Renda Pessoa Física 2017
+GenericName=Imposto de Renda Pessoa Física 2017
+Categories=Utility;

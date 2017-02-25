@@ -1,0 +1,29 @@
+name: irpf2017
+version: 1.0
+confinement: strict
+summary: Programa do IRPF 2017
+description: Programa para a declaração do Imposto sobre a Renda da Pessoa Física 2017.
+
+apps:
+  irpf2017:
+    command: desktop-launch $SNAP/usr/lib/jvm/default-java/jre/bin/java -jar $SNAP/irpf2017/irpf.jar
+    aliases: [irpf]
+    plugs: [home, x11, unity7, network]
+    environment:
+      JAVA_HOME: "$SNAP/usr/lib/jvm/default-java/jre/bin"
+
+parts:
+  irpf2017:
+    plugin: nil
+    after: [libs, desktop-gtk3]
+    source: IRPF2017
+
+    organize:
+      ../build/: irpf2017/
+
+  libs:
+    plugin: nil
+
+    stage-packages:
+      - default-jre
+
