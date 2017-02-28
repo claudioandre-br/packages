@@ -8,7 +8,7 @@ In here there are **Snap** and **Flatpak** packages.
 #### Ubuntu Snap Packages
 - Anatine, a Twitter client: check [anatine](https://github.com/sindresorhus/anatine) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/anatine#anatine).
 - John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes] (https://github.com/claudioandre/packages/tree/master/john-the-ripper#john-the-ripper).
-- IRPF, a Brazilian government tool: check this [text](https://claudioandre.github.io/outros/irpf_package.htm) for more details.
+- IRPF, a Brazilian government tool: check this [text](https://claudioandre.github.io/outros/irpf_package.htm?id=git) for more details.
 - Namebench, a benchmark tool: check [namebench](https://code.google.com/archive/p/namebench) for more details.
 - B1, a file archiver: check [B1](http://b1.org/) for more details.
 - Corebird, a Twitter client: check [corebird](https://github.com/baedert/corebird) for more details (*not published*).
