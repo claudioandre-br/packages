@@ -33,6 +33,7 @@ Known issues:
 - No sound. [2]
 - On "invalid system call" error, do `sudo snap connect anatine:process-control core:process-control`
 - None should use the Ubuntu Software UI to install any snap package: it requires an Ubuntu Store account and it fails.
+- It is **NOT working** on some Linux Kernel versions. Waiting to see what Canonical is going to do about it.
 
 [1] Upstream is working to fix this. <br />
 [2] This is fixed upstream.
