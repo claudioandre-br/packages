@@ -1,16 +1,11 @@
 #!/bin/bash
 
-git clone https://github.com/sindresorhus/anatine.git tmp
+git clone https://github.com/claudioandre/anatine.git tmp
 cp -r tmp/. .
-
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-localization-adapt-the-software-to-different-languag.patch
 
 arch=`uname -m`
 text='x'
 git_tag=$(git describe --dirty=+ --always 2>/dev/null)
-
-# Localization
-git am 0001-localization-adapt-the-software-to-different-languag.patch
 
 case "$arch" in
     'x86_64')
