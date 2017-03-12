@@ -50,7 +50,7 @@ parts:
     plugin: dump
     source: https://github.com/ubuntu-core/snapd-xdg-open.git
 
-    snap:
+    prime:
       - bin/xdg-open
 
     organize:
