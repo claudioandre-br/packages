@@ -1,0 +1,28 @@
+sudo: required
+dist: trusty
+services:
+- docker
+
+env:
+  global:
+    - secure: "Q3GrIkqrorCRkrdhJ5q/+ueGztoikv4+4RPpyBpXE746EwetW1SCub2U6E8GMKjGEITer4yfGgsHez777CYrz8RMbDGK7qh8zL4UuhmsUPmoYJ83REGR6FL8bEX23Z/zUvshNsZColnMvwqlRcsb3PdSI2TOSjs1RoXquWi7YJFBBunpPMyJbHMNKfYLrBDWNWcGfr19APzPTvbADEK3rO6407mD/Phj1ikbbdjZAQdTufu7bVi5GtR+DQ3nRKf6Vi2iL4MCF3Vqpp3BHnk2d2gSyqR3vtTDvkpU2ItOxurg4nWMs8l2ahyvX7mab2VKb5rkEz7rSaia63AY7aV5CfVx8RE8fYc+9PLRLzShJtST1eicfih8YwccZH+6YiJW8jwZyuagQ4RB37oU6agL1Ypg//3QA2ranpLdWGDozkU0xx0yWB5oHpLjYfqBLrX7d8PCNSS2sg5ZO8u5gjviGu0aojPCkf61JiAy8jc1GJsIOEzxUS9QmwmsU2wdVyK3HHrJ2kY8M7FIWvbUcwWYYJatDt2DGfFdyviX3DcL3PMgSgORkyJBd+wczf0NiL/55HJJ+6G9orJkiBdIYn8yCtuhDsEkBglwof8rUVYmvkWScJ2FZm2gb9ElEDvLm0lntEEalZmVsmwoHZbY1hweu316U/hFHErLFBfGqbYqCmM="
+    - secure: "bV0pt5VW2tmtTjV5CC4Fs2b65dD9GD82sZVhAPID/pqKILpo/JIna8v5OWubmuAekqMUjxkPrvyGigjwpwd2frw+Tln+LtL9VDxGrPza5b6PfzMp5IXS69C5wqHKzQWFwkdAt0NK0jhi7xC4E/laWQYsiS4Q/sJtrouNg4vPOy6n6L8sBAlIiRlJIGtGB6JuxlG5UHCSorGCiL21at4OvonFMrI08jvuzQZb+0HpHSBRECc3C9vhDUrF9PtpzKMJ8ZW7BgD2QoXYzzV8VA3w1Zwms75diKwPJoL6Ixg7MPwsQJnXB6a1ESxjdYyK7U4grdQHVlGwHn/qMI/TLFSQoTo8S44SdphtI1BguKEq/NqjCchQRy6q8Sdpey5HljGISC76i/zU0hW6iJytXJjrhfGtEYfPHCivSrhP+ZSXAr+C2zLg+Jdd1AGxounfiS3DCOBqCG98+5z06c2Pz1CfClKQnlurouu/p9f9md+vhYlevcnqbo7EuhZ+6P0Y2lUP4JoEBjROmO/oj357LnZuW6pGRmb1uiXrOjPJGfaOnN9m/ihtDCyq7NGlpGuEkiLWP2tvAeqkFBepJJgP2FNw0SgrFCloA5GkQCT6zhXUNtuo2y09mPuSaiIRd7DL5KpFQC355HG6QcP4Au7vUTlSYQMT2Lkby+6gCZgnuqg1ZDU="
+    - secure: "1kQCBywUanxvEM5Bvve6RTcpTyVW11CFXdRIyT5D4+V08zVm564bLBIqE56icizj6HII1r7VY5kxwk5focaqKAJWZ2wle9qLquxPGruJPwcW19MP/UT2wW3zFu03vnhHeQdV+ne7M0Fv+2X3GSRY7txevDGsX82VbMSBT31rxrAYrcH25tOqHYW9fu7J/czUGLz+C20fTJ/9OUNEGN2QzGB9VSx1OOGt+Ro0gmLbjwRULFoEaCoRL1DpGkgqXt1JXOb+KR5Ij5oJaCJUdizV91eb8z9Bpvg5sCZt9IZXY34IENxN1hroKPsxEPv8fkQ1dLosyP0qPWzrPpXKfBfTWk8UExG8Tl+l4kvk1xVBRLezW1cZkNGwBqi+KZON/yvQY2dRBf2WaB391RjH/KamTkdz2It9FvR0ksgqGS/lmivGYJ4LdazXZbTOUe4dOpN43xSeEH37wB4Xb+NTuDwJ7rKDb1NOXEupxgM8cAITpP7Gtz3R5Hk0pA3FWLWOXY1pv5eLU8DaSQnhKzB2RypLLB7asEehCZid9OcHZ5rHsMcJI3REDuRWJQIW3uyx0W77UQtx8VsDgA6GJFsT8CY4OQJZfdrCGDsaJWZIDuSa/5ZeJ3ucDSSVbzvi88d77CC7F3ecqFxyTiaeDJ7dUZFbJs5XyYvjX/hKEzHY5cWMzgw="
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+matrix:
+  include:
+  #- env: FILE=Dockerfile.ubuntu REPO=claudioandre/gjs
+  - env: FILE=Dockerfile.gjs   REPO=claudioandre/gtk
+
+script:
+  - cd docker
+  - docker build --rm -f $FILE -t $REPO:$COMMIT .
+
+after_success:
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker push $REPO
+
