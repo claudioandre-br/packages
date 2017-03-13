@@ -16,7 +16,7 @@ apps:
 parts:
   anatine:
     plugin: make
-    after: [desktop-gtk2, indicator-gtk2]
+    after: [desktop-gtk2, indicator-gtk2, prepare]
     source: .
 
     build-packages:
@@ -62,4 +62,11 @@ parts:
 
     stage-packages:
       - alsa-utils
+
+  prepare:
+    plugin: nil
+    source: .
+    build: |
+      ls -la
+      ./build.sh PREPARE
 
