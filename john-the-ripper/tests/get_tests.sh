@@ -2,7 +2,7 @@
 
 rm -rf .travis.yml src/buggy.sh .travis/
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/.travis.yml 
+wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/.travis.yml
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/buggy.sh      -P src/
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/travis_ci.sh  -P .travis/

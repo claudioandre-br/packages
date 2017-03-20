@@ -4,7 +4,7 @@ DIR="$(dirname $0)"
 export SNAP="$DIR"
 
 # snap info
-if [ -z ${SNAP+x} ]; then 
+if [ -z ${SNAP+x} ]; then
    echo "========================================================"
    echo "Set the SNAP env var to point to the right location"
    echo "Something like this: export SNAP=/snap/john-the-ripper/12"

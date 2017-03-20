@@ -2,12 +2,12 @@
 
 function do_help(){
     echo 'Usage: ./buggy.sh enable/disable'
-    echo 
+    echo
     echo 'enable:       move all buggy formats back to JtR main directory, so they are going to be built.'
     echo 'disable:      disable all "buggy" formats, moving them to a subfolder named bugged.'
     echo
 
-    exit 0 
+    exit 0
 }
 
 if [[ $# -eq 0 ]]; then
@@ -21,9 +21,9 @@ mkdir -p bugged
 Total_Formats=0
 
 case "$1" in
-    "enable" | "--enable" | "-e") 
+    "enable" | "--enable" | "-e")
         for i in $FILES ; do mv -f bugged/$i . ; Total_Formats=$((Total_Formats + 1)); done;;
-    "disable" | "--disable" | "-d") 
+    "disable" | "--disable" | "-d")
         for i in $FILES ; do mv -f $i bugged/ ; Total_Formats=$((Total_Formats + 1)); done;;
     *)
         do_help;;

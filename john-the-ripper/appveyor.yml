@@ -102,7 +102,7 @@ test_script:
   - echo "====> T10:"
   - john tests.in --format=nt
   - echo "====> T11:"
-  - john tests.in --format=raw-sha256 
+  - john tests.in --format=raw-sha256
   - echo "====> T12:"
   - john tests.in --format=sha512crypt
 

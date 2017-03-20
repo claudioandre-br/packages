@@ -56,7 +56,7 @@
                         "cd src",
                         "patch < ../01.patch"
                     ]
-                }                
+                }
             ],
             "post-install": [
                 "cd src; ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS='-D_BOXED'",
@@ -110,7 +110,7 @@
                         "echo all: > Makefile",
                         "echo install: >> Makefile"
                     ]
-                }                
+                }
             ],
             "post-install": [
                 "echo ",
