@@ -1,0 +1,29 @@
+machine:
+  services: 
+    - docker
+
+dependencies:
+  pre:
+    - docker pull fedora:latest
+
+test:
+  override:
+    - ? |
+        case $CIRCLE_NODE_INDEX in
+          0)
+            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora bash -e -c "/circle-ci.sh x86_64"
+            ;;
+          1)
+            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora bash -e -c "/circle-ci.sh i686"
+            ;;
+        esac
+      :
+        parallel: true
+
+  post:
+    - mkdir -p build
+    - cp README* build/
+    - cp -r doc/ build/
+    - cp -r run/ build/
+    - cp -r build/ $CIRCLE_ARTIFACTS/
+
