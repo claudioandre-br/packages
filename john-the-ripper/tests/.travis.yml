@@ -2,12 +2,6 @@ language: c
 dist: trusty
 services: docker
 
-env:
-  global:
-   # The next declration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "FJ1/E5vVttd4+cFLQVdFt4rHNX28aGIvAWXduy6ZqQgZbfa0omsHcZXAq0t1qFz14ryTxEtxqY/aXw6OSG+t6a8OyrOi9jEdTIUpEDCyPvdZ299injPt1SiJRxzoDNo1CquwUE20y2pFOnTpVp6bIkH49o0oAxBijtb5fDj54KY="
-
 matrix:
   include:
   #Test JtR using a clang build with asan and OpenCL
@@ -70,12 +64,3 @@ before_install:
 script:
   - .travis/travis_ci.sh
 
-addons:
-  coverity_scan:
-    project:
-      name: "magnumripper/JohnTheRipper"
-      description: "http://openwall.com/john"
-    notification_email: john.magnum@hushmail.com
-    build_command_prepend:
-    build_command: "cd src && ./configure && make -sj4 && echo -e '[Disabled:Formats]\nRaw-SHA512-free-opencl = Y\nXSHA512-free-opencl = Y' > john-local.conf && ../run/john -test-full=0"
-    branch_pattern: coverity_scan
