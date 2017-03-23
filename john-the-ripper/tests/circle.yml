@@ -21,9 +21,20 @@ test:
         parallel: true
 
   post:
-    - mkdir -p build
-    - cp README* build/
-    - cp -r doc/ build/
-    - cp -r run/ build/
-    - cp -r build/ $CIRCLE_ARTIFACTS/
-
+    - ? |
+        case $CIRCLE_NODE_INDEX in
+          0)
+            mkdir -p build
+            hash=`git rev-parse --short HEAD`
+            zip -r build/JtR-x64-${hash}.zip run/ doc/ README.md README README-jumbo
+            cp -r build/ $CIRCLE_ARTIFACTS/
+            ;;
+          1)
+            mkdir -p build
+            HASH=`git rev-parse --short HEAD`
+            zip -r build/JtR-x32-$HASH.zip run/ doc/ README.md README README-jumbo
+            cp -r build/ $CIRCLE_ARTIFACTS/
+            ;;
+        esac
+      :
+        parallel: true
