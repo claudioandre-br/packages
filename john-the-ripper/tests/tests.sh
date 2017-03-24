@@ -24,7 +24,7 @@ do_Test () {
     ret_code=$?
 
     if [[ $ret_code -ne 0 ]]; then
-        read MAX_TIME <<< $(echo $3 | awk '/-max-run/ { print 1 }')
+        read MAX_TIME <<< $(echo $3 | awk '/-max-/ { print 1 }')
 
         if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
             echo "ERROR ($ret_code): $TO_RUN"
@@ -108,15 +108,24 @@ if test "$EXTRAS" = "yes" ; then
     Total_Tests=0
     JtR="../run/john"
 
-    do_Test "$JtR ~/file1 --single"                                "2g 0:00:0"            -1  -1
-    do_Test "$JtR ~/file2 --wordlist"                              "1g 0:00:0"            -1  -1
-    do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"         "30g 0:00:0"            -1  -1
-    do_Test "$JtR ~/file4"                                         "4g 0:00:0"            -1  -1
-    do_Test "$JtR ~/file5"                                        "30g 0:00:0"            -1  -1
+    do_Test "$JtR --max-candidates=10 --stdout --mask=?d?d"           "10p 0:00:00"       -1  -1
+    do_Test "$JtR --max-candidates=50 --stdout --mask=?l"             "26p 0:00:00"       -1  -1
+
+    do_Test "$JtR ~/file1 --single"                                    "2g 0:00:00"       -1  -1
+    do_Test "$JtR ~/file2 --wordlist"                                  "1g 0:00:00"       -1  -1
+    do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"             "30g 0:00:00"       -1  -1
+    do_Test "$JtR ~/file4"                                             "4g 0:00:00"       -1  -1
+    do_Test "$JtR ~/file5"                                            "30g 0:00:00"       -1  -1
 
     do_Test "$JtR ~/hash --loopback"  "No password hashes left to crack (see FAQ)"        -1  -1
-    do_Test "$JtR ~/hash --show"      ""                                                  37 265
-    do_Test "$JtR ~/hash --show:left" ""                                                   2   0  #Zip format
+    do_Test "$JtR ~/hash --loopback --format=Raw-MD5"                   "2g 0:00:0"       -1  -1
+    do_Test "$JtR ~/hash --show"                        ""                                37 265
+    do_Test "$JtR ~/hash --show:left"                   ""                                 2   0  #Zip format
+    do_Test "$JtR ~/hash --show --format=raw-sha1"      ""                                 30  0
+    do_Test "$JtR ~/hash --show --format=Raw-MD5"       ""                                 39 91
+
+    do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Loaded 38 plaintexts"                                      -1  -1
+    do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Successfully wrote charset file: chr (28 characters)"      -1  -1
 
     rm -f ../run/*.pot
     do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5" "64g 0:00:0"         -1  -1
