@@ -24,7 +24,7 @@ matrix:
     env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 
   #Test a non SIMD build with clang (unusual test environment) #better to use CLANG
-  - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
+  - env: TEST="usual" ASAN="yes" OPENCL="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
 
   #Test --restore using TS
   #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
@@ -46,7 +46,7 @@ matrix:
 
   - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 
-  - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
+  - env: TEST="usual" ASAN="yes" OPENCL="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS=-mno-sse2"
 
   #- env: TEST="TS --restore"
 

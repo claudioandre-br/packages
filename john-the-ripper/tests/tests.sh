@@ -1,19 +1,5 @@
 #!/bin/bash -e
 
-# Proper testing. Trusty AMD GPU drivers on Travis are fragile
-if test "$PROBLEM" = "slow" ; then
-    ../run/john -test=0 --format=cpu
-elif test -z "$F" -o "$F" = "1" ; then
-    ../run/john -test-full=0 --format=cpu
-fi
-
-if test -z "$F" -o "$F" = "2" ; then
-
-    if test "$OPENCL" = "yes" ; then
-        ../run/john -test-full=0 --format=opencl
-    fi
-fi
-
 #------------------------------------------------------
 #                     Random Tests
 #------------------------------------------------------
@@ -40,7 +26,7 @@ do_Test () {
         if [[ -z $RESULT ]]; then
             echo --------------------------------------------
             echo "Test: ($1) FAILED"
-            tail -n3 $TEMP
+            tail -n7 $TEMP
             echo --------------------------------------------
             echo
             exit 1
@@ -76,6 +62,7 @@ do_Test () {
     rm $TEMP
 }
 
+# Extra testing
 if test "$EXTRAS" = "yes" ; then
     # Get some data from wiki
     wget http://openwall.info/wiki/_media/john/KeePass-samples.tar
@@ -108,7 +95,6 @@ if test "$EXTRAS" = "yes" ; then
     Total_Tests=0
     JtR="../run/john"
 
-    do_Test "$JtR --max-candidates=10 --stdout --mask=?d?d"           "10p 0:00:00"       -1  -1
     do_Test "$JtR --max-candidates=50 --stdout --mask=?l"             "26p 0:00:00"       -1  -1
 
     do_Test "$JtR ~/file1 --single"                                    "2g 0:00:00"       -1  -1
@@ -118,14 +104,14 @@ if test "$EXTRAS" = "yes" ; then
     do_Test "$JtR ~/file5"                                            "30g 0:00:00"       -1  -1
 
     do_Test "$JtR ~/hash --loopback"  "No password hashes left to crack (see FAQ)"        -1  -1
-    do_Test "$JtR ~/hash --loopback --format=Raw-MD5"                   "2g 0:00:0"       -1  -1
+    do_Test "$JtR ~/self --loopback"                                   "1g 0:00:00"       -1  -1
     do_Test "$JtR ~/hash --show"                        ""                                37 265
     do_Test "$JtR ~/hash --show:left"                   ""                                 2   0  #Zip format
-    do_Test "$JtR ~/hash --show --format=raw-sha1"      ""                                 30  0
-    do_Test "$JtR ~/hash --show --format=Raw-MD5"       ""                                 39 91
+    do_Test "$JtR ~/hash --show --format=raw-sha1"      ""                                30   0
+    do_Test "$JtR ~/self --show --format=Raw-sha512"    ""                                 1   2
 
-    do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Loaded 38 plaintexts"                                      -1  -1
-    do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Successfully wrote charset file: chr (28 characters)"      -1  -1
+    #do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Loaded 38 plaintexts"                                      -1  -1
+    #do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Successfully wrote charset file: chr (28 characters)"      -1  -1
 
     rm -f ../run/*.pot
     do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5" "64g 0:00:0"         -1  -1
@@ -139,4 +125,19 @@ if test "$EXTRAS" = "yes" ; then
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
     echo '--------------------------------------------------------------------------------'
+fi
+
+# Regular testing.
+# Trusty AMD GPU drivers on Travis are fragile. A simple run of --test might fail.
+if test "$PROBLEM" = "slow" ; then
+    ../run/john -test=0 --format=cpu
+elif test -z "$F" -o "$F" = "1" ; then
+    ../run/john -test-full=0 --format=cpu
+fi
+
+if test -z "$F" -o "$F" = "2" ; then
+
+    if test "$OPENCL" = "yes" ; then
+        ../run/john -test-full=0 --format=opencl
+    fi
 fi
