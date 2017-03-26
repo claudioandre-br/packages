@@ -62,5 +62,5 @@ before_install:
   - export OMP_NUM_THREADS=4
 
 script:
-  - .travis/travis_ci.sh
+  - .travis/travis-ci.sh
 
