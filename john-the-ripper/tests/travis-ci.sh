@@ -21,6 +21,11 @@ if [[ "$TEST" == "usual" ]]; then
     sudo apt-get install libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev
     sudo apt-get install fglrx-dev opencl-headers || true
 
+    # Fix the OpenCL stuff
+    mkdir -p /etc/OpenCL
+    mkdir -p /etc/OpenCL/vendors
+    sudo ln -sf /usr/lib/fglrx/etc/OpenCL/vendors/amdocl64.icd /etc/OpenCL/vendors/amd.icd
+
     # Configure and build
     ./configure $ASAN_OPT $BUILD_OPTS
     make -sj4
