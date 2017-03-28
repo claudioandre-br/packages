@@ -16,7 +16,7 @@ wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-rip
 
 chmod +x src/buggy.sh
 chmod +x .travis/tests.sh
-chmod +x .travis/travis_ci.sh
+chmod +x .travis/travis-ci.sh
 chmod +x .circle/circle-ci.sh
 
 git add .travis.yml

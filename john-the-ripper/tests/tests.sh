@@ -137,7 +137,7 @@ fi
 
 if test -z "$F" -o "$F" = "2" ; then
     echo
-    echo "OpenCL: john --list=opencl-devices
+    echo "OpenCL: john --list=opencl-devices"
     ../run/john --list=opencl-devices -verb=5
 
     if test "$OPENCL" = "yes" ; then
