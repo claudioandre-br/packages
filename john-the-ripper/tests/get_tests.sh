@@ -1,5 +1,13 @@
 #!/bin/bash
+#Check to assure we are in the right place
 
+if [[ ! -d src || ! -d run ]] && [[ $1 != "-f" ]]; then
+    echo
+    echo 'It seems you are in the wrong directory. To ignore this message, add -f to the command line.'
+    exit 1
+fi
+
+#Changes needed
 rm -rf .travis.yml circle.yml src/buggy.sh .travis/ .circle/
 
 mkdir -p .circle/
