@@ -6,7 +6,7 @@ cp -r tmp/. .
 if [[ $1 == "PREPARE" ]]; then
     arch=`uname -m`
     text='x'
-    git_tag=$(git describe --dirty=+ --always 2>/dev/null)
+    git_tag=$(git describe --tags --dirty=+ --always 2>/dev/null)
 
     case "$arch" in
         'x86_64')

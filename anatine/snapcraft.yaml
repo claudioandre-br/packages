@@ -1,22 +1,19 @@
 name: anatine
 version: edge
-confinement: strict
+confinement: classic
 summary: Pristine Twitter app
 description: This app is based the awesome Mobile Twitter site, but modifies a lot of things and makes it more usable on the desktop.
 
 apps:
   anatine:
-    command: bin/wrapper desktop-launch $SNAP/bin/Anatine
-    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, alsa, network, network-bind, process-control, browser-support]
-
-  debug:
-    command: bash
-    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, alsa, network, network-bind, process-control, browser-support]
+    command: bin/Anatine
+#    plugs: [home, x11, unity7, gsettings, opengl, pulseaudio, alsa, network, network-bind, process-control, browser-support]
 
 parts:
   anatine:
     plugin: make
-    after: [desktop-gtk2, indicator-gtk2, prepare]
+    after: [prepare]
+#   after: [desktop-gtk2, indicator-gtk2, prepare]
     source: .
 
     build-packages:
@@ -28,45 +25,45 @@ parts:
       - gnome-common
       - gtk-doc-tools
 
-    stage-packages:
-      - libxtst6
-      - libxss1
-      - libdbusmenu-gtk4
-      - libgconf2-4
-      - libnss3
-      - overlay-scrollbar
-      - libgail-common
-      - libatk-adaptor
-      - unity-gtk-module-common
-      - libcanberra-gtk-module
+#   stage-packages:
+#     - libxtst6
+#     - libxss1
+#     - libdbusmenu-gtk4
+#     - libgconf2-4
+#     - libnss3
+#     - overlay-scrollbar
+#     - libgail-common
+#     - libatk-adaptor
+#     - unity-gtk-module-common
+#     - libcanberra-gtk-module
 
     stage:
-      - -usr/sbin/update-icon-caches
+#     - -usr/sbin/update-icon-caches
+      - -bin/static
 
-  desktop-gtk2:
-    stage: [ -./**/libappindicator*.so.* ]
+#  desktop-gtk2:
+#    stage: [ -./**/libappindicator*.so.* ]
 
-  snapd-xdg-open:
-    plugin: dump
-    source: https://github.com/ubuntu-core/snapd-xdg-open.git
+#  snapd-xdg-open:
+#    plugin: dump
+#    source: https://github.com/ubuntu-core/snapd-xdg-open.git
 
-    prime:
-      - bin/xdg-open
+#    prime:
+#      - bin/xdg-open
 
-    organize:
-      data/xdg-open: bin/xdg-open
+#    organize:
+#      data/xdg-open: bin/xdg-open
 
-  wrapper:
-    plugin: dump
-    source: alsa/
+#  wrapper:
+#    plugin: dump
+#    source: alsa/
 
-    stage-packages:
-      - alsa-utils
+#    stage-packages:
+#      - alsa-utils
 
   prepare:
     plugin: nil
     source: .
     build: |
-      ls -la
       ./build.sh PREPARE
 
