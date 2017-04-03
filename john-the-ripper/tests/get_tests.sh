@@ -32,3 +32,6 @@ git add circle.yml
 git add .travis/
 git add .circle/
 git add src/buggy.sh
+
+git commit -m "Extra set of testing $(date)"
+
