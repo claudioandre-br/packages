@@ -57,7 +57,7 @@ index 5add6ac..12481a7 100644
  #endif
  #if JOHN_SYSTEMWIDE
 +#if defined(_BOXED)
-+	puts("Environment: " "Secure and sandboxed");
++	puts("Deploy: " "sandbox ready");
 +	puts("System-wide exec: " "$JOHN/");
 +	puts("System-wide home: " "$JOHN/");
 +	printf("Private home is %s\n", path_expand(JOHN_PRIVATE_HOME));
