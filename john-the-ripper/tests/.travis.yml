@@ -41,6 +41,9 @@ matrix:
   - compiler: clang
     env: TEST="TS --internal" OPENCL="yes"
 
+  #Test the Ubuntu Snap package
+  #- env: TEST="snap" SNAPD can't work inside docker
+
   allow_failures:
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror"
 
@@ -55,6 +58,8 @@ matrix:
   - env: TEST="TS" OPENCL="yes"
 
   - env: TEST="TS --internal" OPENCL="yes"
+
+  #- env: TEST="snap"
 
   fast_finish: true
 

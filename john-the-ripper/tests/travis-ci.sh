@@ -44,6 +44,19 @@ elif [[ "$TEST" == "fresh" ]]; then
       PROBLEM='slow' EXTRAS='yes' ../.travis/tests.sh
    "
 
+elif [[ "$TEST" == "snap" ]]; then
+    # ASAN using a 'recent' enrironment (compiler/OS)
+    docker run -v $HOME:/root -v $(pwd):/cwd fedora:latest sh -c " \
+      dnf -y -q upgrade; \
+      dnf -y install snapd; \
+      snap install --channel=edge john-the-ripper; \
+      snap connect john-the-ripper:process-control core:process-control; \
+      snap alias john-the-ripper john; \
+      echo '--------------------------------'; \
+      john -list=build-info; \
+      echo '--------------------------------'
+   "
+
 elif [[ "$TEST" == "TS --restore" ]]; then
     # Test Suite --restore run
     cd src
