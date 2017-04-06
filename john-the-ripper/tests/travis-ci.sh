@@ -45,6 +45,15 @@ elif [[ "$TEST" == "fresh" ]]; then
    "
 
 elif [[ "$TEST" == "snap" ]]; then
+    # Prepare environment
+    sudo apt-get update -qq
+    sudo apt-get install snapd
+
+    # Install and test
+    sudo snap install john-the-ripper
+    sudo snap connect john-the-ripper:process-control core:process-control
+
+elif [[ "$TEST" == "snap fedora" ]]; then
     # ASAN using a 'recent' enrironment (compiler/OS)
     docker run -v $HOME:/root -v $(pwd):/cwd fedora:latest sh -c " \
       dnf -y -q upgrade; \
