@@ -10,10 +10,10 @@ function do_Init(){
 
     ../../run/john -form:cpu --list=format-tests 2> /dev/null | cut -f3 1> alltests.in
 
-    read CPU_DEV <<< $(../../run/john --list=opencl-devices -dev:cpu | \
-                        grep 'Device #' | sed -e 's/^[[:space:]]*//' | cut -d ' ' -f 3 | tr '()\n' ' ')
-    read GPU_DEV <<< $(../../run/john --list=opencl-devices -dev:gpu | \
-                        grep 'Device #' | sed -e 's/^[[:space:]]*//' | cut -d ' ' -f 3 | tr '()\n' ' ')
+    read -r CPU_DEV <<< "$(../../run/john --list=opencl-devices -dev:cpu | \
+                           grep 'Device #' | sed -e 's/^[[:space:]]*//' | cut -d ' ' -f 3 | tr '()\n' ' ')"
+    read -r GPU_DEV <<< "$(../../run/john --list=opencl-devices -dev:gpu | \
+                           grep 'Device #' | sed -e 's/^[[:space:]]*//' | cut -d ' ' -f 3 | tr '()\n' ' ')"
     Device_List="$CPU_DEV $GPU_DEV"
     #echo "--> CPUs: $CPU_DEV"
     #echo "--> GPUs: $GPU_DEV"
@@ -28,8 +28,8 @@ function do_Done(){
     rm cisco4_tst.in
     rm rawsha512_tst.in
     rm XSHA512_tst.in
-    rm -f *.log
-    rm -f *.rec
+    rm -f -- *.log*
+    rm -f -- *.rec*
 }
 
 function do_Test_Suite(){
@@ -44,39 +44,39 @@ function do_Test_Suite(){
     ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_2 --fork=3"
     ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_3 --fork=4"
     Total_Tests=$((Total_Tests + 6))
-    cd - > /dev/null
+    cd - || return > /dev/null
 }
 
 function do_Test_Bench(){
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$3 ../../run/john $1 $2 &> $TEMP"
-    eval $TO_RUN
+    eval "$TO_RUN"
     ret_code=$?
 
     if [[ $ret_code -ne 0 ]]; then
         echo "ERROR ($ret_code): $TO_RUN"
         echo
  
-        cat $TEMP >> error.saved
+        cat "$TEMP" >> error.saved
         Total_Erros=$((Total_Erros + 1))
     else
-        awk '/Device/ { print $0 }' $TEMP
-        awk '/c\/s real/ { print $0 }' $TEMP
+        awk '/Device/ { print $0 }' "$TEMP"
+        awk '/c\/s real/ { print $0 }' "$TEMP"
         echo
     fi
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
-    rm $TEMP
+    rm "$TEMP"
 } 
 
 function do_Test(){
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$5 ../../run/john -ses=tst-cla -pot=tst-cla.pot $1 $2 $3 &> /dev/null"
-    eval $TO_RUN
+    eval "$TO_RUN"
     ret_code=$?
 
     if [[ $ret_code -ne 0 ]]; then
-        read MAX_TIME <<< $(echo $3 | awk '/-max-run/ { print 1 }')
+        read -r MAX_TIME <<< "$(echo "$3" | awk '/-max-run/ { print 1 }')"
 
         if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
             echo "ERROR ($ret_code): $TO_RUN"
@@ -86,7 +86,7 @@ function do_Test(){
         fi
     fi
     TO_SHOW="../../run/john -show=left -pot=tst-cla.pot $1 $2 &> $TEMP"
-    eval $TO_SHOW
+    eval "$TO_SHOW"
     ret_code=$?
 
     if [[ $ret_code -ne 0 ]]; then
@@ -95,8 +95,7 @@ function do_Test(){
  
         exit 1
     fi
-    #cat $TEMP | awk '/password hash/ { print $1 }'
-    read CRACKED <<< $(cat $TEMP | awk '/password hash/ { print $1 }')
+    read -r CRACKED <<< "$(awk '/password hash/ { print $1 }' "$TEMP")"
 
     #echo "DEBUG: ($CRACKED) $TO_RUN"
     #echo "DEBUG: ($CRACKED) $TO_SHOW"
@@ -111,26 +110,26 @@ function do_Test(){
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
     rm tst-cla.pot
-    rm $TEMP
+    rm "$TEMP"
 } 
 
 function do_Regressions(){
     echo 'Regression testing...'
-    do_Test "alltests.in"             "-form:Raw-SHA256-opencl"     "-wo:pw.dic --skip"              7  #Skip self test segfaults
+    do_Test "alltests.in"             "-form:Raw-SHA256-opencl"  "-wo:pw.dic --skip"              7  #Skip self test segfaults
     do_Test "XSHA512_tst.in"          "-form=xSHA512-opencl"     "-wo:pw.dic --rules --skip"   1500  #Skip self test segfaults II
     do_Test "crack_me_if_you_can.tst" "-form:Raw-SHA512-opencl"  "-mask=?l?l?l?l"                 6  #Can't handle more than a few hashes
-    do_Test "regression_1.tst"        "-form:Raw-SHA256-opencl"     ""                           12027  #Miss cracks
+    do_Test "regression_1.tst"        "-form:Raw-SHA256-opencl"  ""                           12027  #Miss cracks
 }
 
 function do_All_Devices(){
 
-    if [[ "$1" == "raw-sha256" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "raw-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done 
     fi
 
-    if [[ "$1" == "raw-sha512" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "raw-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done 
@@ -235,7 +234,7 @@ do_Init
 
 case "$1" in
     "--basic") 
-        do_All_Devices $2;;
+        do_All_Devices "$2";;
     "--regression")
         do_Regressions;;
     "--ts") 
