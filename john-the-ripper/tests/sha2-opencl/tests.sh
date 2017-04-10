@@ -56,7 +56,7 @@ function do_Test_Bench(){
     if [[ $ret_code -ne 0 ]]; then
         echo "ERROR ($ret_code): $TO_RUN"
         echo
- 
+
         cat "$TEMP" >> error.saved
         Total_Erros=$((Total_Erros + 1))
     else
@@ -67,7 +67,7 @@ function do_Test_Bench(){
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
     rm "$TEMP"
-} 
+}
 
 function do_Test(){
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
@@ -81,7 +81,7 @@ function do_Test(){
         if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
             echo "ERROR ($ret_code): $TO_RUN"
             echo
- 
+
             exit 1
         fi
     fi
@@ -92,7 +92,7 @@ function do_Test(){
     if [[ $ret_code -ne 0 ]]; then
         echo "ERROR ($ret_code): $TO_SHOW"
         echo
- 
+
         exit 1
     fi
     read -r CRACKED <<< "$(awk '/password hash/ { print $1 }' "$TEMP")"
@@ -104,14 +104,14 @@ function do_Test(){
         echo "ERROR: $TO_RUN"
         echo "Expected value: $4, value found: $CRACKED. $TO_SHOW"
         echo
- 
+
         exit 1
     fi
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
     rm tst-cla.pot
     rm "$TEMP"
-} 
+}
 
 function do_Regressions(){
     echo 'Regression testing...'
@@ -126,15 +126,15 @@ function do_All_Devices(){
     if [[ "$1" == "raw-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test -dev:$i" "" ; done
-        for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done 
+        for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
     fi
 
     if [[ "$1" == "raw-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test -dev:$i" "" ; done
-        for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done 
+        for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:xSHA512-opencl" "--test -dev:$i" "" ; done
-        for i in $Device_List ; do do_Test_Bench "-form:xSHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done 
+        for i in $Device_List ; do do_Test_Bench "-form:xSHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
     fi
 }
 
@@ -145,8 +145,8 @@ function sha256(){
     do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=50 -fork=4 -dev:$TST_Device_1"                    9
     do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=40 -fork=4 -dev:$TST_Device_3"                    9
 
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?l -min-len=4 -max-len=7"           2 
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?d -min-len=1 -max-len=8"           4 "_GPU_MASK_CAND=0" 
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?l -min-len=4 -max-len=7"           2
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?d -min-len=1 -max-len=8"           4 "_GPU_MASK_CAND=0"
     do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$TST_Device_1"          2
     do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                          3
 }
@@ -171,17 +171,12 @@ function sha512(){
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd]"  1
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask=boob?l?l?l"                            1
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?d -min-len=1 -max-len=4"              5 "_GPU_MASK_CAND=0"
-    do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?d -min-len=4 -max-len=8"              6  
-}
-
-function do_all(){
-    sha256
-    sha512
+    do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?d -min-len=4 -max-len=8"              6
 }
 
 function do_help(){
     echo 'Usage: ./test-claudio.sh [OPTIONS] [hash]'
-    echo 
+    echo
     echo '--help:       prints this help.'
     echo '--version:    prints the version information.'
     echo '--basic:      tests hashes against all available devices (CPU and GPU). To filter a hash type, use:'
@@ -192,29 +187,29 @@ function do_help(){
     echo '--ts:         executes the Test Suite.'
     echo ' '
     echo 'Available hashes:'
-    echo '  raw-sha256: filter and execute only raw-sha256 tests.'
-    echo '  raw-sha512: filter and execute only raw-sha512 tests.'
+    echo '  raw-sha256: execute raw-sha256 cracking tests.'
+    echo '  raw-sha512: execute raw-sha512 cracking tests.'
     echo
 
-    exit 0 
+    exit 0
 }
 
 function do_version(){
-    echo 'Tester Sidekick, version 0.2-beta'
-    echo 
+    echo 'Tester Sidekick, version 0.5-beta'
+    echo
     echo 'Copyright (C) 2016 Claudio André <claudioandre.br at gmail.com>'
     echo 'License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>'
     echo 'This program comes with ABSOLUTELY NO WARRANTY; express or implied.'
     echo
 
-    exit 0 
+    exit 0
 }
 
 #-----------   Helper   -----------
 case "$1" in
-    "help" | "--help" | "-h") 
+    "help" | "--help" | "-h")
         do_help;;
-    "version" | "--version" | "-v") 
+    "version" | "--version" | "-v")
         do_version;;
 esac
 
@@ -233,27 +228,41 @@ do_Init
 #-----------   Tests   -----------
 
 case "$1" in
-    "--basic") 
-        do_All_Devices "$2";;
-    "--regression")
-        do_Regressions;;
-    "--ts") 
-        do_Test_Suite;;
-    "--cracking")
-        do_all;;
-    "raw-sha256") 
-        sha256;;
-    "raw-sha512") 
-        sha512;;
+    "--all" | "-a")
+        do_All_Devices  #--basic
+        do_Regressions  #--regression
+        do_Test_Suite   #--ts
+        sha256          #--cracking
+        sha512          #    "
+        ;;
+    "--basic" | "-b")
+        do_All_Devices "$2"
+        ;;
+    "--cracking" | "-c")
+        sha256
+        sha512
+        ;;
+    "--regression" | "-r")
+        do_Regressions
+        ;;
+    "--ts" | "-ts")
+        do_Test_Suite
+        ;;
+    "raw-sha256")
+        sha256
+        ;;
+    "raw-sha512")
+        sha512
+        ;;
 esac
 
 #-----------   Done  -----------
 do_Done
 
 #----------- The End -----------
-echo 
+echo
 echo '--------------------------------------------------------------------------------'
-if [ $Total_Erros -eq 0 ]; then
+if [[ $Total_Erros -eq 0 ]]; then
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
 else
     echo "$Total_Erros tests FAILED! Performed $Total_Tests tests in $SECONDS seconds."
