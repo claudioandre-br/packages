@@ -96,16 +96,16 @@ if test "$EXTRAS" = "yes" ; then
     Total_Tests=0
     JtR="../run/john"
 
-    do_Test "$JtR --max-candidates=50 --stdout --mask=?l"             "26p 0:00:00"       -1  -1
+    do_Test "$JtR --max-candidates=50 --stdout --mask=?l"              "26p 0:00:00"      -1  -1
 
-    do_Test "$JtR ~/file1 --single"                                    "2g 0:00:00"       -1  -1
-    do_Test "$JtR ~/file2 --wordlist"                                  "1g 0:00:00"       -1  -1
-    do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"             "30g 0:00:00"       -1  -1
-    do_Test "$JtR ~/file4"                                             "4g 0:00:00"       -1  -1
-    do_Test "$JtR ~/file5"                                            "30g 0:00:00"       -1  -1
+    do_Test "$JtR ~/file1 --single"                                     "2g 0:00:00"      -1  -1
+    do_Test "$JtR ~/file2 --wordlist"                                   "1g 0:00:00"      -1  -1
+    do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"              "30g 0:00:00"      -1  -1
+    do_Test "$JtR ~/file4"                                              "4g 0:00:00"      -1  -1
+    do_Test "$JtR ~/file5"                                             "30g 0:00:00"      -1  -1
 
     do_Test "$JtR ~/hash --loopback"  "No password hashes left to crack (see FAQ)"        -1  -1
-    do_Test "$JtR ~/self --loopback"                                   "1g 0:00:00"       -1  -1
+    do_Test "$JtR ~/self --loopback"                                    "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/hash --show"                        ""                                37 265
     do_Test "$JtR ~/hash --show:left"                   ""                                 2   0  #Zip format
     do_Test "$JtR ~/hash --show --format=raw-sha1"      ""                                30   0
@@ -115,13 +115,13 @@ if test "$EXTRAS" = "yes" ; then
     #do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Successfully wrote charset file: chr (28 characters)"      -1  -1
 
     rm -f ../run/*.pot
-    do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5" "64g 0:00:00"        -1  -1
-    do_Test "$JtR ~/hash --loopback --format=rar"                     "1g 0:00:00"        -1  -1
-    do_Test "$JtR ~/file6 --show --format=raw-md5"                   ""                   64  36
-    do_Test "$JtR ~/hash --show:left --format=rar"                   ""                    1   1
-    do_Test "$JtR ~/self -form=SHA512crypt"                          "1g 0:00:00"         -1  -1
-    do_Test "$JtR ~/self -form=raw-SHA512 --incremental -fork=2"     "2g 0:00:00"         -1  -1
-    do_Test "$JtR ~/self --show --format=raw-SHA512"                 ""                    3   0
+    do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5"   "64g 0:00:00"      -1  -1
+    do_Test "$JtR ~/hash --loopback --format=rar"                        "1g 0:00:0"      -1  -1
+    do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      64  36
+    do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
+    do_Test "$JtR ~/self -form=SHA512crypt"                             "1g 0:00:00"      -1  -1
+    do_Test "$JtR ~/self -form=raw-SHA512 --incremental -fork=2"        "2g 0:00:00"      -1  -1
+    do_Test "$JtR ~/self --show --format=raw-SHA512"                              ""       3   0
 
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
