@@ -1,4 +1,4 @@
-# Anatine
+# Anatine - Deprecated Upstream
 
 > Pristine Twitter app
 
