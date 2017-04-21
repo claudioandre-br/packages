@@ -34,16 +34,40 @@ function do_Done(){
 
 function do_Test_Suite(){
     #TODO: parse errors
-    echo 'Running raw-SHA256 Test Suite tests...'
 
     cd ..
-    ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_1"
-    ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_2"
-    ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_3"
-    ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_1 --fork=2"
-    ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_2 --fork=3"
-    ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_3 --fork=4"
-    Total_Tests=$((Total_Tests + 6))
+
+    if [[ "$1" == "fast-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Running raw-SHA256 Test Suite tests...'
+        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_1"
+        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_2"
+        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_3"
+        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_1 --fork=2"
+        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_2 --fork=3"
+        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_3 --fork=4"
+        Total_Tests=$((Total_Tests + 6))
+    fi
+
+    if [[ "$1" == "fast-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Running raw-SHA512 Test Suite tests...'
+        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_1"
+        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_2"
+        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_3"
+        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_1 --fork=2"
+        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_2 --fork=3"
+        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_3 --fork=4"
+        Total_Tests=$((Total_Tests + 6))
+
+        echo 'Running xSHA512 Test Suite tests...'
+        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_1"
+        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_2"
+        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_3"
+        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_1 --fork=2"
+        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_2 --fork=3"
+        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_3 --fork=4"
+        Total_Tests=$((Total_Tests + 6))
+    fi
+
     cd - || return > /dev/null
 }
 
@@ -123,13 +147,13 @@ function do_Regressions(){
 
 function do_All_Devices(){
 
-    if [[ "$1" == "raw-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "fast-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
     fi
 
-    if [[ "$1" == "raw-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "fast-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
@@ -187,8 +211,8 @@ function do_help(){
     echo '--ts:         executes the Test Suite.'
     echo ' '
     echo 'Available hashes:'
-    echo '  raw-sha256: execute raw-sha256 cracking tests.'
-    echo '  raw-sha512: execute raw-sha512 cracking tests.'
+    echo '  fast-sha256: execute raw-sha256 cracking tests.'
+    echo '  fast-sha512: execute x/raw-sha512 cracking tests.'
     echo
 
     exit 0
@@ -233,7 +257,7 @@ case "$1" in
         do_Regressions  #--regression
         do_Test_Suite   #--ts
         sha256          #--cracking
-        sha512          #    "
+        sha512          #   idem
         ;;
     "--basic" | "-b")
         do_All_Devices "$2"
@@ -246,12 +270,12 @@ case "$1" in
         do_Regressions
         ;;
     "--ts" | "-ts")
-        do_Test_Suite
+        do_Test_Suite "$2"
         ;;
-    "raw-sha256")
+    "fast-sha256")
         sha256
         ;;
-    "raw-sha512")
+    "fast-sha512")
         sha512
         ;;
 esac
