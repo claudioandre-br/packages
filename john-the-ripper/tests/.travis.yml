@@ -18,7 +18,7 @@ matrix:
 
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
-  - env: TEST="fresh" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN fails in clang 4
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
 
   #Test a non OpenMP build with clang (unusual test environment) 
   - compiler: clang
@@ -48,7 +48,7 @@ matrix:
   allow_failures:
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
 
-  - env: TEST="fresh" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
 
   - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 

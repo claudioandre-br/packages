@@ -34,16 +34,13 @@ if [[ "$TEST" == "usual" ]]; then
 
 elif [[ "$TEST" == "fresh" ]]; then
     # ASAN using a 'recent' environment (compiler/OS)
-    # Workaround for clang 4 -> ln -s /usr/bin/llvm-symbolizer-4.0 /usr/bin/llvm-symbolizer;
+    # clang 4 + ASAN + libOpenMP are not working on CI.
     docker run -v $HOME:/root -v $(pwd):/cwd ubuntu:17.04 sh -c " \
       cd /cwd/src; \
       apt-get update -qq; \
-      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang libomp-dev; \
+      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
-      ln -s /usr/bin/llvm-symbolizer-4.0 /usr/bin/llvm-symbolizer; \
-      export ASAN_OPTIONS=symbolize=1; \
-      export ASAN_SYMBOLIZER_PATH=$(which llvm-symbolizer); \
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj4; \
       PROBLEM='slow' EXTRAS='yes' ../.travis/tests.sh
