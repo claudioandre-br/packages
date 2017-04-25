@@ -17,7 +17,8 @@ matrix:
     env: TEST="usual" OPENCL="yes"
 
   #Test JtR using a "hot" OS/compiler
-  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror"
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
 
   #Test a non OpenMP build with clang (unusual test environment) 
   - compiler: clang
@@ -45,7 +46,9 @@ matrix:
   #- env: TEST="snap" SNAPD can't work inside docker
 
   allow_failures:
-  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror"
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
+
+  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
 
   - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 

@@ -33,14 +33,15 @@ if [[ "$TEST" == "usual" ]]; then
     ../.travis/tests.sh
 
 elif [[ "$TEST" == "fresh" ]]; then
-    # ASAN using a 'recent' enrironment (compiler/OS)
+    # ASAN using a 'recent' environment (compiler/OS)
     docker run -v $HOME:/root -v $(pwd):/cwd ubuntu:17.04 sh -c " \
       cd /cwd/src; \
       apt-get update -qq; \
-      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget; \
+      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang libomp-dev; \
+      export OPENCL="""$OPENCL"""; \
+      export CC="""$CCO"""; \
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj4; \
-      export OPENCL="""$OPENCL"""; \
       PROBLEM='slow' EXTRAS='yes' ../.travis/tests.sh
    "
 
