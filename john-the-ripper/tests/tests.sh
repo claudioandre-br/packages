@@ -4,6 +4,8 @@
 #                     Random Tests
 #------------------------------------------------------
 do_Test () {
+    echo
+    echo "==> ($1)"
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$1 &> $TEMP"
     eval $TO_RUN
@@ -54,11 +56,10 @@ do_Test () {
     fi
     Total_Tests=$((Total_Tests + 1))
     echo "#################################################"
-    echo "==> ($1)"
     cat $TEMP
     echo "#################################################"
-    echo
-    #-- Remove tmp files.
+
+    #-- Remove the tmp file.
     rm $TEMP
 }
 
