@@ -48,7 +48,7 @@ matrix:
   allow_failures:
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
 
-  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
+  - env: TEST="fresh" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
 
   - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 
