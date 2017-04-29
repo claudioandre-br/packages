@@ -128,7 +128,12 @@ if test "$EXTRAS" = "yes" ; then
     echo '--------------------------------------------------------------------------------'
 fi
 
-# Regular testing.
+# ---- Show JtR Build Info ----
+echo '--------------------------------'
+../run/john -list=build-info
+echo '--------------------------------'
+
+# ---- Regular testing ----
 # Trusty AMD GPU drivers on Travis are fragile. A simple run of --test might fail.
 if test "$PROBLEM" = "slow" ; then
     ../run/john -test=0 --format=cpu
