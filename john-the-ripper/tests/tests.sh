@@ -86,6 +86,9 @@ if test "$EXTRAS" = "yes" ; then
     echo '$SHA512$fa585d89c851dd338a70dcf535aa2a92fee7836dd6aff1226583e88e0996293f16bc009c652826e0fc5c706695a03cddce372f139eff4d13959da6f1f5d3eabe' >> ~/self
     echo '$6$ojWH1AiTee9x1peC$QVEnTvRVlPRhcLQCk/HnHaZmlGAAjCfrAN0FtOsOnUk5K5Bn/9eLHHiRzrTzaIKjW9NTLNIBUCtNVOowWS2mN.' >> ~/self
 
+    echo '6.doc:$oldoffice$1*f6391b03f90cf0d10b66b4116463ac20*1d0e3dd64b92265e6907ccf50c1b10bc*e0ce0f57ba306386294b634c9e099c66:::::/home/jim/rc/tmp/2/origin/20170509172828116.doc' >> ~/self
+    echo '8.doc:$oldoffice$1*70744b12ffe9f9956638a28f17a4d9c4*60d9a9c5b462395be03b20c3ce52f38c*6e4e29c224b5a8137296b6d2490feba8:::::/home/jim/rc/tmp/2/origin/20170509172828141.doc' >> ~/self
+
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | md5sum  | cut -d" " -f1; done > ~/file3 # openssl md5
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | sha1sum | cut -d" " -f1; done > ~/file5
     for i in `../run/john -inc -stdout | head -100                   `; do echo -n $i | md5sum  | cut -d" " -f1; done > ~/file6
@@ -116,12 +119,15 @@ if test "$EXTRAS" = "yes" ; then
 
     rm -f ../run/*.pot
     do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5"   "64g 0:00:00"      -1  -1
-    do_Test "$JtR ~/hash --loopback --format=rar"                        "1g 0:00:0"      -1  -1
+    do_Test "$JtR ~/hash --loopback --format=rar --max-l=5"              "1g 0:00:0"      -1  -1
     do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      64  36
     do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
     do_Test "$JtR ~/self -form=SHA512crypt"                             "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/self -form=raw-SHA512 --incremental -fork=2"        "2g 0:00:00"      -1  -1
     do_Test "$JtR ~/self --show --format=raw-SHA512"                              ""       3   0
+
+    do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
+    do_Test "$JtR ~/self --form=oldoffice --increm:digits --min-l=6 --max-l=6"  "1g 0:00:00"      -1  -1
 
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
