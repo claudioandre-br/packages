@@ -4,11 +4,15 @@ if [[ "$ASAN" == "yes" ]]; then
     export ASAN_OPT="--enable-asan"
 fi
 
-#disable buggy formats. If a formats fails its tests on super, I will burn it.
+# Disable buggy formats. If a formats fails its tests on super, I will burn it.
 (
   cd src || exit 1
   ./buggy.sh disable
 )
+
+# Apply all needed patches here.
+wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
+git apply 0002-maintenance-fix-the-expected-data-type-size.patch
 
 if [[ "$TEST" == "usual" ]]; then
     cd src || exit 1
