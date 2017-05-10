@@ -63,6 +63,11 @@ do_Test () {
     rm $TEMP
 }
 
+# ---- Show JtR Build Info ----
+echo '--------------------------------'
+../run/john -list=build-info
+echo '--------------------------------'
+
 # Extra testing
 if test "$EXTRAS" = "yes" ; then
     # Get some data from wiki
@@ -88,6 +93,8 @@ if test "$EXTRAS" = "yes" ; then
 
     echo '6.doc:$oldoffice$1*f6391b03f90cf0d10b66b4116463ac20*1d0e3dd64b92265e6907ccf50c1b10bc*e0ce0f57ba306386294b634c9e099c66:::::/home/jim/rc/tmp/2/origin/20170509172828116.doc' >> ~/self
     echo '8.doc:$oldoffice$1*70744b12ffe9f9956638a28f17a4d9c4*60d9a9c5b462395be03b20c3ce52f38c*6e4e29c224b5a8137296b6d2490feba8:::::/home/jim/rc/tmp/2/origin/20170509172828141.doc' >> ~/self
+    echo 'XXX.zip:$pkzip2$1*2*2*0*10*4*7f808508*0*41*0*10*7f80*7319*8fe32c524ec41bc23f18d30fd3641020*$/pkzip2$:::::XXX.zip' >> ~/self
+    echo 'XXX.zip:$pkzip2$1*2*2*0*10*4*7f808508*0*41*0*10*7f80*7319*30fc1e61e10e8d79ec55a90d58121392*$/pkzip2$:::::/home/claudio/Downloads/XXX.zip' >> ~/self
 
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | md5sum  | cut -d" " -f1; done > ~/file3 # openssl md5
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | sha1sum | cut -d" " -f1; done > ~/file5
@@ -100,6 +107,9 @@ if test "$EXTRAS" = "yes" ; then
     JtR="../run/john"
 
     do_Test "$JtR --max-candidates=50 --stdout --mask=?l"              "26p 0:00:00"      -1  -1
+
+do_Test "$JtR ~/self --form=zip --mask=zipcrypto"                           "1g 0:00:00"      -1  -1
+do_Test "$JtR ~/self --form=zip"                                            "1g 0:00:00"      -1  -1
 
     do_Test "$JtR ~/file1 --single"                                     "2g 0:00:00"      -1  -1
     do_Test "$JtR ~/file2 --wordlist"                                   "1g 0:00:00"      -1  -1
@@ -128,16 +138,13 @@ if test "$EXTRAS" = "yes" ; then
 
     do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/self --form=oldoffice --increm:digits --min-l=6 --max-l=6"  "1g 0:00:00"      -1  -1
+    do_Test "$JtR ~/self --form=zip --mask=zipcrypto"                           "1g 0:00:00"      -1  -1
+    do_Test "$JtR ~/self --form=zip"                                            "1g 0:00:00"      -1  -1
 
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
     echo '--------------------------------------------------------------------------------'
 fi
-
-# ---- Show JtR Build Info ----
-echo '--------------------------------'
-../run/john -list=build-info
-echo '--------------------------------'
 
 # ---- Regular testing ----
 # Trusty AMD GPU drivers on Travis are fragile. A simple run of --test might fail.
