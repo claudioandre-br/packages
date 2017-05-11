@@ -108,9 +108,6 @@ if test "$EXTRAS" = "yes" ; then
 
     do_Test "$JtR --max-candidates=50 --stdout --mask=?l"              "26p 0:00:00"      -1  -1
 
-do_Test "$JtR ~/self --form=zip --mask=zipcrypto"                           "1g 0:00:00"      -1  -1
-do_Test "$JtR ~/self --form=zip"                                            "1g 0:00:00"      -1  -1
-
     do_Test "$JtR ~/file1 --single"                                     "2g 0:00:00"      -1  -1
     do_Test "$JtR ~/file2 --wordlist"                                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"              "30g 0:00:00"      -1  -1
@@ -138,8 +135,8 @@ do_Test "$JtR ~/self --form=zip"                                            "1g 
 
     do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/self --form=oldoffice --increm:digits --min-l=6 --max-l=6"  "1g 0:00:00"      -1  -1
-    do_Test "$JtR ~/self --form=zip --mask=zipcrypto"                           "1g 0:00:00"      -1  -1
-    do_Test "$JtR ~/self --form=zip"                                            "1g 0:00:00"      -1  -1
+    #do_Test "$JtR ~/self --form=pkzip --mask=zipcrypto"                         "1g 0:00:00"      -1  -1
+    #do_Test "$JtR ~/self --form=pkzip"                                          "1g 0:00:00"      -1  -1
 
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
@@ -147,21 +144,31 @@ do_Test "$JtR ~/self --form=zip"                                            "1g 
 fi
 
 # ---- Regular testing ----
-# Trusty AMD GPU drivers on Travis are fragile. A simple run of --test might fail.
-if test "$PROBLEM" = "slow" ; then
+# Trusty AMD GPU drivers on Travis are fragile.
+# - a simple run of --test fails;
+# - clang reports memory issues.
+if test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
+    echo "$ ../run/john -test=0 --format=cpu"
     ../run/john -test=0 --format=cpu
+elif test -z "$OPENCL" ; then
+    echo "$ ../run/john -test-full=0"
+    ../run/john -test-full=0
 elif test -z "$F" -o "$F" = "1" ; then
+    echo "$ ../run/john -test-full=0 --format=cpu"
     ../run/john -test-full=0 --format=cpu
 fi
+echo '--------------------------------'
 
-if test -z "$F" -o "$F" = "2" ; then
+if test "$OPENCL" = "yes" ; then
 
-    if test "$OPENCL" = "yes" ; then
+    if test -z "$F" -o "$F" = "2" ; then
 
         if test "$CC" != "clang" ; then
-            echo
+            # ---- Show JtR OpenCL Info ----
+            echo '--------------------------------'
             echo "OpenCL: john --list=opencl-devices"
             ../run/john --list=opencl-devices -verb=5
+            echo '--------------------------------'
         fi
         ../run/john -test-full=0 --format=opencl
     fi
