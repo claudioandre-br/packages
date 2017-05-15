@@ -18,7 +18,7 @@ if [[ "$TEST" == "usual" ]]; then
     cd src || exit 1
 
     # Build and run with the address sanitizer instrumented code
-    export ASAN_OPTIONS=symbolize=1
+    export ASAN_OPTIONS='symbolize=1:abort_on_error=1'
     export ASAN_SYMBOLIZER_PATH
     ASAN_SYMBOLIZER_PATH=$(which llvm-symbolizer)
 
