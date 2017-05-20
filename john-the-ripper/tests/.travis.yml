@@ -19,6 +19,8 @@ matrix:
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
+  - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
+  - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
 
   #Test a non OpenMP build with clang (unusual test environment) 
   - compiler: clang
@@ -26,9 +28,6 @@ matrix:
 
   #Test a non SIMD build with clang (unusual test environment) #better to use CLANG
   - env: TEST="usual" ASAN="yes" OPENCL="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
-
-  #Test --restore using TS
-  #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
 
   #Test using TS - CPU formats
   - compiler: clang
@@ -42,25 +41,28 @@ matrix:
   - compiler: clang
     env: TEST="TS --internal" OPENCL="yes"
 
+  #Test --restore using TS
+  #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
+
   #Test the Ubuntu Snap package
   #- env: TEST="snap" SNAPD can't work inside docker
 
   allow_failures:
-  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
+  - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
 
-  - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
+  - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang"
 
   - env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 
   - env: TEST="usual" ASAN="yes" OPENCL="yes" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
-
-  #- env: TEST="TS --restore"
 
   - env: TEST="TS"
 
   - env: TEST="TS" OPENCL="yes"
 
   - env: TEST="TS --internal" OPENCL="yes"
+
+  #- env: TEST="TS --restore"
 
   #- env: TEST="snap"
 

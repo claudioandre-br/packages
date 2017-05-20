@@ -50,9 +50,10 @@ elif [[ "$TEST" == "fresh" ]]; then
       apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
+      export EXTRAS=$EXTRAS; \
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj4; \
-      PROBLEM='slow' EXTRAS='yes' ../.travis/tests.sh
+      PROBLEM='slow' ../.travis/tests.sh
    "
 
 elif [[ "$TEST" == "snap" ]]; then

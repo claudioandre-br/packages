@@ -64,8 +64,10 @@ do_Test () {
 }
 
 # ---- Show JtR Build Info ----
+JtR="../run/john"
+
 echo '--------------------------------'
-../run/john -list=build-info
+"$JtR" -list=build-info
 echo '--------------------------------'
 
 # Extra testing
@@ -104,7 +106,6 @@ if test "$EXTRAS" = "yes" ; then
 
     # Tests
     Total_Tests=0
-    JtR="../run/john"
 
     do_Test "$JtR --max-candidates=50 --stdout --mask=?l"              "26p 0:00:00"      -1  -1
 
@@ -141,36 +142,37 @@ if test "$EXTRAS" = "yes" ; then
     echo '--------------------------------------------------------------------------------'
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
     echo '--------------------------------------------------------------------------------'
-fi
 
-# ---- Regular testing ----
-# Trusty AMD GPU drivers on Travis are fragile.
-# - a simple run of --test fails;
-# - clang reports memory issues.
-if test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
-    echo "$ ../run/john -test=0 --format=cpu"
-    ../run/john -test=0 --format=cpu
-elif test -z "$OPENCL" ; then
-    echo "$ ../run/john -test-full=0"
-    ../run/john -test-full=0
-elif test -z "$F" -o "$F" = "1" ; then
-    echo "$ ../run/john -test-full=0 --format=cpu"
-    ../run/john -test-full=0 --format=cpu
-fi
-echo '--------------------------------'
+else
+    # ---- Regular testing ----
+    # Trusty AMD GPU drivers on Travis are fragile.
+    # - a simple run of --test fails;
+    # - clang reports memory issues.
+    if test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
+        echo "$ JtR -test=0 --format=cpu"
+        "$JtR" -test=0 --format=cpu
+    elif test -z "$OPENCL" ; then
+        echo "$ JtR -test-full=0"
+        "$JtR" -test-full=0
+    elif test -z "$F" -o "$F" = "1" ; then
+        echo "$ JtR -test-full=0 --format=cpu"
+        "$JtR" -test-full=0 --format=cpu
+    fi
+    echo '--------------------------------'
 
-if test "$OPENCL" = "yes" ; then
+    if test "$OPENCL" = "yes" ; then
 
-    if test -z "$F" -o "$F" = "2" ; then
+        if test -z "$F" -o "$F" = "2" ; then
 
-        if test "$CC" != "clang" ; then
-            # ---- Show JtR OpenCL Info ----
-            echo '--------------------------------'
-            echo "OpenCL: john --list=opencl-devices"
-            ../run/john --list=opencl-devices -verb=5
-            echo '--------------------------------'
+            if test "$CC" != "clang" ; then
+                # ---- Show JtR OpenCL Info ----
+                echo '--------------------------------'
+                echo "OpenCL: john --list=opencl-devices"
+                "$JtR" --list=opencl-devices -verb=5
+                echo '--------------------------------'
+            fi
+            "$JtR" -test-full=0 --format=opencl
         fi
-        ../run/john -test-full=0 --format=opencl
     fi
 fi
 
