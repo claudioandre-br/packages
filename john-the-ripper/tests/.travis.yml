@@ -41,6 +41,10 @@ matrix:
   - compiler: clang
     env: TEST="TS --internal" OPENCL="yes"
 
+  #Test fuzzing
+  - compiler: clang
+    env: TEST="usual" OPENCL="yes" FUZZ="yes"
+
   #Test --restore using TS
   #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
 
@@ -61,6 +65,8 @@ matrix:
   - env: TEST="TS" OPENCL="yes"
 
   - env: TEST="TS --internal" OPENCL="yes"
+
+  - env: TEST="usual" OPENCL="yes" FUZZ="yes"
 
   #- env: TEST="TS --restore"
 

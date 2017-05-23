@@ -143,6 +143,19 @@ if test "$EXTRAS" = "yes" ; then
     echo "All tests passed without error! Performed $Total_Tests tests in $SECONDS seconds."
     echo '--------------------------------------------------------------------------------'
 
+elif test "$FUZZ" = "yes" ; then
+        echo "$ zzuf -s 0:1000 -c -C 3 -T 3 JtR"
+        export LWS=16
+        export GWS=128
+
+        "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=5 --verb=1 test_hash
+        echo $?
+
+        "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=5 --verb=1 test_hash
+        echo $?
+
 else
     # ---- Regular testing ----
     # Trusty AMD GPU drivers on Travis are fragile.
