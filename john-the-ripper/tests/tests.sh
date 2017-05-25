@@ -149,11 +149,11 @@ elif test "$FUZZ" = "zzuf" ; then
         export GWS=128
 
         "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
-        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=3 --verb=1 test_hash
+        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
         echo $?
 
         "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
-        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=3 --verb=1 test_hash
+        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
         echo $?
 
 elif test "$FUZZ" = "afl" ; then
@@ -167,7 +167,7 @@ elif test "$FUZZ" = "afl" ; then
         #echo core >/proc/sys/kernel/core_pattern
 
         "$JtR" -form:Xsha512 --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p' 1> in/test_hash
-        afl-fuzz -i in -o out -d "$JtR" --format=Xsha512-opencl --skip --max-run=3 --verb=1 @@
+        AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -i in -o out -d "$JtR" --format=Xsha512-opencl --skip --max-run=1 --verb=1 @@
         echo $?
 
 else
