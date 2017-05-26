@@ -166,8 +166,13 @@ elif test "$FUZZ" = "afl" ; then
         export AFL_NO_UI=1
         #echo core >/proc/sys/kernel/core_pattern
 
-        "$JtR" -form:Xsha512 --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p' 1> in/test_hash
-        AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -i in -o out -d "$JtR" --format=Xsha512-opencl --skip --max-run=1 --verb=1 @@
+        "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
+        "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
+        "$JtR" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
+        "$JtR" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
+        "$JtR" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
+        "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
+        AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -i in -o out -d "$JtR" --format=opencl --skip --max-run=1 --verb=1 @@
         echo $?
 
 else
