@@ -45,7 +45,7 @@ matrix:
   - compiler: clang
     env: TEST="usual" OPENCL="yes" FUZZ="zzuf"
 
-  - env: TEST="fresh" OPENCL="yes" FUZZ="afl" BUILD_OPTS="--enable-fuzz" CCO="afl-gcc"
+  - env: TEST="fresh" OPENCL="yes" FUZZ="afl" BUILD_OPTS="--enable-fuzz" CCO="afl-clang"
 
   #Test --restore using TS
   #- env: TEST="TS --restore" DISABLE SINCE WE KNOW IT IS NOT WORKING
@@ -70,7 +70,7 @@ matrix:
 
   - env: TEST="usual" OPENCL="yes" FUZZ="zzuf"
 
-  - env: TEST="fresh" OPENCL="yes" FUZZ="afl" BUILD_OPTS="--enable-fuzz" CCO="afl-gcc"
+  - env: TEST="fresh" OPENCL="yes" FUZZ="afl" BUILD_OPTS="--enable-fuzz" CCO="afl-clang"
 
   #- env: TEST="TS --restore"
 
