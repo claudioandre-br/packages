@@ -52,6 +52,22 @@ elif [[ "$TEST" == "fresh" ]]; then
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
       export FUZZ=$FUZZ; \
+      export AFL_HARDEN=1; \
+      ./configure $ASAN_OPT $BUILD_OPTS; \
+      make -sj4; \
+      PROBLEM='slow' ../.travis/tests.sh
+   "
+
+elif [[ "$TEST" == "stable" ]]; then
+    # Stable environment (compiler/OS)
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6.6 sh -c " \
+      cd /cwd/src; \
+      yum -y -q upgrade; \
+      yum -y groupinstall 'Development Tools'; \
+      yum -y install openssl-devel gmp-devel libpcap-devel bzip2-devel; \
+      export OPENCL=$OPENCL; \
+      export CC=$CCO; \
+      export EXTRAS=$EXTRAS; \
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj4; \
       PROBLEM='slow' ../.travis/tests.sh
@@ -67,7 +83,6 @@ elif [[ "$TEST" == "snap" ]]; then
     sudo snap connect john-the-ripper:process-control core:process-control
 
 elif [[ "$TEST" == "snap fedora" ]]; then
-    # ASAN using a 'recent' enrironment (compiler/OS)
     docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "
       dnf -y -q upgrade;
       dnf -y install snapd;

@@ -16,6 +16,9 @@ matrix:
   - compiler: clang   #better to use GCC
     env: TEST="usual" OPENCL="yes"
 
+  #Test JtR using a stable OS/compiler
+  - env: TEST="stable" BUILD_OPTS="--enable-werror"
+
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
