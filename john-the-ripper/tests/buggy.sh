@@ -15,7 +15,7 @@ if [[ $# -eq 0 ]]; then
 fi
 
 #bcrypt BF_fmt.c
-FILES="pbkdf2-hmac-md4_fmt_plug.c pbkdf2-hmac-md5_fmt_plug.c opencl_pbkdf2_hmac_md4_fmt_plug.c opencl_pbkdf2_hmac_md5_fmt_plug.c opencl_bf_fmt_plug.c opencl_DES_fmt_plug.c opencl_DES_bs*  opencl_gpg_fmt_plug.c opencl_krb5pa-md5_fmt_plug.c opencl_mscash2_fmt_plug.c opencl_nt_fmt_plug.c opencl_ntlmv2_fmt_plug.c opencl_o5logon_fmt_plug.c opencl_rawmd5_fmt_plug.c opencl_rawmd4_fmt_plug.c opencl_xsha512_fmt_plug.c opencl_mysqlsha1_fmt_plug.c opencl_mscash_fmt_plug.c openbsdsoftraid_fmt_plug.c"
+FILES="pbkdf2-hmac-md4_fmt_plug.c pbkdf2-hmac-md5_fmt_plug.c opencl_pbkdf2_hmac_md4_fmt_plug.c opencl_pbkdf2_hmac_md5_fmt_plug.c opencl_bf_fmt_plug.c opencl_DES_fmt_plug.c opencl_DES_bs*  opencl_gpg_fmt_plug.c opencl_krb5pa-md5_fmt_plug.c opencl_mscash2_fmt_plug.c opencl_nt_fmt_plug.c opencl_ntlmv2_fmt_plug.c opencl_o5logon_fmt_plug.c opencl_rawmd5_fmt_plug.c opencl_rawmd4_fmt_plug.c opencl_xsha512_fmt_plug.c opencl_mysqlsha1_fmt_plug.c opencl_mscash_fmt_plug.c openbsdsoftraid_fmt_plug.c dpapimk_fmt_plug.c"
 
 #BCrypt
 patch -l -f -p2 <<ENDPATCH
