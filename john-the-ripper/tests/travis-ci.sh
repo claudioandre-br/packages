@@ -44,7 +44,7 @@ if [[ "$TEST" == "usual" ]]; then
 elif [[ "$TEST" == "fresh" ]]; then
     # ASAN using a 'recent' environment (compiler/OS)
     # clang 4 + ASAN + libOpenMP are not working on CI.
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.04 sh -c " \
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c " \
       cd /cwd/src; \
       apt-get update -qq; \
       apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang afl; \
