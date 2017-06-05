@@ -1,0 +1,76 @@
+From e8c194343e939c5cd770f5b49ce7c81afbdd1c3a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Fri, 20 Jan 2017 13:49:15 -0200
+Subject: [PATCH] build: use cpuid on configure
+
+---
+ src/configure | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
+
+diff --git a/src/configure b/src/configure
+index 76a00a6802..d33bfab486 100755
+--- a/src/configure
++++ b/src/configure
+@@ -8268,9 +8268,61 @@ else
+ 
+     #include <emmintrin.h>
+         #include <stdio.h>
++        #include <cpuid.h>
+         extern void exit(int);
+-        int main(){__m128i t;*((long long*)&t)=1;t=_mm_slli_si128(t,7);if((*(unsigned*)&t)==88)printf(".");exit(0);}
+ 
++        #ifndef bit_SSE4_1
++        #define bit_SSE4_1 0
++        #endif
++
++        #ifndef bit_AVX2
++        #define bit_AVX2 0
++        #endif
++
++        #ifndef bit_AVX512F
++        #define bit_AVX512F 0
++        #endif
++
++        #ifndef bit_AVX512BW
++        #define bit_AVX512BW 0
++        #endif
++
++	void cpu_id(void)
++	{
++		unsigned int eax, ebx, ecx, edx;
++
++		printf("CPUID: ");
++
++		if (!__get_cpuid(1, &eax, &ebx, &ecx, &edx))
++			printf("CPUID(1) Error");
++
++	        if (edx & bit_SSE2)
++			printf("SSE2 ");
++
++	        if (ecx & bit_SSSE3)
++			printf("SSSE3 ");
++
++	        if (ecx & bit_SSE4_1)
++			printf("SSE4.1 ");
++
++	        if (ecx & bit_AVX)
++			printf("AVX ");
++
++		if (!__get_cpuid(7, &eax, &ebx, &ecx, &edx))
++			printf("CPUID(7) Error");
++
++	        if (ebx & bit_AVX2)
++			printf("AVX2 ");
++
++	        if (ebx & bit_AVX512F)
++			printf("AVX512F ");
++
++	        if (ebx & bit_AVX512BW)
++			printf("AVX512BW ");
++		printf(". ");
++	}
++
++        int main(){__m128i t;*((long long*)&t)=1;cpu_id();t=_mm_slli_si128(t,7);if((*(unsigned*)&t)==88)printf(".");exit(0);}
+ 
+ _ACEOF
+ if ac_fn_c_try_run "$LINENO"; then :

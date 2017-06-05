@@ -1,0 +1,30 @@
+From 5fc8e78d6b2df30d1f2afe450c6e63e487485e1d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Mon, 10 Oct 2016 18:47:58 -0300
+Subject: [PATCH] CI: allow to disable ASAN using the commit message
+
+---
+ .travis.yml | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index 7483eec266..184d9e1c1d 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -25,10 +25,12 @@ before_install:
+   - sudo apt-get install fglrx-dev opencl-headers || true
+   - export OMP_NUM_THREADS=4
+ script:
+-  - cd src 
+-  - if [[ "$CC" == "gcc" ]]; then ./configure --enable-asan; fi
+-  - if [[ "$CC" == "clang" ]]; then ./configure; fi
+-  - make -sj4 
++  - cd src
++  - export LOG=$(git log -n 1)
++  - export ASAN=""
++  - if [[ $LOG != *'[no asan]'* && "$CC" == "gcc" ]]; then export ASAN="--enable-asan"; fi
++  - ./configure $ASAN
++  - make -sj4
+   - ../.travis/test.sh
+ 
+ addons:
