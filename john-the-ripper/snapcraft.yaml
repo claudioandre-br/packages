@@ -60,10 +60,11 @@ apps:
 
 parts:
   john-the-ripper:
-    plugin: make
+    plugin: nil
     after: [regex]
     source: .
-
+    build: |
+      ./build.sh
     build-packages:
       - build-essential
       - libssl-dev
@@ -88,7 +89,7 @@ parts:
     source: https://github.com/teeshop/rexgen.git
     source-type: git
     source-subdir: ./src
-    source-tag: 1.4.0
+    source-tag: 2.0.6
 
     build-packages:
       - build-essential
@@ -111,7 +112,7 @@ parts:
       extras:
         - -usr/local/man
         - -usr/share/
-    snap:
+    prime:
       - $extras
     stage:
       - $extras
@@ -121,7 +122,7 @@ parts:
     after: [john-the-ripper]
     source: https://github.com/magnumripper/JohnTheRipper/archive/bleeding-jumbo.zip
 
-    snap:
+    prime:
       - etc/
     stage:
       - etc/
