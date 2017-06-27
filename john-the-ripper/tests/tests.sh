@@ -8,21 +8,11 @@ do_Test () {
     echo "==> ($1)"
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$1 &> $TEMP"
-    eval $TO_RUN
-    ret_code=$?
 
-    if [[ $ret_code -ne 0 ]]; then
-        read MAX_TIME <<< $(echo $3 | awk '/-max-/ { print 1 }')
+    if [[ "$5" == "ERROR" ]]; then
+        eval $TO_RUN || true
+        ret_code=$?
 
-        if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
-            echo "ERROR ($ret_code): $TO_RUN"
-            echo
-
-            exit 1
-        fi
-    fi
-
-    if [[ $3 -lt 0 ]]; then
         read RESULT <<< $(cat $TEMP | grep "$2")
 
         if [[ -z $RESULT ]]; then
@@ -33,25 +23,54 @@ do_Test () {
             echo
             exit 1
         fi
-    else
-        read R1 <<< $(cat $TEMP | grep -E '[0-9]+ password' | grep -o '[0-9]*' | sed -n '1p')
-        read R2 <<< $(cat $TEMP | grep -E '[0-9]+ password' | grep -o '[0-9]*' | sed -n '2p')
+        echo "Test: ($1) failed, as expected ($ret_code)."
 
-        if [[ -z $R1 ]] || [[ -z $R2 ]]; then
-            echo --------------------------------------------
-            echo "Test: ($1) FAILED: |$R1| |$R2|"
-            echo --------------------------------------------
-            echo
-            exit 1
+    else
+        eval $TO_RUN
+        ret_code=$?
+
+        if [[ $ret_code -ne 0 ]]; then
+            read MAX_TIME <<< $(echo $3 | awk '/-max-/ { print 1 }')
+
+            if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
+                echo "ERROR ($ret_code): $TO_RUN"
+                echo
+
+                exit 1
+            fi
         fi
 
-        if [[ $3 -ne $R1 ]] || [[ $4 -ne $R2 ]]; then
-            echo --------------------------------------------
-            echo "Test: ($1) FAILED"
-            echo "- Expected values: [$3 $4]; found: [$R1 $R2]"
-            echo --------------------------------------------
-            echo
-            exit 1
+        if [[ $3 -lt 0 ]]; then
+            read RESULT <<< $(cat $TEMP | grep "$2")
+
+            if [[ -z $RESULT ]]; then
+                echo --------------------------------------------
+                echo "Test: ($1) FAILED"
+                tail -n10 $TEMP
+                echo --------------------------------------------
+                echo
+                exit 1
+            fi
+        else
+            read R1 <<< $(cat $TEMP | grep -E '[0-9]+ password' | grep -o '[0-9]*' | sed -n '1p')
+            read R2 <<< $(cat $TEMP | grep -E '[0-9]+ password' | grep -o '[0-9]*' | sed -n '2p')
+
+            if [[ -z $R1 ]] || [[ -z $R2 ]]; then
+                echo --------------------------------------------
+                echo "Test: ($1) FAILED: |$R1| |$R2|"
+                echo --------------------------------------------
+                echo
+                exit 1
+            fi
+
+            if [[ $3 -ne $R1 ]] || [[ $4 -ne $R2 ]]; then
+                echo --------------------------------------------
+                echo "Test: ($1) FAILED"
+                echo "- Expected values: [$3 $4]; found: [$R1 $R2]"
+                echo --------------------------------------------
+                echo
+                exit 1
+            fi
         fi
     fi
     Total_Tests=$((Total_Tests + 1))
@@ -180,7 +199,11 @@ else
     # Trusty AMD GPU drivers on Travis are fragile.
     # - a simple run of --test fails;
     # - clang reports memory issues.
-    if test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
+    if test "$PROBLEM" = "ztex" ; then
+        echo "$ JtR -test=0 --format=ztex"
+        do_Test "$JtR -test=0 --format=descrypt-ztex" "no valid ZTEX devices found" 0 0 "ERROR"
+        do_Test "$JtR -test=0 --format=bcrypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    elif test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
         echo "$ JtR -test=0 --format=cpu"
         "$JtR" -test=0 --format=cpu
     elif test -z "$OPENCL" ; then
