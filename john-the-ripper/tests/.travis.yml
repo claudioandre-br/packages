@@ -24,6 +24,7 @@ matrix:
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
   - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
   - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
+  - env: TEST="ztex"  ASAN="yes" BUILD_OPTS="-enable-ztex --enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
 
   #Test a non OpenMP build with clang (unusual test environment) 
   - compiler: clang

@@ -41,6 +41,23 @@ if [[ "$TEST" == "usual" ]]; then
 
     ../.travis/tests.sh
 
+elif [[ "$TEST" == "ztex" ]]; then
+    # ASAN using a 'recent' environment (compiler/OS)
+    # clang 4 + ASAN + libOpenMP are not working on CI.
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c " \
+      cd /cwd/src; \
+      apt-get update -qq; \
+      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang libusb-1.0-0-dev; \
+      export OPENCL=$OPENCL; \
+      export CC=$CCO; \
+      export EXTRAS=$EXTRAS; \
+      export FUZZ=$FUZZ; \
+      export AFL_HARDEN=1; \
+      ./configure $ASAN_OPT $BUILD_OPTS; \
+      make -sj4; \
+      PROBLEM='ztex' ../.travis/tests.sh
+   "
+
 elif [[ "$TEST" == "fresh" ]]; then
     # ASAN using a 'recent' environment (compiler/OS)
     # clang 4 + ASAN + libOpenMP are not working on CI.
