@@ -4,17 +4,17 @@ machine:
 
 dependencies:
   pre:
-    - docker pull fedora:latest
+    - docker pull fedora:25
 
 test:
   override:
     - ? |
         case $CIRCLE_NODE_INDEX in
           0)
-            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora bash -e -c "/circle-ci.sh x86_64"
+            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora:25 bash -e -c "/circle-ci.sh x86_64"
             ;;
           1)
-            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora bash -e -c "/circle-ci.sh i686"
+            docker run -v $(pwd):/cwd -v $(pwd)/.circle/circle-ci.sh:/circle-ci.sh -e BASE=fedora fedora:25 bash -e -c "/circle-ci.sh i686"
             ;;
         esac
       :

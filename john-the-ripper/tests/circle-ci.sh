@@ -66,6 +66,8 @@ echo
 echo '-- Environment --'
 echo "Running on: $BASE"
 echo "Doing: $1"
+id
+env
 
 ARCH=$1
 
