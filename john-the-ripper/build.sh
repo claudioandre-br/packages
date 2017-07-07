@@ -41,7 +41,7 @@ if [[ "$arch" == 'x86_64' ]]; then
     # Allow an OpenCL build
     sudo apt-get install -y beignet-dev
 
-    # OpenCL and OpenCL OMP fallback
+    # OpenCL (and OMP fallback)
     ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS="$TMP_FLAGS -D_SNAP -D_BOXED" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl-non-omp
     ./configure --disable-native-tests --with-systemwide                  CPPFLAGS="$TMP_FLAGS -D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-opencl-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl
 
@@ -64,18 +64,31 @@ fi
 # Do some testing
 TEST=yes #always
 sudo apt-get install -y language-pack-en
-export LC_ALL="en_US.UTF-8"
 
 if [[ "$TEST" = "yes" ]]; then
     echo ""
     echo "---------------------------- TESTING -----------------------------"
     ../run/john --list=build-info
-    echo "====> regex T1:"
+    echo
+    echo "====> regex T1 A:"
     ../run/john --stdout --regex='[0-2]password[A-C]'
+    echo "====> regex T1 B:"
+    ../run/john --stdout --regex=ab[öc]
+    echo "====> regex T1 C:"
+    ../run/john --stdout --regex="ab[£öçüàñẽ]"
+    echo "====> regex T1 D:"
+    ../run/john --stdout --regex='ab(ö|¿|e|¡|!)'
+    echo "====> regex T1 E:"
+    ../run/john --stdout --regex='ab(ö|c)'
+    echo "====> regex T1 F:"
+    ../run/john --stdout --regex='ab(ö,¿|\?,e|¡,!)'
     echo "====> regex T2:"
     echo magnum | ../run/john -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3:"
+    echo "====> regex T3 A:"
     echo müller | iconv -f UTF-8 -t cp850 | ../run/john -inp=cp850 -stdout -stdin -regex='\0[01]'
+    echo "====> regex T3 B:"
+    ../run/john -stdout --regex='ab(ö|c)' -target-enc=cp437
+    echo
     echo "====> T4:"
     ../run/john -test-full=0 --format=nt
     echo "====> T5:"
