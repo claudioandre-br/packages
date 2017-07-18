@@ -1,0 +1,69 @@
+{
+    "id": "com.openwall.John",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "1.6",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "john",
+    "tags": [ "edge" ],
+    "finish-args": [
+        "--filesystem=home"
+    ],
+    "modules": [
+        {
+            "name": "libpcap",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz",
+                    "sha256": "673dbc69fdc3f5a86fb5759ab19899039a8e5e6c631749e48dcd9c6f0c83541e"
+                }
+            ]
+        },
+        {
+            "name": "librexgen",
+            "buildsystem": "cmake",
+            "subdir": "./src",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/teeshop/rexgen.git",
+                    "branch": "1.4.0"
+                }
+            ]
+        },
+        {
+            "name": "john",
+            "buildsystem": "simple",
+            "subdir": "src",
+            "build-commands": [
+                "## build script ##",
+                "../build"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/claudioandre/JohnTheRipper/archive/1.8.1-jumbo-1.tar.gz",
+                    "sha256": "65a8fc1c98bc923b077087759952a85a3c44dc84112eebd3ad140cc573184cd5"
+                },
+                {
+                    "type": "patch",
+                    "path": "confined-system-wide-build.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "use-regex-1.4.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "build.sh",
+                    "dest-filename": "build"
+                }
+            ],
+            "post-install": [
+                "cp -r ../run/. /app/bin",
+                "## Some fast checks ##",
+                "TEST=yes ../build"
+            ]
+        }
+    ]
+}
