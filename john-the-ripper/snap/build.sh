@@ -9,6 +9,9 @@ cd src
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
 patch < 0001-Handle-self-confined-system-wide-build.patch
 
+wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
+patch < 0001-maint-revert-JtR-to-regex-1.4.patch
+
 # CFLAGS is set when regex is build. Harm JtR configure process.
 TMP_FLAGS="$CFLAGS"
 unset CFLAGS
@@ -70,23 +73,23 @@ if [[ "$TEST" = "yes" ]]; then
     echo "---------------------------- TESTING -----------------------------"
     ../run/john --list=build-info
     echo
-    echo "====> regex T1 A:"
+    echo "====> regex T1 A: 9 lines"
     ../run/john --stdout --regex='[0-2]password[A-C]'
-    echo "====> regex T1 B:"
+    echo "====> regex T1 B: 2 lines, 1 special character"
     ../run/john --stdout --regex=ab[öc]
-    echo "====> regex T1 C:"
+    echo "====> regex T1 C: 7 lines, 7 special characters, quotation marks"
     ../run/john --stdout --regex="ab[£öçüàñẽ]"
-    echo "====> regex T1 D:"
+    echo "====> regex T1 D: 5 lines, 4 special characters, quotation marks"
     ../run/john --stdout --regex='ab(ö|¿|e|¡|!)'
-    echo "====> regex T1 E:"
+    echo "====> regex T1 E: 2 lines, 1 special character, vertical bar"
     ../run/john --stdout --regex='ab(ö|c)'
-    echo "====> regex T1 F:"
+    echo "====> regex T1 F: 3 lines, 5 special characters, vertical bar"
     ../run/john --stdout --regex='ab(ö,¿|\?,e|¡,!)'
-    echo "====> regex T2:"
+    echo "====> regex T2: 2 lines, at the end"
     echo magnum | ../run/john -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3 A:"
+    echo "====> regex T3 A: 2 lines, at the end, encoding"
     echo müller | iconv -f UTF-8 -t cp850 | ../run/john -inp=cp850 -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3 B:"
+    echo "====> regex T3 B: 2 lines, encoding. OOOOPS"
     ../run/john -stdout --regex='ab(ö|c)' -target-enc=cp437
     echo
     echo "====> T4:"
