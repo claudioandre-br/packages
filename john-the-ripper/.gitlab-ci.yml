@@ -8,14 +8,14 @@ build:
   stage: build
   artifacts:
     paths:
-    - john-the-ripper/john.flatpak
+    - john-the-ripper/flatpak/john.flatpak
     
   script:
     - dnf -y update
     - dnf install -y flatpak flatpak-builder elfutils
     - flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
     - flatpak install gnome org.freedesktop.Platform//1.4 org.freedesktop.Sdk//1.4
-    - cd john-the-ripper
+    - cd john-the-ripper/flatpak
     - flatpak-builder --repo=repo build com.openwall.John.json
     - flatpak build-bundle repo john.flatpak com.openwall.John
 
@@ -24,16 +24,14 @@ deploy:
 
   script:
     - dnf -y update
-    - dnf install -y flatpak
+    - dnf install -y flatpak ostree
     - flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
     - flatpak install gnome org.freedesktop.Platform//1.4
     - echo Flatpak Installed
-    - cd john-the-ripper
-    - mkdir repo
+    - cd john-the-ripper/flatpak
     - ostree --repo=repo init --mode=archive-z2
     - flatpak build-import-bundle repo john.flatpak
     - flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo
     - flatpak --user install tutorial-repo com.openwall.John
     - flatpak run com.openwall.John
     - flatpak run com.openwall.John --list=build-info
-    - ls -la
