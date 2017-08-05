@@ -101,6 +101,10 @@ if test "$EXTRAS" = "yes" ; then
     tar -xopf zip_sample_files.tar
     tar -xozf test.gpg.tar.gz
 
+    # UTF-8 tests
+    wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/answers
+    wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/specials
+
     # Prepare for tests
     ../run/zip2john *.zip > ~/file1
     ../run/keepass2john keepass2.kdbx > ~/file2
@@ -155,6 +159,8 @@ if test "$EXTRAS" = "yes" ; then
 
     do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/self --form=oldoffice --increm:digits --min-l=6 --max-l=6"  "1g 0:00:00"      -1  -1
+    do_Test "$JtR specials -word:answers --mask=?w?a"                           "2g 0:00:0"       -1  -1
+    do_Test "$JtR specials -word:answers -form=SHA512crypt"                    "15g 0:00:0"       -1  -1
     #do_Test "$JtR ~/self --form=pkzip --mask=zipcrypto"                         "1g 0:00:00"      -1  -1
     #do_Test "$JtR ~/self --form=pkzip"                                          "1g 0:00:00"      -1  -1
 
