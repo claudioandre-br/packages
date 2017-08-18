@@ -5,11 +5,11 @@ services: docker
 matrix:
   include:
   #Test JtR using a clang build with asan and OpenCL
-  - compiler: gcc     #better to use CLANG
+  - compiler: gcc     #better to use CLANG, however it hates OpenCL
     env: TEST="usual" ASAN="yes" OPENCL="yes" F=1
 
   #Test JtR using a clang build with asan and OpenCL
-  - compiler: gcc     #better to use CLANG
+  - compiler: gcc     #better to use CLANG, however it hates OpenCL
     env: TEST="usual" ASAN="yes" OPENCL="yes" F=2
 
   #Test JtR using an ordinary OpenCL build
@@ -21,12 +21,14 @@ matrix:
 
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
+    group: deprecated-2017Q3
   - env: TEST="fresh" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
   - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="gcc"
   - env: TEST="fresh" EXTRAS="yes" ASAN="yes" BUILD_OPTS="--enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
+    group: deprecated-2017Q3
   - env: TEST="ztex"  ASAN="yes" BUILD_OPTS="-enable-ztex --enable-memdbg --enable-werror" CCO="clang" #ASAN+OpenMP fails in clang 4
 
-  #Test a non OpenMP build with clang (unusual test environment) 
+  #Test a non OpenMP build with clang (unusual test environment)
   - compiler: clang
     env: TEST="usual" ASAN="yes" BUILD_OPTS="--disable-native-tests --disable-openmp"
 
