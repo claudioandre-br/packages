@@ -77,7 +77,7 @@ function do_Build_Docker_Command(){
     docker_command=" \
       cd /cwd/src; \
       apt-get update -qq; \
-      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang $1; \
+      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang libomp-dev $1; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
