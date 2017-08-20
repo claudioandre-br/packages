@@ -15,7 +15,7 @@ function do_Install_Dependencies(){
         sudo ln -sf /usr/lib/libiomp5.so /usr/lib/x86_64-linux-gnu/libomp.so
     fi
 
-    if [[ "$OPENCL" == "yes" ]]; then
+    if [[ "$TEST" == *";OPENCL;"* ]]; then
         sudo apt-get -y -qq install fglrx-dev opencl-headers || true
 
         # Fix the OpenCL stuff
@@ -89,9 +89,29 @@ function do_Build_Docker_Command(){
    "
 }
 
-# Set up ASAN
-if [[ "$ASAN" == "yes" ]]; then
+# Set up environment
+if [[ "$TEST" == *";ASAN;"* ]]; then
     export ASAN_OPT="--enable-asan"
+fi
+
+if [[ "$TEST" == *";OPENCL;"* ]]; then
+    export OPENCL="yes"
+fi
+
+if [[ "$TEST" == *";EXTRAS;"* ]]; then
+    export EXTRAS="yes"
+fi
+
+if [[ "$TEST" == *";gcc;"* ]]; then
+    export CCO="gcc"
+fi
+
+if [[ "$TEST" == *";clang;"* ]]; then
+    export CCO="clang"
+fi
+
+if [[ "$TEST" == *";afl-clang;"* ]]; then
+    export CCO="afl-clang"
 fi
 
 # Disable buggy formats. If a formats fails its tests on super, I will burn it.
@@ -105,7 +125,7 @@ fi
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
 git apply 0002-maintenance-fix-the-expected-data-type-size.patch
 
-if [[ "$TEST" == "usual" ]]; then
+if [[ "$TEST" == *"usual;"* ]]; then
     # Needed on ancient ASAN
     export ASAN_OPTIONS=symbolize=1
     export ASAN_SYMBOLIZER_PATH
@@ -117,7 +137,7 @@ if [[ "$TEST" == "usual" ]]; then
     # Run the test: --test-full=0
     ../.travis/tests.sh
 
-elif [[ "$TEST" == "ztex" ]]; then
+elif [[ "$TEST" == *"ztex;"* ]]; then
     # ASAN using a 'recent' environment (compiler/OS)
     # clang 4 + ASAN + libOpenMP are not working on CI.
 
@@ -127,7 +147,7 @@ elif [[ "$TEST" == "ztex" ]]; then
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
 
-elif [[ "$TEST" == "fresh" ]]; then
+elif [[ "$TEST" == *"fresh;"* ]]; then
     # ASAN using a 'recent' environment (compiler/OS)
     # clang 4 + ASAN + libOpenMP are not working on CI.
 
@@ -137,7 +157,7 @@ elif [[ "$TEST" == "fresh" ]]; then
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
 
-elif [[ "$TEST" == "stable" ]]; then
+elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
     docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6.6 sh -c " \
       cd /cwd/src; \
@@ -152,7 +172,7 @@ elif [[ "$TEST" == "stable" ]]; then
       PROBLEM='slow' ../.travis/tests.sh
    "
 
-elif [[ "$TEST" == "snap" ]]; then
+elif [[ "$TEST" == *"snap;"* ]]; then
     # Prepare environment
     sudo apt-get update -qq
     sudo apt-get install snapd
@@ -161,7 +181,7 @@ elif [[ "$TEST" == "snap" ]]; then
     sudo snap install john-the-ripper
     sudo snap connect john-the-ripper:process-control core:process-control
 
-elif [[ "$TEST" == "snap fedora" ]]; then
+elif [[ "$TEST" == *"snap fedora;"* ]]; then
     docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "
       dnf -y -q upgrade;
       dnf -y install snapd;
@@ -173,7 +193,7 @@ elif [[ "$TEST" == "snap fedora" ]]; then
       echo '--------------------------------'
    "
 
-elif [[ "$TEST" == "TS" ]]; then
+elif [[ "$TEST" == *"TS;"* ]]; then
     # Configure and build
     do_Prepare_To_Test
 
@@ -181,7 +201,7 @@ elif [[ "$TEST" == "TS" ]]; then
     do_TS_Setup
 
     # Run the test: Test Suite
-    if [[ "$OPENCL" != "yes" ]]; then
+    if [[ "$TEST" != *";OPENCL;"* ]]; then
         ./jtrts.pl -stoponerror -dynamic none
     else
         # Disable failing formats
@@ -190,7 +210,7 @@ elif [[ "$TEST" == "TS" ]]; then
         ./jtrts.pl -noprelims -type opencl
     fi
 
-elif [[ "$TEST" == "TS --restore" ]]; then
+elif [[ "$TEST" == *"TS --restore;"* ]]; then
     # Configure and build
     do_Prepare_To_Test
 
@@ -200,7 +220,7 @@ elif [[ "$TEST" == "TS --restore" ]]; then
     # Run the test: Test Suite --restore
     ./jtrts.pl --restore
 
-elif [[ "$TEST" == "TS --internal" ]]; then
+elif [[ "$TEST" == *"TS --internal;"* ]]; then
     # Configure and build
     do_Prepare_To_Test
 
