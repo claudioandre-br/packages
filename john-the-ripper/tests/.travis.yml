@@ -4,11 +4,14 @@ services: docker
 
 matrix:
   include:
-  #Test JtR using a clang build with asan and OpenCL
+  #Test JtR using a stable OS/compiler
+  - env: TEST="stable;" BUILD_OPTS="--enable-werror"
+
+  #Test JtR using a gcc build with asan and OpenCL
   - compiler: gcc
     env: TEST="usual;ASAN;OPENCL;" F=1
 
-  #Test JtR using a clang build with asan and OpenCL
+  #Test JtR using a gcc build with asan and OpenCL
   - compiler: gcc    #clang + ASAN + OpenCL build fails
     env: TEST="usual;ASAN;OPENCL;" F=2
 
@@ -16,24 +19,14 @@ matrix:
   - compiler: clang
     env: TEST="usual;OPENCL;"
 
-  #Test JtR using a stable OS/compiler
-  - env: TEST="stable;" BUILD_OPTS="--enable-werror"
-
   #Test JtR using a "hot" OS/compiler
+  - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="fresh;ASAN;gcc;"          BUILD_OPTS="--enable-memdbg --enable-werror"
     group: deprecated-2017Q3
+  - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-memdbg --enable-werror"
     group: deprecated-2017Q3
-  - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg --enable-werror"
-  - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="ztex;ASAN;clang;"         BUILD_OPTS="--enable-ztex --enable-memdbg --enable-werror"
-
-  #Test a non OpenMP build with clang (unusual test environment)
-  - compiler: clang
-    env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp"
-
-  #Test a non SIMD build. Non OpenMP + clang build fails
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   #Test using TS - CPU formats
   - compiler: clang
@@ -46,6 +39,13 @@ matrix:
   #Test --internal using TS
   - compiler: clang
     env: TEST="TS --internal;OPENCL;"
+
+  #Test a non OpenMP build with clang (unusual test environment)
+  - compiler: clang
+    env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp"
+
+  #Test a non SIMD build. Non OpenMP + clang build fails
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   #Test fuzzing
   - compiler: clang
@@ -66,7 +66,11 @@ matrix:
 
   - env: TEST="TS --internal;OPENCL;"
 
-  - env: TEST="usual;OPENCL;" FUZZ="zzuf"
+  - env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp"
+
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+
+  - env: TEST="usual;OPENCL;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
   - env: TEST="fresh;OPENCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
