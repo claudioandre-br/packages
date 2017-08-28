@@ -8,7 +8,7 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang zzuf libiomp-dev
+        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev zzuf
 
     if [[ ! -f /usr/lib/x86_64-linux-gnu/libomp.so ]]; then
         # A bug somewhere?
@@ -25,20 +25,18 @@ function do_Install_Dependencies(){
     fi
 }
 
-function do_Show_Compiler(){
+function do_Build(){
+    echo
+    echo '-- Building JtR --'
+
+    id; env
 
     if [[ ! -z $CC ]]; then
         echo
         echo '-- Compiler in use --'
         $CC --version
+        echo '--------------------------------'
     fi
-}
-
-function do_Build(){
-    echo
-    echo '-- Building JtR --'
-
-    do_Show_Compiler
 
     # Configure and build
     cd src || exit 1
@@ -77,12 +75,19 @@ function do_Build_Docker_Command(){
     docker_command=" \
       cd /cwd/src; \
       apt-get update -qq; \
-      apt-get install -y build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang libomp-dev $1; \
+      apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
       export FUZZ=$FUZZ; \
       export AFL_HARDEN=1; \
+      echo; \
+      echo '-- Building JtR --'; \
+      id; env; \
+      echo; \
+      echo '-- Compiler in use --'; \
+      $CC --version; \
+      echo '--------------------------------'
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj4; \
       $2 ../.travis/tests.sh
