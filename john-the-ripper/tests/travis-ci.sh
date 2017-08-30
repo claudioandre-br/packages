@@ -41,7 +41,7 @@ function do_Build(){
     # Configure and build
     cd src || exit 1
     eval ./configure "$ASAN_OPT $BUILD_OPTS"
-    make -sj4
+    make -sj2
 }
 
 function do_Prepare_To_Test(){
@@ -89,7 +89,7 @@ function do_Build_Docker_Command(){
       $CC --version; \
       echo '--------------------------------'
       ./configure $ASAN_OPT $BUILD_OPTS; \
-      make -sj4; \
+      make -sj2; \
       $2 ../.travis/tests.sh
    "
 }
@@ -173,7 +173,7 @@ elif [[ "$TEST" == *"stable;"* ]]; then
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
       ./configure $ASAN_OPT $BUILD_OPTS; \
-      make -sj4; \
+      make -sj2; \
       PROBLEM='slow' ../.travis/tests.sh
    "
 
