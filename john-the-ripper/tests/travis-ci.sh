@@ -8,7 +8,7 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev zzuf
+        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev
 
     if [[ ! -f /usr/lib/x86_64-linux-gnu/libomp.so ]]; then
         # A bug somewhere?
@@ -157,7 +157,7 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
     # clang 4 + ASAN + libOpenMP are not working on CI.
 
     # Build the docker command line
-    do_Build_Docker_Command "afl" "PROBLEM='slow'"
+    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
