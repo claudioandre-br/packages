@@ -72,10 +72,20 @@ function do_Build_Docker_Command(){
     echo
     echo '-- Build Docker command --'
 
+    if [[ "$3" == "CentOS" ]]; then
+        update="\
+          yum -y -q upgrade; \
+          yum -y groupinstall 'Development Tools'; \
+          yum -y install openssl-devel gmp-devel libpcap-devel bzip2-devel;"
+    else
+        update="\
+          apt-get update -qq; \
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1;"
+    fi
+
     docker_command=" \
       cd /cwd/src; \
-      apt-get update -qq; \
-      apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1; \
+      $update; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
@@ -147,7 +157,7 @@ elif [[ "$TEST" == *"ztex;"* ]]; then
     # clang 4 + ASAN + libOpenMP are not working on CI.
 
     # Build the docker command line
-    do_Build_Docker_Command "libusb-1.0-0-dev" "PROBLEM='ztex'"
+    do_Build_Docker_Command "libusb-1.0-0-dev" "PROBLEM='ztex'" "Ubuntu"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
@@ -157,25 +167,18 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
     # clang 4 + ASAN + libOpenMP are not working on CI.
 
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'"
+    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "Ubuntu"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
 
 elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6.6 sh -c " \
-      cd /cwd/src; \
-      yum -y -q upgrade; \
-      yum -y groupinstall 'Development Tools'; \
-      yum -y install openssl-devel gmp-devel libpcap-devel bzip2-devel; \
-      export OPENCL=$OPENCL; \
-      export CC=$CCO; \
-      export EXTRAS=$EXTRAS; \
-      ./configure $ASAN_OPT $BUILD_OPTS; \
-      make -sj2; \
-      PROBLEM='slow' ../.travis/tests.sh
-   "
+    # Build the docker command line
+    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "CentOS"
+
+    # Run docker
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6 sh -c "$docker_command"
 
 elif [[ "$TEST" == *"snap;"* ]]; then
     # Prepare environment
