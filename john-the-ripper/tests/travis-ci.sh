@@ -153,8 +153,8 @@ if [[ "$TEST" == *"usual;"* ]]; then
     ../.travis/tests.sh
 
 elif [[ "$TEST" == *"ztex;"* ]]; then
-    # ASAN using a 'recent' environment (compiler/OS)
-    # clang 4 + ASAN + libOpenMP are not working on CI.
+    # 'Recent' environment (compiler/OS)
+    # clang 4 + ASAN + libOpenMP + fork are not working on CI.
 
     # Build the docker command line
     do_Build_Docker_Command "libusb-1.0-0-dev" "PROBLEM='ztex'" "Ubuntu"
@@ -163,8 +163,8 @@ elif [[ "$TEST" == *"ztex;"* ]]; then
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
 
 elif [[ "$TEST" == *"fresh;"* ]]; then
-    # ASAN using a 'recent' environment (compiler/OS)
-    # clang 4 + ASAN + libOpenMP are not working on CI.
+    # 'Recent' environment (compiler/OS)
+    # clang 4 + ASAN + libOpenMP + fork are not working on CI.
 
     # Build the docker command line
     do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "Ubuntu"
