@@ -48,8 +48,7 @@ matrix:
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   #Test fuzzing
-  - compiler: clang
-    env: TEST="usual;OPENCL;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+    env: TEST="fresh;OPENCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
   - env: TEST="fresh;OPENCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
@@ -70,7 +69,7 @@ matrix:
 
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
-  - env: TEST="fresh;OPENCL;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+    env: TEST="fresh;OPENCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
   - env: TEST="fresh;OPENCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
