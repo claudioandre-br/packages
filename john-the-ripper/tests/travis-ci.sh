@@ -85,7 +85,7 @@ function do_Build_Docker_Command(){
 
     docker_command=" \
       cd /cwd/src; \
-      $update; \
+      $update \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \

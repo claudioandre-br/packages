@@ -154,9 +154,13 @@ if test "$EXTRAS" = "yes" ; then
     do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      64  36
     do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
     do_Test "$JtR ~/self -form=SHA512crypt"                             "1g 0:00:00"      -1  -1
-    # Failing in clang+libOmp
-    #do_Test "$JtR ~/self -form=raw-SHA512 --incremental -fork=2"        "2g 0:00:0"      -1  -1
-    do_Test "$JtR ~/self -form=raw-SHA512 --incremental"                 "3g 0:00:0"      -1  -1
+
+    if test "$CC" = "gcc" ; then
+        # Fails in clang+ASAN+libOmp
+        do_Test "$JtR ~/self -form=raw-SHA512 --incremental -fork=2"     "2g 0:00:0"      -1  -1
+    else
+        do_Test "$JtR ~/self -form=raw-SHA512 --incremental"             "3g 0:00:0"      -1  -1
+    fi
     do_Test "$JtR ~/self --show --format=raw-SHA512"                              ""       3   0
 
     do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
