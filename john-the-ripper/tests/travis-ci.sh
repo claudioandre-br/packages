@@ -81,6 +81,11 @@ function do_Build_Docker_Command(){
         update="\
           apt-get update -qq; \
           apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1;"
+
+        if [[ "$TEST" == *";POCL;"* ]]; then
+            update="$update apt-get install -y libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
+            export OPENCL="yes"
+        fi
     fi
 
     docker_command=" \
@@ -97,7 +102,7 @@ function do_Build_Docker_Command(){
       echo; \
       echo '-- Compiler in use --'; \
       $CC --version; \
-      echo '--------------------------------'
+      echo '--------------------------------'; \
       ./configure $ASAN_OPT $BUILD_OPTS; \
       make -sj2; \
       $2 ../.travis/tests.sh
@@ -175,7 +180,7 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
 elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "CentOS"
+    do_Build_Docker_Command "$FUZZ" "PROBLEM='CentOS'" "CentOS"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6 sh -c "$docker_command"

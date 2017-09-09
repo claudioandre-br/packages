@@ -48,9 +48,9 @@ matrix:
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   #Test fuzzing
-    env: TEST="fresh;OPENCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
-  - env: TEST="fresh;OPENCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
   #Test --restore using TS
   #- env: TEST="TS --restore;" DISABLE SINCE WE KNOW IT IS NOT WORKING
@@ -69,9 +69,9 @@ matrix:
 
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
-    env: TEST="fresh;OPENCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
-  - env: TEST="fresh;OPENCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;afl-clang;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
   #- env: TEST="TS --restore;"
 

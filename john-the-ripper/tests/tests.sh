@@ -175,36 +175,50 @@ if test "$EXTRAS" = "yes" ; then
     echo '--------------------------------------------------------------------------------'
 
 elif test "$FUZZ" = "zzuf" ; then
-        echo "$ zzuf -s 0:1000 -c -C 3 -T 3 JtR"
-        export LWS=16
-        export GWS=128
+    echo "$ zzuf -s 0:1000 -c -C 3 -T 3 JtR"
+    export LWS=16
+    export GWS=128
 
-        "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
-        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
-        echo $?
+    # Check if all formats passes self-test
+    "$JtR" -test-full=0 --format=raw-sha256-opencl
+    "$JtR" -test-full=0 --format=raw-sha512-opencl
+    "$JtR" -test-full=0 --format=xsha512-opencl
+    "$JtR" -test-full=0 --format=sha256crypt-opencl
+    "$JtR" -test-full=0 --format=sha512crypt-opencl
 
-        "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
-        zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
-        echo $?
+    "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=2 --verb=1 test_hash
+    echo $?
+
+    "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=2 --verb=1 test_hash
+    echo $?
 
 elif test "$FUZZ" = "afl" ; then
-        echo "$ afl-fuzz -i in -o out JtR @@ "
-        export LWS=16
-        export GWS=128
+    echo "$ afl-fuzz -i in -o out JtR @@ "
+    export LWS=16
+    export GWS=128
 
-        mkdir -p in
-        export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-        export AFL_NO_UI=1
-        #echo core >/proc/sys/kernel/core_pattern
+    # Check if all formats passes self-test
+    "$JtR" -test-full=0 --format=raw-sha256-opencl
+    "$JtR" -test-full=0 --format=raw-sha512-opencl
+    "$JtR" -test-full=0 --format=xsha512-opencl
+    "$JtR" -test-full=0 --format=sha256crypt-opencl
+    "$JtR" -test-full=0 --format=sha512crypt-opencl
 
-        "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
-        "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
-        "$JtR" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
-        "$JtR" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
-        "$JtR" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
-        "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
-        AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -i in -o out -d "$JtR" --format=opencl --skip --max-run=1 --verb=1 @@
-        echo $?
+    mkdir -p in
+    export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+    export AFL_NO_UI=1
+    #echo core >/proc/sys/kernel/core_pattern
+
+    "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
+    "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
+    "$JtR" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
+    "$JtR" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
+    "$JtR" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
+    "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
+    AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -i in -o out -d "$JtR" --format=opencl --skip --max-run=5 --verb=1 @@
+    echo $?
 
 else
     # ---- Regular testing ----
