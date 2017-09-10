@@ -94,25 +94,27 @@ function do_Build_Docker_Command(){
     fi
 
     docker_command=" \
-      cd /cwd/src; \
+      cd /cwd; \
       $update \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
       export FUZZ=$FUZZ; \
       export AFL_HARDEN=1; \
+      export ASAN_OPT=$ASAN_OPT; \
+      export BUILD_OPTS=$BUILD_OPTS; \
       echo; \
-      echo '-- Building JtR --'; \
-      id; env; \
-      echo; \
-      echo '-- Compiler in use --'; \
-      $CC --version; \
-      echo '--------------------------------'; \
-      ./configure $ASAN_OPT $BUILD_OPTS; \
-      make -sj2; \
+      "$0" DO_BUILD; \
+      cd /cwd/src; \
       $2 ../.travis/tests.sh
    "
 }
+
+# Do the build inside Docker
+if [[ "$1" == "DO_BUILD" ]]; then
+    do_Build
+    exit 0
+fi
 
 # Set up environment
 if [[ "$TEST" == *";ASAN;"* ]]; then
@@ -137,6 +139,10 @@ fi
 
 if [[ "$TEST" == *";afl-clang;"* ]]; then
     export CCO="afl-clang"
+fi
+
+if [[ "$TEST" == *";afl-clang-fast;"* ]]; then
+    export CCO="afl-clang-fast"
 fi
 
 # Disable buggy formats. If a formats fails its tests on super, I will burn it.
