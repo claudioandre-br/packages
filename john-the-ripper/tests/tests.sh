@@ -200,11 +200,11 @@ elif test "$FUZZ" = "afl" ; then
     export GWS=128
 
     # Check if all formats passes self-test
-    # "$JtR" -test-full=0 --format=raw-sha256-opencl
-    # "$JtR" -test-full=0 --format=raw-sha512-opencl
-    # "$JtR" -test-full=0 --format=xsha512-opencl
-    # "$JtR" -test-full=0 --format=sha256crypt-opencl
-    # "$JtR" -test-full=0 --format=sha512crypt-opencl
+    "$JtR" -test-full=0 --format=raw-sha256-opencl
+    "$JtR" -test-full=0 --format=raw-sha512-opencl
+    "$JtR" -test-full=0 --format=xsha512-opencl
+    "$JtR" -test-full=0 --format=sha256crypt-opencl
+    "$JtR" -test-full=0 --format=sha512crypt-opencl
 
     mkdir -p in
     export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
@@ -217,7 +217,7 @@ elif test "$FUZZ" = "afl" ; then
     "$JtR" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
     "$JtR" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
     "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
-    AFL_PRELOAD=/usr/lib/afl/libdislocator.so afl-fuzz -m none -i in -o out -d "$JtR" --format=opencl --nolog --verb=1 @@
+    afl-fuzz -m none -t 5000+ -i in -o out -d "$JtR" --format=opencl --nolog --verb=1 @@
     echo $?
 
 else
