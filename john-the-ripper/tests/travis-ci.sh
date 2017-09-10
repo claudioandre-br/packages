@@ -29,15 +29,20 @@ function do_Build(){
     echo
     echo '-- Building JtR --'
 
-    id; env
+    echo -en 'travis_fold:start:Build Environment\r'
+    id; uname -a
+    printenv
+    echo -en 'travis_fold:end:Build Environment\r'
 
     if [[ ! -z $CC ]]; then
         echo
-        echo '-- Compiler in use --'
+        echo -en 'travis_fold:start:Compiler Info\r'
         $CC --version
         echo '--------------------------------'
+        $CC -dM -E -x c /dev/null
+        echo -en 'travis_fold:end:Compiler Info\r'
+        echo '--------------------------------'
     fi
-
     # Configure and build
     cd src || exit 1
     eval ./configure "$ASAN_OPT $BUILD_OPTS"
