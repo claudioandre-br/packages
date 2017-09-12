@@ -102,9 +102,9 @@ function do_Build_Docker_Command(){
       export FUZZ=$FUZZ; \
       export AFL_HARDEN=1; \
       export ASAN_OPT=$ASAN_OPT; \
-      export BUILD_OPTS=$BUILD_OPTS; \
+      export BUILD_OPTS='$BUILD_OPTS'; \
       echo; \
-      "$0" DO_BUILD; \
+      $0 DO_BUILD; \
       cd /cwd/src; \
       $2 ../.travis/tests.sh
    "
