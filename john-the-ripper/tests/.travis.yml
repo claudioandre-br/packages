@@ -5,7 +5,7 @@ services: docker
 matrix:
   include:
   #Test JtR using a stable OS/compiler
-  - env: TEST="stable;" BUILD_OPTS="--enable-werror"
+  - env: TEST="stable;gcc;" BUILD_OPTS="--enable-werror"
 
   #Test JtR using a gcc build with asan and OpenCL
   - compiler: gcc
