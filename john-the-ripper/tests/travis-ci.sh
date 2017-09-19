@@ -80,15 +80,15 @@ function do_Build_Docker_Command(){
     if [[ "$3" == "CentOS" ]]; then
         update="\
           yum -y -q upgrade; \
-          yum -y groupinstall 'Development Tools'; \
-          yum -y install openssl-devel gmp-devel libpcap-devel bzip2-devel;"
+          yum -y -q groupinstall 'Development Tools'; \
+          yum -y -q install openssl-devel gmp-devel libpcap-devel bzip2-devel;"
     else
         update="\
           apt-get update -qq; \
           apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1;"
 
         if [[ "$TEST" == *";POCL;"* ]]; then
-            update="$update apt-get install -y libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
+            update="$update apt-get install -y -qq libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
             export OPENCL="yes"
         fi
     fi
