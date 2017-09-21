@@ -29,18 +29,20 @@ function do_Build(){
     echo
     echo '-- Building JtR --'
 
-    echo -en 'travis_fold:start:Build Environment\r'
+    echo -en 'travis_fold:start:build_environment\r'
+    echo 'Useful build system information'
     id; uname -a
     printenv
-    echo -en 'travis_fold:end:Build Environment\r'
+    echo -en 'travis_fold:end:build_environment\r'
 
     if [[ ! -z $CC ]]; then
-        echo
-        echo -en 'travis_fold:start:Compiler Info\r'
+        echo ''
+        echo -en 'travis_fold:start:compiler_info\r'
+        echo 'Compiler version'
         $CC --version
         echo '--------------------------------'
         $CC -dM -E -x c /dev/null
-        echo -en 'travis_fold:end:Compiler Info\r'
+        echo -en 'travis_fold:end:compiler_info\r'
         echo '--------------------------------'
     fi
     # Configure and build
