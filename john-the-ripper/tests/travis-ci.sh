@@ -8,7 +8,7 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev
+        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev > /dev/null
 
     if [[ ! -f /usr/lib/x86_64-linux-gnu/libomp.so ]]; then
         # A bug somewhere?
@@ -36,7 +36,6 @@ function do_Build(){
     echo -en 'travis_fold:end:build_environment\r'
 
     if [[ ! -z $CC ]]; then
-        echo ''
         echo -en 'travis_fold:start:compiler_info\r'
         echo 'Compiler version'
         $CC --version
@@ -87,7 +86,7 @@ function do_Build_Docker_Command(){
     else
         update="\
           apt-get update -qq; \
-          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1;"
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1 > /dev/null;"
 
         if [[ "$TEST" == *";POCL;"* ]]; then
             update="$update apt-get install -y -qq libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
