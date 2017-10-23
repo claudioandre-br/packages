@@ -12,8 +12,8 @@ before_install:
 
 script:
   - cd $BUILD_DIR
-  - docker run -v $HOME:/root -v $(pwd):/cwd didrocks/snapcraft sh -c 'cd /cwd; snapcraft prime'
-  - ../snap.sh
+  #- docker run -v $HOME:/root -v $(pwd):/cwd didrocks/snapcraft sh -c 'cd /cwd; snapcraft prime'
+  #- ../snap.sh
   - ls -la
 
 env:
