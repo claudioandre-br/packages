@@ -21,7 +21,7 @@ script:
   - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh BUILD_MOZ"
     '
-  - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
+  - 'docker run --name $REPO -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
   - docker commit $REPO $REPO:$COMMIT
@@ -30,7 +30,7 @@ script:
   - docker ps -a
 
   # Doing a regular build
-  #- docker build --rm -f $FILE -t $NAME:$COMMIT .
+  #- docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
