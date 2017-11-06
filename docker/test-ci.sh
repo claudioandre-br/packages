@@ -245,7 +245,6 @@ cd /cwd
 if [[ ! -d /hoard ]]; then
     mkdir -p tmp_data
     ln -sf $(pwd)/tmp_data /hoard
-    ls -lah
 fi
 exit 0
 
