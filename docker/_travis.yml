@@ -24,7 +24,7 @@ script:
   - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
-  - docker commit $NAME $REPO:$COMMIT
+  - docker commit $REPO $REPO:$COMMIT
 
   - docker images
   - docker ps -a
