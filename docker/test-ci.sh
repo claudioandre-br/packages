@@ -76,7 +76,7 @@ function do_Shrink_Image(){
     echo
     echo '-- Cleaning image --'
     # jhbuild clean
-    rm -rf ~/bin/jhbuild ~/.local/bin/jhbuild ~/.local/share/jhbuild ~/.cache/jhbuild ~/.config/jhbuildrc ~/.jhbuildrc ~/jhbuild ~/checkout
+    rm -rf ~/bin/jhbuild ~/.local/bin/jhbuild ~/.cache/jhbuild ~/.config/jhbuildrc ~/.jhbuildrc ~/checkout
 
     if [[ $BASE == "ubuntu" ]]; then
         apt-get -y -qq remove --purge apt-file
