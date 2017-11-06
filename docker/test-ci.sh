@@ -267,7 +267,7 @@ if [[ $1 == "BUILD_MOZ" ]]; then
 elif [[ $1 == "GET_FILES" ]]; then
     do_Get_Files
 
-    if [[ $2 == "SHRINK" ]]; then
+    if [[ $2 == "DOCKER" ]]; then
         do_Install_Base_Dependencies
         do_Shrink_Image
     fi
