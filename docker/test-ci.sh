@@ -299,7 +299,7 @@ elif [[ $1 == "GJS" ]]; then
     jhbuild make --check
 
 elif [[ $1 == "GJS_EXTRA" ]]; then
-    # Extra testing. It doesn't build, just run the 'Installed Tests'
+    # Extra testing. It doesn't (re)build, it just run the 'Installed Tests'
     echo
     echo '-- Installed GJS tests --'
     do_Set_Env
