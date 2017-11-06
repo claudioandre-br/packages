@@ -13,7 +13,7 @@ env:
 matrix:
   include:
   - env: IMAGE=ubuntu:17.10 BASE=ubuntu NAME=ubuntu.1710.gcc REPO=claudioandre/spydermonkey FILE=Dockerfile.Ubuntu_1710_gcc
-#  - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spydermonkey FILE=Dockerfile.Fedora_26_gcc
+  - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spydermonkey FILE=Dockerfile.Fedora_26_gcc
 
 script:
   - cd docker
@@ -35,7 +35,7 @@ script:
 after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker tag $REPO:$COMMIT $REPO:$TAG
-  - docker tag $REPO:$COMMIT $REPO:build-$NAME
+  - docker tag $REPO:$COMMIT $REPO:$NAME
   - docker tag $REPO:$COMMIT $REPO:build-$TRAVIS_BUILD_NUMBER
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO

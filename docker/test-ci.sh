@@ -246,7 +246,6 @@ if [[ ! -d /hoard ]]; then
     mkdir -p tmp_data
     ln -sf $(pwd)/tmp_data /hoard
 fi
-exit 0
 
 # Show some environment info
 echo
