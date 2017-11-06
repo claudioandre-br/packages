@@ -12,9 +12,7 @@ env:
 
 matrix:
   include:
-  #- env: FILE=Dockerfile.ubuntu REPO=claudioandre/gjs
-  #- env: FILE=Dockerfile.gjs   REPO=claudioandre/gtk
-  - env: FILE=Dockerfile.Ubuntu_1710_gcc REPO=claudioandre/spidermonkey IMAGE=ubuntu:17.10
+  - env: FILE=Dockerfile.Ubuntu_1710_gcc REPO=claudioandre/spidermonkey IMAGE=ubuntu:17.10 BASE=ubuntu
 
 script:
   - cd docker
