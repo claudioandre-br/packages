@@ -240,8 +240,11 @@ function do_Show_Info(){
 }
 
 # ----------- GJS -----------
-if [[ -d /cwd ]]; then
-    cd /cwd
+cd /cwd
+
+if [[ ! -d /hoard ]]; then
+    mkdir -p hoard
+    ln -sf hoard /hoard
 fi
 
 # Show some environment info
