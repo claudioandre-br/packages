@@ -244,7 +244,10 @@ cd /cwd
 
 if [[ ! -d /hoard ]]; then
     mkdir -p tmp_data
+    ls -lah
     ln -sf tmp_data /hoard
+    ls -lah
+    ls -lah /
     do_Save_Files
     do_Get_Files
 fi
