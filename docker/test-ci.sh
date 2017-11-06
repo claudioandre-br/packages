@@ -244,13 +244,10 @@ cd /cwd
 
 if [[ ! -d /hoard ]]; then
     mkdir -p tmp_data
-    ls -lah
     ln -sf $(pwd)/tmp_data /hoard
     ls -lah
-    ls -lah /
-    do_Save_Files
-    do_Get_Files
 fi
+exit 0
 
 # Show some environment info
 echo
