@@ -19,10 +19,10 @@ matrix:
 script:
   - cd docker
   # Creates a smaller image.
-  - 'docker run -v $(pwd):/cwd -v $(pwd)/docker/test-ci.sh:/test-ci.sh
+  - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "ls -lah; /test-ci.sh BUILD_MOZ"
     '
-  - 'docker run --name $REPO -v $(pwd):/cwd -v $(pwd)/docker/test-ci.sh:/test-ci.sh
+  - 'docker run --name $REPO -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
   - docker commit $REPO local/$REPO
