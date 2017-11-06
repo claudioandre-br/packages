@@ -13,10 +13,21 @@ env:
 matrix:
   include:
   #- env: FILE=Dockerfile.ubuntu REPO=claudioandre/gjs
-  - env: FILE=Dockerfile.gjs   REPO=claudioandre/gtk
+  #- env: FILE=Dockerfile.gjs   REPO=claudioandre/gtk
+  - env: FILE=Dockerfile.Ubuntu_1710_gcc   REPO=claudioandre/spidermonkey
 
 script:
   - cd docker
+  # Creates a small image.
+  #- |
+  #  docker run -v $(pwd):/cwd -v $(pwd)/gjs/test/travis-ci.sh:/travis-ci.sh
+  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/travis-ci.sh BUILD_MOZ"
+  #- |
+  #  docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/gjs/test/travis-ci.sh:/travis-ci.sh
+  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/travis-ci.sh GET_FILES"
+  #- docker commit $NAME local/$NAME
+
+  # Doing a regular build
   - docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
