@@ -15,8 +15,7 @@ FROM ubuntu:17.10
 MAINTAINER Claudio André
 
 ENV BASE ubuntu
-ENV OS claudioandre/SpiderMonkey:image
-ENV TYPE SPYDERMONKEY
+ENV OS ubuntu:17.10
 
 COPY test-ci.sh .
 RUN ./test-ci.sh BUILD_MOZ SHRINK
