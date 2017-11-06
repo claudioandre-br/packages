@@ -243,8 +243,10 @@ function do_Show_Info(){
 cd /cwd
 
 if [[ ! -d /hoard ]]; then
-    mkdir -p hoard
-    ln -sf hoard /hoard
+    mkdir -p tmp_data
+    ln -sf tmp_data /hoard
+    do_Save_Files
+    do_Get_Files
 fi
 
 # Show some environment info
