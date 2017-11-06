@@ -18,17 +18,17 @@ matrix:
 
 script:
   - cd docker
-  # Creates a small image.
-  #- |
-  #  docker run -v $(pwd):/cwd -v $(pwd)/gjs/test/travis-ci.sh:/travis-ci.sh
-  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/travis-ci.sh BUILD_MOZ"
-  #- |
-  #  docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/gjs/test/travis-ci.sh:/travis-ci.sh
-  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/travis-ci.sh GET_FILES"
-  #- docker commit $NAME local/$NAME
+  # Creates a smaller image.
+  - |
+    docker run -v $(pwd):/cwd -v $(pwd)/gjs/test/test-ci.sh:/test-ci.sh
+      -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh BUILD_MOZ"
+  - |
+    docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/gjs/test/test-ci.sh:/test-ci.sh
+      -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES SHRINK"
+  - docker commit $NAME local/$NAME
 
   # Doing a regular build
-  - docker build --rm -f $FILE -t $REPO:$COMMIT .
+  #- docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`

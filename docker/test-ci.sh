@@ -75,7 +75,7 @@ function do_Install_Dependencies(){
 function do_Shrink_Image(){
     echo
     echo '-- Cleaning image --'
-    jhbuild clean
+    # jhbuild clean
     rm -rf ~/bin/jhbuild ~/.local/bin/jhbuild ~/.local/share/jhbuild ~/.cache/jhbuild ~/.config/jhbuildrc ~/.jhbuildrc ~/jhbuild ~/checkout
 
     if [[ $BASE == "ubuntu" ]]; then
@@ -266,6 +266,11 @@ if [[ $1 == "BUILD_MOZ" ]]; then
 
 elif [[ $1 == "GET_FILES" ]]; then
     do_Get_Files
+
+    if [[ $2 == "SHRINK" ]]; then
+        do_Install_Base_Dependencies
+        do_Shrink_Image
+    fi
 
 elif [[ $1 == "INSTALL_GIT" ]]; then
     do_Install_Git
