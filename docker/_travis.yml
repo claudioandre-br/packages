@@ -24,7 +24,7 @@ script:
   - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
-  - docker commit $NAME $REPO:$COMMIT
+  - docker commit $NAME $NAME:$COMMIT
 
   - docker images
   - docker ps -a
@@ -34,8 +34,8 @@ script:
 
 after_success:
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker tag $REPO:$COMMIT $REPO:$TAG
-  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker tag $NAME:$COMMIT $REPO:$TAG
+  - docker tag $NAME:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
 
