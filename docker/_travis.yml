@@ -12,7 +12,7 @@ env:
 
 matrix:
   include:
-  - env: FILE=Dockerfile.Ubuntu_1710_gcc REPO=claudioandre/spidermonkey IMAGE=ubuntu:17.10 BASE=ubuntu
+  - env: FILE=Dockerfile.Ubuntu_1710_gcc NAME=claudioandre/spidermonkey IMAGE=ubuntu:17.10 BASE=ubuntu
 
 script:
   - cd docker
@@ -20,12 +20,13 @@ script:
   - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "ls -lah; /test-ci.sh BUILD_MOZ"
     '
-  - 'docker run --name $REPO -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
+  - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
-  - docker commit $REPO local/$REPO
+  - docker commit $NAME local/$NAME
 
   - docker images
+  - docker ps -a
 
   # Doing a regular build
   #- docker build --rm -f $FILE -t $REPO:$COMMIT .
