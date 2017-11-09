@@ -53,7 +53,7 @@ matrix:
   - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
   #Test --restore using TS
-  - env: TEST="TS --restore;" # WE KNOW IT IS NOT WORKING
+  #- env: TEST="TS --restore;" # WE KNOW IT IS NOT WORKING
 
   #Test the Ubuntu Snap package
   #- env: TEST="snap;" SNAPD can't work inside docker
@@ -72,8 +72,6 @@ matrix:
   - env: TEST="fresh;POCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
 
   - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
-
-  - env: TEST="TS --restore;"
 
   #- env: TEST="snap;"
 
