@@ -1,22 +1,21 @@
 environment:
   global:
     PROJ_FOLDER: C:\projects
-    BUILD_FOLDER: C:\projects\john\src
+    BUILD_FOLDER: C:\projects\JohnTheRipper\src
 
   matrix:
     # 64bits build
     - arch: x86_64
       bits: 64
+      doing: test
 
     # 32bits build
     - arch: i686
       bits: 32
+      doing: test
 
 install:
-  - cd %PROJ_FOLDER%
-  - git clone https://github.com/magnumripper/JohnTheRipper.git john
-
-  - cd %BUILD_FOLDER%
+  - cd src
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
@@ -25,6 +24,7 @@ install:
       [Environment]::SetEnvironmentVariable("MSYS2_PATH_TYPE", "inherit", "Machine")
       $arch = $env:Arch
       $bits = $env:Bits
+      $doing = $env:Doing
       $msys = "msys64"
       $mingw = "mingw$bits"
       $mhost = "$arch-w$bits-$mingw"
@@ -56,12 +56,15 @@ build_script:
   - ps: |
       shell "gcc --version"
 
-      if ($arch -eq "x86_64") {
-        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse2'"
-      } else {
-        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse2' --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
+      if ($doing -eq "test") {
+
+        if ($arch -eq "x86_64") {
+          shell "./configure --disable-native-tests --disable-openmp"
+        } else {
+          shell "./configure --disable-native-tests --disable-openmp --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
+        }
+        shell "make -sj2"
       }
-      shell "make -sj2"
 
       xcopy C:\$msys\$mingw\bin\libgomp-1.dll ..\run\
       xcopy C:\$msys\$mingw\bin\libgmp-10.dll ..\run\
@@ -81,7 +84,7 @@ test_script:
       Write-Host "    =====  Testing  =====   " -ForegroundColor White
       Write-Host "----------------------------"
 
-  - cd %PROJ_FOLDER%\john\run
+  - cd %PROJ_FOLDER%\JohnTheRipper\run
   - john --list=build-info
 
   - echo $NT$066ddfd4ef0e9cd7c256fe77191ef43c > tests.in
@@ -91,14 +94,13 @@ test_script:
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
   - echo "====> T0:"
-  - john -test-full=0
+  # - john -test-full=0
 
   - echo "====> T4:"
   - john -test-full=0 --format=nt
   - echo "====> T5:"
-  - john -test-full=0 --format=raw-sha256
-  - echo "====> T6:"
-  - john -test-full=0 --format=sha512crypt
+  - john -test-full=0 --format=sha256crypt
+
   - echo "====> T10:"
   - john tests.in --format=nt
   - echo "====> T11:"
@@ -113,9 +115,9 @@ on_failure:
   - if exist "debug_logs.zip" appveyor PushArtifact "debug_logs.zip"
 
 on_finish:
-  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\run"
-  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\doc"
-  - if exist "%PROJ_FOLDER%\john\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\john\READ*"
+  - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
+  - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
+  - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\READ*"
   - if exist "win_x%bits%.zip" appveyor PushArtifact "win_x%bits%.zip"
   - ps: Get-FileHash "win_x$bits.zip"
 
