@@ -35,7 +35,7 @@ function do_Install_Base_Dependencies(){
                                docbook docbook-xsl libtext-csv-perl \
                                zlib1g-dev \
                                libtool libicu-dev libnspr4-dev \
-                               policykit-1 \
+                               policykit-1 cppcheck \
                                apt-file > /dev/null
         apt-file update
 
@@ -46,7 +46,7 @@ function do_Install_Base_Dependencies(){
         dnf -y -q install @c-development @development-tools clang redhat-rpm-config gnome-common python-devel \
                           pygobject2 dbus-python perl-Text-CSV perl-XML-Parser gettext-devel gtk-doc ninja-build \
                           zlib-devel libffi-devel \
-                          libtool libicu-devel nspr-devel
+                          libtool libicu-devel nspr-devel cppcheck
     else
         echo
         echo '-- Error: invalid BASE code --'
@@ -75,8 +75,11 @@ function do_Install_Dependencies(){
 function do_Shrink_Image(){
     echo
     echo '-- Cleaning image --'
-    # jhbuild clean
-    rm -rf ~/bin/jhbuild ~/.local/bin/jhbuild ~/.cache/jhbuild ~/.config/jhbuildrc ~/.jhbuildrc ~/checkout
+    PATH=$PATH:~/.local/bin
+    jhbuild clean || true
+    rm -rf ~/bin/jhbuild ~/.local/bin/jhbuild ~/.cache/jhbuild
+    rm -rf ~/.config/jhbuildrc ~/.jhbuildrc ~/checkout
+    rm -rf ~/jhbuild/checkout
 
     if [[ $BASE == "ubuntu" ]]; then
         apt-get -y -qq remove --purge apt-file
@@ -101,13 +104,10 @@ function do_Set_Env(){
     mkdir -p /cwd/.cache
     export XDG_CACHE_HOME=/cwd/.cache
     export JHBUILD_RUN_AS_ROOT=1
+    export SHELL=/bin/bash
 
-    if [[ -z $DISPLAY ]]; then
+    if [[ -z "${DISPLAY}" ]]; then
         export DISPLAY=":0"
-    fi
-
-    if [[ -n "$SHELL" ]]; then
-        export SHELL=/bin/bash
     fi
 
     echo '-- Done --'
@@ -129,7 +129,7 @@ index 75b0849..08965fa 100644
 --- a/jhbuild/utils/systeminstall.py
 +++ b/jhbuild/utils/systeminstall.py
 @@ -428,7 +428,7 @@ class AptSystemInstall(SystemInstall):
- 
+
      def _install_packages(self, native_packages):
          logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
 -        args = self._root_command_prefix_args + ['apt-get', 'install']
@@ -206,10 +206,10 @@ function do_Build_Package_Dependencies(){
 function do_Save_Files(){
     echo
     echo '-- Saving build files --'
-    mkdir -p "/hoard/SAVED/$OS"
+    mkdir -p "/cwd/SAVED/$OS"
 
-    cp -r ~/jhbuild "/hoard/SAVED/$OS/jhbuild"
-    cp -r ~/.local  "/hoard/SAVED/$OS/.local"
+    cp -r ~/jhbuild "/cwd/SAVED/$OS/jhbuild"
+    cp -r ~/.local  "/cwd/SAVED/$OS/.local"
     echo '-- Done --'
 }
 
@@ -217,8 +217,8 @@ function do_Get_Files(){
     echo
     echo '-- Restoring build files --'
 
-    cp -r "/hoard/SAVED/$OS/jhbuild" ~/jhbuild
-    cp -r "/hoard/SAVED/$OS/.local"  ~/.local
+    cp -r "/cwd/SAVED/$OS/jhbuild" ~/jhbuild
+    cp -r "/cwd/SAVED/$OS/.local"  ~/.local
     echo '-- Done --'
 }
 
@@ -228,6 +228,8 @@ function do_Show_Info(){
     echo 'Useful build system information'
     id; uname -a
     printenv
+    echo '--------------------------------'
+    cat /etc/*-release
     echo '--------------------------------'
 
     if [[ ! -z $CC ]]; then
@@ -241,11 +243,6 @@ function do_Show_Info(){
 
 # ----------- GJS -----------
 cd /cwd
-
-if [[ ! -d /hoard ]]; then
-    mkdir -p tmp_data
-    ln -sf $(pwd)/tmp_data /hoard
-fi
 
 # Show some environment info
 echo
@@ -268,6 +265,7 @@ if [[ $1 == "BUILD_MOZ" ]]; then
     fi
 
 elif [[ $1 == "GET_FILES" ]]; then
+    do_Set_Env
     do_Get_Files
 
     if [[ $2 == "DOCKER" ]]; then
@@ -289,22 +287,35 @@ elif [[ $1 == "GJS" ]]; then
     do_Configure_JHBuild
     do_Build_Package_Dependencies gjs
 
-    # Build and test the latest commit (merged or from a PR) of Javascript Bindings for GNOME
+    # Build and test the latest commit (merged or from a merge/pull request) of
+    # Javascript Bindings for GNOME (gjs)
     echo
-    echo '-- gjs build --'
-    cp -r ../gjs ~/jhbuild/checkout/gjs
+    echo '-- gjs status --'
+    cp -r ./ ~/jhbuild/checkout/gjs
+
     cd ~/jhbuild/checkout/gjs
     git log --pretty=format:"%h %cd %s" -1
+
+    echo '-- gjs build --'
     echo
     jhbuild make --check
 
 elif [[ $1 == "GJS_EXTRA" ]]; then
-    # Extra testing. It doesn't (re)build, it just run the 'Installed Tests'
+    # Extra testing. It doesn't (re)build, just run the 'Installed Tests'
     echo
     echo '-- Installed GJS tests --'
     do_Set_Env
     PATH=$PATH:~/.local/bin
+
     xvfb-run jhbuild run dbus-run-session -- gnome-desktop-testing-runner gjs
+
+elif [[ $1 == "CPPCHECK" ]]; then
+    do_Install_Base_Dependencies
+
+    echo
+    echo '-- Code analyzer --'
+    cppcheck --enable=warning,performance,portability,information,missingInclude --force -q .
+    echo
 
 else
     echo
@@ -314,4 +325,3 @@ fi
 # Done
 echo
 echo '-- DONE --'
-

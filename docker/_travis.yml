@@ -12,8 +12,8 @@ env:
 
 matrix:
   include:
-  - env: IMAGE=ubuntu:17.10 BASE=ubuntu NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey FILE=Dockerfile.Ubuntu_1710_gcc
-  - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spidermonkey FILE=Dockerfile.Fedora_26_gcc
+  - env: IMAGE=ubuntu:17.10 BASE=ubuntu NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spidermonkey
 
 script:
   - cd docker
@@ -25,6 +25,11 @@ script:
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
   - docker commit $NAME $REPO:$COMMIT
+
+  # Test the build
+  # - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
+  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $REPO:$COMMIT bash -e -c "/test-ci.sh GJS"
+  #  '
 
   # Doing a regular build
   #- docker build --rm -f $FILE -t $REPO:$COMMIT .
@@ -38,4 +43,3 @@ after_success:
      fi'
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
-
