@@ -27,8 +27,9 @@ script:
   - docker commit $NAME $REPO:$COMMIT
 
   # Test the build
-  # - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
-  #    -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $REPO:$COMMIT bash -e -c "/test-ci.sh GJS"
+  # - rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs
+  # - 'docker run -v $(pwd):/cwd
+  #     -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $REPO:$COMMIT bash -e -c "/cwd/test/test-ci.sh GJS"
   #  '
 
   # Doing a regular build
