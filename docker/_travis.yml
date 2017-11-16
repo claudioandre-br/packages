@@ -36,11 +36,11 @@ script:
   #- docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker tag $REPO:$COMMIT $REPO:$NAME
   - docker tag $REPO:$COMMIT $REPO:build-$TRAVIS_BUILD_NUMBER
-  - 'if [[ $NAME == "fedora.26.gcc" ]]; then
-       docker tag $REPO:$COMMIT $REPO:$TAG;
-     fi'
+  # export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  # 'if [[ $NAME == "fedora.26.gcc" ]]; then
+  #     docker tag $REPO:$COMMIT $REPO:$TAG;
+  #   fi'
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
