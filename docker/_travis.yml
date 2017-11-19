@@ -43,5 +43,6 @@ after_success:
   # 'if [[ $NAME == "fedora.26.gcc" ]]; then
   #     docker tag $REPO:$COMMIT $REPO:$TAG;
   #   fi'
+  - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
