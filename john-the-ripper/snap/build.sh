@@ -33,6 +33,13 @@ esac
 # Set package version
 sed -i "s/edge/1.8J1-$git_tag$text/g" ../../../../snapcraft.yaml
 
+# Set package version
+echo 'Compiler version'
+gcc --version
+echo '--------------------------------'
+gcc -dM -E -x c /dev/null
+echo '--------------------------------'
+
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
