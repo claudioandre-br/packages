@@ -1,0 +1,402 @@
+From 65285e477628de33cd2ed40bda9839e0da09ce0a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Mon, 20 Nov 2017 20:41:54 -0200
+Subject: [PATCH] maint: clean-up source tree
+
+The source tree is "disorganized" with hundreds of "source files in a single
+directory". For a starter, this is moving all OpenCL files (and nothing
+else) to jumbo/opencl and jumbo/opencl/include.
+
+This patch add the "infra" changes to support the files displace. No changes
+to configure script. The goal is to simplify review.
+---
+ src/Makefile.in              | 35 +++++++++++++++-----------
+ src/configure.ac             | 18 ++++++++++----
+ src/jumbo/opencl/Makefile.in | 54 ++++++++++++++++++++++++++++++++++++++++
+ src/m4/jtr_utility_macros.m4 |  2 +-
+ src/plugin_deps.pl           | 59 +++++++++++++++++++++++++++++++++++---------
+ 5 files changed, 136 insertions(+), 32 deletions(-)
+ create mode 100644 src/jumbo/opencl/Makefile.in
+
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 7d55b95844..11862715be 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -38,7 +38,7 @@ CPPCHECK=cppcheck
+ SHELL = /bin/sh
+ VPATH = @srcdir@
+ 
+-subdirs = aes secp256k1 escrypt @ZTEX_SUBDIRS@
++subdirs = aes secp256k1 escrypt @ZTEX_SUBDIRS@ jumbo/opencl
+ top_srcdir = @top_srcdir@
+ srcdir = @srcdir@
+ prefix = @prefix@
+@@ -112,7 +112,7 @@ JOHN_OBJS = \
+ 	lzma/LzmaDec.o lzma/Lzma2Dec.o \
+ 	unique.o gpg2john.o memdbg.o
+ 
+-OCL_OBJS = common-opencl.o opencl_autotune.o bt.o bt_hash_type_64.o bt_hash_type_128.o bt_hash_type_192.o bt_twister.o
++OCL_OBJS = common-opencl.o jumbo/opencl/opencl_autotune.o bt.o bt_hash_type_64.o bt_hash_type_128.o bt_hash_type_192.o bt_twister.o
+ 
+ OPENCL_PLUGFORMATS_OBJS = @OPENCL_PLUGFORMATS_OBJS@
+ 
+@@ -142,6 +142,8 @@ ifdef WITH_OPENCL
+ CFLAGS += -DHAVE_OPENCL @CL_CFLAGS@
+ CFLAGS_MAIN += -DHAVE_OPENCL @CL_CFLAGS@
+ JOHN_OBJS += $(OCL_OBJS) $(OPENCL_PLUGFORMATS_OBJS)
++
++OPENCL_DEP="jumbo/opencl/opencl.a"
+ endif
+ 
+ WITH_ZTEX=@ZTEX_LIBS@
+@@ -271,7 +273,7 @@ common.o:	common.c arch.h common.h memory.h memdbg.h os.h os-autoconf.h autoconf
+ 
+ common-gpu.o:	common-gpu.c autoconfig.h Win32-dlfcn-port.h common-gpu.h gpu_sensors.h john.h os.h os-autoconf.h jumbo.h arch.h memory.h params.h logger.h config.h signals.h memdbg.h
+ 
+-common-opencl.o:	common-opencl.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h options.h list.h loader.h params.h formats.h misc.h getopt.h common.h memory.h config.h logger.h common-opencl.h common-gpu.h gpu_sensors.h path.h opencl_device_info.h mask_ext.h mask.h dyna_salt.h signals.h recovery.h status.h math.h john.h md5.h john-mpi.h memdbg.h
++common-opencl.o:	common-opencl.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h options.h list.h loader.h params.h formats.h misc.h getopt.h common.h memory.h config.h logger.h common-opencl.h common-gpu.h gpu_sensors.h path.h jumbo/opencl/include/opencl_device_info.h mask_ext.h mask.h jumbo/opencl/include/opencl_mask.h dyna_salt.h signals.h recovery.h status.h math.h john.h md5.h john-mpi.h memdbg.h
+ 
+ compiler.o:	compiler.c arch.h params.h memory.h compiler.h memdbg.h os.h os-autoconf.h autoconfig.h jumbo.h
+ 
+@@ -279,7 +281,7 @@ config.o:	config.c misc.h jumbo.h arch.h autoconfig.h params.h path.h memory.h c
+ 
+ cprepair.o:	cprepair.c autoconfig.h unicode.h options.h list.h loader.h params.h arch.h formats.h misc.h jumbo.h getopt.h common.h memory.h memdbg.h os.h os-autoconf.h
+ 
+-cracker.o:	cracker.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h misc.h math.h params.h memory.h signals.h idle.h formats.h dyna_salt.h loader.h list.h logger.h status.h recovery.h external.h compiler.h options.h getopt.h common.h mask_ext.h mask.h unicode.h john.h fake_salts.h john-mpi.h path.h common-gpu.h gpu_sensors.h memdbg.h
++cracker.o:	cracker.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h misc.h math.h params.h memory.h signals.h idle.h formats.h dyna_salt.h loader.h list.h logger.h status.h recovery.h external.h compiler.h options.h getopt.h common.h mask_ext.h mask.h jumbo/opencl/include/opencl_mask.h unicode.h john.h fake_salts.h john-mpi.h path.h common-gpu.h gpu_sensors.h memdbg.h
+ 
+ crc32.o:	crc32.c memory.h arch.h crc32.h memdbg.h os.h os-autoconf.h autoconfig.h jumbo.h
+ 
+@@ -317,7 +319,7 @@ external.o:	external.c misc.h jumbo.h arch.h autoconfig.h params.h os.h os-autoc
+ 
+ fake_salts.o:	fake_salts.c config.h john.h os.h os-autoconf.h autoconfig.h jumbo.h arch.h memory.h options.h list.h loader.h params.h formats.h misc.h getopt.h common.h fake_salts.h memdbg.h
+ 
+-formats.o:	formats.c params.h arch.h memory.h formats.h misc.h jumbo.h autoconfig.h dyna_salt.h unicode.h options.h list.h loader.h getopt.h common.h base64_convert.h common-opencl.h common-gpu.h gpu_sensors.h path.h opencl_device_info.h bench.h math.h memdbg.h os.h os-autoconf.h
++formats.o:	formats.c params.h arch.h memory.h formats.h misc.h jumbo.h autoconfig.h dyna_salt.h unicode.h options.h list.h loader.h getopt.h common.h base64_convert.h common-opencl.h common-gpu.h gpu_sensors.h path.h jumbo/opencl/include/opencl_device_info.h bench.h math.h memdbg.h os.h os-autoconf.h
+ 
+ fuzz.o:	fuzz.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h win32_memmap.h mmap-windows.c memdbg.h memory.h config.h john.h params.h signals.h unicode.h options.h list.h loader.h formats.h misc.h getopt.h common.h
+ 
+@@ -361,7 +363,7 @@ bitlocker2john.o:	bitlocker2john.c autoconfig.h arch.h missing_getopt.h jumbo.h
+ 
+ list.o:	list.c memory.h arch.h list.h memdbg.h os.h os-autoconf.h autoconfig.h jumbo.h
+ 
+-listconf.o:	listconf.c autoconfig.h os.h os-autoconf.h jumbo.h arch.h simd-intrinsics.h common.h memory.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h params.h path.h formats.h misc.h options.h list.h loader.h getopt.h unicode.h dynamic.h dynamic_types.h config.h regex.h john_build_rule.h common-opencl.h common-gpu.h gpu_sensors.h opencl_device_info.h version.h listconf.h memdbg.h
++listconf.o:	listconf.c autoconfig.h os.h os-autoconf.h jumbo.h arch.h simd-intrinsics.h common.h memory.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h params.h path.h formats.h misc.h options.h list.h loader.h getopt.h unicode.h dynamic.h dynamic_types.h config.h regex.h john_build_rule.h common-opencl.h common-gpu.h gpu_sensors.h jumbo/opencl/include/opencl_device_info.h version.h listconf.h memdbg.h
+ 
+ LM_fmt.o:	LM_fmt.c arch.h misc.h jumbo.h autoconfig.h memory.h DES_bs.h common.h loader.h params.h list.h formats.h memdbg.h os.h os-autoconf.h
+ 
+@@ -369,9 +371,9 @@ loader.o:	loader.c autoconfig.h jumbo.h arch.h os.h os-autoconf.h misc.h params.
+ 
+ logger.o:	logger.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h misc.h params.h path.h memory.h status.h math.h options.h list.h loader.h formats.h getopt.h common.h config.h recovery.h unicode.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h john-mpi.h cracker.h signals.h memdbg.h
+ 
+-mask.o:	mask.c misc.h jumbo.h arch.h autoconfig.h logger.h recovery.h loader.h params.h list.h formats.h os.h os-autoconf.h signals.h status.h math.h options.h getopt.h common.h memory.h config.h external.h compiler.h cracker.h john.h mask.h unicode.h encoding_data.h memdbg.h mask_ext.h
++mask.o:	mask.c misc.h jumbo.h arch.h autoconfig.h logger.h recovery.h loader.h params.h list.h formats.h os.h os-autoconf.h signals.h status.h math.h options.h getopt.h common.h memory.h config.h external.h compiler.h cracker.h john.h mask.h unicode.h encoding_data.h memdbg.h mask_ext.h jumbo/opencl/include/opencl_mask.h
+ 
+-mask_ext.o:	mask_ext.c mask_ext.h mask.h loader.h params.h arch.h list.h formats.h misc.h jumbo.h autoconfig.h options.h getopt.h common.h memory.h memdbg.h os.h os-autoconf.h
++mask_ext.o:	mask_ext.c mask_ext.h mask.h loader.h params.h arch.h list.h formats.h misc.h jumbo.h autoconfig.h jumbo/opencl/include/opencl_mask.h options.h getopt.h common.h memory.h memdbg.h os.h os-autoconf.h
+ 
+ math.o:	math.c arch.h math.h memdbg.h os.h os-autoconf.h autoconfig.h jumbo.h memory.h
+ 
+@@ -407,9 +409,9 @@ nonstd.o:	nonstd.c
+ 
+ NT_fmt.o:	NT_fmt.c arch.h misc.h jumbo.h autoconfig.h memory.h common.h formats.h params.h options.h list.h loader.h getopt.h unicode.h aligned.h johnswap.h memdbg.h os.h os-autoconf.h
+ 
+-opencl_autotune.o:	opencl_autotune.c common-opencl.h common-gpu.h gpu_sensors.h arch.h misc.h jumbo.h autoconfig.h memory.h common.h formats.h params.h path.h opencl_device_info.h memdbg.h os.h os-autoconf.h
++opencl_autotune.o:	jumbo/opencl/opencl_autotune.c common-opencl.h common-gpu.h gpu_sensors.h arch.h misc.h jumbo.h autoconfig.h memory.h common.h formats.h params.h path.h jumbo/opencl/include/opencl_device_info.h memdbg.h os.h os-autoconf.h
+ 
+-options.o:	options.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h misc.h params.h memory.h list.h loader.h formats.h logger.h status.h math.h recovery.h options.h getopt.h common.h bench.h external.h compiler.h john.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h unicode.h fake_salts.h path.h regex.h john-mpi.h common-opencl.h common-gpu.h gpu_sensors.h opencl_device_info.h prince.h version.h listconf.h memdbg.h john_build_rule.h
++options.o:	options.c os.h os-autoconf.h autoconfig.h jumbo.h arch.h misc.h params.h memory.h list.h loader.h formats.h logger.h status.h math.h recovery.h options.h getopt.h common.h bench.h external.h compiler.h john.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h unicode.h fake_salts.h path.h regex.h john-mpi.h common-opencl.h common-gpu.h gpu_sensors.h jumbo/opencl/include/opencl_device_info.h prince.h version.h listconf.h memdbg.h john_build_rule.h
+ 
+ panama.o:	panama.c sph_panama.h sph_types.h autoconfig.h arch.h memdbg.h os.h os-autoconf.h jumbo.h memory.h
+ 
+@@ -533,7 +535,7 @@ find_version: kernels
+ 	echo "#define JTR_GIT_VERSION $(JTR_GIT_VERSION)" > version.h.new
+ 	diff >/dev/null 2>/dev/null version.h.new version.h && $(RM) version.h.new || $(MV) version.h.new version.h
+ 
+-SUBDIRS = aes secp256k1 @ZTEX_SUBDIRS@
++SUBDIRS = aes secp256k1 @ZTEX_SUBDIRS@ jumbo/opencl
+ 
+ .PHONY: subdirs $(SUBDIRS) find_version kernels
+ 
+@@ -555,6 +557,11 @@ aes/aes.a:
+ secp256k1/secp256k1.a:
+ 	$(MAKE) -C secp256k1 all
+ 
++jumbo/opencl/opencl.a:
++ifdef WITH_OPENCL
++	$(MAKE) -C jumbo/opencl all
++endif
++
+ kernels: @KERNEL_OBJS@
+ 
+ ###############################################################################
+@@ -568,8 +575,8 @@ kernels: @KERNEL_OBJS@
+ 
+ # PTHREAD_CFLAGS and OPENMP_CFLAGS may actually contain linker options,
+ # like -fopenmp
+-../run/john@EXE_EXT@: $(JOHN_OBJS) aes/aes.a secp256k1/secp256k1.a @ZTEX_SUBDIRS@
+-	$(LD) $(JOHN_OBJS) $(LDFLAGS) @OPENSSL_LIBS@ @COMMONCRYPTO_LIBS@ @OPENMP_CFLAGS@ @GMP_LIBS@ @SKEY_LIBS@ @REXGEN_LIBS@ @CL_LIBS@ @PTHREAD_CFLAGS@ @PTHREAD_LIBS@ @M_LIBS@ @Z_LIBS@ @DL_LIBS@ @CRYPT_LIBS@ @BZ2_LIBS@ @ZTEX_LIBS@ aes/aes.a secp256k1/secp256k1.a -o ../run/john
++../run/john@EXE_EXT@: $(JOHN_OBJS) aes/aes.a secp256k1/secp256k1.a jumbo/opencl/opencl.a @ZTEX_SUBDIRS@
++	$(LD) $(JOHN_OBJS) $(LDFLAGS) @OPENSSL_LIBS@ @COMMONCRYPTO_LIBS@ @OPENMP_CFLAGS@ @GMP_LIBS@ @SKEY_LIBS@ @REXGEN_LIBS@ @CL_LIBS@ @PTHREAD_CFLAGS@ @PTHREAD_LIBS@ @M_LIBS@ @Z_LIBS@ @DL_LIBS@ @CRYPT_LIBS@ @BZ2_LIBS@ @ZTEX_LIBS@ aes/aes.a secp256k1/secp256k1.a $(OPENCL_DEP) -o ../run/john
+ 
+ ../run/unshadow: ../run/john
+ 	$(RM) ../run/unshadow
+@@ -703,7 +710,7 @@ kernels: @KERNEL_OBJS@
+ ../run/tgtsnarf@EXE_EXT@: tgtsnarf.o memdbg.o
+ 	$(LD) tgtsnarf.o @MEMDBG_CFLAGS@ memdbg.o $(LDFLAGS) @OPENMP_CFLAGS@ -o ../run/tgtsnarf
+ 
+-john.o:	john.c autoconfig.h os.h os-autoconf.h jumbo.h arch.h params.h openssl_local_overrides.h misc.h path.h memory.h list.h tty.h signals.h common.h idle.h formats.h dyna_salt.h loader.h logger.h status.h math.h recovery.h options.h getopt.h config.h bench.h fuzz.h charset.h single.h wordlist.h prince.h inc.h mask.h mkv.h mkvlib.h external.h compiler.h batch.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h dynamic_compiler.h fake_salts.h listconf.h crc32.h john-mpi.h regex.h unicode.h common-opencl.h common-gpu.h gpu_sensors.h opencl_device_info.h john_build_rule.h memdbg.h fmt_externs.h fmt_registers.h
++john.o:	john.c autoconfig.h os.h os-autoconf.h jumbo.h arch.h params.h openssl_local_overrides.h misc.h path.h memory.h list.h tty.h signals.h common.h idle.h formats.h dyna_salt.h loader.h logger.h status.h math.h recovery.h options.h getopt.h config.h bench.h fuzz.h charset.h single.h wordlist.h prince.h inc.h mask.h mkv.h mkvlib.h external.h compiler.h batch.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h dynamic_compiler.h fake_salts.h listconf.h crc32.h john-mpi.h regex.h unicode.h common-opencl.h common-gpu.h gpu_sensors.h jumbo/opencl/include/opencl_device_info.h john_build_rule.h memdbg.h fmt_externs.h fmt_registers.h
+ 	$(CC) $(CFLAGS_MAIN) $(OPT_NORMAL) -O0 $*.c
+ 
+ # Workaround for gcc 3.4.6 (seen on Sparc32) (do not use -funroll-loops)
+diff --git a/src/configure.ac b/src/configure.ac
+index c85a43e047..20e57a6fff 100644
+--- a/src/configure.ac
++++ b/src/configure.ac
+@@ -956,15 +956,18 @@ AC_SUBST([KERNEL_OBJS],[])
+ AC_SUBST([KERNEL_DEPS],[])
+ if test "`echo *_plug.c`" != "*_plug.c"; then
+    AC_SUBST([PLUGFORMATS_OBJS],[`echo *_plug.c | sed 's/opencl[[A-Za-z0-9_\-]]*\.c //g;s/\.c/.o/g'`])
+-   AC_SUBST([OPENCL_PLUGFORMATS_OBJS],[`echo opencl*_plug.c | sed 's/\.c/.o/g'`])
++
+    if test x$using_cl = xyes ; then
+-     AC_SUBST([KERNEL_OBJS],[`echo opencl/*.cl | sed 's/opencl\//..\/run\/kernels\//g'`])
++     AC_SUBST([PLUGFORMATS_OCL_OBJS],[`for i in $(echo jumbo/opencl/*_plug.c | sed 's/\.c/.o/g'); do basename $i; done | tr "\n" " "`])
++     AC_SUBST([KERNEL_OBJS],[`echo jumbo/opencl/kernels/*.cl | sed 's/jumbo\/opencl\/kernels\//..\/run\/kernels\//g'`])
+    fi
++
+    if test "x$plug_deps" = xyes -a "x$PERL" != x ; then
+       echo "configure: creating Makefile dependencies"
+       AC_SUBST([PLUGFORMATS_DEPS],[`$PERL ./plugin_deps.pl *_plug.c`])
+       if test x$using_cl = xyes ; then
+-        AC_SUBST([KERNEL_DEPS],[`$PERL ./plugin_deps.pl opencl/*.cl`])
++        AC_SUBST([PLUGFORMATS_OCL_DEPS],[`$PERL ./plugin_deps.pl jumbo/opencl/*_plug.c`])
++        AC_SUBST([KERNEL_DEPS],[`$PERL ./plugin_deps.pl jumbo/opencl/kernels/*.cl`])
+       fi
+    fi
+ fi
+@@ -978,6 +981,7 @@ AC_CONFIG_FILES([Makefile
+                  aes/aesni/Makefile
+                  aes/openssl/Makefile
+                  secp256k1/Makefile
++                 jumbo/opencl/Makefile
+                  escrypt/Makefile])
+ AC_OUTPUT(,echo "timestamp from configure.in" > autoconfig-stamp-h)
+ 
+@@ -991,6 +995,10 @@ rm -f fmt_externs.h
+ if test "`echo *_fmt_plug.c`" != "*_fmt_plug.c"; then
+    $CPP -P -DAC_BUILT $CPPFLAGS $CPU_BEST_FLAGS $CFLAGS $HAVE_OPENCL $CFLAGS_EXTRA $OPENMP_CFLAGS $OPENSSL_CFLAGS -DFMT_EXTERNS_H *_fmt_plug.c | LC_ALL=C $GREP "extern struct fmt_main" | LC_ALL=C $SORT -f > fmt_externs.h
+ fi
++
++if test "`echo jumbo/opencl/opencl_*_fmt_plug.c`" != "jumbo/opencl/opencl_*_fmt_plug.c"; then
++   $CPP -P -DAC_BUILT $CPPFLAGS $CPU_BEST_FLAGS $CFLAGS $HAVE_OPENCL $CFLAGS_EXTRA $OPENMP_CFLAGS $OPENSSL_CFLAGS -DFMT_EXTERNS_H jumbo/opencl/opencl_*_fmt_plug.c | LC_ALL=C $GREP "extern struct fmt_main" | LC_ALL=C $SORT -f >> fmt_externs.h
++fi
+ # if the file was not created, then bail.
+ if test -f fmt_externs.h -a ! -s fmt_externs.h; then
+   cp Makefile.stub Makefile
+@@ -1015,8 +1023,8 @@ if test ! -f fmt_registers.h; then
+   echo >fmt_registers.h
+ fi
+ 
+-if test "`echo opencl_*_fmt_plug.c`" != "opencl_*_fmt_plug.c"; then
+-   $CPP -P -DAC_BUILT $CPPFLAGS $CPU_BEST_FLAGS $CFLAGS $HAVE_OPENCL $CFLAGS_EXTRA $OPENMP_CFLAGS $OPENSSL_CFLAGS -DFMT_REGISTERS_H opencl_*_fmt_plug.c | LC_ALL=C $GREP "john_register_one" | LC_ALL=C $SORT -f >> fmt_registers.h
++if test "`echo jumbo/opencl/opencl_*_fmt_plug.c`" != "jumbo/opencl/opencl_*_fmt_plug.c"; then
++   $CPP -P -DAC_BUILT $CPPFLAGS $CPU_BEST_FLAGS $CFLAGS $HAVE_OPENCL $CFLAGS_EXTRA $OPENMP_CFLAGS $OPENSSL_CFLAGS -DFMT_REGISTERS_H jumbo/opencl/opencl_*_fmt_plug.c | LC_ALL=C $GREP "john_register_one" | LC_ALL=C $SORT -f >> fmt_registers.h
+ fi
+ 
+ ########################################################
+diff --git a/src/jumbo/opencl/Makefile.in b/src/jumbo/opencl/Makefile.in
+new file mode 100644
+index 0000000000..0155bc5897
+--- /dev/null
++++ b/src/jumbo/opencl/Makefile.in
+@@ -0,0 +1,54 @@
++@SET_MAKE@
++CC = @CC@
++CXX = @CXX@
++AS = @CC@
++LD = @CC@
++CPP = @CC@
++
++top_srcdir = @top_srcdir@
++srcdir = @srcdir@
++prefix = @prefix@
++
++CPPFLAGS = @CPPFLAGS@
++CFLAGSX = -c @CFLAGS@ @CFLAGS_EXTRA@ @MEMDBG_CFLAGS@ @OPENSSL_CFLAGS@ @OPENMP_CFLAGS@ @HAVE_MPI@ @PTHREAD_CFLAGS@ @HT@ $(RELEASE_BLD) $(CPPFLAGS)
++# CFLAGS for use on the main john.c file only
++CFLAGS_MAIN = -DAC_BUILT @CC_MAIN_CPU@ $(CFLAGSX)
++CFLAGS = -DAC_BUILT @CC_CPU@ @CC_MAIN_CPU@ $(CFLAGSX)
++ASFLAGS = -DAC_BUILT @ASFLAGS@ @CC_CPU@ @CC_MAIN_CPU@ -c @OPENMP_CFLAGS@ @HAVE_MPI@ @EXTRA_AS_FLAGS@ @HT@
++LIBS = @LIBS@
++LDFLAGS = -g @LDFLAGS@ $(LIBS) @HAVE_MPI@
++#
++OPT_NORMAL = @OPT_NORMAL_FLAGS@
++OPT_INLINE = @OPT_INLINE_FLAGS@
++#
++
++YASM = @YASM@
++AR = @AR@
++FIND = @FIND@
++RM = /bin/rm -f
++
++WITH_OPENCL=@CL_LIBS@
++ifdef WITH_OPENCL
++CFLAGS += -DHAVE_OPENCL @CL_CFLAGS@
++CFLAGS_MAIN += -DHAVE_OPENCL @CL_CFLAGS@
++endif
++
++PLUGFORMATS_OCL_OBJS = @PLUGFORMATS_OCL_OBJS@
++
++@PLUGFORMATS_OCL_DEPS@
++
++.c.o:
++	$(CC) $(CFLAGS) $(OPT_NORMAL) $< -o $@
++
++opencl.a: $(PLUGFORMATS_OCL_OBJS)
++	$(AR) -rs $@ $(PLUGFORMATS_OCL_OBJS)
++
++default: opencl.a
++all: opencl.a
++
++clean:
++	$(FIND) . -name \*.a -exec $(RM) {} \;
++	$(FIND) . -name \*.o -exec $(RM) {} \;
++
++distclean: clean
++	$(RM) Makefile
+diff --git a/src/m4/jtr_utility_macros.m4 b/src/m4/jtr_utility_macros.m4
+index 74b33bf652..a862ff5ab1 100644
+--- a/src/m4/jtr_utility_macros.m4
++++ b/src/m4/jtr_utility_macros.m4
+@@ -140,7 +140,7 @@ AC_DEFUN([JTR_SET_OPENCL_INCLUDES],
+ [
+    AC_MSG_CHECKING([additional paths for OpenCL])
+    ADD_LDFLAGS=""
+-   ADD_CFLAGS=""
++   ADD_CFLAGS="-iquote$(pwd) -iquote$(pwd)/jumbo/opencl/include"
+    if test -n "$AMDAPPSDKROOT"; then
+       if test -d "$AMDAPPSDKROOT/include"; then
+          ADD_CFLAGS="$ADD_CFLAGS -I$AMDAPPSDKROOT/include"
+diff --git a/src/plugin_deps.pl b/src/plugin_deps.pl
+index f98f486def..6306f3180c 100755
+--- a/src/plugin_deps.pl
++++ b/src/plugin_deps.pl
+@@ -3,9 +3,11 @@
+ # Warning: Trying to understand this script will make your brain bleed.
+ #
+ use strict;
++use Cwd;
++use File::Basename;
+ 
+ sub find_deps {
+-	my ($src_file, $uniqobj_ref, $uniqdep_ref) = @_;
++	my ($src_file, $cwd, $uniqobj_ref, $uniqdep_ref) = @_;
+ 	my $deps = "";
+ 	my $base_dir = "";
+ 
+@@ -22,23 +24,54 @@ sub find_deps {
+ 	while (<$fh>) {
+ 		if (/^\s*#\s*include\s+"([^"]+)"/) {
+ 			my $object = $base_dir . $1;
+-			if ($src_file =~ /^opencl\// && $object =~ /\.cl$/) {
+-				$object = "opencl/" . $object;
++			my $file = $1;
++			my $tmp = "";
++
++			if (! -f $object) {
++				$tmp = $file;
++				if (-f $tmp) {
++					$object = $tmp
++				} elsif ($file =~ /\.c$/) {
++					$tmp = "jumbo/" . $file;
++					if (-f $tmp) {
++						$object = $tmp
++					}
++					$tmp = "jumbo/opencl/" . $file;
++					if (-f $tmp) {
++						$object = $tmp
++					}
++				} elsif ($file =~ /\.h$/) {
++					$tmp = "jumbo/include/" . $file;
++					if (-f $tmp) {
++						$object = $tmp
++					}
++					$tmp = "jumbo/opencl/include/" . $file;
++					if (-f $tmp) {
++						$object = $tmp
++					}
++					$tmp = "include/" . $file;
++					if (-f $tmp) {
++						$object = $tmp
++					}
++				}
+ 			}
+ 			while ($object =~ s/([^\/]+)\/..\///g) {}
++			if ($object =~ /arch.h$/ && $object ne "arch.h" || $object =~ /autoconfig.h$/ && $object ne "autoconfig.h") {
++				$object = $file;
++			}
+ 			if ($object eq "arch.h" || $object eq "autoconfig.h" || -f $object) {
+ 				if (!($uniqdep_ref->{$object}++)) {
+ 					#print "src $src_file obj $object\n";
+-					if (($src_file =~ /^opencl\// && $object =~ /^opencl_.*\.h$/) ||
+-						($src_file =~ /^opencl_.*\.h$/ && $object =~ /^opencl_.*\.(h|cl)$/)) {
+-						$object = "../run/kernels/" . $object;
++					if (($src_file =~ /^jumbo\/opencl\// && $object =~ /opencl_.*\.h$/) ||
++						($src_file =~ /^opencl_.*\.h$/ && $object =~ /opencl_.*\.(h|cl)$/)) {
++						$object = "../run/kernels/" . basename($object);
+ 						$deps .= " " . $object;
+ 						# Recurse!
+ 						proc_file($object, $uniqobj_ref);
+ 					} else {
+ 						$deps .= " " . $object;
+ 						# Recurse!
+-						$deps .= find_deps($object, $uniqobj_ref, $uniqdep_ref);
++						$deps .= find_deps($object, $cwd, $uniqobj_ref, $uniqdep_ref);
+ 					}
+ 				}
+ 			} else {
+@@ -52,14 +85,15 @@ sub find_deps {
+ }
+ 
+ sub proc_file {
+-	my ($src_file, $uniqobj_ref) = @_;
++	my ($src_file, $cwd, $uniqobj_ref) = @_;
++
+ 	my $object = $src_file;
+ 	my $type = "";
+ 	my %uniqdeps;
+ 
+ 	#print "proc_file processing $src_file\n";
+ 	if ($object =~ /^..\/run\/kernels\/opencl_.*\.h$/) {
+-		$src_file =~ s/^..\/run\/kernels\///;
++		$src_file =~ s/^..\/run\/kernels\//jumbo\/opencl\/include\//;
+ 		$type = "oclh";
+ 	}
+ 	if (!$uniqobj_ref->{$src_file}++) {
+@@ -67,11 +101,11 @@ sub proc_file {
+ 			$object =~ s/\.[cS]$/.o/;
+ 			$type = "c";
+ 		} elsif ($object =~ /\.cl$/) {
+-			$object =~ s/^opencl\//..\/run\/kernels\//;
++			$object =~ s/^jumbo\/opencl\/kernels\//..\/run\/kernels\//;
+ 			$type = "cl";
+ 		}
+ 		if ($type) {
+-			my $deps = find_deps($src_file, $uniqobj_ref, \%uniqdeps);
++			my $deps = find_deps($src_file, $cwd, $uniqobj_ref, \%uniqdeps);
+ 			print $object . ":" . "\t" . $src_file . $deps . "\n";
+ 			if ($type eq "c") {
+ 				#print "\t" . '$(CC) $(CFLAGS) ' . $src_file . " -o " . $object . "\n";
+@@ -84,8 +118,9 @@ sub proc_file {
+ }
+ 
+ my %uniqobjs;
++my $cwd = cwd;
+ 
+ foreach my $src_file (@ARGV) {
+ 	#print "outer loop processing $src_file\n";
+-	proc_file($src_file, \%uniqobjs);
++	proc_file($src_file, $cwd, \%uniqobjs);
+ }
