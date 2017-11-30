@@ -148,9 +148,7 @@ fi
 
 # Disable buggy formats. If a formats fails its tests on super, I will burn it.
 (
-  cd src || exit 1
   ./buggy.sh disable
-  cd .. || exit 1
 )
 
 # Apply all needed patches
