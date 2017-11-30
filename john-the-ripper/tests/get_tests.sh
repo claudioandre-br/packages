@@ -8,12 +8,12 @@ if [[ ! -d src || ! -d run ]] && [[ $1 != "-f" ]]; then
 fi
 
 #Changes needed
-rm -rf .travis.yml circle.yml src/buggy.sh .travis/ .circle/
+rm -rf .travis.yml circle.yml buggy.sh .travis/ .circle/
 
 mkdir -p .circle/
 mkdir -p .travis/
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/buggy.sh      -P src/
+wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/buggy.sh
 
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/.travis.yml
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
@@ -22,7 +22,7 @@ wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-rip
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/circle.yml    .
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circle/
 
-chmod +x src/buggy.sh
+chmod +x buggy.sh
 chmod +x .travis/tests.sh
 chmod +x .travis/travis-ci.sh
 chmod +x .circle/circle-ci.sh
@@ -31,7 +31,7 @@ git add .travis.yml
 git add circle.yml
 git add .travis/
 git add .circle/
-git add src/buggy.sh
+git add buggy.sh
 
 git commit -m "Extra testing $(date)"
 
