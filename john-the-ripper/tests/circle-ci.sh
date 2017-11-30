@@ -71,6 +71,13 @@ env
 
 ARCH=$1
 
+# Disable buggy formats. If a formats fails its tests on super, I will burn it.
+(
+  cd .. || exit 1
+  ./buggy.sh disable
+  cd src || exit 1
+)
+
 do_Install_Dependencies
 do_Show_Compiler
 do_Copy_Dlls
