@@ -46,6 +46,7 @@ else
     echo "---------------------------- TESTING -----------------------------"
     JTR_BIN='/app/bin/john'
     "$JTR_BIN" --list=build-info
+
     echo
     echo "====> regex T1 A: 9 lines"
     "$JTR_BIN" --stdout --regex='[0-2]password[A-C]'
@@ -71,5 +72,6 @@ else
     echo "====> T5:"
     "$JTR_BIN" -test-full=0 --format=raw-sha256
     echo "------------------------------------------------------------------"
-    echo ""
+    "$JTR_BIN" -test=0
+    echo "------------------------------------------------------------------"
 fi

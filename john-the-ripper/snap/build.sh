@@ -67,31 +67,38 @@ sudo apt-get install -y language-pack-en
 if [[ "$TEST" = "yes" ]]; then
     echo ""
     echo "---------------------------- TESTING -----------------------------"
-    ../run/john --list=build-info
+    JTR_BIN='../run/john'
+    "$JTR_BIN" --list=build-info
+
     echo
     echo "====> regex T1 A: 9 lines"
-    ../run/john --stdout --regex='[0-2]password[A-C]'
+    "$JTR_BIN" --stdout --regex='[0-2]password[A-C]'
     echo "====> regex T1 B: 2 lines, 1 special character"
-    ../run/john --stdout --regex=ab[öc]
+    "$JTR_BIN" --stdout --regex=ab[öc]
     echo "====> regex T1 C: 7 lines, 7 special characters, quotation marks"
-    ../run/john --stdout --regex="ab[£öçüàñẽ]"
+    "$JTR_BIN" --stdout --regex="ab[£öçüàñẽ]"
     echo "====> regex T1 D: 5 lines, 4 special characters, quotation marks"
-    ../run/john --stdout --regex='ab(ö|¿|e|¡|!)'
+    "$JTR_BIN" --stdout --regex='ab(ö|¿|e|¡|!)'
     echo "====> regex T1 E: 2 lines, 1 special character, vertical bar"
-    ../run/john --stdout --regex='ab(ö|c)'
+    "$JTR_BIN" --stdout --regex='ab(ö|c)'
     echo "====> regex T1 F: 3 lines, 5 special characters, vertical bar"
-    ../run/john --stdout --regex='ab(ö,¿|\?,e|¡,!)'
+    "$JTR_BIN" --stdout --regex='ab(ö,¿|\?,e|¡,!)'
     echo "====> regex T2: 2 lines, at the end"
-    echo magnum | ../run/john -stdout -stdin -regex='\0[01]'
+    echo magnum | "$JTR_BIN" -stdout -stdin -regex='\0[01]'
     echo "====> regex T3 A: 2 lines, at the end, encoding"
-    echo müller | iconv -f UTF-8 -t cp850 | ../run/john -inp=cp850 -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3 B: 2 lines, encoding. OOOOPS"
-    ../run/john -stdout --regex='ab(ö|c)' -target-enc=cp437
+    echo müller | iconv -f UTF-8 -t cp850 | "$JTR_BIN" -inp=cp850 -stdout -stdin -regex='\0[01]'
+    echo "====> regex T3 B: 2 lines, encoding"
+    "$JTR_BIN" -stdout --regex='ab(ö|c)' -target-enc=cp437
     echo
     echo "====> T4:"
-    ../run/john -test-full=0 --format=nt
+    "$JTR_BIN" -test-full=0 --format=nt
     echo "====> T5:"
-    ../run/john -test-full=0 --format=raw-sha256
+    "$JTR_BIN" -test-full=0 --format=raw-sha256
+    echo "------------------------------------------------------------------"
+    "$JTR_BIN" -test=0
+    echo "------------------------------------------------------------------"
+    echo
+
     echo "====> T6:"
     ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
     echo "------------------------------------------------------------------"
