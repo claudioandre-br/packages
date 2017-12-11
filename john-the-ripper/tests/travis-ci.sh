@@ -86,11 +86,31 @@ function do_Build_Docker_Command(){
     else
         update="\
           apt-get update -qq; \
-          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget clang llvm libomp-dev $1 > /dev/null;"
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev $1 > /dev/null;"
 
         if [[ "$TEST" == *";POCL;"* ]]; then
             update="$update apt-get install -y -qq libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
             export OPENCL="yes"
+        fi
+
+        if [[ "$TEST" == *";clang;"* ]]; then
+            update="$update apt-get install -y -qq clang;"
+        fi
+
+        if [[ "$TEST" == *";clang-4;"* ]]; then
+            update="$update apt-get install -y -qq clang-4.0;"
+        fi
+
+        if [[ "$TEST" == *";clang-5;"* ]]; then
+            update="$update apt-get install -y -qq clang-5.0;"
+        fi
+
+        if [[ "$TEST" == *";experimental;"* ]]; then
+            update="$update apt-get install -y -qq software-properties-common;"
+            update="$update add-apt-repository -y ppa:ubuntu-toolchain-r/test;"
+            update="$update apt-get update -qq;"
+            update="$update apt-get install -y -qq gcc-snapshot;"
+            update="$update update-alternatives --install /usr/bin/gcc gcc /usr/lib/gcc-snapshot/bin/gcc 60 --slave /usr/bin/g++ g++ /usr/lib/gcc-snapshot/bin/g++;"
         fi
     fi
 
@@ -134,8 +154,20 @@ if [[ "$TEST" == *";gcc;"* ]]; then
     export CCO="gcc"
 fi
 
+if [[ "$TEST" == *";experimental;"* ]]; then
+    export CCO="gcc"
+fi
+
 if [[ "$TEST" == *";clang;"* ]]; then
     export CCO="clang"
+fi
+
+if [[ "$TEST" == *";clang-4;"* ]]; then
+    export CCO="clang-4.0"
+fi
+
+if [[ "$TEST" == *";clang-5;"* ]]; then
+    export CCO="clang-5.0"
 fi
 
 if [[ "$TEST" == *";afl-clang;"* ]]; then
