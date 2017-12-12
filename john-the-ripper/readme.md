@@ -36,13 +36,24 @@ The highlights:
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
 ### Enabling Aliases
-To enable the usage of aliases defined by John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
+You are free to pick and set up aliases. To enable the usage of aliases with John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
 ```
 $ sudo snap alias john-the-ripper john
-$ sudo snap alias john-the-ripper dmg2john
+$ sudo snap alias john-the-ripper.dmg2john dmg2john
+$ sudo snap alias john-the-ripper.hccap2john hccap2john
+$ sudo snap alias john-the-ripper.racf2john racf2john
+$ sudo snap alias john-the-ripper.vncpcap2john vncpcap2john
+$ sudo snap alias john-the-ripper.zip2john zip2john
+$ sudo snap alias john-the-ripper.gpg2john gpg2john
+$ sudo snap alias john-the-ripper.keepass2john keepass2john
+$ sudo snap alias john-the-ripper.putty2john putty2john
+$ sudo snap alias john-the-ripper.rar2john rar2john
+$ sudo snap alias john-the-ripper.uaf2john uaf2john
+$ sudo snap alias john-the-ripper.wpapcap2john wpapcap2john
+
 ```
 
-Once enabled, John itself plus the *2john tools can be invoked using the aliases.
+Once enabled, John itself plus the *2john tools can be invoked using the aliases. In the example, to run John type `john`.
 
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
