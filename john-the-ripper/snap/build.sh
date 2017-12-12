@@ -33,7 +33,7 @@ esac
 # Set package version
 sed -i "s/edge/1.8J1-$git_tag$text/g" ../../../../snapcraft.yaml
 
-# Set package version
+# Show env info
 echo 'Compiler version'
 gcc --version
 echo '--------------------------------'
@@ -100,7 +100,7 @@ if [[ "$TEST" = "yes" ]]; then
     echo "====> T4:"
     "$JTR_BIN" -test-full=0 --format=nt
     echo "====> T5:"
-    "$JTR_BIN" -test-full=0 --format=sha256crypt
+    "$JTR_BIN" -test-full=0 --format=raw-sha256
     echo "------------------------------------------------------------------"
     "$JTR_BIN" -test=0 --format=raw*
     echo "------------------------------------------------------------------"
