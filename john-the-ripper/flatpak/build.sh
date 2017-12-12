@@ -70,8 +70,8 @@ else
     echo "====> T4:"
     "$JTR_BIN" -test-full=0 --format=nt
     echo "====> T5:"
-    "$JTR_BIN" -test-full=0 --format=raw-sha256
+    "$JTR_BIN" -test-full=0 --format=sha256crypt
     echo "------------------------------------------------------------------"
-    "$JTR_BIN" -test=0
+    "$JTR_BIN" -test=0 --format=raw*
     echo "------------------------------------------------------------------"
 fi
