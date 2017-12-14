@@ -12,26 +12,8 @@ patch < 0001-Handle-self-confined-system-wide-build.patch
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
 patch < 0001-maint-revert-JtR-to-regex-1.4.patch
 
-arch=`uname -m`
-text='x'
-git_tag=$(git describe --dirty=+ --always 2>/dev/null)
-
-case "$arch" in
-    'x86_64')
-        text='X'
-        ;;
-    'armhf' | 'armv7l')
-        text='a'
-        ;;
-    'aarch64' | 'arm64')
-        text='B'
-        ;;
-    'ppc64le' | 'powerpc64le')
-        text='P'
-        ;;
-esac
 # Set package version
-sed -i "s/edge/1.8J1-$git_tag$text/g" ../../../../snapcraft.yaml
+git describe --dirty=+ --always 2>/dev/null > ../../../../My_VERSION.TXT
 
 # Show env info
 echo 'Compiler version'

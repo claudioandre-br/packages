@@ -1,9 +1,35 @@
 name: john-the-ripper
 version: edge
-grade: stable
+version-script: |
+  arch=$(uname -m)
+  text='x'
+  git_tag=$(cat My_VERSION.TXT)
+
+  case "$arch" in
+    'x86_64')
+        text='X'
+        ;;
+    'armhf' | 'armv7l')
+        text='a'
+        ;;
+    'aarch64' | 'arm64')
+        text='B'
+        ;;
+    'ppc64le' | 'powerpc64le')
+        text='P'
+        ;;
+  esac
+  echo "1.8J1-$git_tag$text"
+
 confinement: strict
+grade: stable
 summary: John the Ripper "Jumbo" password cracker
-description: John the Ripper is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers.
+description: |
+  John the Ripper is a fast password cracker, currently available for many flavors
+  of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak
+  Unix passwords. Besides several crypt(3) password hash types most commonly found
+  on various Unix systems, supported out of the box are Windows LM hashes, plus lots
+  of other hashes and ciphers.
 
 apps:
   john-the-ripper:
@@ -74,7 +100,6 @@ parts:
 
   regex:
     plugin: cmake
-    after: [transfer]
     source: https://github.com/teeshop/rexgen.git
     source-type: git
     source-subdir: ./src
@@ -108,6 +133,7 @@ parts:
 
   transfer:
     plugin: nil
+    after: [john-the-ripper]
     source: .
     build: |
       wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo/run/john.bash_completion
