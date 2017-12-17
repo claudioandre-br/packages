@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  common_build: &common_build
+    docker:
+      - image: claudioandre/john:fedora.27.gcc
+    steps:
+      - checkout
+      - run:
+          name: Building JtR
+          command: .circleci/circle-ci.sh $TARGET_ARCH
+      - run:
+          name: Testing JtR
+          command: .circleci/circle-ci.sh $TARGET_ARCH TEST
+
+  build-32bits:
+    <<: *common_build
+    docker:
+      - image: claudioandre/john:fedora.27.gcc
+        environment:
+          BASE: "fedora"
+          TARGET_ARCH: "i686"
+
+  build-64bits:
+    <<: *common_build
+    docker:
+      - image: claudioandre/john:fedora.27.gcc
+        environment:
+          BASE: "fedora"
+          TARGET_ARCH: "x86_64"
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-32bits
+      - build-64bits

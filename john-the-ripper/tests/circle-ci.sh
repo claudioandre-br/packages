@@ -59,47 +59,52 @@ function do_Copy_Dlls(){
 }
 
 # ----------- BUILD -----------
-cd /cwd/src
-
-# Show some environment info
-echo
-echo '-- Environment --'
-echo "Running on: $BASE"
-echo "Doing: $1"
-id
-env
-
+cd src
 ARCH=$1
+export OMP_NUM_THREADS=3
 
-# Disable buggy formats. If a formats fails its tests on super, I will burn it.
-(
-  cd .. || exit 1
-  ./buggy.sh disable
-  cd src || exit 1
-)
+if [[ $# -eq 1 ]]; then
+    # Show some environment info
+    echo
+    echo '-- Environment --'
+    echo "Running on: $BASE"
+    echo "Doing: $1"
+    id
+    env
 
-do_Install_Dependencies
-do_Show_Compiler
-do_Copy_Dlls
-export WINEDEBUG=-all
+    # Disable buggy formats. If a formats fails its tests on super, I will burn it.
+    (
+      cd .. || exit 1
+      ./buggy.sh disable
+      cd src || exit 1
+    )
 
-if [[ $ARCH == "i686" ]]; then
-    ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32
+    do_Show_Compiler
+    do_Copy_Dlls
+    export WINEDEBUG=-all
+
+    if [[ $ARCH == "i686" ]]; then
+        ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32
+    fi
+
+    if [[ $ARCH == "x86_64" ]]; then
+        ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
+    fi
+    # Build
+    make -sj2
+    mv ../run/john ../run/john.exe
+    rm -rf kernels ztex
+
+    echo
+    echo '-- Build Info --'
+    wine ../run/john.exe --list=build-info
 fi
 
-if [[ $ARCH == "x86_64" ]]; then
-    ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
+if [[ $2 == "TEST" ]]; then
+    export WINEDEBUG=-all
+
+    echo
+    echo '-- Test Full --'
+    wine ../run/john.exe --test-full=0
 fi
-# Build
-make -sj2
-mv ../run/john ../run/john.exe
-rm -rf kernels ztex
-
-echo
-echo '-- Build Info --'
-wine ../run/john.exe --list=build-info
-
-echo
-echo '-- Test Full --'
-wine ../run/john.exe --test-full=0
 
