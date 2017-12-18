@@ -1,0 +1,115 @@
+From b4feca02e03413e24f841447a43c936ac57066c4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Mon, 18 Dec 2017 17:20:39 -0200
+Subject: [PATCH] configure: check for pcap on mingw environment
+
+---
+ src/SIPdump.c      |  9 +++++++++
+ src/configure.ac   | 10 ++++++++++
+ src/eapmd5tojohn.c | 13 +++++++++++++
+ src/vncpcap2john.c |  9 +++++++++
+ 4 files changed, 41 insertions(+)
+
+diff --git a/src/SIPdump.c b/src/SIPdump.c
+index c84d0fbdc..a446fb177 100644
+--- a/src/SIPdump.c
++++ b/src/SIPdump.c
+@@ -20,6 +20,8 @@
+ #define HAVE_NETINET_IP_H 1
+ #endif
+ 
++#if !AC_BUILT || (HAVE_SYS_SOCKET_H && HAVE_SYS_TYPES_H && (HAVE_NETINET_IN_H || HAVE_NETINET_IN_SYSTM_H) && HAVE_NETINET_IP_H && (HAVE_PCAP_H || HAVE_PCAP_PCAP_H))
++
+ #if HAVE_PCAP_H
+ #include <stdio.h>
+ #include <string.h>
+@@ -976,3 +978,10 @@ static int pcap_dloff(pcap_t * pd)
+ 	return (offset);
+ }
+ #endif
++#else
++#include <stdio.h>
++int main() {
++	printf("SIPdump could NOT be compiled on this system, due to lack of support libraries\n");
++	return 1;
++}
++#endif
+\ No newline at end of file
+diff --git a/src/configure.ac b/src/configure.ac
+index 61eb270b3..449104a35 100644
+--- a/src/configure.ac
++++ b/src/configure.ac
+@@ -664,6 +664,16 @@ if test "x$enable_pcap" != xno ; then
+   AC_CHECK_HEADERS([pcap.h pcap/pcap.h],[AC_CHECK_LIB([pcap],[pcap_compile],
+         [AC_SUBST(HAVE_PCAP,[-DHAVE_PCAP])] [AC_SUBST(PCAP_LIBS, [-lpcap])])]
+         [break])
++
++  if test "$CPU_BIT_STR" = "64" -a -d /usr/x86_64-w64-mingw32/sys-root/mingw/include; then
++    CPPFLAGS="$CPPFLAGS -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/wpcap"
++    LDFLAGS="$LDFLAGS -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib"
++  fi
++  if test "$CPU_BIT_STR" = "32" -a -d /usr/i686-w64-mingw32/sys-root/mingw/include; then
++    CPPFLAGS="$CPPFLAGS -I/usr/i686-w64-mingw32/sys-root/mingw/include/wpcap"
++    LDFLAGS="$LDFLAGS -L/usr/i686-w64-mingw32/sys-root/mingw/lib"
++  fi
++
+   AC_CHECK_HEADERS([pcap.h pcap/pcap.h],[AC_CHECK_LIB([wpcap],[pcap_compile],
+         [AC_SUBST(HAVE_PCAP,[-DHAVE_PCAP])] [AC_SUBST(PCAP_LIBS, [-lwpcap])])]
+         [break])
+diff --git a/src/eapmd5tojohn.c b/src/eapmd5tojohn.c
+index 39761a935..944efc602 100644
+--- a/src/eapmd5tojohn.c
++++ b/src/eapmd5tojohn.c
+@@ -2,6 +2,11 @@
+ //
+ // cat radiotap.h utils.h byteswap.h eapmd5pass.h ieee80211.h ieee8021x.h ietfproto.h utils.c eapmd5pass.c > combined.c
+ 
++#if AC_BUILT
++#include "autoconfig.h"
++#endif
++
++#if !AC_BUILT || HAVE_NETINET_IN_H
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -1216,3 +1221,11 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
+         return 0;
+ }
+ #endif
++
++#else
++#include <stdio.h>
++int main() {
++	printf("eapmd5tojohn could NOT be compiled on this system, due to lack of support libraries\n");
++	return 1;
++}
++#endif
+\ No newline at end of file
+diff --git a/src/vncpcap2john.c b/src/vncpcap2john.c
+index 547bf5369..64bf7f42f 100644
+--- a/src/vncpcap2john.c
++++ b/src/vncpcap2john.c
+@@ -48,6 +48,8 @@
+ #define HAVE_PCAP_PCAP_H 0
+ #endif
+ 
++#if !AC_BUILT || (HAVE_SYS_SOCKET_H && HAVE_ARPA_INET_H && HAVE_SYS_TYPES_H && (HAVE_NET_IF_H || HAVE_NET_IF_ARP_H) && HAVE_NETINET_IF_ETHER_H && (HAVE_NETINET_IN_H || HAVE_NETINET_IN_SYSTM_H) && (HAVE_NET_ETHERNET_H || HAVE_SYS_ETHERNET_H) && HAVE_NETINET_IP_H && (HAVE_PCAP_H || HAVE_PCAP_PCAP_H))
++
+ #define _BSD_SOURCE 1
+ #define _DEFAULT_SOURCE 1
+ #define _GNU_SOURCE 1
+@@ -368,3 +370,10 @@ int main(int argc, char *argv[])
+ 	MEMDBG_PROGRAM_EXIT_CHECKS(stderr);
+ 	return 0;
+ }
++#else
++#include <stdio.h>
++int main() {
++	printf("vncpcap2john could NOT be compiled on this system, due to lack of support libraries\n");
++	return 1;
++}
++#endif
+\ No newline at end of file
+-- 
+2.14.1
+
