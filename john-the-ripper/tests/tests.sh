@@ -85,11 +85,6 @@ do_Test () {
 # ---- Show JtR Build Info ----
 JtR="../run/john"
 
-#######################################
-# Workaround for a bug in CPU detection
-export CPUID_DISABLE=1
-#######################################
-
 echo '--------------------------------'
 "$JtR" -help
 echo '--------------------------------'
