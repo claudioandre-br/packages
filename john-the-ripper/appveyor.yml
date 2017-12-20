@@ -16,6 +16,12 @@ environment:
 
 install:
   - cd src
+  - del bitlocker_fmt_plug.*
+  - del blockchain_fmt_plug.*
+  - del ethereum_fmt_plug.*
+  - del geli_fmt_plug.c
+  - del keepass_fmt_plug.c
+
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
@@ -63,9 +69,9 @@ build_script:
       if ($doing -eq "test") {
 
         if ($arch -eq "x86_64") {
-          shell "./configure --disable-native-tests --disable-openmp"
+          shell "./configure --enable-memdbg --disable-native-tests --disable-openmp"
         } else {
-          shell "./configure --disable-native-tests --disable-openmp --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
+          shell "./configure --enable-memdbg --disable-native-tests --disable-openmp --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
         }
         shell "make -sj2"
       }
@@ -98,7 +104,7 @@ test_script:
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
   - echo "====> T0:"
-  # - john -test-full=0
+  - john -test-full=0
 
   - echo "====> T4:"
   - john -test-full=0 --format=nt
