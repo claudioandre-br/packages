@@ -54,7 +54,11 @@ build_script:
       Write-Host "----------------------------"
 
   - ps: |
+      echo 'Compiler version'
       shell "gcc --version"
+      echo '--------------------------------'
+      shell "gcc -dM -E -x c /dev/null"
+      echo '--------------------------------'
 
       if ($doing -eq "test") {
 
