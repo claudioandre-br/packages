@@ -4,56 +4,98 @@ environment:
     BUILD_FOLDER: C:\projects\JohnTheRipper\src
 
   matrix:
-    # 64bits build
+    # CygWin 32bits build
+    - arch: x86
+      bits: 32
+      doing: cygwin
+      location: cygwin
+
+    # CygWin 64bits build
     - arch: x86_64
       bits: 64
-      doing: test
+      doing: cygwin
+      location: cygwin64
 
-    # 32bits build
-    - arch: i686
+    - allow_failures:
+      fast_finish: true
+      # MinGW 64bits build
+      arch: x86_64
+      bits: 64
+      doing: mingw
+
+    - allow_failures:
+      fast_finish: true
+      # MinGW 32bits build
+      arch: i686
       bits: 32
-      doing: test
+      doing: mingw
 
 install:
   - cd src
-  - del bitlocker_fmt_plug.*
-  - del blockchain_fmt_plug.*
-  - del ethereum_fmt_plug.*
-  - del geli_fmt_plug.c
-  - del keepass_fmt_plug.c
-
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
 
   - ps: |
-      [Environment]::SetEnvironmentVariable("MSYS2_PATH_TYPE", "inherit", "Machine")
-      $arch = $env:Arch
-      $bits = $env:Bits
-      $doing = $env:Doing
-      $msys = "msys64"
-      $mingw = "mingw$bits"
-      $mhost = "$arch-w$bits-$mingw"
-      $mingwUpper = $mingw.ToUpper()
-      $buildFolder = $env:BUILD_FOLDER
-      $posixBuildFolder = $buildFolder -Replace '\\', '/'
-      $env:PATH="C:\$msys\$mingw\bin;C:\$msys\usr\bin;$env:PATH"
+      if ($env:Doing -eq "mingw") {
+        [Environment]::SetEnvironmentVariable("MSYS2_PATH_TYPE", "inherit", "Machine")
+        $arch = $env:Arch
+        $bits = $env:Bits
+        $doing = $env:Doing
+        $msys = "msys64"
+        $mingw = "mingw$bits"
+        $mhost = "$arch-w$bits-$mingw"
+        $mingwUpper = $mingw.ToUpper()
+        $buildFolder = $env:BUILD_FOLDER
+        $posixBuildFolder = $buildFolder -Replace '\\', '/'
+        $env:PATH="C:\$msys\$mingw\bin;C:\$msys\usr\bin;$env:PATH"
 
-      function shell($command, $dieOnError = $true) {
+        function shell($command, $dieOnError = $true) {
 
-        Write-Host "Executing '$command'"
-        & "C:\$msys\usr\bin\sh" -lc "MSYSTEM_CARCH=$arch MSYSTEM_PREFIX=/$mingw MSYSTEM=$mingwUpper MINGW_CHOST=$mhost . /etc/profile && cd $posixBuildFolder && $command"
+          Write-Host "Executing '$command'"
+          & "C:\$msys\usr\bin\sh" -lc "MSYSTEM_CARCH=$arch MSYSTEM_PREFIX=/$mingw MSYSTEM=$mingwUpper MINGW_CHOST=$mhost . /etc/profile && cd $posixBuildFolder && $command"
 
-        if ($LASTEXITCODE -ne 0) {
-          Write-Host "'$command' failed with exit code $LASTEXITCODE! " -ForegroundColor Red -NoNewline
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "'$command' failed with exit code $LASTEXITCODE! " -ForegroundColor Red -NoNewline
 
-          if ($dieOnError) {
-            exit $LASTEXITCODE
+            if ($dieOnError) {
+              exit $LASTEXITCODE
+            }
+          }
+        }
+      }
+
+      if ($env:Doing -eq "cygwin") {
+        $arch = $env:Arch
+        $bits = $env:Bits
+        $doing = $env:Doing
+        $location = $env:Location
+        $buildFolder = $env:BUILD_FOLDER
+        $posixBuildFolder = $buildFolder -Replace '\\', '/'
+        $env:PATH="C:\$location\bin;C:\$location\usr\bin;$env:PATH"
+
+        function shell($command, $dieOnError = $true) {
+
+          Write-Host "Executing '$command'"
+          & "C:\$location\bin\bash" -lc ". /etc/profile && cd $posixBuildFolder && $command"
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "'$command' failed with exit code $LASTEXITCODE! " -ForegroundColor Red -NoNewline
+
+            if ($dieOnError) {
+              exit $LASTEXITCODE
+            }
           }
         }
       }
 
 build_script:
+  # Install OpenSSL
+  - ps: |
+      if ($env:Doing -eq "cygwin") {
+        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel"
+      }
+
   - ps: |
       Write-Host "----------------------------"
       Write-Host "   =====  Building  =====   " -ForegroundColor White
@@ -66,26 +108,33 @@ build_script:
       shell "gcc -dM -E -x c /dev/null"
       echo '--------------------------------'
 
-      if ($doing -eq "test") {
+      if ($doing -eq "mingw") {
 
         if ($arch -eq "x86_64") {
-          shell "./configure --enable-memdbg --disable-native-tests --disable-openmp"
+          shell "./configure --enable-memdbg --disable-native-tests"
         } else {
           shell "./configure --enable-memdbg --disable-native-tests --disable-openmp --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
         }
         shell "make -sj2"
-      }
 
-      xcopy C:\$msys\$mingw\bin\libgomp-1.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\libgmp-10.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\libbz2-1.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\libeay32.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\libwinpthread-1.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\ssleay32.dll ..\run\
-      xcopy C:\$msys\$mingw\bin\zlib1.dll ..\run\
+        # Needed libraries
+        xcopy C:\$msys\$mingw\bin\libgomp-1.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\libgmp-10.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\libbz2-1.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\libeay32.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\libwinpthread-1.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\ssleay32.dll ..\run\
+        xcopy C:\$msys\$mingw\bin\zlib1.dll ..\run\
 
-      if ($arch -eq "i686") {
-        xcopy C:\$msys\$mingw\bin\libgcc_s_dw2-1.dll ..\run\
+        if ($arch -eq "i686") {
+          xcopy C:\$msys\$mingw\bin\libgcc_s_dw2-1.dll ..\run\
+        }
+
+      } else {
+        shell "./configure --disable-native-tests"
+        shell "make -sj2"
+
+        xcopy C:\$location\bin\cygwin1.dll ..\run\
       }
 
 test_script:
