@@ -8,7 +8,7 @@ if [[ ! -d src || ! -d run ]] && [[ $1 != "-f" ]]; then
 fi
 
 #Changes needed
-rm -rf .travis.yml buggy.sh .travis/ .circleci/
+rm -rf .travis.yml buggy.sh circle.yml .travis/ .circle/ .circleci/
 
 mkdir -p .circleci/
 mkdir -p .travis/
