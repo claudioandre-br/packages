@@ -16,8 +16,19 @@ matrix:
   - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
 
+  # Very heavy tasks. Run it in 2 phases.
+  #- env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
+  #- env: IMAGE=claudioandre/spidermonkey:fedora.armv7hf.gcc0 BASE=fedora NAME=fedora.armv7hf.gcc REPO=claudioandre/spidermonkey EMU_EXTRA=yes
+
 script:
   - cd docker
+
+  # Register QEMU
+  - 'if [[ $EMU_EXTRA == "yes" ]]; then
+       docker run --rm --privileged multiarch/qemu-user-static:register --reset;
+     fi'
+
+  # For a heavy build, add -m 500M --oom-kill-disable
   # Creates a much smaller image.
   - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh BUILD_MOZ"
@@ -37,7 +48,7 @@ script:
   #- docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
-  - docker tag $REPO:$NAME $REPO:build-$TRAVIS_BUILD_NUMBER
+  - docker tag $REPO:$NAME $REPO:job-$TRAVIS_JOB_NUMBER
   # export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   # 'if [[ $NAME == "fedora.26.gcc" ]]; then
   #     docker tag $REPO:$NAME $REPO:$TAG;
