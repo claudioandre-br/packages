@@ -30,10 +30,12 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
 The highlights:
-- fallback for CPU and OMP;
+- fallback for CPU[1] and OMP;
 - regex and prince modes available;
 - available for X86_64, armhf, arm64 and ppc64.
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
+
+[1] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
 ### Enabling Aliases
 You are free to pick and set up aliases. To enable the usage of aliases with John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
@@ -92,8 +94,10 @@ Flatpak is available for the [most common Linux distributions](http://flatpak.or
 John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it at [GitHub](https://github.com/claudioandre/packages/releases/download/v1.0/artifacts.zip).
 
 The highlights:
-- fallback for CPU and OMP;
+- fallback for CPU[2] and OMP;
 - regex and prince modes available.
+
+[2] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
 ******
 The necessary steps to install the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
