@@ -217,7 +217,11 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
     do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "Ubuntu"
 
     # Run docker
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+    if [[ -n "$FUZZ" ]]; then
+        docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:rolling sh -c "$docker_command"
+    else
+        docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+    fi
 
 elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
