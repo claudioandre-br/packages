@@ -91,10 +91,10 @@ install:
       }
 
 build_script:
-  # Install OpenSSL
+  # Install required packages and allow extra formats
   - ps: |
       if ($env:Doing -eq "cygwin") {
-        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel"
+        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel libbz2-devel libgmp-devel"
       }
 
   - ps: |
