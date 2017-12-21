@@ -9,13 +9,13 @@
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
-If you are using Ubuntu, or if your distro already has a Snap Store, do:
+To install from the Snap Store, do:
 ```
 $ sudo snap install john-the-ripper
 $ sudo snap connect john-the-ripper:process-control core:process-control
 ```
 
-If your distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
+You can also download the package from [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper). In all cases, the package is hosted and reviewed (automatically) by Ubuntu. Using the second option, the installation can be done using:
 
 ```
 $ sudo snap install *.snap
