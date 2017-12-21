@@ -25,7 +25,7 @@ script:
   - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
       -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
-  - docker commit $NAME $REPO:$COMMIT
+  - docker commit $NAME $REPO:$NAME
 
   # Test the build
   # - rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs
@@ -37,11 +37,10 @@ script:
   #- docker build --rm -f $FILE -t $REPO:$COMMIT .
 
 after_success:
-  - docker tag $REPO:$COMMIT $REPO:$NAME
-  - docker tag $REPO:$COMMIT $REPO:build-$TRAVIS_BUILD_NUMBER
+  - docker tag $REPO:$NAME $REPO:build-$TRAVIS_BUILD_NUMBER
   # export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   # 'if [[ $NAME == "fedora.26.gcc" ]]; then
-  #     docker tag $REPO:$COMMIT $REPO:$TAG;
+  #     docker tag $REPO:$NAME $REPO:$TAG;
   #   fi'
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
