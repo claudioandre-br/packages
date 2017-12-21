@@ -15,7 +15,7 @@ $ sudo snap install john-the-ripper
 $ sudo snap connect john-the-ripper:process-control core:process-control
 ```
 
-If your distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/app/john-the-ripper.claudioandre-br). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
+If your distro do not offer a Store, you can download the package from [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper). In all cases, packages are hosted and reviewed (automatically) by Ubuntu. The instalation can be done using:
 
 ```
 $ sudo snap install *.snap
