@@ -16,18 +16,19 @@ environment:
       doing: cygwin
       location: cygwin64
 
-    - allow_failures:
-      fast_finish: true
-      # MinGW 64bits build
-      arch: x86_64
-      bits: 64
-      doing: mingw
-
-    - allow_failures:
+    # MinGW requires a patch in configure to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
+    - allow_failures: true
       fast_finish: true
       # MinGW 32bits build
       arch: i686
       bits: 32
+      doing: mingw
+
+    - allow_failures: true
+      fast_finish: true
+      # MinGW 64bits build
+      arch: x86_64
+      bits: 64
       doing: mingw
 
 install:
@@ -111,9 +112,9 @@ build_script:
       if ($doing -eq "mingw") {
 
         if ($arch -eq "x86_64") {
-          shell "./configure --enable-memdbg --disable-native-tests"
+          shell "./configure --disable-native-tests --disable-openmp"
         } else {
-          shell "./configure --enable-memdbg --disable-native-tests --disable-openmp --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
+          shell "./configure --host=i686-pc-mingw32 --target=i686-pc-mingw32 "
         }
         shell "make -sj2"
 
@@ -131,7 +132,7 @@ build_script:
         }
 
       } else {
-        shell "./configure --disable-native-tests"
+        shell "./configure"
         shell "make -sj2"
 
         xcopy C:\$location\bin\cygwin1.dll ..\run\
