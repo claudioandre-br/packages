@@ -1,20 +1,48 @@
-From de4a9b1a77d5959bfbd31120cd974f7a7a1a306d Mon Sep 17 00:00:00 2001
+From 8b016727cd86a79e52bead09a8879d1ac39cfdfc Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
 Date: Sun, 4 Dec 2016 19:03:06 -0200
 Subject: [PATCH] Handle self confined system wide build.
 
 ---
+ src/idle.c     | 2 +-
+ src/john-mpi.c | 2 +-
  src/john.c     | 8 ++++----
- src/listconf.c | 8 ++++++++
+ src/listconf.c | 7 +++++++
  src/params.h   | 4 ++--
  src/path.c     | 7 ++++++-
- 4 files changed, 20 insertions(+), 7 deletions(-)
+ 6 files changed, 21 insertions(+), 9 deletions(-)
 
+diff --git a/src/idle.c b/src/idle.c
+index a17d1b2d8..0f9651bf9 100644
+--- a/src/idle.c
++++ b/src/idle.c
+@@ -93,7 +93,7 @@ void idle_init(struct fmt_main *format)
+  * started with a non-negative nice value (so no need to increment it by more
+  * than 20).
+  */
+-	if (nice(20) == -1)
++	if (nice(0) == -1)
+ 		perror("nice");
+ #endif
+ 
+diff --git a/src/john-mpi.c b/src/john-mpi.c
+index 8420fb74c..314016561 100644
+--- a/src/john-mpi.c
++++ b/src/john-mpi.c
+@@ -29,7 +29,7 @@ void mpi_teardown(void)
+ 
+ 	if (mpi_p > 1) {
+ 		/* Some MPI platforms hang on 100% CPU while waiting */
+-		if (nice(20) == -1)
++		if (nice(0) == -1)
+ 			perror("nice");
+ 		MPI_Barrier(MPI_COMM_WORLD);
+ 	}
 diff --git a/src/john.c b/src/john.c
-index 9675b8a48..bb174227c 100644
+index ff30b1668..d9b89c9b5 100644
 --- a/src/john.c
 +++ b/src/john.c
-@@ -471,7 +471,7 @@ static void john_omp_init(void)
+@@ -470,7 +470,7 @@ static void john_omp_init(void)
  static void john_omp_fallback(char **argv) {
  	if (!getenv("JOHN_NO_OMP_FALLBACK") && john_omp_threads_new <= 1) {
  		rec_done(-2);
@@ -23,7 +51,7 @@ index 9675b8a48..bb174227c 100644
  #define OMP_FALLBACK_PATHNAME JOHN_SYSTEMWIDE_EXEC "/" OMP_FALLBACK_BINARY
  #else
  #define OMP_FALLBACK_PATHNAME path_expand("$JOHN/" OMP_FALLBACK_BINARY)
-@@ -480,7 +480,7 @@ static void john_omp_fallback(char **argv) {
+@@ -479,7 +479,7 @@ static void john_omp_fallback(char **argv) {
  		mpi_teardown();
  #endif
  		execv(OMP_FALLBACK_PATHNAME, argv);
@@ -32,7 +60,7 @@ index 9675b8a48..bb174227c 100644
  		perror("execv: " OMP_FALLBACK_PATHNAME);
  #else
  		perror("execv: $JOHN/" OMP_FALLBACK_BINARY);
-@@ -1395,13 +1395,13 @@ static void CPU_detect_or_fallback(char **argv, int make_check)
+@@ -1397,13 +1397,13 @@ static void CPU_detect_or_fallback(char **argv, int make_check)
  #error CPU_FALLBACK is incompatible with the current DOS and Windows code
  #endif
  		if (!make_check) {
@@ -49,7 +77,7 @@ index 9675b8a48..bb174227c 100644
  #else
  			perror("execv: $JOHN/" CPU_FALLBACK_BINARY);
 diff --git a/src/listconf.c b/src/listconf.c
-index 12e63c828..cc7f0e9f4 100644
+index 12e63c828..6ee585558 100644
 --- a/src/listconf.c
 +++ b/src/listconf.c
 @@ -131,10 +131,17 @@ static void listconf_list_build_info(void)
@@ -71,10 +99,10 @@ index 12e63c828..cc7f0e9f4 100644
  	printf("CPU tests: %s\n", CPU_req_name);
  #endif
 diff --git a/src/params.h b/src/params.h
-index f1a6a9ab1..c486e5fd8 100644
+index 6289f42db..ced831874 100644
 --- a/src/params.h
 +++ b/src/params.h
-@@ -94,10 +94,10 @@
+@@ -100,10 +100,10 @@
  
  #if JOHN_SYSTEMWIDE
  #ifndef JOHN_SYSTEMWIDE_EXEC /* please refer to the notes above */
