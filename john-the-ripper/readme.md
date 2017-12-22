@@ -37,6 +37,12 @@ The highlights:
 
 [1] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
+### Running a non-OpenMP build
+In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying `OMP_NUM_THREADS=1 john <options>` in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
+```
+OMP_NUM_THREADS=1 john --list=build-info
+```
+
 ### Enabling Aliases
 You are free to pick and set up aliases. To enable the usage of aliases with John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
 ```
