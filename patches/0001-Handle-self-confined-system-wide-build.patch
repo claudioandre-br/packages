@@ -52,13 +52,12 @@ diff --git a/src/listconf.c b/src/listconf.c
 index 12e63c828..cc7f0e9f4 100644
 --- a/src/listconf.c
 +++ b/src/listconf.c
-@@ -131,10 +131,18 @@ static void listconf_list_build_info(void)
+@@ -131,10 +131,17 @@ static void listconf_list_build_info(void)
  	       SIMD_PARA_SHA256, SIMD_PARA_SHA512);
  #endif
  #if JOHN_SYSTEMWIDE
 +#if defined(_BOXED)
 +	puts("Deploy: " "sandbox ready");
-+	printf("Build date: %s %s\n", __DATE__, __TIME__);
 +	puts("System-wide exec: " "$JOHN/");
 +	puts("System-wide home: " "$JOHN/");
 +	printf("Private home is %s\n", path_expand(JOHN_PRIVATE_HOME));
