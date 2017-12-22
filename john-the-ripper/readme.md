@@ -46,7 +46,7 @@ OMP_NUM_THREADS=1 john --list=build-info
 ### Enabling Aliases
 You are free to pick and set up aliases. To enable the usage of aliases with John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
 ```
-$ sudo snap alias john-the-ripper john
+$ sudo snap alias john-the-ripper my-john
 $ sudo snap alias john-the-ripper.dmg2john dmg2john
 $ sudo snap alias john-the-ripper.hccap2john hccap2john
 $ sudo snap alias john-the-ripper.racf2john racf2john
@@ -61,7 +61,7 @@ $ sudo snap alias john-the-ripper.wpapcap2john wpapcap2john
 
 ```
 
-Once enabled, John itself plus the *2john tools can be invoked using the aliases. In the example, to run John type `john`.
+Once enabled, John itself plus the *2john tools can be invoked using the aliases. In the example, to run John type `my-john`.
 
 ### Acessing OpenCL
 It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
