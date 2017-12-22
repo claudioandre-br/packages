@@ -47,11 +47,11 @@ else
     JTR_BIN='/app/bin/john'
     "$JTR_BIN" --list=build-info
 
-    echo $NT$066ddfd4ef0e9cd7c256fe77191ef43c > tests.in
-    echo $NT$8846f7eaee8fb117ad06bdd830b7586c >> tests.in
-    echo df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2 >> tests.in
-    echo 73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f >> tests.in
-    echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
+    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
+    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
+    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
+    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
+    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
 
     echo
     echo "====> regex T1 A: 9 lines"
