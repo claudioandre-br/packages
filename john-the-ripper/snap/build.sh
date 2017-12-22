@@ -15,7 +15,7 @@ patch < 0001-maint-revert-JtR-to-regex-1.4.patch
 arch=$(uname -m)
 
 # Set package version
-git describe --dirty=+ --always 2>/dev/null > ../../../../My_VERSION.TXT
+git rev-parse --short HEAD 2>/dev/null > ../../../../My_VERSION.TXT
 
 # Show env info
 echo 'Compiler version'
