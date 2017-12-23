@@ -122,11 +122,6 @@ test_script:
   - echo "====> T0:"
   - john -test-full=0
 
-  - echo "====> T4:"
-  - john -test-full=0 --format=nt
-  - echo "====> T5:"
-  - john -test-full=0 --format=sha256crypt
-
   - echo "====> T10:"
   - john tests.in --format=nt
   - echo "====> T11:"
