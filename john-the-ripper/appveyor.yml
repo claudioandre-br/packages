@@ -17,19 +17,6 @@ environment:
       location: cygwin64
 
     # MinGW requires a patch in configure to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
-    - allow_failures: true
-      fast_finish: true
-      # MinGW 32bits build
-      arch: i686
-      bits: 32
-      doing: mingw
-
-    - allow_failures: true
-      fast_finish: true
-      # MinGW 64bits build
-      arch: x86_64
-      bits: 64
-      doing: mingw
 
 install:
   - cd src
@@ -38,34 +25,6 @@ install:
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
 
   - ps: |
-      if ($env:Doing -eq "mingw") {
-        [Environment]::SetEnvironmentVariable("MSYS2_PATH_TYPE", "inherit", "Machine")
-        $arch = $env:Arch
-        $bits = $env:Bits
-        $doing = $env:Doing
-        $msys = "msys64"
-        $mingw = "mingw$bits"
-        $mhost = "$arch-w$bits-$mingw"
-        $mingwUpper = $mingw.ToUpper()
-        $buildFolder = $env:BUILD_FOLDER
-        $posixBuildFolder = $buildFolder -Replace '\\', '/'
-        $env:PATH="C:\$msys\$mingw\bin;C:\$msys\usr\bin;$env:PATH"
-
-        function shell($command, $dieOnError = $true) {
-
-          Write-Host "Executing '$command'"
-          & "C:\$msys\usr\bin\sh" -lc "MSYSTEM_CARCH=$arch MSYSTEM_PREFIX=/$mingw MSYSTEM=$mingwUpper MINGW_CHOST=$mhost . /etc/profile && cd $posixBuildFolder && $command"
-
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "'$command' failed with exit code $LASTEXITCODE! " -ForegroundColor Red -NoNewline
-
-            if ($dieOnError) {
-              exit $LASTEXITCODE
-            }
-          }
-        }
-      }
-
       if ($env:Doing -eq "cygwin") {
         $arch = $env:Arch
         $bits = $env:Bits
