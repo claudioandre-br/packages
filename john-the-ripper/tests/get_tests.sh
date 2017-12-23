@@ -15,6 +15,8 @@ mkdir -p .travis/
 
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/buggy.sh
 
+wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/appveyor.yml
+
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/.travis.yml
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/travis-ci.sh  -P .travis/
@@ -27,6 +29,8 @@ chmod +x .travis/tests.sh
 chmod +x .travis/travis-ci.sh
 chmod +x .circleci/circle-ci.sh
 
+git add .circle/CircleCI-MinGW.sh
+git add appveyor.yml
 git add .travis.yml
 git add circle.yml
 git add .travis/
