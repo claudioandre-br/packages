@@ -11,6 +11,10 @@ function do_Install_Dependencies(){
         dnf -y -q install mingw32-gcc mingw64-gcc mingw32-gcc-c++ mingw64-gcc-c++ mingw32-libgomp mingw64-libgomp \
                           mingw32-openssl mingw64-openssl mingw32-gmp mingw64-gmp mingw32-bzip2 mingw64-bzip2 \
                           @development-tools wine
+
+    elif [[ $BASE == "OSX" ]]; then
+        brew install --force openssl
+
     else
         echo
         echo '-- Error: invalid BASE code --'
@@ -21,10 +25,10 @@ function do_Install_Dependencies(){
 
 function do_Show_Compiler(){
 
-    if [[ ! -z $CC ]]; then
+    if [[ ! -z $CCO ]]; then
         echo
         echo '-- Compiler in use --'
-        $CC --version
+        $CCO --version
     fi
 }
 
@@ -78,10 +82,14 @@ if [[ $# -eq 1 ]]; then
       ./buggy.sh disable
       cd src || exit 1
     )
-
     do_Show_Compiler
-    do_Copy_Dlls
-    export WINEDEBUG=-all
+
+    if [[ $ARCH != *"OSX"* ]]; then
+        do_Copy_Dlls
+        export WINEDEBUG=-all
+    else
+        do_Install_Dependencies
+    fi
 
     if [[ $ARCH == "i686" ]]; then
         ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32
@@ -90,10 +98,13 @@ if [[ $# -eq 1 ]]; then
     if [[ $ARCH == "x86_64" ]]; then
         ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
     fi
+
+    if [[ $ARCH == *"OSX"* ]]; then
+        ./configure
+    fi
     # Build
     make -sj2
     mv ../run/john ../run/john.exe
-    rm -rf kernels ztex
 
     echo
     echo '-- Build Info --'
@@ -106,5 +117,11 @@ if [[ $2 == "TEST" ]]; then
     echo
     echo '-- Test Full --'
     wine ../run/john.exe --test-full=0
+fi
+
+if [[ $2 == "TEST_OSX" ]]; then
+    echo
+    echo '-- Test Full --'
+    ../run/john.exe --test-full=0
 fi
 

@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  common_build: &common_build
+  common_linux: &common_linux
     docker:
       - image: claudioandre/john:fedora.27.gcc
     steps:
@@ -12,21 +12,53 @@ jobs:
           name: Testing JtR
           command: .circleci/circle-ci.sh $TARGET_ARCH TEST
 
+  common_osx: &common_osx
+    macos:
+      xcode: "9.1.0"
+    steps:
+      - checkout
+      - run:
+          name: Building JtR OSX
+          command: .circleci/circle-ci.sh $TARGET
+      - run:
+          name: Testing JtR OSX
+          command: .circleci/circle-ci.sh $TARGET TEST_OSX
+
   build-32bits:
-    <<: *common_build
+    <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.27.gcc
         environment:
           BASE: "fedora"
           TARGET_ARCH: "i686"
+          CCO: "gcc"
 
   build-64bits:
-    <<: *common_build
+    <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.27.gcc
         environment:
           BASE: "fedora"
           TARGET_ARCH: "x86_64"
+          CCO: "gcc"
+
+  build-osx82:
+    <<: *common_osx
+    macos:
+      xcode: "8.2"
+    environment:
+      BASE: "OSX"
+      TARGET: "OSX xcode 8.2"
+      CCO: "gcc"
+
+  build-osx91:
+    <<: *common_osx
+    macos:
+      xcode: "9.1.0"
+    environment:
+      BASE: "OSX"
+      TARGET: "OSX xcode 9.1.0"
+      CCO: "gcc"
 
 workflows:
   version: 2
