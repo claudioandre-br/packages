@@ -22,10 +22,8 @@ matrix:
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg"
   - env: TEST="fresh;ASAN;gcc;"          BUILD_OPTS="--enable-memdbg"
-    group: deprecated-2017Q3
   - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-memdbg --enable-werror"
-    group: deprecated-2017Q3
   - env: TEST="ztex;ASAN;clang-5;"       BUILD_OPTS="--enable-ztex --enable-memdbg --enable-werror"
   - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan"
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-werror"
