@@ -20,8 +20,8 @@ matrix:
     env: TEST="usual;OPENCL;"
 
   #Test JtR using a "hot" OS/compiler
-  - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg --enable-werror"
-  - env: TEST="fresh;ASAN;gcc;"          BUILD_OPTS="--enable-memdbg --enable-werror"
+  - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg"
+  - env: TEST="fresh;ASAN;gcc;"          BUILD_OPTS="--enable-memdbg"
     group: deprecated-2017Q3
   - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-memdbg --enable-werror"
@@ -44,11 +44,11 @@ matrix:
 
   #Test a non OpenMP build with clang (unusual test environment)
   - compiler: clang
-    env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp"
+    env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
 
   #Test a non SIMD build. OMP and non OpenMP. Note: non OpenMP + clang build fails
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   #Enable alignment checking ubsan
   - compiler: clang
@@ -72,10 +72,10 @@ matrix:
 
   - env: TEST="TS --internal;OPENCL;"
 
-  - env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp"
+  - env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
 
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
 
   - env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-ubsan"
 
