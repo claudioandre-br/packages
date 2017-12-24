@@ -10,7 +10,7 @@ In here there are **Snap** and **Flatpak** packages.
 - IRPF, a Brazilian government tool: check this [text](https://claudioandre.github.io/outros/irpf_package.htm?id=git) for more details.
 - Namebench, a benchmark tool: check [namebench](https://code.google.com/archive/p/namebench) for more details.
 - B1, a file archiver: check [B1](http://b1.org/) for more details.
-- Anatine, a Twitter client (deprecated): check [anatine](https://github.com/sindresorhus/anatine) for more details. See the [Installation notes](https://github.com/claudioandre/packages/tree/master/anatine#anatine).
+- Anatine, a Twitter client (deprecated): check [anatine](https://github.com/sindresorhus/anatine) for more details (*not published*).
 - Corebird, a Twitter client: check [corebird](https://github.com/baedert/corebird) for more details (*not published*).
 - doctl, a Digital Ocean tool: check [doctl](https://github.com/digitalocean/doctl) for more details (*not published*).
 - Peazip, a file archiver: check [peazip](http://www.peazip.org/) for more details (*not published*; upstream is not working on Linux).
