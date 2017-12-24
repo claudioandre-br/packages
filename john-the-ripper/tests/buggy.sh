@@ -24,7 +24,7 @@ FILES="pbkdf2-hmac-md4_fmt_plug.c pbkdf2-hmac-md5_fmt_plug.c $CL/opencl_pbkdf2_h
        $CL/opencl_o5logon_fmt_plug.c $CL/opencl_rawmd5_fmt_plug.c $CL/opencl_rawmd4_fmt_plug.c \
        $CL/opencl_xsha512_fmt_plug.c $CL/opencl_mysqlsha1_fmt_plug.c $CL/opencl_mscash_fmt_plug.c \
        openbsdsoftraid_fmt_plug.c dpapimk_fmt_plug.c $CL/opencl_sl3_fmt_plug.c \
-       $CL/opencl_rawsha1_fmt_plug.c $CL/opencl_salted_sha_fmt_plug.c"
+       $CL/opencl_rawsha1_fmt_plug.c $CL/opencl_salted_sha_fmt_plug.c $CL/opencl_bitlocker_fmt_plug.c"
 
 #BCrypt
 patch -l -f -p1 <<ENDPATCH
