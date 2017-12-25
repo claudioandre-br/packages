@@ -18,7 +18,7 @@ In here there are **Snap** and **Flatpak** packages.
 
 All the Snap packages are built using a build server. At this moment, I'm using **Launchpad** to build the Snap packages.
 
-Anyone can get, for free (as in beer and in freedom), the reviewed packages from [**uAppExplorer**](https://uappexplorer.com/apps?q=author%3AClaudio+Andr%C3%A9&type=all_types&sort=-points). Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
+Anyone can get, for free (as in beer), the reviewed packages from [**uAppExplorer**](https://uappexplorer.com/snaps?q=author%3AClaudio+Andr%C3%A9&sort=-points). Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
 
 #### Flatpak Package
 - John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre/packages/tree/master/john-the-ripper#flatpak) for more details.
@@ -32,7 +32,7 @@ At this moment, I'm using **AppVeyor CI** to build the Windows package.
 
 #### Testing
 
-Our CI testing scheme stresses JtR source code using:
+Our CI (continuous integration) testing scheme stresses John the Ripper source code using:
 - Ubuntu 14.04 LTS, Ubuntu 16.04 LTS, Ubuntu 17.10, Ubuntu 18.04 devel, Fedora 27, and Windows;
 - gcc 4.4, gcc 4.8, gcc 5.4, gcc 6.4, gcc 7.2 and gcc 8;
 - clang 4 and clang 5;
