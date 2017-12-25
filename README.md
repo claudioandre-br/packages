@@ -26,7 +26,7 @@ Anyone can get, for free (as in beer), the reviewed packages from [**uAppExplore
 At this moment, I'm using **GitLab** to build the Flatpak package.
 
 #### Windows Package
-- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre/packages/releases/tag/v1.0) for more details.
+- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre/packages/blob/master/john-the-ripper/readme.md#windows) for more details.
 
 At this moment, I'm using **AppVeyor CI** to build the Windows package.
 
