@@ -129,3 +129,37 @@ Run John the Ripper and check if it is working:
 $ flatpak run com.openwall.John
 $ flatpak run com.openwall.John --list=build-info
 ```
+
+## Windows
+> Built and deployed using AppVeyor CI
+
+To install John the Ripper by downloading the .zip file and installing manually, follow these steps:
+
+* Try to find out if your computer is running a 32-bit or 64-bit version of Windows. See also [this](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64).
+* Click the link of the 32-bit or 64-bit .zip to download the appropriate file to your machine.
+* Also, download the required 32-bit or 64-bit libraries (this has to be done only once).
+* Navigate to where you downloaded the files and double click the compressed file [1].
+* Extract the John .zip file to a directory such as `C:\john-the-ripper`.
+* Extract the libraries to the subfolder named `run` inside the same directory you picked above. 
+  * In the example it will be, `C:\john-the-ripper\run`.
+* Start a command prompt.
+* Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
+* Run JtR:
+```
+john --list=build-info
+john --test --format=SHA512crypt
+```
+
+The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
+- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/job/ck4v2gvg1mvsggpe/artifacts)
+- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/job/722bddunu88i6dlm/artifacts)
+
+#### File hashes computed by the CI server
+```
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          955D4BDB82BFC6A1028A5E488BBFB600F17EB0394E922692973D0FA33996BAEB       C:\projects\johntheripper\run\win_x64.zip
+SHA256          3DF9F0A72CFDCC17682D1B632C72ABD2A46197DE36B8C8687A2A8FDD8F1F349D       C:\projects\johntheripper\run\win_x32.zip
+```
+
+**[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
