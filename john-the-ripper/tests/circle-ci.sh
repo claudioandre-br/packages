@@ -100,7 +100,7 @@ if [[ $# -eq 1 ]]; then
     fi
 
     if [[ $ARCH == *"OSX"* ]]; then
-        ./configure
+        ./configure --enable-werror
     fi
     # Build
     make -sj2

@@ -17,7 +17,7 @@ matrix:
 
   #Test JtR using an ordinary OpenCL build
   - compiler: clang
-    env: TEST="usual;OPENCL;"
+    env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-werror"
 
   #Test JtR using a "hot" OS/compiler
   - env: TEST="fresh;ASAN;clang;"        BUILD_OPTS="--enable-memdbg"
@@ -25,7 +25,7 @@ matrix:
   - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="ztex;ASAN;clang-5;"       BUILD_OPTS="--enable-ztex --enable-memdbg --enable-werror"
-  - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan"
+  - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan --enable-werror"
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-werror"
 
   #Test using TS - CPU formats
