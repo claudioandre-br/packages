@@ -37,5 +37,5 @@ git add .travis/
 git add .circleci/
 git add buggy.sh
 
-git commit -m "Extra testing $(date)"
+git commit -m "CI: test plus Windows packaging $(date)"
 
