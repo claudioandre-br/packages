@@ -101,7 +101,7 @@ if [[ "$TEST" = "yes" ]]; then
     echo "====> T11:"
     "$JTR_BIN" tests.in --format=raw-sha256
     echo "====> T12:"
-    "$JTR_BIN" tests.in --format=sha512crypt
+    "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
 
     echo "====> T6:"
     ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
