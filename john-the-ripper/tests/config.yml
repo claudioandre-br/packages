@@ -32,6 +32,7 @@ jobs:
           BASE: "fedora"
           TARGET_ARCH: "i686"
           CCO: "gcc"
+          WINE: "wine"
 
   build-64bits:
     <<: *common_linux
@@ -40,6 +41,16 @@ jobs:
         environment:
           BASE: "fedora"
           TARGET_ARCH: "x86_64"
+          CCO: "gcc"
+          WINE: "wine"
+
+  build-armhf:
+    <<: *common_linux
+    docker:
+      - image: claudioandre/spidermonkey:fedora.armv7hf.gcc0
+        environment:
+          BASE: "fedora"
+          TARGET_ARCH: "ARMv7"
           CCO: "gcc"
 
   build-osx82:

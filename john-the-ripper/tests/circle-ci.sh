@@ -65,6 +65,7 @@ function do_Copy_Dlls(){
 # ----------- BUILD -----------
 cd src
 ARCH=$1
+JTR_BIN=../run/john
 export OMP_NUM_THREADS=3
 
 if [[ $# -eq 1 ]]; then
@@ -99,29 +100,40 @@ if [[ $# -eq 1 ]]; then
         ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
     fi
 
+    if [[ $ARCH == *"ARM"* ]]; then
+        ./configure --enable-werror
+    fi
+
     if [[ $ARCH == *"OSX"* ]]; then
         ./configure --enable-werror
     fi
     # Build
     make -sj2
-    mv ../run/john ../run/john.exe
 
     echo
     echo '-- Build Info --'
-    wine ../run/john.exe --list=build-info
+    $WINE $JTR_BIN --list=build-info
 fi
 
 if [[ $2 == "TEST" ]]; then
     export WINEDEBUG=-all
 
-    echo
-    echo '-- Test Full --'
-    wine ../run/john.exe --test-full=0
-fi
+    echo "---------------------------- TESTING -----------------------------"
+    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
+    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
+    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
+    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
+    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
 
-if [[ $2 == "TEST_OSX" ]]; then
+    echo "====> T10:"
+    $WINE $JTR_BIN tests.in --format=nt
+    echo "====> T11:"
+    $WINE $JTR_BIN tests.in --format=raw-sha256
+    echo "====> T12:"
+    $WINE $JTR_BIN tests.in --format=sha512crypt --mask=jo?l[n-q]
+
     echo
     echo '-- Test Full --'
-    ../run/john.exe --test-full=0
+    $WINE $JTR_BIN --test-full=0
 fi
 
