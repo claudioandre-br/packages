@@ -42,8 +42,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/claudioandre/JohnTheRipper/archive/1.8.1-jumbo-1.tar.gz",
-                    "sha256": "65a8fc1c98bc923b077087759952a85a3c44dc84112eebd3ad140cc573184cd5"
+                    "url": "https://github.com/magnumripper/JohnTheRipper/archive/bleeding-jumbo.zip",
+                    "sha256": "6f658e9774471af975470e95fca90685a18a2906b68e7913962e6f393336614b"
                 },
                 {
                     "type": "patch",
