@@ -33,7 +33,7 @@ At this moment, I'm using **AppVeyor CI** to build the Windows package.
 #### Testing
 
 Our CI (continuous integration) testing scheme stresses John the Ripper source code using:
-- Ubuntu 14.04 LTS, Ubuntu 16.04 LTS, Ubuntu 17.10, Ubuntu 18.04 devel, Fedora 27, and Windows;
+- CentOS 6, Ubuntu 14.04 LTS, Ubuntu 16.04 LTS, Ubuntu 17.10, Ubuntu 18.04 devel, Fedora 27, and Windows;
 - gcc 4.4, gcc 4.8, gcc 5.4, gcc 6.4, gcc 7.2 and gcc 8;
 - clang 4 and clang 5;
 - SIMD and non-SIMD;
