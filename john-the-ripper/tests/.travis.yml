@@ -40,6 +40,9 @@ matrix:
   - compiler: clang
     env: TEST="TS --internal;OPENCL;"
 
+  #Test OpenMP with OMP_NUM_THREADS=1
+  - env: TEST="usual;ASAN;" OMP_NUM_THREADS=1
+
   #Test a non OpenMP build with clang (unusual test environment)
   - compiler: clang
     env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
@@ -69,6 +72,8 @@ matrix:
   - env: TEST="TS;OPENCL;"
 
   - env: TEST="TS --internal;OPENCL;"
+
+  - env: TEST="usual;ASAN;" OMP_NUM_THREADS=1
 
   - env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
 
