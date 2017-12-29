@@ -1,3 +1,6 @@
+[![pipeline status](https://gitlab.com/claudioandre/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre/packages/pipelines)
+[![Build status](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre/johntheripper)
+
 Packages
 =============
 
