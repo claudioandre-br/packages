@@ -54,10 +54,7 @@ build_script:
   # Install required packages and allow extra formats
   - ps: |
       if ($env:Doing -eq "cygwin") {
-        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel"
-        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libbz2-devel"
-        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libgmp-devel"
-        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P zlib-devel"
+        cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel -P libbz2-devel -P libgmp-devel -P zlib-devel"
       }
 
   - ps: |
