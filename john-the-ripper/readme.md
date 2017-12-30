@@ -97,7 +97,7 @@ If you do so, you will be running the development version available on GitHub. T
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it at [GitHub](https://github.com/claudioandre/packages/releases/download/v1.0/artifacts.zip).
+John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/46252686/artifacts/download).
 
 The highlights:
 - fallback for CPU[2] and OMP;
