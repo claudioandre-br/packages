@@ -154,6 +154,10 @@ The links below contains all the executables and libraries needed to run a fresh
 - [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-1bbe5cf46/job/cjy4a8rc93w524ic/artifacts)
 - [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-1bbe5cf46/job/y5wrmbfave2btxj0/artifacts)
 
+The highlights:
+- OpenCL binary (GPU drivers installation is needed);
+- SIMD binaries (pick the best to use in your CPU).
+
 #### File hashes computed by the CI server
 ```
 Algorithm       Hash                                                                   Path
