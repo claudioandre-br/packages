@@ -167,3 +167,8 @@ SHA256          A9987FDE847C13E9576606F7885F005A8358E8211F2FC00CC9DCADA7B6EF0ADF
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
+
+### Running OpenCL
+Some adjustments are required to allow John the Ripper detect your GPU hardware. So, please, ask. That said, it works perfectly:
+
+![image](https://user-images.githubusercontent.com/1702923/34458379-c1ec23a4-edb7-11e7-8913-e500a87d38ab.png)
