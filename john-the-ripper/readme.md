@@ -169,6 +169,34 @@ SHA256          A9987FDE847C13E9576606F7885F005A8358E8211F2FC00CC9DCADA7B6EF0ADF
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
 
 ### Running OpenCL
-Some adjustments are required to allow John the Ripper detect your GPU hardware. So, please, ask. That said, it works perfectly:
+Some adjustments might be required to allow John the Ripper detect your GPU hardware. If you are facing problems, please, ask for support. That said, it works perfectly:
 
 ![image](https://user-images.githubusercontent.com/1702923/34458379-c1ec23a4-edb7-11e7-8913-e500a87d38ab.png)
+
+
+Real cracking:
+```
+C:\bleeding\run>john-opencl --format=sha512crypt-opencl d:\hash.txt
+Device 0: Juniper [AMD Radeon HD 6700 Series]
+Using default input encoding: UTF-8
+Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Press 'q' or Ctrl-C to abort, almost any other key for status
+                 (?)
+1g 0:00:00:28  3/3 0.03540g/s 5553p/s 9178c/s 9178C/s 123456
+```
+
+```
+C:\bleeding\run>john-opencl --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
+Device 0: Juniper [AMD Radeon HD 6700 Series]
+Using default input encoding: UTF-8
+Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
+Remaining 1 password hash
+Cost 1 (iteration count) is 5000 for all loaded hashes
+Press 'q' or Ctrl-C to abort, almost any other key for status
+GPU 0 probably invalid temp reading (-1°C).
+Hello world!     (?)
+1g 0:00:05:06 DONE (2018-01-01 15:08) 0.003265g/s 11369p/s 11369c/s 11369C/s HelloYworik_..HelloLworurU
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+```
