@@ -76,16 +76,24 @@ build_script:
         # OpenCL build
         shell "./configure --disable-native-tests CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-opencl"
 
-        # shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx  -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=`"john-sse2`"' && make -s clean && make sj2 && mv ../run/john ../run/john-avx"
+        #shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
+        #shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx  -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse2\\\`"\`" ' && make -s clean && make -sj2"
+
         shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
         shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx'  && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-avx"
         shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mxop'  && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-xop"
         shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-avx2"
         shell "cp ../run/john-avx2 ../run/john"
 
-        # Install OpenCL kernel code
-        shell "make kernel-copy"
+        # Configure OpenCL ICD
+        shell "mkdir -p ../etc/OpenCL/vendors"
+        shell "echo 'c:\Windows\System32\amdocl64.dll' > ../etc/OpenCL/vendors/amd.icd"
+        shell "echo 'c:\Windows\System32\nvopencl.dll' > ../etc/OpenCL/vendors/nvidia.icd"
 
+        # Install OpenCL kernel code
+        shell "make -s kernel-copy"
+
+        # Save CygWin Dlls
         mkdir ..\lib
         xcopy C:\$location\bin\*.dll ..\lib\
 
@@ -125,8 +133,6 @@ test_script:
   - echo "====> T12:"
   - john tests.in --format=sha512crypt
 
-  - xcopy ..\run\john-sse2.exe ..\run\john.exe /y
-
 on_failure:
   - dir ..\ /s > dir.txt
   - if exist "dir.txt" 7z a -tzip debug_logs.zip "dir.txt" > nul
@@ -141,6 +147,7 @@ on_finish:
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\READ*"
+  - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\etc"
   - if exist "win_x%bits%.zip" appveyor PushArtifact "win_x%bits%.zip"
 
   - ps: |
