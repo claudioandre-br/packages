@@ -97,7 +97,7 @@ If you do so, you will be running the development version available on GitHub. T
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/46252686/artifacts/download).
+John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/46461704/artifacts/download).
 
 The highlights:
 - fallback for CPU[2] and OMP;
@@ -151,19 +151,20 @@ john --test --format=SHA512crypt
 ```
 
 The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-1bbe5cf46/job/cjy4a8rc93w524ic/artifacts)
-- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-1bbe5cf46/job/y5wrmbfave2btxj0/artifacts)
+- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-72278a037/job/sewiql0chdle9e9j/artifacts)
+- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-72278a037/job/vbfrr55g28qbvp17/artifacts)
 
 The highlights:
-- OpenCL binary (GPU drivers installation is needed);
+- OpenCL binary available (GPU driver installation is needed);
+- Generic crypt(3) format available;
 - SIMD binaries (pick the best to use in your CPU).
 
 #### File hashes computed by the CI server
 ```
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          8D33178EF8802BF83E9A1CC92C12EB721AFA08BF04EB97BF084A9230649B7BFD       C:\projects\johntheripper\run\win_x64.zip
-SHA256          A9987FDE847C13E9576606F7885F005A8358E8211F2FC00CC9DCADA7B6EF0ADF       C:\projects\johntheripper\run\win_x32.zip
+SHA256          45BA1A4EA04974F0A912BA2D43F988E62CBEF436C1D901752D316A09AF9F8B06       C:\projects\johntheripper\run\win_x64.zip
+SHA256          88A195391CFFFBE135055E4B1BF4ABDFE23A153EB89FF97B77B4EE44CAFE902A       C:\projects\johntheripper\run\win_x32.zip
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
