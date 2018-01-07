@@ -18,6 +18,8 @@ arch=$(uname -m)
 git rev-parse --short HEAD 2>/dev/null > ../../../../My_VERSION.TXT
 
 # Show env info
+echo '--------------------------------'
+uname -m; id
 echo 'Compiler version'
 gcc --version
 echo '--------------------------------'
