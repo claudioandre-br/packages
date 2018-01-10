@@ -246,10 +246,8 @@ elif [[ "$TEST" == *"snap;"* ]]; then
     sudo snap install john-the-ripper
     sudo snap connect john-the-ripper:process-control core:process-control
 
-    echo '--------------------------------'
-    john -list=build-info
-    echo '--------------------------------'
-    john -test-full=0
+    # Run the test
+    .travis/tests.sh "SNAP"
 
 elif [[ "$TEST" == *"snap fedora;"* ]]; then
     docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "

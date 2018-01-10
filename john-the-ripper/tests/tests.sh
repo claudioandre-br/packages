@@ -83,7 +83,12 @@ do_Test () {
 }
 
 # ---- Show JtR Build Info ----
-JtR="../run/john"
+if [[ "$1" == "SNAP" ]];  then
+    JtR="john"
+    export EXTRAS="snap"
+else
+    JtR="../run/john"
+fi
 
 echo '--------------------------------'
 "$JtR" -help
@@ -221,6 +226,29 @@ elif test "$FUZZ" = "afl" ; then
     "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
     afl-fuzz -m none -t 5000+ -i in -o out -d "$JtR" --format=opencl --nolog --verb=1 @@
     echo $?
+
+elif test "$EXTRAS" = "snap" ; then
+    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
+    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
+    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
+    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
+    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
+
+    echo "====> T4:"
+    "$JtR" -test-full=0 --format=nt
+    echo "====> T5-a:"
+    "$JtR" -test-full=0 --format=sha512crypt
+    echo "------------------------------------------------------------------"
+    "$JtR" -test-full=0 --format=raw*
+    echo "------------------------------------------------------------------"
+    echo
+
+    echo "====> T10-a:"
+    "$JtR" tests.in --format=nt --fork=2
+    echo "====> T11-a:"
+    "$JtR" tests.in --format=raw-sha256 --fork=2
+    echo "====> T12:"
+    "$JtR" tests.in --format=sha512crypt --mask=jo?l[n-q]
 
 else
     # ---- Regular testing ----
