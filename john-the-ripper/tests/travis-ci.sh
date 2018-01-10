@@ -8,7 +8,13 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang llvm libiomp-dev > /dev/null
+        debhelper libnet1-dev libbz2-dev wget clang llvm > /dev/null
+
+    if [[ "$_system_version" != "12.04" ]]; then
+        # Ubuntu precise doesn't have this package
+        sudo apt-get -y -qq install \
+            libiomp-dev > /dev/null
+    fi
 
     if [[ ! -f /usr/lib/x86_64-linux-gnu/libomp.so ]]; then
         # A bug somewhere?
@@ -239,6 +245,11 @@ elif [[ "$TEST" == *"snap;"* ]]; then
     # Install and test
     sudo snap install john-the-ripper
     sudo snap connect john-the-ripper:process-control core:process-control
+
+    echo '--------------------------------'
+    john -list=build-info
+    echo '--------------------------------'
+    john -test-full=0
 
 elif [[ "$TEST" == *"snap fedora;"* ]]; then
     docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "

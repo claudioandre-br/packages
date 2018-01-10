@@ -6,6 +6,8 @@ matrix:
   include:
   #Test JtR using a stable OS/compiler
   - env: TEST="stable;gcc;" BUILD_OPTS="--enable-werror"
+  - dist: precise
+    env: TEST="stable;usual;gcc;" BUILD_OPTS="--enable-werror"
 
   #Test JtR using a gcc build with asan and OpenCL
   - compiler: gcc
@@ -64,7 +66,8 @@ matrix:
   #- env: TEST="TS --restore;" # WE KNOW IT IS NOT WORKING
 
   #Test the Ubuntu Snap package
-  #- env: TEST="snap;" SNAPD can't work inside docker
+  - dist: xenial
+    env: TEST="snap;"
 
   allow_failures:
   - env: TEST="TS;"
@@ -86,7 +89,7 @@ matrix:
 
   - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
-  #- env: TEST="snap;"
+  - env: TEST="snap;"
 
   fast_finish: true
 
