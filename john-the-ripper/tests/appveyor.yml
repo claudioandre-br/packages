@@ -16,11 +16,19 @@ environment:
       doing: cygwin
       location: cygwin64
 
+    # CygWin 64bits build on Windows Server 2016
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      arch: x86_64
+      bits: 64
+      doing: cygwin
+      location: cygwin64
+
     # MinGW requires a patch in configure
     # - it is necessary to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
 
 install:
   - cd src
+  - systeminfo | findstr /C:"OS"
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"

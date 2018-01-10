@@ -44,7 +44,7 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
 - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
 - Fuzzing (https://en.wikipedia.org/wiki/Fuzzing);
 - MinGW + Wine (on Fedora Linux);
-- CygWin on Windows Server 2012;
+- CygWin on Windows Server 2012 R2 and Windows Server 2016;
 - OpenCL on CPU using AMD drivers and POCL (http://portablecl.org/);
 - And a final assessment using armhf, aarch64, and ppc64.
 
