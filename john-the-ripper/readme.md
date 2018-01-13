@@ -30,12 +30,12 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
 The highlights:
-- fallback for CPU[1] and OMP;
+- fallback for CPU[*] and OMP;
 - regex and prince modes available;
-- available for X86_64, armhf, arm64 and ppc64.
+- available for X86_64, armhf, arm64, and ppc64;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
-[1] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
 ### Running a non-OpenMP build
 In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying `OMP_NUM_THREADS=1 john <options>` in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
@@ -100,10 +100,10 @@ Flatpak is available for the [most common Linux distributions](http://flatpak.or
 John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/46461704/artifacts/download).
 
 The highlights:
-- fallback for CPU[2] and OMP;
+- fallback for CPU[*] and OMP;
 - regex and prince modes available.
 
-[2] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
 ******
 The necessary steps to install the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
@@ -155,9 +155,20 @@ The links below contains all the executables and libraries needed to run a fresh
 - [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-72278a037/job/vbfrr55g28qbvp17/artifacts)
 
 The highlights:
+- fallback for CPU[*] and OMP;
+- available for X86_64 and i386;
 - OpenCL binary available (GPU driver installation is needed);
 - Generic crypt(3) format available;
-- SIMD binaries (pick the best to use in your CPU).
+- prince mode available.
+
+[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+
+### Running a non-OpenMP build
+In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
+```
+set OMP_NUM_THREADS=1
+john --list=build-info
+```
 
 #### File hashes computed by the CI server
 ```
