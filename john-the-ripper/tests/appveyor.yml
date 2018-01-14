@@ -79,19 +79,17 @@ build_script:
       echo '--------------------------------'
 
       if ($doing -eq "cygwin") {
-        # Fallback is disabled for CygWin
-
-        # OpenCL build
-        shell "./configure --disable-native-tests CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-opencl"
-
-        #shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
-        #shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx  -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse2\\\`"\`" ' && make -s clean && make -sj2"
-
-        shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-msse2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
-        shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx'  && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-avx"
-        shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mxop'  && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-xop"
-        shell "./configure --disable-native-tests --disable-opencl CPPFLAGS='-mavx2' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-avx2"
-        shell "cp ../run/john-avx2 ../run/john"
+        # CPU (OMP and extensions fallback)
+        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse2' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-sse2-non-omp"
+        shell "./configure --disable-native-tests                  CPPFLAGS='-msse2  -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-sse2-non-omp\\\`"\`" ' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
+        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse4.1 -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse2\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-sse41-non-omp"
+        shell "./configure --disable-native-tests                  CPPFLAGS='-msse4.1 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-sse41-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse2\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-sse41"
+        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-mavx   -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse41\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-avx-non-omp"
+        shell "./configure --disable-native-tests                  CPPFLAGS='-mavx   -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-avx-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-sse41\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-avx"
+        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-mxop   -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-avx\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-xop-non-omp"
+        shell "./configure --disable-native-tests                  CPPFLAGS='-mxop   -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-xop-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-avx\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-xop"
+        shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-mavx2  -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-xop\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-avx2-non-omp"
+        shell "./configure --disable-native-tests                  CPPFLAGS='-mavx2  -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-avx2-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-xop\\\`"\`" ' && make -s clean && make -sj2  && make -s strip"
 
         # Configure OpenCL ICD
         shell "mkdir -p ../etc/OpenCL/vendors"
@@ -132,7 +130,7 @@ test_script:
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
   - echo "====> T0:"
-  - john -test-full=0
+  - john -test-full=0 --format=cpu
 
   - echo "====> T10:"
   - john tests.in --format=nt
