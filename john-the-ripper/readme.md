@@ -212,3 +212,8 @@ Hello world!     (?)
 Use the "--show" option to display all of the cracked passwords reliably
 Session completed
 ```
+
+**Random notes:**
+- sse4.1 detection has problems on 32 bits;
+- fallback chain is AVX2 -> XOP -> AVX -> SSE4.1 -> SSE2 (is SSE4.1 needed at all?);
+- only one binary to run CPU and OpenCL formats (anyone needs different binaries?).
