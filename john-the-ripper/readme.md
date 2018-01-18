@@ -151,8 +151,8 @@ john --test --format=SHA512crypt
 ```
 
 The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-72278a037/job/sewiql0chdle9e9j/artifacts)
-- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-72278a037/job/vbfrr55g28qbvp17/artifacts)
+- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-96520294d/job/5kjfvulitlvr4qam/artifacts)
+- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-96520294d/job/s4r8l882kpa3jq1x/artifacts)
 
 The highlights:
 - fallback for CPU[*] and OMP;
@@ -174,8 +174,8 @@ john --list=build-info
 ```
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          45BA1A4EA04974F0A912BA2D43F988E62CBEF436C1D901752D316A09AF9F8B06       C:\projects\johntheripper\run\win_x64.zip
-SHA256          88A195391CFFFBE135055E4B1BF4ABDFE23A153EB89FF97B77B4EE44CAFE902A       C:\projects\johntheripper\run\win_x32.zip
+SHA256          F24A1859D07E35A1F46A7EC6111B8AE4DF7C53E016C96F8AF45C756B0DA3F5A3       C:\projects\johntheripper\run\win_x64.zip
+SHA256          DAA7F44E2CC4AB4711C628619D936C34D2C33AE9B32A6967577CF397C50B48E7       C:\projects\johntheripper\run\win_x32.zip
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
