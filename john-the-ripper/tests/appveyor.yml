@@ -99,6 +99,10 @@ build_script:
         # Install OpenCL kernel code
         shell "make -s kernel-copy"
 
+        # Remove unused stuff
+        shell "rm -rf ../run/kerberom"
+        shell "rm -rf ../run/ztex"
+
         # Save CygWin Dlls
         mkdir ..\lib
         xcopy C:\$location\bin\*.dll ..\lib\
@@ -133,9 +137,9 @@ test_script:
   - john -test-full=0 --format=cpu
 
   - echo "====> T10:"
-  - john tests.in --format=nt
+  - john tests.in --format=nt --fork=2
   - echo "====> T11:"
-  - john tests.in --format=raw-sha256
+  - john tests.in --format=raw-sha256 --fork=2
   - echo "====> T12:"
   - john tests.in --format=sha512crypt
 

@@ -245,11 +245,11 @@ elif test "$EXTRAS" = "snap" ; then
     echo "------------------------------------------------------------------"
     echo
 
-    echo "====> T10-a:"
+    echo "====> T10:"
     "$JtR" tests.in --format=nt --fork=2
-    echo "====> T11-a:"
+    echo "====> T11:"
     "$JtR" tests.in --format=raw-sha256 --fork=2
-    echo "====> T12:"
+    echo "====> T12-a:"
     "$JtR" tests.in --format=sha512crypt --mask=jo?l[n-q]
 
 else

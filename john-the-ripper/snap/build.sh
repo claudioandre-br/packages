@@ -54,8 +54,13 @@ else
     ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
     ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
 
+    # Workaround for non X86
     ln -s ../run/john ../run/john-opencl
 fi
+# Remove unused stuff
+rm -rf ../run/kerberom
+rm -rf ../run/ztex
+
 # Do some testing
 TEST=yes #always
 sudo apt-get install -y language-pack-en
@@ -106,10 +111,10 @@ if [[ "$TEST" = "yes" ]]; then
     echo
 
     echo "====> T10:"
-    "$JTR_BIN" tests.in --format=nt
+    "$JTR_BIN" tests.in --format=nt --fork=2
     echo "====> T11:"
-    "$JTR_BIN" tests.in --format=raw-sha256
-    echo "====> T12:"
+    "$JTR_BIN" tests.in --format=raw-sha256 --fork=2
+    echo "====> T12-a:"
     "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
 
     echo "====> T6:"
