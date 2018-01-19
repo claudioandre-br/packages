@@ -146,8 +146,8 @@ To install John the Ripper by downloading the .zip file and installing manually,
 * Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
 * Run JtR:
 ```
-john --list=build-info
-john --test --format=SHA512crypt
+C:\john-the-ripper\run>john --list=build-info
+C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
 The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
@@ -166,8 +166,8 @@ The highlights:
 ### Running a non-OpenMP build
 In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
 ```
-set OMP_NUM_THREADS=1
-john --list=build-info
+C:\john-the-ripper\run>set OMP_NUM_THREADS=1
+C:\john-the-ripper\run>john --list=build-info
 ```
 
 #### File hashes computed by the CI server
