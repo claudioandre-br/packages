@@ -17,6 +17,9 @@ if [[ "$TEST" != "yes" ]]; then
         'ppc64le' | 'powerpc64le')
             text='P'
             ;;
+        's390x')
+            text='S'
+            ;;
     esac
     # View package version
     echo "s/edge/1.8JP-$git_tag$text/g"

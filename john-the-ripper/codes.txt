@@ -1,8 +1,0 @@
-version: 1.8.0-J1-f22de0a
-
-Became:
-version: 1.8.0-J1-f22de0a -> x86_64
-version: 1.8.0-a1-f22de0a -> armhf
-version: 1.8.0-B1-f22de0a -> arm64
-version: 1.8.0-x1-f22de0a -> x86 (32bit)
-

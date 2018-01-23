@@ -18,6 +18,9 @@ version-script: |
     'ppc64le' | 'powerpc64le')
         text='P'
         ;;
+    's390x')
+        text='S'
+        ;;
   esac
   echo "1.8J1-$git_tag$text"
 
