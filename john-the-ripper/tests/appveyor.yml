@@ -108,14 +108,16 @@ build_script:
         xcopy C:\$location\bin\*.dll ..\lib\
 
         # Needed dlls (Windows 7 32 bits)
-        # C:\$location\bin\cygwin1.dll
-        # C:\$location\bin\cygbz2-1.dll
-        # C:\$location\bin\cygcrypto-1.0.0.dll
-        # C:\$location\bin\cyggcc_s-1.dll
-        # C:\$location\bin\cyggomp-1.dll
-        # C:\$location\bin\cyggmp-10.dll
-        # C:\$location\bin\cygssl-1.0.0.dll
-        # C:\$location\bin\cygz.dll
+        # xcopy C:\$location\bin\cygwin1.dll         ..\run\
+        # xcopy C:\$location\bin\cygbz2-1.dll        ..\run\
+        # xcopy C:\$location\bin\cygcrypto-1.0.0.dll ..\run\
+        # xcopy C:\$location\bin\cyggcc_s-1.dll      ..\run\
+        # xcopy C:\$location\bin\cyggomp-1.dll       ..\run\
+        # xcopy C:\$location\bin\cyggmp-10.dll       ..\run\
+        # xcopy C:\$location\bin\cygssl-1.0.0.dll    ..\run\
+        # xcopy C:\$location\bin\cygz.dll            ..\run\
+        # xcopy C:\$location\bin\cygcrypt-0.dll      ..\run\
+        # xcopy C:\$location\bin\cygOpenCL-1.dll     ..\run\
       }
 
 test_script:

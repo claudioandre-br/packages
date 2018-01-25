@@ -32,7 +32,7 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 The highlights:
 - fallback for CPU[*] and OMP;
 - regex and prince modes available;
-- available for X86_64, armhf, arm64, and ppc64;
+- available for X86_64, armhf, arm64, ppc64, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
