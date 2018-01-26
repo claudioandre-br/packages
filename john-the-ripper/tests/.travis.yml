@@ -28,7 +28,7 @@ matrix:
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-memdbg --enable-werror"
   - env: TEST="ztex;ASAN;clang-5;"       BUILD_OPTS="--enable-ztex --enable-memdbg --enable-werror"
   - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan"
-  - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-werror"
+  - env: TEST="fresh;experimental;"
 
   #Test using TS - CPU formats
   - compiler: clang
