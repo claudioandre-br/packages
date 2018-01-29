@@ -12,9 +12,10 @@ env:
 
 matrix:
   include:
-  - env: IMAGE=ubuntu:17.10 BASE=ubuntu NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey
-  - env: IMAGE=fedora:26 BASE=fedora NAME=fedora.26.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:17.10 BASE=debian NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey
 
   # Very heavy tasks. Run it in 2 phases.
   #- env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
