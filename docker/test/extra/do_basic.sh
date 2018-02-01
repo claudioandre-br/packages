@@ -72,3 +72,17 @@ function do_Install_Dependencies(){
                           libedit-devel libasan libubsan lcov
     fi
 }
+
+function do_Install_Extras(){
+    echo
+    echo '-- Installing Extra Dependencies --'
+
+    if [[ $BASE == "debian" ]]; then
+        # Distros development versions of needed libraries
+        apt-get -y -qq install libgirepository1.0-dev > /dev/null
+
+    elif [[ $BASE == "fedora" ]]; then
+        # Distros development versions of needed libraries
+        dnf -y -q install gobject-introspection-devel
+    fi
+}
