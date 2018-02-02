@@ -8,7 +8,7 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang llvm > /dev/null
+        debhelper libnet1-dev libbz2-dev wget clang llvm zlib1g-dev > /dev/null
 
     if [[ "$_system_version" != "12.04" ]]; then
         # Ubuntu precise doesn't have this package
@@ -92,7 +92,7 @@ function do_Build_Docker_Command(){
     else
         update="\
           apt-get update -qq; \
-          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev $1 > /dev/null;"
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev zlib1g-dev $1 > /dev/null;"
 
         if [[ "$TEST" == *";POCL;"* ]]; then
             update="$update apt-get install -y -qq libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
