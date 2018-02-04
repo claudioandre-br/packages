@@ -64,3 +64,29 @@ after_success:
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
+
+#################################################
+#sudo: required
+#dist: trusty
+#services:
+#- docker
+#
+#cache:
+#  directories:
+#  - ".encrypted"
+#
+#before_install:
+#  - docker pull didrocks/snapcraft
+#
+#script:
+#  - cd $BUILD_DIR
+#  #- docker run -v $HOME:/root -v $(pwd):/cwd didrocks/snapcraft sh -c 'cd /cwd; snapcraft prime'
+#  #- ../snap.sh
+#  - ls -la
+#
+#env:
+#  matrix:
+#    - BUILD_DIR=john-the-ripper SNAP=yes
+#  global:
+#    secure: rSXodPSWg4g+RJRoQfB7OJiDytn+84L5135f33RLu/kEb8K6gkcvLeXlbNZO+Epiau5WoTTMDzL4+sCsE9AHLRPWOVlwY5jNj2g9aQ8zY1sqXloPDmg4ETjci7sPsvCFNVyDhN7aSXTke3r+Ta7BFxwFW9hrH+G8mz1zYf1CmxJsJRH5EzzdKHWW0zHwXtij95np/8NQunewAp6oFz+BAEivtB6VaU+m6glSwpnJAqThS41gcLhVsgTpMVk7DL2UClT7IASC4dEohfoLDC+pQfAA1o54tL3YL8anPwl76tkU3u/2vg1c4anc/gPsaJ7orhlBn83jXGHGj49zslBXSf4LFuyNa/mWYO6SlbnMGztG2WQ4SQoFDEJa3h3kQ/q7aMbTnSuxcw3gKgEJDbGOAH8D0AaK+ztcKkKYyOYxlV710rLbkEeVGuPSgn37oJNKiydYP8aqVoGUwZpsNzenk2CVYvgqeCB/V8f7qGr3u26pQHKEcxMFuFvqfDd5whL+3DhoM39a554idE6ZZvBbcfHcZ+E4Ru8JtneJVHd5yzZbHo7pjRs6dvAwMtIv25NgfG6YkIpECMo+NQ9+ep9/jEdJvtOtc7oS1hpW6FZuDlYfq/ryGP6XI8Dw/GAwl2/hq1PPLYH6qaO2ew/xBav4xlnn+rCJSs985QtKTV/XTC4=
+#################################################
