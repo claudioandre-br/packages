@@ -36,6 +36,7 @@ if [[ $1 == "BUILD_MOZ" ]]; then
 
 elif [[ $1 == "GET_FILES" ]]; then
     do_Set_Env
+    do_Show_Info
     do_Get_Files
 
     if [[ $2 == "DOCKER" ]]; then
