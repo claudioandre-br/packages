@@ -1,27 +1,5 @@
 #!/bin/bash -e
 
-function do_Install_Git(){
-    echo
-    echo '-- Installing Git --'
-
-    if [[ $BASE == "debian" ]]; then
-        apt-get update -qq
-
-        # Git
-        apt-get -y -qq install git > /dev/null
-
-    elif [[ $BASE == "fedora" ]]; then
-        dnf -y -q upgrade
-
-        # git
-        dnf -y -q install git
-    else
-        echo
-        echo '-- Error: invalid BASE code --'
-        exit 1
-    fi
-}
-
 function do_Install_Base_Dependencies(){
     echo
     echo '-- Installing Base Dependencies --'
@@ -36,9 +14,7 @@ function do_Install_Base_Dependencies(){
                                docbook docbook-xsl libtext-csv-perl \
                                zlib1g-dev libdbus-glib-1-dev \
                                libtool libicu-dev libnspr4-dev \
-                               policykit-1 cppcheck \
-                               apt-file > /dev/null
-        apt-file update
+                               policykit-1 cppcheck > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
         dnf -y -q upgrade

@@ -13,10 +13,7 @@ function do_Install_Base_Dependencies(){
                                docbook docbook-xsl libtext-csv-perl \
                                zlib1g-dev \
                                libtool libicu-dev libnspr4-dev \
-                               policykit-1 \
-                               apt-file > /dev/null
-
-        apt-file update
+                               policykit-1 > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
         dnf -y -q upgrade
@@ -79,8 +76,6 @@ function do_Shrink_Image(){
     jhbuild clean
 
     if [[ $BASE == "ubuntu" ]]; then
-        apt-get -y -qq remove --purge apt-file
-
         apt-get -y autoremove
         apt-get -y clean
         rm -rf /var/lib/apt/lists/*
