@@ -4,9 +4,10 @@ function do_Set_Env(){
     echo
     echo '-- Set Environment --'
 
-    #Save cache on host
+    #Keep cache on host (outside the image), if linked
     mkdir -p /cwd/.cache
     export XDG_CACHE_HOME=/cwd/.cache
+
     export JHBUILD_RUN_AS_ROOT=1
     export SHELL=/bin/bash
     PATH=$PATH:~/.local/bin
@@ -47,7 +48,11 @@ function do_Show_Info(){
 }
 
 # ----------- Run the Tests -----------
-cd /cwd
+if [[ -d /cwd ]]; then
+    cd /cwd
+else
+    cd /saved
+fi
 
 if [[ -n "${BUILD_OPTS}" ]]; then
     extra_opts="($BUILD_OPTS)"
@@ -72,7 +77,7 @@ if [[ $1 == "GJS" ]]; then
     if [[ $2 != "devel" ]]; then
         do_Patch_JHBuild
         do_Build_JHBuild
-        do_Configure_JhBuild
+        do_Configure_JHBuild
         do_Build_Package_Dependencies gjs
 
     else

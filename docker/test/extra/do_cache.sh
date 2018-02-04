@@ -14,7 +14,7 @@ function do_Get_Files(){
     echo
     echo '-- Restoring build files --'
 
-    cp -r "/cwd/SAVED/$OS/jhbuild" ~/jhbuild
-    cp -r "/cwd/SAVED/$OS/.local"  ~/.local
+    cp -r "/saved/SAVED/$OS/jhbuild" ~/jhbuild
+    cp -r "/saved/SAVED/$OS/.local"  ~/.local
     echo '-- Done --'
 }
