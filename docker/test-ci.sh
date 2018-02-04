@@ -9,6 +9,7 @@ function do_Set_Env(){
     export XDG_CACHE_HOME=/cwd/.cache
     export JHBUILD_RUN_AS_ROOT=1
     export SHELL=/bin/bash
+    PATH=$PATH:~/.local/bin
 
     if [[ -z "${DISPLAY}" ]]; then
         export DISPLAY=":0"
@@ -48,32 +49,36 @@ function do_Show_Info(){
 # ----------- Run the Tests -----------
 cd /cwd
 
+if [[ -n "${BUILD_OPTS}" ]]; then
+    extra_opts="($BUILD_OPTS)"
+fi
+
+# Show some environment info
+echo
+echo '-- Environment --'
+echo "Running on: $BASE $OS  $extra_opts"
+echo "Doing: $1"
+
 source test/extra/do_basic.sh
 source test/extra/do_jhbuild.sh
 source test/extra/do_cache.sh
 source test/extra/do_mozilla.sh
 source test/extra/do_docker.sh
 
-# Show some environment info
-echo
-echo '-- Environment --'
-echo "Running on: $BASE $OS"
-echo "Doing: $1"
-
 if [[ $1 == "GJS" ]]; then
     do_Set_Env
-
     do_Show_Info
-    do_Patch_JHBuild
-    do_Build_JHBuild
-    do_Configure_JHBuild
 
     if [[ $2 != "devel" ]]; then
+        do_Patch_JHBuild
+        do_Build_JHBuild
+        do_Configure_JhBuild
         do_Build_Package_Dependencies gjs
+
     else
-      jhbuild build m4-common
-      mkdir -p ~/jhbuild/checkout/gjs
-      do_Install_Extras
+        do_Configure_JHBuild
+        jhbuild build m4-common
+        mkdir -p ~/jhbuild/checkout/gjs
     fi
 
     # Build and test the latest commit (merged or from a merge/pull request) of

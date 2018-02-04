@@ -13,9 +13,10 @@ env:
 matrix:
   include:
   - env: IMAGE=ubuntu:17.10 BASE=debian NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey
-  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
   - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
 
   # Very heavy tasks. Run it in 2 phases.
   #- env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
@@ -32,10 +33,12 @@ script:
   # For a heavy build, add -m 500M --oom-kill-disable
   # Creates a much smaller image.
   - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
-      -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh BUILD_MOZ"
+        -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=gcc $IMAGE
+      bash -e -c "/test-ci.sh BUILD_MOZ"
     '
   - 'docker run --name $NAME -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
-      -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $IMAGE bash -e -c "/test-ci.sh GET_FILES DOCKER"
+        -e BASE=$BASE -e OS=$IMAGE -e DEV=$DEV -e CC=gcc $IMAGE
+      bash -e -c "/test-ci.sh GET_FILES DOCKER"
     '
   - docker commit $NAME $REPO:$NAME
 
