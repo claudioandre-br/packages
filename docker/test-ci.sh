@@ -4,7 +4,7 @@ function do_Set_Env(){
     echo
     echo '-- Set Environment --'
 
-    #Keep cache on host (outside the image), if linked
+    #Save cache on host (outside the image), if linked
     mkdir -p /cwd/.cache
     export XDG_CACHE_HOME=/cwd/.cache
 

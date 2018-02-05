@@ -4,26 +4,10 @@ function do_Patch_JHBuild(){
     echo
     echo '-- Patching JHBuild --'
 
-    if [[ ! -d jhbuild ]]; then
-      git clone --depth 1 https://github.com/GNOME/jhbuild.git
-    fi
+    git clone --depth 1 https://github.com/GNOME/jhbuild.git /jhbuild
 
-    # Create and apply a patch
-    cd jhbuild
-    patch -p1 <<ENDPATCH
-diff --git a/jhbuild/utils/systeminstall.py b/jhbuild/utils/systeminstall.py
-index 75b0849..08965fa 100644
---- a/jhbuild/utils/systeminstall.py
-+++ b/jhbuild/utils/systeminstall.py
-@@ -428,7 +428,7 @@ class AptSystemInstall(SystemInstall):
-
-     def _install_packages(self, native_packages):
-         logging.info(_('Installing: %(pkgs)s') % {'pkgs': ' '.join(native_packages)})
--        args = self._root_command_prefix_args + ['apt-get', 'install']
-+        args = ['apt-get', '-y', 'install']
-         args.extend(native_packages)
-         subprocess.check_call(args)
-ENDPATCH
+    # A patch is no longer required
+    cd /jhbuild
 
     echo '-- Done --'
     cd -
@@ -70,7 +54,7 @@ function do_Build_JHBuild(){
     echo '-- Building JHBuild --'
 
     # Build JHBuild
-    cd jhbuild
+    cd /jhbuild
     git log --pretty=format:"%h %cd %s" -1
     echo
     ./autogen.sh
