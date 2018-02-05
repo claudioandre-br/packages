@@ -4,9 +4,6 @@ function do_Shrink_Image(){
     echo
     echo '-- Cleaning image --'
     PATH=$PATH:~/.local/bin
-    jhbuild clean || true
-    rm -rf ~/.config/jhbuildrc ~/.jhbuildrc ~/checkout
-    rm -rf ~/jhbuild/checkout
     rm -rf ~/jhbuild/install/lib/libjs_static.ajs
 
     if [[ $BASE == "ubuntu" ]]; then
