@@ -97,7 +97,7 @@ If you do so, you will be running the development version available on GitHub. T
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/46461704/artifacts/download).
+John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre/packages/pipelines). You can get it [here](https://gitlab.com/claudioandre/packages/-/jobs/53155602/artifacts/download).
 
 The highlights:
 - fallback for CPU[*] and OMP;
@@ -151,8 +151,8 @@ C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
 The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-96520294d/job/5kjfvulitlvr4qam/artifacts)
-- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-96520294d/job/s4r8l882kpa3jq1x/artifacts)
+- [32-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-99bb688e4/job/atry9rldn4blhf4v/artifacts)
+- [64-bit version](https://ci.appveyor.com/project/claudioandre/johntheripper/build/1.8J1-99bb688e4/job/42tk7xtuk8bjh99h/artifacts)
 
 The highlights:
 - fallback for CPU[*] and OMP;
