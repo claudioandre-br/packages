@@ -35,7 +35,11 @@ git add .travis.yml
 git add circle.yml
 git add .travis/
 git add .circleci/
-git add buggy.sh
 
-git commit -m "CI: test plus Windows packaging $(date)"
+# Ban all problematic formats (disable buggy formats)
+# If a formats fails its tests on super, I will burn it.
+./buggy.sh disable
+
+# Save the resulting state
+git commit -a -m "CI: do test plus Windows packaging $(date)"
 

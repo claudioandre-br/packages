@@ -184,11 +184,6 @@ if [[ "$TEST" == *";afl-clang-fast;"* ]]; then
     export CCO="afl-clang-fast"
 fi
 
-# Disable buggy formats. If a formats fails its tests on super, I will burn it.
-(
-  ./buggy.sh disable
-)
-
 # Apply all needed patches
 wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
 git apply 0002-maintenance-fix-the-expected-data-type-size.patch
