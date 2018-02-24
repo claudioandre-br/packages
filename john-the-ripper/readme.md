@@ -137,11 +137,8 @@ To install John the Ripper by downloading the .zip file and installing manually,
 
 * Try to find out if your computer is running a 32-bit or 64-bit version of Windows. See also [this](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64).
 * Click the link of the 32-bit or 64-bit .zip to download the appropriate file to your machine.
-* Also, download the required 32-bit or 64-bit libraries (this has to be done only once).
 * Navigate to where you downloaded the files and double click the compressed file [1].
 * Extract the John .zip file to a directory such as `C:\john-the-ripper`.
-* Extract the libraries to the subfolder named `run` inside the same directory you picked above. 
-  * In the example it will be, `C:\john-the-ripper\run`.
 * Start a command prompt.
 * Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
 * Run JtR:
