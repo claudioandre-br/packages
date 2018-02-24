@@ -109,13 +109,18 @@ build_script:
         xcopy C:\$location\bin\cygwin1.dll         ..\run\
         xcopy C:\$location\bin\cygbz2-1.dll        ..\run\
         xcopy C:\$location\bin\cygcrypto-1.0.0.dll ..\run\
-        xcopy C:\$location\bin\cyggcc_s-1.dll      ..\run\
         xcopy C:\$location\bin\cyggomp-1.dll       ..\run\
         xcopy C:\$location\bin\cyggmp-10.dll       ..\run\
         xcopy C:\$location\bin\cygssl-1.0.0.dll    ..\run\
         xcopy C:\$location\bin\cygz.dll            ..\run\
         xcopy C:\$location\bin\cygcrypt-0.dll      ..\run\
         xcopy C:\$location\bin\cygOpenCL-1.dll     ..\run\
+
+        if ($arch -eq "x86_64") {
+          xcopy C:\$location\bin\cyggcc_s-seh-1.dll ..\run\
+        } else {
+          xcopy C:\$location\bin\cyggcc_s-1.dll     ..\run\
+        }
       } else {
         shell "./configure --disable-opencl && make -s clean && make -sj2"
       }
