@@ -9,16 +9,11 @@
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
-To install from the Snap Store, do:
+You can install JtR by clicking the install button on [https://snapcraft.io/john-the-ripper](https://snapcraft.io/john-the-ripper). That will install John within the desktop app store.
+
+Terminal-based users should [enable snap support](https://docs.snapcraft.io/core/install), then install JtR like this:
 ```
 $ sudo snap install john-the-ripper
-$ sudo snap connect john-the-ripper:process-control core:process-control
-```
-
-You can also download the package from [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper). In all cases, the package is hosted and reviewed (automatically) by Ubuntu. Using the second option, the installation can be done using:
-
-```
-$ sudo snap install *.snap
 $ sudo snap connect john-the-ripper:process-control core:process-control
 ```
 
