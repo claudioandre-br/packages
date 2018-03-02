@@ -1,5 +1,21 @@
 #!/bin/bash
 
+report () {
+    exit_code=$?
+    total=$((total + 1))
+
+    if test $exit_code -eq 0; then
+        echo " Ok: $1"
+    else
+        error=$((error + 1))
+        echo " FAILED:  $1"
+    fi
+}
+
+# Initialization
+total=0
+error=0
+
 git clone https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/snap/john-the-ripper.opencl
@@ -99,26 +115,50 @@ if [[ "$TEST" = "yes" ]]; then
     echo
     echo "====> T4:"
     "$JTR_BIN" -test-full=0 --format=nt
+    report "-test-full=0 --format=nt"
     echo "====> T5:"
     "$JTR_BIN" -test-full=0 --format=sha256crypt
+    report "-test-full=0 --format=sha256crypt"
     echo "------------------------------------------------------------------"
     "$JTR_BIN" -test=0 --format=raw*
+    report "-test=0 --format=raw*"
     echo "------------------------------------------------------------------"
     "$JTR_BIN" -test=0 --format=dynamic
+    report "--format=dynamic"
     echo "------------------------------------------------------------------"
     "$JTR_BIN" -test=0 --format=sha* --verb=5 --tune=report
+    report "--format=sha* --verb=5 --tune=report"
     echo "------------------------------------------------------------------"
     echo
 
     echo "====> T10:"
     "$JTR_BIN" tests.in --format=nt --fork=2
+    report "tests.in --format=nt --fork=2"
     echo "====> T11:"
     "$JTR_BIN" tests.in --format=raw-sha256 --fork=2
+    report "--format=raw-sha256 --fork=2"
     echo "====> T12-a:"
     "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
+    report "--format=sha512crypt --mask=jo?l[n-q]"
 
     echo "====> T6:"
     ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
+    report "--format=sha512crypt-opencl"
     echo "------------------------------------------------------------------"
     echo ""
+
+    if [[ $error > 1 || ("$arch" == "x86_64" && $error > 0) ]];  then
+        echo '----------------------------------------'
+        echo "###    Build failed with $error errors    ###"
+        echo '----------------------------------------'
+
+        # Allow errors on ARMv7, it is bugged. Abort only if not on ARMv7
+        if [[ "$arch" != "armv7l" ]]; then
+            exit 1
+        fi
+    else
+        echo '----------------------------------------'
+        echo "###  Performed $total tests in $SECONDS seconds  ###"
+        echo '----------------------------------------'
+    fi
 fi
