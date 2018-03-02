@@ -16,7 +16,7 @@ env:
 
 matrix:
   include:
-  - env: IMAGE=ubuntu:17.10 BASE=debian NAME=ubuntu.1710.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.1804.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
   - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
