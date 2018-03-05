@@ -14,7 +14,7 @@ function do_Install_Base_Dependencies(){
                                docbook docbook-xsl libtext-csv-perl \
                                zlib1g-dev libdbus-glib-1-dev \
                                libtool libicu-dev libnspr4-dev \
-                               policykit-1 cppcheck > /dev/null
+                               policykit-1 > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
         dnf -y -q upgrade
@@ -23,7 +23,7 @@ function do_Install_Base_Dependencies(){
         dnf -y -q install @c-development @development-tools clang redhat-rpm-config gnome-common python-devel \
                           pygobject2 dbus-python perl-Text-CSV perl-XML-Parser gettext-devel gtk-doc ninja-build \
                           zlib-devel libffi-devel \
-                          libtool libicu-devel nspr-devel cppcheck
+                          libtool libicu-devel nspr-devel
     else
         echo
         echo '-- Error: invalid BASE code --'
@@ -48,7 +48,7 @@ function do_Install_Dependencies(){
                           libedit-devel libasan libubsan lcov mesa-libGL-devel
 
         if [[ $DEV == "devel" ]]; then
-            dnf -y -q install tokei time nodejs
+            dnf -y -q install cppcheck tokei time nodejs
         fi
     fi
 }
