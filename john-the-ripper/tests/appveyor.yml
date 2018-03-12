@@ -11,17 +11,17 @@ environment:
       doing: test
       location: cygwin64
 
-    # CygWin 32bits build
-    - arch: x86
-      bits: 32
-      doing: deploy
-      location: cygwin
-
     # CygWin 64bits build
     - arch: x86_64
       bits: 64
       doing: deploy
       location: cygwin64
+
+    # CygWin 32bits build
+    - arch: x86
+      bits: 32
+      doing: deploy
+      location: cygwin
 
     # MinGW requires a patch in configure
     # - it is necessary to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
