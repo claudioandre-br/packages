@@ -198,6 +198,24 @@ function sha512(){
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?d -min-len=4 -max-len=8"              6
 }
 
+
+do_Mask_Test () {
+    #-- Copied from an issue.
+    #for i in `cat post.lst`; do echo $i | mkpasswd -m sha-512 -P 0 ; done > ~/testhashes
+    #echo admin > word.lst
+
+    #rm -f ../../run/john.pot && ../../run/john testhashes -mask:admin?d?d?d -form:sha512crypt-opencl
+    #rm -f ../../run/john.pot && ../../run/john testhashes -mask:admin?d -min-len=4 -max-len=10 -form:sha512crypt-opencl
+    #rm -f ../../run/john.pot && ../../run/john testhashes -mask:admin?d -min-len=0 -max-len=10 -form:sha512crypt-opencl
+    #rm -f ../run/john.pot && ../../run/john testhashes -w:word.lst -mask:?w?d?d?d -form:sha512crypt-opencl
+
+    echo 'Running mask tests...'
+    do_Test "testhashes.in"      "-form=sha512crypt-opencl" "-mask:admin?d?d?d"                       1
+    do_Test "testhashes.in"      "-form=sha512crypt-opencl" "-mask:admin?d -min-len=4 -max-len=10"    7
+    do_Test "testhashes.in"      "-form=sha512crypt-opencl" "-mask:admin?d -min-len=0 -max-len=10"    10
+    do_Test "testhashes.in"      "-form=sha512crypt-opencl" "-w:word.lst -mask:?w?d?d?d"              1
+}
+
 function do_help(){
     echo 'Usage: ./test-claudio.sh [OPTIONS] [hash]'
     echo
@@ -256,6 +274,7 @@ case "$1" in
         do_All_Devices  #--basic
         do_Regressions  #--regression
         do_Test_Suite   #--ts
+        do_Mask_Test    #--mask
         sha256          #--cracking
         sha512          #   idem
         ;;
@@ -271,6 +290,9 @@ case "$1" in
         ;;
     "--ts" | "-ts")
         do_Test_Suite "$2"
+        ;;
+    "--mask" | "-m")
+        do_Mask_Test
         ;;
     "fast-sha256")
         sha256
