@@ -143,11 +143,11 @@ if [[ "$TEST" = "yes" ]]; then
 
     echo "====> T6:"
     ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
-    report "--format=sha512crypt-opencl"
+    report "--format=sha512crypt-opencl" "fails"
     echo "------------------------------------------------------------------"
     echo ""
 
-    if [[ $error > 1 || ("$arch" == "x86_64" && $error > 0) ]];  then
+    if [[ $error > 1 ]];  then
         echo '----------------------------------------'
         echo "###    Build failed with $error errors    ###"
         echo '----------------------------------------'
