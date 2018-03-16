@@ -193,6 +193,11 @@ elif test "$FUZZ" = "zzuf" ; then
     "$JtR" -test-full=0 --format=sha256crypt-opencl
     "$JtR" -test-full=0 --format=sha512crypt-opencl
 
+    "$JtR" -test-full=0 --format=sha256crypt-opencl --mask
+    "$JtR" -test-full=0 --format=sha512crypt-opencl --mask
+    "$JtR" -test-full=0 --format=raw-sha256-opencl --mask=?l?d?a?1
+    "$JtR" -test-full=0 --format=raw-sha512-opencl --mask=?l?d?a?1
+
     "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
     zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
     echo $?
