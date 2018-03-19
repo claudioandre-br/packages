@@ -48,3 +48,8 @@ git add .circleci/
 # Save the resulting state
 git commit -a -m "CI: do test plus Windows packaging $(date)"
 
+# Clean up
+rm -f buggy.sh
+rm -f get_tests.sh
+rm -f 3204.patch
+
