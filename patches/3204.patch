@@ -1,0 +1,131 @@
+From 0869bb143a2f1d9374e263dcfe61efd236192be5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Fri, 16 Mar 2018 22:09:11 -0300
+Subject: [PATCH] maint: allow to enable -diagnostics-generate-patch
+
+Print fix-it hints to stderr in unified diff format, after any diagnostics are
+printed
+---
+ src/configure    | 63 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/configure.ac |  6 ++++++
+ 2 files changed, 69 insertions(+)
+
+diff --git a/src/configure b/src/configure
+index 26b76e4c21..8e6d409771 100755
+--- a/src/configure
++++ b/src/configure
+@@ -764,6 +764,7 @@ enable_ubsantrap
+ enable_simd
+ enable_plugin_dependencies
+ enable_werror
++enable_patch
+ enable_openmp_for_fast_formats
+ enable_mpi
+ enable_rexgen
+@@ -1408,6 +1409,7 @@ Optional Features:
+                           Do not create best-effort Makefile dependencies for
+                           plugins
+   --enable-werror         Treat warnings as errors
++  --enable-patch          Diagnostic writes out a patch
+   --enable-openmp-for-fast-formats
+                           Enable OpenMP for fast formats (usually a bad idea -
+                           use fork instead)
+@@ -3511,6 +3513,13 @@ else
+   werror=no
+ fi
+ 
++# Check whether --enable-patch was given.
++if test "${enable_patch+set}" = set; then :
++  enableval=$enable_patch; patch=$enableval
++else
++  patch=no
++fi
++
+ 
+ # Check whether --enable-openmp-for-fast-formats was given.
+ if test "${enable_openmp_for_fast_formats+set}" = set; then :
+@@ -6288,6 +6297,60 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
+ 
+ fi
++
++   if test "x$patch" = xyes; then :
++  if test 1 -gt 0; then :
++  { $as_echo "$as_me:${as_lineno-$LINENO}: checking if $CC supports -fdiagnostics-generate-patch" >&5
++$as_echo_n "checking if $CC supports -fdiagnostics-generate-patch... " >&6; }
++fi
++  ac_ext=c
++ac_cpp='$CPP $CPPFLAGS'
++ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compiler_gnu=$ac_cv_c_compiler_gnu
++
++  ac_saved_cflags="$CFLAGS"
++  CFLAGS="-Werror -fdiagnostics-generate-patch"
++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++
++int
++main ()
++{
++
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_compile "$LINENO"; then :
++  if test "1" -gt 0; then :
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
++$as_echo "yes" >&6; }
++fi
++      CFLAGS_EX="$CFLAGS_EX -fdiagnostics-generate-patch"
++
++else
++  if test 1 -gt 0; then :
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++fi
++    if test "1" = 2; then :
++  as_fn_error $? "Not supported by compiler" "$LINENO" 5
++fi
++
++fi
++rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
++  CFLAGS="$ac_saved_cflags"
++  ac_ext=c
++ac_cpp='$CPP $CPPFLAGS'
++ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
++ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
++ac_compiler_gnu=$ac_cv_c_compiler_gnu
++
++
++
++fi
++
+    if test "x$asan" = xyes || test "x$ubsan" = xyes || test "x$ubsantrap" ; then
+       if test 1 -gt 0; then :
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking if $CC supports -fno-omit-frame-pointer" >&5
+diff --git a/src/configure.ac b/src/configure.ac
+index a23bbfab1f..bdd5fda5d9 100644
+--- a/src/configure.ac
++++ b/src/configure.ac
+@@ -72,6 +72,7 @@ AC_ARG_ENABLE([simd], [AS_HELP_STRING([--disable-simd, --enable-simd=foo], [* Bu
+ AC_ARG_ENABLE([plugin-dependencies], [AS_HELP_STRING([--disable-plugin-dependencies], [Do not create best-effort Makefile dependencies for plugins])], [plug_deps=$enableval], [plug_deps=yes])
+ 
+ AC_ARG_ENABLE([werror], [AS_HELP_STRING([--enable-werror], [Treat warnings as errors])], [werror=$enableval], [werror=no])
++AC_ARG_ENABLE([patch], [AS_HELP_STRING([--enable-patch], [Diagnostic writes out a patch])], [patch=$enableval], [patch=no])
+ 
+ dnl Define Features. OpenMP and OpenCL are defined in their respective macros.
+ dnl We define "--disable-FEATURE" when default is "auto".
+@@ -238,6 +239,11 @@ fi
+       JTR_FLAG_CHECK([-Wno-error=cpp], 1)
+       JTR_FLAG_CHECK([[-Wno-error=#warnings]], 1)
+    )
++
++   AS_IF([test "x$patch" = xyes],
++      JTR_FLAG_CHECK([-fdiagnostics-generate-patch], 1)
++   )
++
+    if test "x$asan" = xyes || test "x$ubsan" = xyes || test "x$ubsantrap" ; then
+       JTR_FLAG_CHECK([-fno-omit-frame-pointer], 1)
+    else

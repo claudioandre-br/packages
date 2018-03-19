@@ -24,6 +24,11 @@ wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-rip
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/config.yml    -P .circleci/
 wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circleci/
 
+
+# Patches
+wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/3204.patch
+git am 3204.patch
+
 chmod +x buggy.sh
 chmod +x .travis/tests.sh
 chmod +x .travis/travis-ci.sh
