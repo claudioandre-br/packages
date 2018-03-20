@@ -156,9 +156,9 @@ if test "$EXTRAS" = "yes" ; then
     #do_Test "$JtR ~/hash --make-charset=chr --format=Raw-MD5" "Successfully wrote charset file: chr (28 characters)"      -1  -1
 
     rm -f ../run/*.pot
-    do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5"   "64g 0:00:00"      -1  -1
+    do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5"   "66g 0:00:00"      -1  -1
     do_Test "$JtR ~/hash --loopback --format=rar --max-l=5"              "1g 0:00:0"      -1  -1
-    do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      64  36
+    do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      66  34
     do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
     do_Test "$JtR ~/self -form=SHA512crypt"                             "1g 0:00:00"      -1  -1
 
