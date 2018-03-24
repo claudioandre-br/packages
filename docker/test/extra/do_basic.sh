@@ -48,7 +48,7 @@ function do_Install_Dependencies(){
                           libedit-devel libasan libubsan lcov mesa-libGL-devel
 
         if [[ $DEV == "devel" ]]; then
-            dnf -y -q install cppcheck tokei time nodejs
+            dnf -y -q install time
         fi
     fi
 }
@@ -64,5 +64,20 @@ function do_Install_Extras(){
     elif [[ $BASE == "fedora" ]]; then
         # Distros development versions of needed libraries
         dnf -y -q install gobject-introspection-devel
+    fi
+}
+
+function do_Install_Analyser(){
+    echo
+    echo '-- Installing Static Analysers --'
+    mkdir -p /cwd
+
+    if [[ $BASE == "debian" ]]; then
+       # Static analysers
+        apt-get -y -qq install git cppcheck tokei nodejs python-dev > /dev/null
+
+    elif [[ $BASE == "fedora" ]]; then
+        # Static analysers
+        dnf -y -q install git cppcheck tokei nodejs python-devel
     fi
 }

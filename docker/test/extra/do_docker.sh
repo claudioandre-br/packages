@@ -17,7 +17,11 @@ function do_Shrink_Image(){
     echo '-- Done --'
 }
 
-if [[ $1 == "BUILD_MOZ" ]]; then
+if [[ $STATIC == "yes" ]]; then
+    do_Install_Analyser
+    do_Shrink_Image
+
+elif [[ $1 == "BUILD_MOZ" ]]; then
     do_Install_Base_Dependencies
     do_Set_Env
 
