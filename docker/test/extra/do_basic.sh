@@ -72,12 +72,12 @@ function do_Install_Analyser(){
     echo '-- Installing Static Analysers --'
     mkdir -p /cwd
 
-    if [[ $BASE == "debian" ]]; then
-       # Static analysers
-        apt-get -y -qq install git cppcheck tokei nodejs python-dev > /dev/null
-
-    elif [[ $BASE == "fedora" ]]; then
+    if [[ $BASE == "fedora" ]]; then
         # Static analysers
         dnf -y -q install git cppcheck tokei nodejs python-devel
+
+        # Install needed packages
+        pip install cpplint
+        npm install -g eslint
     fi
 }
