@@ -64,6 +64,9 @@ function do_Install_Extras(){
     elif [[ $BASE == "fedora" ]]; then
         # Distros development versions of needed libraries
         dnf -y -q install gobject-introspection-devel
+
+        # Distros development versions of needed libraries
+        dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo
     fi
 }
 
