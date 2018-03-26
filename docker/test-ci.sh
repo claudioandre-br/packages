@@ -66,7 +66,6 @@ echo "Doing: $1"
 
 source test/extra/do_basic.sh
 source test/extra/do_jhbuild.sh
-source test/extra/do_cache.sh
 source test/extra/do_mozilla.sh
 source test/extra/do_docker.sh
 
