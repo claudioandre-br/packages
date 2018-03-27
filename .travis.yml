@@ -20,7 +20,7 @@ matrix:
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=claudioandre/spidermonkey STATIC=yes
 
   # Ubuntu
-  ### - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.1804.gcc REPO=claudioandre/spidermonkey
+  ### - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
