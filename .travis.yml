@@ -38,7 +38,7 @@ script:
   - cd docker
   - export log_message=$(git log -n 1)
 
-  - 'if [[ $log_message != *"[filter images]"* || $log_message == *"[$NAME]"* ]]; then
+  - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[filter images]"* || "$log_message" == *"[$NAME]"* ]]; then
        echo -e "\n*** BUILDING ***\n";
      else
        echo -e "\n*** NOTHING TO DO ***\n";
