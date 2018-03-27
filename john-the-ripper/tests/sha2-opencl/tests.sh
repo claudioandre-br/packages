@@ -32,40 +32,49 @@ function do_Done(){
     rm -f -- *.rec*
 }
 
-function do_Test_Suite(){
-    #TODO: parse errors
+function do_Test_TS(){
+    TO_RUN="./jtrts.pl $3 -type $1 -passthru $2"
+    eval "$TO_RUN"
+    ret_code=$?
 
+    if [[ $ret_code -ne 0 ]]; then
+        echo "ERROR ($ret_code): $TO_RUN"
+        echo
+
+        Total_Erros=$((Total_Erros + 1))
+    fi
+    Total_Tests=$((Total_Tests + 1))
+}
+
+function do_Test_Suite(){
     cd ..
 
     if [[ "$1" == "fast-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA256 Test Suite tests...'
-        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_1"
-        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_2"
-        ./jtrts.pl -type raw-sha256-opencl -passthru "-dev:$TST_Device_3"
-        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_1 --fork=2"
-        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_2 --fork=3"
-        ./jtrts.pl -internal -type raw-sha256-opencl -passthru "-dev:$TST_Device_3 --fork=4"
-        Total_Tests=$((Total_Tests + 6))
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_1"
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_2"
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_3"
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
+        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
     fi
 
     if [[ "$1" == "fast-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA512 Test Suite tests...'
-        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_1"
-        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_2"
-        ./jtrts.pl -type raw-sha512-opencl -passthru "-dev:$TST_Device_3"
-        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_1 --fork=2"
-        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_2 --fork=3"
-        ./jtrts.pl -internal -type raw-sha512-opencl -passthru "-dev:$TST_Device_3 --fork=4"
-        Total_Tests=$((Total_Tests + 6))
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_1"
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_2"
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_3"
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
+        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
 
         echo 'Running xSHA512 Test Suite tests...'
-        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_1"
-        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_2"
-        ./jtrts.pl -type xsha512-opencl -passthru "-dev:$TST_Device_3"
-        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_1 --fork=2"
-        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_2 --fork=3"
-        ./jtrts.pl -internal -type xsha512-opencl -passthru "-dev:$TST_Device_3 --fork=4"
-        Total_Tests=$((Total_Tests + 6))
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_1"
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_2"
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_3"
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
+        do_Test_TS xsha512-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
     fi
 
     cd - || return > /dev/null
