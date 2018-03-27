@@ -109,7 +109,7 @@ Install and configure flatpak itself:
 ```
 $ dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
 $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
-$ flatpak install gnome org.freedesktop.Platform//1.4 # install the runtime (base "container")
+$ flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
 ```
 
 Unzip the downloaded file to get the john.flatpak file stored inside it. Now, let's install the software:
