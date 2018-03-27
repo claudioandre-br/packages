@@ -6,7 +6,7 @@ Packages
 
 [Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways of distributing Linux applications among a wide range of different distros. They are technologies to deploy applications in a secure, sandboxed and containerised way.
 
-In here there are **Snap** and **Flatpak** packages.
+In here there are **Snap**, **Flatpak**, and **Windows** packages.
 
 #### Ubuntu Snap Packages
 - John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes](https://github.com/claudioandre/packages/tree/master/john-the-ripper#john-the-ripper).
