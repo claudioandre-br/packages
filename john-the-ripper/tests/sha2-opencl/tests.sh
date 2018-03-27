@@ -33,7 +33,7 @@ function do_Done(){
 }
 
 function do_Test_TS(){
-    TO_RUN="./jtrts.pl $3 -type $1 -passthru $2"
+    TO_RUN="./jtrts.pl $3 -type $1 -passthru '$2'"
     eval "$TO_RUN"
     ret_code=$?
 
@@ -75,6 +75,26 @@ function do_Test_Suite(){
         do_Test_TS xsha512-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
         do_Test_TS xsha512-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
         do_Test_TS xsha512-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+    fi
+
+    if [[ "$1" == "sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Running SHA256crypt Test Suite tests...'
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_1"
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_2"
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_3"
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
+        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+    fi
+
+    if [[ "$1" == "sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Running SHA512crypt Test Suite tests...'
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_1"
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_2"
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_3"
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
+        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
     fi
 
     cd - || return > /dev/null
@@ -235,7 +255,8 @@ function do_help(){
     echo '--cracking:   runs the cracking tests. To filter a hash type, use:'
     echo '               ./test-claudio.sh [hash]'
     echo '--regression: ensures fixed bugs were not reintroduced.'
-    echo '--ts:         executes the Test Suite.'
+    echo '--ts:         executes the Test Suite. To filter a hash type, use:'
+    echo '               ./test-claudio.sh --ts [hash]'
     echo ' '
     echo 'Available hashes:'
     echo '  fast-sha256: execute raw-sha256 cracking tests.'
