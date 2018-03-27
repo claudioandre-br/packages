@@ -20,7 +20,7 @@ matrix:
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=claudioandre/spidermonkey STATIC=yes
 
   # Ubuntu
-  ### - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
@@ -28,7 +28,7 @@ matrix:
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Debug Build
-  ### - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
 
   # Very heavy tasks. Run it in 2 phases.
   ### - env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
@@ -36,6 +36,14 @@ matrix:
 
 script:
   - cd docker
+  - export log_message=$(git log -n 1)
+
+  - 'if [[ $log_message != *"[filter images]"* || $log_message == *"[$NAME]"* ]]; then
+       echo -e "\n*** BUILDING ***\n";
+     else
+       echo -e "\n*** NOTHING TO DO ***\n";
+       exit 0;
+     fi'
 
   # Register QEMU
   - 'if [[ $EMU_EXTRA == "yes" ]]; then
