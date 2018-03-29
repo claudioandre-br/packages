@@ -3,18 +3,20 @@ version: 1.5.86.4890
 confinement: strict
 grade: stable
 summary: Free file archiver and encryption software
-description: >
-             B1 Free Archiver is a free, multi language and simple to use compression and decompression multiplatform tool. It works with almost 40 formats: b1, zip, rar, rar5, 7z, jar, xpi and other archive formats. It supports data protection with 256 bit AES encryption algorithm.
+description: |
+  B1 Free Archiver is a free, multi language and simple to use compression and
+  decompression multiplatform tool. It works with almost 40 formats: b1, zip,
+  rar, rar5, 7z, jar, xpi and other archive formats. It supports data protection
+  with 256 bit AES encryption algorithm.
 
 apps:
   b1:
     command: bin/b1
-    aliases: [b1]
     plugs: [home]
 
   b1freearchiver:
     command: desktop-launch $SNAP/bin/b1manager
-    plugs: [home, x11, unity7, gsettings, network]
+    plugs: [home, x11, unity7, gsettings, network, hardware-observe, mount-observe, network-manager, desktop-legacy]
 
 parts:
   b1freearchiver:
@@ -39,6 +41,7 @@ parts:
       - libdbusmenu-qt2
 
       - xdg-utils
+      - libdb5.3
 
     prime:
        - -my_usr/
