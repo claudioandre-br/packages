@@ -51,6 +51,7 @@ script:
      fi'
 
   # For a heavy build, add -m 500M --oom-kill-disable
+  # -------------------------------------------------
   # Creates a much smaller image.
   - 'docker run -v $(pwd):/cwd -v $(pwd)/test-ci.sh:/test-ci.sh
         -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=gcc -e STATIC=$STATIC $IMAGE
@@ -63,13 +64,11 @@ script:
   - docker commit $NAME $REPO:$NAME
 
   # Test the build
-  # - rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs
-  # - 'docker run -v $(pwd):/cwd
-  #     -e BASE=$BASE -e OS=$IMAGE -e CC=gcc $REPO:$COMMIT bash -e -c "/cwd/test/test-ci.sh GJS"
-  #  '
-
-  # Doing a regular build
-  #- docker build --rm -f $FILE -t $REPO:$COMMIT .
+  - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
+       rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs;
+       docker run -v $(pwd):/cwd -e DEV=devel -e TEST=check -e CC=gcc $REPO:$NAME bash -e -c "cd /cwd && test/test-ci.sh GJS";
+     fi
+    '
 
 after_success:
   - docker tag $REPO:$NAME $REPO:job-$TRAVIS_JOB_NUMBER
@@ -79,7 +78,12 @@ after_success:
   #   fi'
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker push $REPO
+
+  # Do not push, if requested
+  - 'if [[ "$log_message" != *"[dont push]"* || "$log_message" != *"[$NAME]"* ]]; then
+       docker push $REPO;
+     fi
+    '
 
 #################################################
 #sudo: required
