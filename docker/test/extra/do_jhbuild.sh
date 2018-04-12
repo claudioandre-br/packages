@@ -1,9 +1,13 @@
 #!/bin/bash -e
 
-function do_Patch_JHBuild(){
+function do_Get_JHBuild(){
     echo
-    echo '-- Patching JHBuild --'
+    echo '-- Download JHBuild --'
 
+    if [[ -d /jhbuild ]]; then
+        # For a clean build, update and rebuild jhbuild. And avoid git pull.
+        rm -rf /jhbuild
+    fi
     git clone --depth 1 https://github.com/GNOME/jhbuild.git /jhbuild
 
     # A patch is no longer required
@@ -37,6 +41,7 @@ function do_Configure_MainBuild(){
     if [[ -n "${BUILD_OPTS}" ]]; then
         autogenargs="$autogenargs $BUILD_OPTS"
     fi
+    export ci_autogenargs="$autogenargs"
 
     cat <<EOFILE > ~/.config/jhbuildrc
 module_autogenargs['gjs'] = "$autogenargs"

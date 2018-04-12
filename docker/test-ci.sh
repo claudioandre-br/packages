@@ -32,6 +32,7 @@ function do_Show_Info(){
 
     echo '--------------------------------'
     echo 'Useful build system information'
+    echo -n "Processors: "; grep -c ^processor /proc/cpuinfo
     id; uname -a
     printenv
     echo '--------------------------------'
@@ -74,7 +75,7 @@ if [[ $1 == "GJS" ]]; then
     do_Show_Info
 
     if [[ $2 != "devel" ]]; then
-        do_Patch_JHBuild
+        do_Get_JHBuild
         do_Build_JHBuild
         do_Configure_JHBuild
         do_Build_Package_Dependencies gjs
