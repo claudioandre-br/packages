@@ -45,7 +45,7 @@ elif [[ $1 == "BUILD_MOZ" ]]; then
     do_Set_Env
 
     do_Show_Info
-    do_Patch_JHBuild
+    do_Get_JHBuild
     do_Build_JHBuild RESET
     do_Build_Mozilla
     do_Save_Files
@@ -68,7 +68,7 @@ elif [[ $1 == "GET_FILES" ]]; then
         fi
 
         # Build JHBuild to create a docker image ready to go
-        do_Patch_JHBuild
+        do_Get_JHBuild
         do_Build_JHBuild
         jhbuild build m4-common
 
