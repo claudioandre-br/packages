@@ -80,7 +80,7 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   # Do not push, if requested
-  - 'if [[ "$log_message" != *"[dont push]"* || "$log_message" != *"[$NAME]"* ]]; then
+  - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[dont push]"* ]]; then
        docker push $REPO;
      fi
     '
