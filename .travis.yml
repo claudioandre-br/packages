@@ -72,10 +72,6 @@ script:
 
 after_success:
   - docker tag $REPO:$NAME $REPO:job-$TRAVIS_JOB_NUMBER
-  # export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  # 'if [[ $NAME == "fedora.26.gcc" ]]; then
-  #     docker tag $REPO:$NAME $REPO:$TAG;
-  #   fi'
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
@@ -84,6 +80,12 @@ after_success:
        docker push $REPO;
      fi
     '
+
+#################################################
+# export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+# 'if [[ $NAME == "fedora.26.gcc" ]]; then
+#     docker tag $REPO:$NAME $REPO:$TAG;
+#   fi'
 
 #################################################
 #sudo: required
