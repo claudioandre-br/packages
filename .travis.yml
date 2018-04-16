@@ -38,11 +38,11 @@ script:
   - cd docker
   - export log_message=$(git log -n 1)
 
-  - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[filter images]"* || "$log_message" == *"[$NAME]"* ]]; then
-       echo -e "\n*** BUILDING ***\n";
-     else
+  - 'if [[ "$TRAVIS_EVENT_TYPE" != "cron" && "$log_message" == *"[filter images]"* && "$log_message" != *"[$NAME]"* ]]; then
        echo -e "\n*** NOTHING TO DO ***\n";
        exit 0;
+     else
+       echo -e "\n*** BUILDING ***\n";
      fi'
 
   # Register QEMU
