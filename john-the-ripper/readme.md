@@ -9,7 +9,7 @@
 
 [**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
 
-You can install JtR by clicking the install button on [https://snapcraft.io/john-the-ripper](https://snapcraft.io/john-the-ripper). That will install John within the desktop app store.
+You can install JtR by following the instructions at [https://snapcraft.io/john-the-ripper](https://snapcraft.io/john-the-ripper).
 
 Terminal-based users should [enable snap support](https://docs.snapcraft.io/core/install), then install JtR like this:
 ```
