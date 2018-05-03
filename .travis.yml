@@ -24,7 +24,7 @@ matrix:
   - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
-  - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:28 BASE=fedora NAME=fedora.28.gcc REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Debug Build
