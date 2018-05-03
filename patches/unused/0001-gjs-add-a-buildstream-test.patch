@@ -1,0 +1,143 @@
+From e2c4849a929491ee788496fee11249357e13b08d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Mon, 30 Apr 2018 17:52:43 -0300
+Subject: [PATCH] gjs: add a buildstream test
+
+---
+ .travis.yml                    | 24 ++++++++++----
+ docker/test/extra/do_docker.sh | 59 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+), 7 deletions(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index 2239e01..4cecca0 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -6,6 +6,7 @@ services:
+ branches:
+   only:
+   - docker
++  - test
+ 
+ env:
+   global:
+@@ -17,23 +18,32 @@ env:
+ matrix:
+   include:
+   # Static Analysis
+-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=claudioandre/spidermonkey STATIC=yes
++  #- env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=claudioandre/spidermonkey STATIC=yes
+ 
+   # Ubuntu
+-  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
+-  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
++  #- env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
++  #- env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
+ 
+   # Fedora
+-  - env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
+-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
++  #- env: IMAGE=fedora:27 BASE=fedora NAME=fedora.27.gcc REPO=claudioandre/spidermonkey
++  #- env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
+ 
+   # Debug Build
+-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
++  #- env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
++
++  # Buildstream Build
++  - env: IMAGE=buildstream/buildstream-fedora:latest BASE=none NAME=buildstream REPO=claudioandre/spidermonkey DEV=buildstream
++  #- env: IMAGE=fedora:rawhide BASE=none NAME=buildstream REPO=claudioandre/spidermonkey DEV=buildstream
+ 
+   # Very heavy tasks. Run it in 2 phases.
+   ### - env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
+   ### - env: IMAGE=claudioandre/spidermonkey:fedora.armv7hf.gcc0 BASE=fedora NAME=fedora.armv7hf.gcc REPO=claudioandre/spidermonkey EMU_EXTRA=yes
+ 
++addons:
++  apt:
++    packages:
++    - fuse
++
+ script:
+   - cd docker
+   - export log_message=$(git log -n 1)
+@@ -57,7 +67,7 @@ script:
+         -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=gcc -e STATIC=$STATIC $IMAGE
+       bash -e -c "/test-ci.sh BUILD_MOZ"
+     '
+-  - 'docker run --name $NAME -v $(pwd):/saved -v $(pwd)/test-ci.sh:/test-ci.sh
++  - 'docker run --name $NAME -v $(pwd):/saved -v $(pwd)/test-ci.sh:/test-ci.sh --privileged --device /dev/fuse
+         -e BASE=$BASE -e OS=$IMAGE -e DEV=$DEV -e CC=gcc -e STATIC=$STATIC $IMAGE
+       bash -e -c "/test-ci.sh GET_FILES DOCKER"
+     '
+diff --git a/docker/test/extra/do_docker.sh b/docker/test/extra/do_docker.sh
+index 77ede4f..cd400a0 100755
+--- a/docker/test/extra/do_docker.sh
++++ b/docker/test/extra/do_docker.sh
+@@ -40,6 +40,65 @@ if [[ $STATIC == "yes" ]]; then
+     do_Install_Analyser
+     do_Shrink_Image
+ 
++elif [[ $DEV == "buildstream" ]]; then
++
++    if [[ $1 == "GET_FILES" ]]; then
++#### do_Install_Dependencies
++  #  dnf install -y lzip
++  #  dnf install -y fuse ostree bubblewrap git \
++  #             python3 python3-pip python3-gobject python3-psutil
++
++  #  git clone --depth 1 https://gitlab.com/BuildStream/buildstream.git
++  #  cd buildstream
++  #  pip3 install --user .
++  #  export PATH="${PATH}:${HOME}/.local/bin"
++  #  cd -
++
++#### do_Get_BuildStream
++    echo
++    echo '-- Download JHBuild --'
++
++    git clone --depth 1 https://gitlab.gnome.org/GNOME/gnome-build-meta.git /BuildMeta
++
++    cd /BuildMeta
++
++    echo '-- Done --'
++
++#### do_Configure_BuildStream
++    echo
++    echo '-- Set BuildStream Configuration --'
++
++    mkdir -p ~/.config
++
++    cat <<EOF > ~/.config/buildstream.conf
++# Reduces the amount of necessary rebuilds
++projects:
++  gnome:
++    strict: False
++
++# Control the number of allowed parallel builds
++scheduler:
++  builders: 2
++EOF
++
++    echo '-- Done --'
++
++#### do_Build
++    #bst build --track-all core-deps/gjs.bst
++    #bst track --deps core-deps/gjs.bst
++
++    bst track   core-deps/yelp-xsl.bst
++    bst track      core-deps/yelp-tools.bst
++    bst track      core-deps/gtk-doc.bst
++    bst track      core-deps/glib.bst
++    bst track      core-deps/gobject-introspection.bst
++    bst track      core-deps/mozjs52.bst
++    bst track      core-deps/gjs.bst
++
++    #bst build core-deps/gjs.bst
++    bst build core-deps/mozjs52.bst
++    fi
++
+ elif [[ $1 == "BUILD_MOZ" ]]; then
+     do_Install_Base_Dependencies
+     do_Set_Env
+-- 
+2.17.0
+
