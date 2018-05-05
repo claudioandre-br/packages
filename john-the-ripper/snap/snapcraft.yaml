@@ -80,7 +80,7 @@ parts:
     plugin: nil
     after: [regex]
     source: .
-    build: |
+    override-build: |
       ./build.sh
     build-packages:
       - build-essential
@@ -138,7 +138,7 @@ parts:
     plugin: nil
     after: [john-the-ripper]
     source: .
-    build: |
+    override-build: |
       wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo/run/john.bash_completion
       wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo/run/john.zsh_completion
       mkdir -p ../install/etc/bash_completion
