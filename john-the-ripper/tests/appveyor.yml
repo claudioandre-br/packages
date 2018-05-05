@@ -27,10 +27,19 @@ environment:
     # - it is necessary to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
 
 install:
-  - cd src
   - echo '--------------------------------'
   - systeminfo | findstr /C:"OS"
   - echo '--------------------------------'
+
+  - ps: |
+      if ($doing -eq "package") {
+        # Use upstream source code
+        cd $env:PROJ_FOLDER
+        Remove-Item ./JohnTheRipper -Force -Recurse -ErrorAction SilentlyContinue
+        git clone --depth 1 https://github.com/magnumripper/JohnTheRipper.git
+      }
+
+  - cd $env:BUILD_FOLDER
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
@@ -140,8 +149,11 @@ test_script:
   - echo 73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f >> tests.in
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
-  - echo "====> T0:"
-  - john -test-full=0 --format=cpu
+  - ps: |
+      if ($doing -ne "package") {
+        echo "====> T0:"
+        john -test-full=0 --format=cpu
+      }
 
   - echo "====> T10:"
   - john tests.in --format=nt --fork=2
