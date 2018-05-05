@@ -37,10 +37,10 @@ description: |
 apps:
   john-the-ripper:
     command: run/john
-    plugs: [home, process-control]
+    plugs: [home]
   opencl:
     command: run/john-opencl
-    plugs: [home, process-control]
+    plugs: [home]
   dmg2john:
     command: run/dmg2john
     plugs: [home]

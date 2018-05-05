@@ -14,7 +14,6 @@ You can install JtR by following the instructions at [https://snapcraft.io/john-
 Terminal-based users should [enable snap support](https://docs.snapcraft.io/core/install), then install JtR like this:
 ```
 $ sudo snap install john-the-ripper
-$ sudo snap connect john-the-ripper:process-control core:process-control
 ```
 
 Also, You can download the packages for all supported architectures at [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper).
