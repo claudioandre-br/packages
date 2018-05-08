@@ -9,6 +9,9 @@ build:
   artifacts:
     paths:
     - john-the-ripper/flatpak/john.flatpak
+
+  variables:
+    BUNDLE: "john.flatpak"
     
   script:
     - dnf -y update
@@ -20,6 +23,10 @@ build:
     - cd john-the-ripper/flatpak
     - flatpak-builder --repo=repo build com.openwall.John.json
     - flatpak build-bundle repo john.flatpak com.openwall.John
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://gitlab.com/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/raw/${BUNDLE}
 
 deploy:
   stage: deploy
