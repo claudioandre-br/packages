@@ -149,12 +149,10 @@ test_script:
   - echo 73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f >> tests.in
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
-  - ps: |
-      if ($doing -ne "package") {
-        cd $env:PROJ_FOLDER\JohnTheRipper\run
-        echo "====> T0:"
+  - echo "====> T0:"
+  - if "%doing%" NEQ "package" (
         john -test-full=0 --format=cpu
-      }
+    )
 
   - echo "====> T10:"
   - john tests.in --format=nt --fork=2
