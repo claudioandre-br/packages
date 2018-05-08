@@ -151,6 +151,7 @@ test_script:
 
   - ps: |
       if ($doing -ne "package") {
+        cd $env:PROJ_FOLDER\JohnTheRipper\run
         echo "====> T0:"
         john -test-full=0 --format=cpu
       }
