@@ -14,6 +14,7 @@ build:
     BUNDLE: "john.flatpak"
     
   script:
+    - env
     - dnf -y update
     - dnf install -y flatpak flatpak-builder elfutils
     - flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
