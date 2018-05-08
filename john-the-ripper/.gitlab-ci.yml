@@ -1,5 +1,5 @@
 # Fedora docker image.
-image: fedora:latest
+image: fedora:27
 
 services:
   - docker:dind
