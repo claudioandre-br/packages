@@ -111,7 +111,7 @@ $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add 
 $ flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
 ```
 
-Unzip the downloaded file to get the john.flatpak file stored inside it. Now, let's install the software:
+Navigate to where you downloaded the john.flatpak file. Now, let's install the software:
 ```
 $ mkdir repo
 $ ostree --repo=repo init --mode=archive-z2
