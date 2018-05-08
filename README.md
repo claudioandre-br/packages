@@ -39,8 +39,8 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
 - CentOS 6, Ubuntu 12.04, Ubuntu 14.04, Ubuntu 16.04, Ubuntu 17.10, Ubuntu 18.04 devel, Fedora 27, and Windows;
 - gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 6.2, gcc 6.4, gcc 7.2, and gcc 8;
 - clang 4 and clang 5;
-- SIMD and non-SIMD build;
-- OpenMP and non-OpenMP build;
+- SIMD and non-SIMD builds;
+- OpenMP and non-OpenMP builds;
 - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
 - Fuzzing (https://en.wikipedia.org/wiki/Fuzzing);
 - MinGW + Wine (on Fedora Linux);
