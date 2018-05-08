@@ -39,7 +39,7 @@ install:
         git clone --depth 1 https://github.com/magnumripper/JohnTheRipper.git
       }
 
-  - cd $env:BUILD_FOLDER
+  - cd %BUILD_FOLDER%
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
