@@ -8,7 +8,7 @@ build:
   stage: build
   artifacts:
     paths:
-    - john-the-ripper/flatpak/john.flatpak
+    - john.flatpak
 
   variables:
     BUNDLE: "john.flatpak"
@@ -24,6 +24,7 @@ build:
     - cd john-the-ripper/flatpak
     - flatpak-builder --repo=repo build com.openwall.John.json
     - flatpak build-bundle repo john.flatpak com.openwall.John
+    - cp john.flatpak "$CI_PROJECT_DIR"
 
   environment:
     name: review/$CI_COMMIT_REF_NAME
@@ -41,7 +42,6 @@ deploy:
     - echo Flatpak Installed
 
     # Install flatpak package
-    - cd john-the-ripper/flatpak
     - ostree --repo=repo init --mode=archive-z2
     - flatpak build-import-bundle repo john.flatpak
     - flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo
