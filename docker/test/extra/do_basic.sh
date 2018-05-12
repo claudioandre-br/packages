@@ -68,6 +68,20 @@ function do_Install_Extras(){
 
         # Distros development versions of needed libraries
         dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo
+
+        if [[ $STATIC == "settings" ]]; then
+            # GNOME Settings dependencies
+            dnf -y -q install accountsservice-devel cheese-libs-devel chrpath clutter-gtk-devel colord-devel  \
+                          colord-gtk-devel cups-devel desktop-file-utils docbook-style-xsl gdk-pixbuf2-devel \
+                          gettext git glib2-devel gnome-bluetooth-libs-devel gnome-desktop3-devel \
+                          gnome-online-accounts-devel gnome-settings-daemon-devel grilo-devel \
+                          gsettings-desktop-schemas-devel gtk3-devel ibus-devel intltool libcanberra-devel \
+                          libgtop2-devel libgudev-devel libnma-devel libpwquality-devel libsmbclient-devel \
+                          libsoup-devel libwacom-devel libX11-devel libXi-devel libxml2-devel libxslt \
+                          libXxf86misc-devel meson ModemManager-glib-devel NetworkManager-libnm-devel \
+                          polkit-devel pulseaudio-libs-devel upower-devel \
+                          python3-dbusmock xorg-x11-server-Xvfb mesa-dri-drivers
+        fi
     fi
 }
 

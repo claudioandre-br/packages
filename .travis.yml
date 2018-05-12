@@ -17,22 +17,23 @@ env:
 matrix:
   include:
   # Static Analysis
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=registry.gitlab.gnome.org/claudioandre/gjs STATIC=yes
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static.analysis REPO=claudioandre/spidermonkey STATIC=yes
 
   # Ubuntu
-  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs
-  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs DEV=devel
+  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=ubuntu.lts.gcc REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:devel BASE=debian NAME=ubuntu.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
-  - env: IMAGE=fedora:28 BASE=fedora NAME=fedora.28.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs DEV=devel
+  - env: IMAGE=fedora:28      BASE=fedora NAME=fedora.28.gcc  REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev     REPO=claudioandre/settings     DEV=devel STATIC=settings
 
   # Debug Build
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs DEV=devel BUILD_OPTS="--enable-debug"
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
 
   # Very heavy tasks. Run it in 2 phases.
-  ### - env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=registry.gitlab.gnome.org/claudioandre/gjs EMU_EXTRA=yes
-  ### - env: IMAGE=registry.gitlab.gnome.org/claudioandre/gjs:fedora.armv7hf.gcc0 BASE=fedora NAME=fedora.armv7hf.gcc REPO=registry.gitlab.gnome.org/claudioandre/gjs EMU_EXTRA=yes
+  ### - env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
+  ### - env: IMAGE=claudioandre/spidermonkey:fedora.armv7hf.gcc0 BASE=fedora NAME=fedora.armv7hf.gcc REPO=claudioandre/spidermonkey EMU_EXTRA=yes
 
 script:
   - cd docker
@@ -73,7 +74,7 @@ script:
 after_success:
   - docker tag $REPO:$NAME $REPO:job-$TRAVIS_JOB_NUMBER
   - docker images
-  - docker login registry.gitlab.gnome.org -u $DOCKER_USER -p $DOCKER_PASS
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   # Do not push, if requested
   - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[dont push]"* ]]; then

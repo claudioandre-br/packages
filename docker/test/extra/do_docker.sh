@@ -37,8 +37,21 @@ function do_Shrink_Image(){
 }
 
 if [[ $STATIC == "yes" ]]; then
-    do_Install_Analyser
-    do_Shrink_Image
+
+    if [[ $1 == "GET_FILES" ]]; then
+        do_Install_Analyser
+        do_Shrink_Image
+    fi
+
+elif [[ $STATIC == "settings" ]]; then
+
+    if [[ $1 == "GET_FILES" ]]; then
+        do_Install_Base_Dependencies
+        do_Install_Dependencies
+        do_Install_Extras
+        do_Show_Info
+        do_Shrink_Image
+    fi
 
 elif [[ $1 == "BUILD_MOZ" ]]; then
     do_Install_Base_Dependencies
