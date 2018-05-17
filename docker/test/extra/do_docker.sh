@@ -113,3 +113,5 @@ elif [[ $1 == "GET_FILES" ]]; then
         do_Shrink_Image
     fi
 fi
+# Clear the environment
+unset BUILD_OPTS
