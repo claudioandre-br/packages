@@ -19,7 +19,7 @@ EOFILE
     echo '-- Done --'
 }
 
-function do_Build_Mozilla(){
+function do_Build_Mozilla_jhbuild(){
     echo
     echo '-- Building Mozilla SpiderMonkey --'
 
@@ -28,4 +28,21 @@ function do_Build_Mozilla(){
 
     # Build Mozilla Stuff
     jhbuild build mozjs52
+}
+
+function do_Build_Mozilla(){
+    echo
+    echo '-- Building Mozilla SpiderMonkey --'
+
+    git clone --depth 1 https://github.com/ptomato/mozjs.git -b mozjs52 /saved/spider
+    cd /saved/spider
+
+    mkdir -p _build
+    cd _build
+
+    ../js/src/configure --prefix=/root/jhbuild/install --enable-posix-nspr-emulation --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf ${BUILD_OPTS}
+    make -sj2
+    make install
+
+    cd -
 }
