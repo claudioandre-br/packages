@@ -66,7 +66,7 @@ function do_Install_Extras(){
         dnf -y -q install gobject-introspection-devel
 
         # Distros development versions of needed libraries
-        dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo
+        dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo glibc
 
         if [[ $STATIC == "settings" ]]; then
             # GNOME Settings dependencies
