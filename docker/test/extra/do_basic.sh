@@ -64,7 +64,6 @@ function do_Install_Extras(){
     elif [[ $BASE == "fedora" ]]; then
         # Distros development versions of needed libraries
         dnf -y -q install gobject-introspection-devel
-        dnf -y -q install mesa-dri-drivers ### TODO temporary workaround for a bug in Fedora itself
 
         # Distros development versions of needed libraries
         dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo
