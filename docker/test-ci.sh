@@ -59,6 +59,10 @@ if [[ -n "${BUILD_OPTS}" ]]; then
     extra_opts="($BUILD_OPTS)"
 fi
 
+if [[ -n "${STATIC}" ]]; then
+    extra_opts="$extra_opts  ($STATIC)"
+fi
+
 # Show some environment info
 echo
 echo '-- Environment --'
