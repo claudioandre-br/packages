@@ -81,6 +81,15 @@ function do_Install_Extras(){
                           polkit-devel pulseaudio-libs-devel upower-devel \
                           python3-dbusmock xorg-x11-server-Xvfb mesa-dri-drivers
         fi
+
+        if [[ $STATIC == "flatpak" ]]; then
+            # GNOME Settings flatpak dependencies
+            dnf -y -q install flatpak flatpak-builder
+
+            flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
+            flatpak install gnome org.gnome.Sdk//3.28
+            flatpak install gnome org.gnome.Platform//3.28
+        fi
     fi
 }
 

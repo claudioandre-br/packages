@@ -27,6 +27,7 @@ matrix:
   - env: IMAGE=fedora:28      BASE=fedora NAME=fedora.28.gcc  REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev.gcc REPO=claudioandre/spidermonkey DEV=devel
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev     REPO=claudioandre/settings     DEV=devel STATIC=settings
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.flatpak REPO=claudioandre/settings     DEV=devel STATIC=flatpak
 
   # Debug Build
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"

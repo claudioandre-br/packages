@@ -21,6 +21,11 @@ if [[ $STATIC == "analysis" ]]; then
     do_Install_Analyser
     do_Shrink_Image
 
+elif [[ $STATIC == "flatpak" ]]; then
+    do_Install_Base_Dependencies
+    do_Install_Extras
+    do_Shrink_Image
+
 elif [[ $STATIC == "settings" ]]; then
     do_Install_Base_Dependencies
     do_Install_Dependencies
