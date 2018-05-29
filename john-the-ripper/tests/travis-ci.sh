@@ -238,8 +238,7 @@ elif [[ "$TEST" == *"snap;"* ]]; then
     sudo apt-get install snapd
 
     # Install and test
-    sudo snap install john-the-ripper
-    sudo snap connect john-the-ripper:process-control core:process-control
+    sudo snap install --channel=edge john-the-ripper
 
     # Run the test
     .travis/tests.sh "SNAP"
