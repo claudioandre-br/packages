@@ -141,6 +141,10 @@ test_script:
       Write-Host "----------------------------"
 
   - cd %PROJ_FOLDER%\JohnTheRipper\run
+
+  - echo "Enable ASLR and DEP for the Windows binary of JtR"
+  - peflags --dynamicbase=true --nxcompat=true *.exe
+
   - john --list=build-info
 
   - echo $NT$066ddfd4ef0e9cd7c256fe77191ef43c > tests.in
