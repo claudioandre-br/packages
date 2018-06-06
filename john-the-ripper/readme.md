@@ -151,7 +151,9 @@ The highlights:
 - fallback for CPU[*] and OMP;
 - available for X86_64 and i386;
 - OpenCL binary available (GPU driver installation is needed);
-- Generic crypt(3) format available;
+- generic crypt(3) format available;
+- security feature Address Space Layout Randomisation (ASLR) enabled;
+- security feature Data Execution Prevention (DEP) enabled;
 - prince mode available.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
