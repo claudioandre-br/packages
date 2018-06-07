@@ -149,12 +149,12 @@ The links below contains all the executables and libraries needed to run a fresh
 
 The highlights:
 - fallback for CPU[*] and OMP;
+- prince mode available;
 - available for X86_64 and i386;
 - OpenCL binary available (GPU driver installation is needed);
 - generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
-- security feature Data Execution Prevention (DEP) enabled;
-- prince mode available.
+- security feature Data Execution Prevention (DEP) enabled.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
 
