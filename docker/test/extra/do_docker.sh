@@ -38,14 +38,13 @@ elif [[ $1 == "BUILD_MOZ" ]]; then
     do_Install_Dependencies
     do_Set_Env
 
+    if [[ $DEV == "devel" ]]; then
+        do_Install_Extras
+    fi
     do_Show_Info
     do_Get_JHBuild
     do_Build_JHBuild
     do_Build_Mozilla
-
-    if [[ $DEV == "devel" ]]; then
-        do_Install_Extras
-    fi
 
     # Build JHBuild to create a docker image ready to go
     jhbuild build m4-common

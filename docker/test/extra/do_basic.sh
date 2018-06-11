@@ -65,8 +65,10 @@ function do_Install_Extras(){
         # Distros development versions of needed libraries
         dnf -y -q install gobject-introspection-devel
 
-        # Distros development versions of needed libraries
-        dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo glibc
+        if [[ $STATIC != "qemu" ]]; then
+            # Distros debug info of needed libraries
+            dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo glibc
+        fi
 
         if [[ $STATIC == "settings" ]]; then
             # GNOME Settings dependencies

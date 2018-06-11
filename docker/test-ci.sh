@@ -30,22 +30,26 @@ function do_Build_Package_Dependencies(){
 
 function do_Show_Info(){
 
-    echo '--------------------------------'
-    echo 'Useful build system information'
+    local compiler=gcc
+
+    echo '-----------------------------------------'
+    echo 'Build system information'
     echo -n "Processors: "; grep -c ^processor /proc/cpuinfo
+    grep ^MemTotal /proc/meminfo
     id; uname -a
     printenv
-    echo '--------------------------------'
+    echo '-----------------------------------------'
     cat /etc/*-release
-    echo '--------------------------------'
+    echo '-----------------------------------------'
 
     if [[ ! -z $CC ]]; then
-        echo 'Compiler version'
-        $CC --version
-        echo '--------------------------------'
-        $CC -dM -E -x c /dev/null
-        echo '--------------------------------'
+        compiler=$CC
     fi
+    echo 'Compiler version'
+    $compiler --version
+    echo '-----------------------------------------'
+    $compiler -dM -E -x c /dev/null
+    echo '-----------------------------------------'
 }
 
 # ----------- Run the Tests -----------

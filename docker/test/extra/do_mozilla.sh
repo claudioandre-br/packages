@@ -46,7 +46,7 @@ function do_Build_Mozilla(){
     cd _build
 
     ../js/src/configure --prefix=/root/jhbuild/install --enable-posix-nspr-emulation --with-system-zlib --with-intl-api --disable-jemalloc AUTOCONF=autoconf ${BUILD_OPTS}
-    make -sj2
+    make -sj4
     make install
 
     cd -

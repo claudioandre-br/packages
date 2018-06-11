@@ -1,0 +1,77 @@
+services:
+  - docker
+
+.images: &build
+  image: docker:latest
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
+
+  script:
+    # CI starts here. Previous messages are GitLab Runner setup.
+    - 'echo;
+       echo "*********************************************";
+       echo "***     JavaScript bindings for GNOME     ***";
+       echo "***        Continuous Integration         ***";
+       echo "*********************************************";
+       echo;
+    '
+
+    # Register QEMU archs
+    - 'if [[ "$STATIC" == "qemu" ]]; then
+         docker run --rm --privileged multiarch/qemu-user-static:register --reset;
+       fi
+    '
+
+    # Build using the Dockerfile
+    - 'if [[ -n "$DOCKERFILE" ]]; then
+         wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0/x86_64_qemu-aarch64-static.tar.gz;
+         docker build -f "$DOCKERFILE" -t "$IMAGE" .;
+       fi
+    '
+    - docker images
+
+    # For a heavy build, add -m 500M --oom-kill-disable
+    # -------------------------------------------------
+    # Where the real magic happens
+    - 'docker run --name $NAME -v $(pwd):/saved -v $(pwd)/test/test-ci.sh:/test-ci.sh
+          -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=gcc -e STATIC=$STATIC $IMAGE
+          bash -e -c "cd /saved && test/test-ci.sh BUILD_MOZ"
+    '
+    - docker commit $NAME $REPO:$NAME
+
+    # Test the build (if requested)
+    - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
+         rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs;
+         docker run -v $(pwd):/cwd -e DEV=$DEV -e TEST=check -e CC=gcc $REPO:$NAME bash -e -c "cd /cwd && test/test-ci.sh GJS";
+       fi
+    '
+
+    # Prepare to publish
+    - docker tag $REPO:$NAME $REPO:job-$CI_JOB_ID
+    - docker images
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+    # Do not push (if requested)
+    - 'if [[ "$GJS_EVENT_TYPE" == "cron" || "$log_message" != *"[dont push]"* ]]; then
+         docker push $REPO;
+       fi
+    '
+
+    - 'echo;
+       echo "*********************************************";
+       echo "***             See you soon              ***";
+       echo "*********************************************";
+    '
+
+fedora.aarch64.gcc:
+  <<: *build
+  variables:
+    BASE: "fedora"
+    STATIC: "qemu"
+    DEV: "devel"
+    DOCKERFILE: "test/extra/Dockerfile.arm64v8.fedora.29"
+    IMAGE: "claudioandre/spidermonkey:fedora.aarch64.gcc"
+    NAME: "fedora.aarch64.gcc"
+    REPO: "claudioandre/spidermonkey"
