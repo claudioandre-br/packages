@@ -3,8 +3,6 @@ services:
 
 .images: &build
   image: docker:latest
-  variables:
-    DOCKER_DRIVER: overlay
   services:
     - docker:dind
 
@@ -26,7 +24,7 @@ services:
 
     # Build using the Dockerfile
     - 'if [[ -n "$DOCKERFILE" ]]; then
-         wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0/x86_64_qemu-aarch64-static.tar.gz;
+         wget https://github.com/multiarch/qemu-user-static/releases/download/v2.12.0/x86_64_qemu-${TARGET_ARCH}-static.tar.gz;
          docker build -f "$DOCKERFILE" -t "$IMAGE" .;
        fi
     '
@@ -71,7 +69,22 @@ fedora.aarch64.gcc:
     BASE: "fedora"
     STATIC: "qemu"
     DEV: "devel"
+    TARGET_ARCH: "aarch64"
     DOCKERFILE: "test/extra/Dockerfile.arm64v8.fedora.29"
+    DOCKER_DRIVER: overlay
     IMAGE: "claudioandre/spidermonkey:fedora.aarch64.gcc"
     NAME: "fedora.aarch64.gcc"
+    REPO: "claudioandre/spidermonkey"
+
+fedora.ppc64le.gcc:
+  <<: *build
+  variables:
+    BASE: "fedora"
+    STATIC: "qemu"
+    DEV: "devel"
+    TARGET_ARCH: "ppc64le"
+    DOCKERFILE: "test/extra/Dockerfile.ppc64le.fedora.29"
+    DOCKER_DRIVER: overlay
+    IMAGE: "claudioandre/spidermonkey:fedora.ppc64le.gcc"
+    NAME: "fedora.ppc64le.gcc"
     REPO: "claudioandre/spidermonkey"

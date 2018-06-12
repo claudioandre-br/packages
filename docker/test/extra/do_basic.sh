@@ -17,7 +17,11 @@ function do_Install_Base_Dependencies(){
                                policykit-1 > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
-        dnf -y -q upgrade
+        if [[ $STATIC == "qemu" ]]; then
+            dnf -y -q --nogpgcheck upgrade
+        else
+            dnf -y -q upgrade
+        fi
 
         # Base dependencies
         dnf -y -q install @c-development @development-tools clang redhat-rpm-config gnome-common python-devel \
