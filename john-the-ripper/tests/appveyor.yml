@@ -9,18 +9,21 @@ environment:
       arch: x86_64
       bits: 64
       doing: test
+      test: yes
       location: cygwin64
 
     # CygWin 64bits build
     - arch: x86_64
       bits: 64
       doing: deploy
+      test: package
       location: cygwin64
 
     # CygWin 32bits build
     - arch: x86
       bits: 32
       doing: deploy
+      test: package
       location: cygwin
 
     # MinGW requires a patch in configure
@@ -31,18 +34,23 @@ install:
   - systeminfo | findstr /C:"OS"
   - echo '--------------------------------'
 
-  - ps: |
-      if ($doing -eq "package") {
-        # Use upstream source code
-        cd $env:PROJ_FOLDER
-        Remove-Item ./JohnTheRipper -Force -Recurse -ErrorAction SilentlyContinue
-        git clone --depth 1 https://github.com/magnumripper/JohnTheRipper.git
-      }
-
   - cd %BUILD_FOLDER%
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
   - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
+
+  - ps: |
+      if ($env:Test -eq "package") {
+        # Use upstream source code
+        cd $env:PROJ_FOLDER
+        Remove-Item ./JohnTheRipper -Force -Recurse -ErrorAction SilentlyContinue
+        git clone -q --depth 1 https://github.com/magnumripper/JohnTheRipper.git JohnTheRipper
+        cd $env:BUILD_FOLDER
+      }
+  - git describe --dirty=+ --always 2>nul > __git.tmp
+  - set /p gitDescribe=<__git.tmp
+  - echo "JtR 1.8J1-%gitDescribe%"
+  - echo '--------------------------------'
 
   - ps: |
       $arch = $env:Arch
@@ -85,7 +93,7 @@ build_script:
       shell "gcc -dM -E -x c /dev/null"
       echo '--------------------------------'
 
-      if ($doing -ne "test") {
+      if ($doing -eq "deploy") {
         # CPU (OMP and extensions fallback)
         shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse2' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-sse2-non-omp"
         shell "./configure --disable-native-tests                  CPPFLAGS='-msse2  -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-sse2-non-omp\\\`"\`" ' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
@@ -154,7 +162,7 @@ test_script:
   - echo $6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0 >> tests.in
 
   - echo "====> T0:"
-  - if "%doing%" NEQ "package" (
+  - if "%test%" == "yes" (
         john -test-full=0 --format=cpu
     )
 
