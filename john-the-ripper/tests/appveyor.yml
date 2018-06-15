@@ -85,7 +85,7 @@ build_script:
       shell "gcc -dM -E -x c /dev/null"
       echo '--------------------------------'
 
-      if ($doing -eq "deploy") {
+      if ($doing -ne "test") {
         # CPU (OMP and extensions fallback)
         shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-msse2' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-sse2-non-omp"
         shell "./configure --disable-native-tests                  CPPFLAGS='-msse2  -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-sse2-non-omp\\\`"\`" ' && make -s clean && make -sj2 && make -s strip && mv ../run/john ../run/john-sse2"
