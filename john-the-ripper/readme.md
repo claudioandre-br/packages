@@ -169,8 +169,8 @@ C:\john-the-ripper\run>john --list=build-info
 ```
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          F24A1859D07E35A1F46A7EC6111B8AE4DF7C53E016C96F8AF45C756B0DA3F5A3       C:\projects\johntheripper\run\win_x64.zip
-SHA256          DAA7F44E2CC4AB4711C628619D936C34D2C33AE9B32A6967577CF397C50B48E7       C:\projects\johntheripper\run\win_x32.zip
+SHA256          66F35CAABAE540E33CFA26BEB1B6E778128C32A3EBEDE488FA7BEC1DB549CE3F       C:\projects\JohnTheRipper\run\win_x64.zip
+SHA256          DFABE00799219B38AEF3CB096F756632342344BAEA18262A6B11D9FC1D0D1274       C:\projects\JohnTheRipper\run\win_x32.zip
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
