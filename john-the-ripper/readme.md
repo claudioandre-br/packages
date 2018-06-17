@@ -183,7 +183,7 @@ Some adjustments might be required to allow John the Ripper detect your GPU hard
 
 Real cracking:
 ```
-C:\bleeding\run>john-opencl --format=sha512crypt-opencl d:\hash.txt
+C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
 Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
@@ -194,7 +194,7 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 ```
 
 ```
-C:\bleeding\run>john-opencl --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
+C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
 Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
