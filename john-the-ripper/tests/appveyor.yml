@@ -16,14 +16,14 @@ environment:
     - arch: x86_64
       bits: 64
       doing: deploy
-      test: package
+      test: yes
       location: cygwin64
 
     # CygWin 32bits build
     - arch: x86
       bits: 32
       doing: deploy
-      test: package
+      test: yes
       location: cygwin
 
     # MinGW requires a patch in configure
