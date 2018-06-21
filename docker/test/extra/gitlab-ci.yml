@@ -10,17 +10,16 @@ services:
     # CI starts here. Previous messages are GitLab Runner setup.
     - 'echo;
        echo "*********************************************";
-       echo "***     JavaScript bindings for GNOME     ***";
        echo "***        Continuous Integration         ***";
        echo "*********************************************";
        echo;
     '
 
     # Register QEMU archs
-    - 'if [[ "$STATIC" == *"qemu"* ]]; then
-         docker run --rm --privileged multiarch/qemu-user-static:register --reset;
-       fi
-    '
+    - |
+      if [[ "$STATIC" == *"qemu"* ]]; then
+        docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      fi
 
     # Build using the Dockerfile
     - 'if [[ -n "$DOCKERFILE" ]]; then
