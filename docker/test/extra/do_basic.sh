@@ -17,7 +17,7 @@ function do_Install_Base_Dependencies(){
                                policykit-1 > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
-        if [[ $STATIC == "qemu" ]]; then
+        if [[ $STATIC == *"qemu"* ]]; then
             dnf -y -q --nogpgcheck upgrade
         else
             dnf -y -q upgrade
@@ -69,12 +69,12 @@ function do_Install_Extras(){
         # Distros development versions of needed libraries
         dnf -y -q install gobject-introspection-devel
 
-        if [[ $STATIC != "qemu" ]]; then
+        if [[ $STATIC != *"qemu"* ]]; then
             # Distros debug info of needed libraries
             dnf -y debuginfo-install glib2-devel gobject-introspection-devel gtk3-devel expat fontconfig cairo glibc
         fi
 
-        if [[ $STATIC == "settings" ]]; then
+        if [[ $STATIC == *"settings"* ]]; then
             # GNOME Settings dependencies
             dnf -y -q install accountsservice-devel cheese-libs-devel chrpath clutter-gtk-devel colord-devel  \
                           colord-gtk-devel cups-devel desktop-file-utils docbook-style-xsl gdk-pixbuf2-devel \
