@@ -20,19 +20,19 @@ matrix:
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static-analysis REPO=claudioandre/spidermonkey STATIC=analysis
 
   # Ubuntu
-  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=SM52.ubuntu-lts.gcc   REPO=claudioandre/spidermonkey
-  - env: IMAGE=ubuntu:devel BASE=debian NAME=SM52.ubuntu-dev.gcc   REPO=claudioandre/spidermonkey DEV=devel
+  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=SM52-gcc.ubuntu-lts   REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:devel BASE=debian NAME=SM52-gcc.ubuntu-dev   REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
-  - env: IMAGE=fedora:28      BASE=fedora NAME=SM52.fedora-28.gcc  REPO=claudioandre/spidermonkey
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52.fedora-dev.gcc REPO=claudioandre/spidermonkey DEV=devel
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60.fedora-dev.gcc REPO=claudioandre/spidermonkey DEV=devel STATIC=moz60
+  - env: IMAGE=fedora:28      BASE=fedora NAME=SM52-gcc.fedora-28  REPO=claudioandre/spidermonkey
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz60
 
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev          REPO=claudioandre/settings     DEV=devel STATIC=settings
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.flatpak      REPO=claudioandre/settings     DEV=devel STATIC=flatpak
 
   # Debug Build
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52.fedora.debug.gcc REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52-debug-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel BUILD_OPTS="--enable-debug"
 
   # Very heavy tasks. Run it in 2 phases.
   ### - env: IMAGE=resin/armv7hf-fedora BASE=fedora NAME=fedora.armv7hf.gcc0 REPO=claudioandre/spidermonkey EMU_EXTRA=yes
