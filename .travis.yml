@@ -24,7 +24,6 @@ matrix:
   - env: IMAGE=ubuntu:devel BASE=debian NAME=SM52-gcc.ubuntu-dev   REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
-  - env: IMAGE=fedora:28      BASE=fedora NAME=SM52-gcc.fedora-28  REPO=claudioandre/spidermonkey
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz60
 
