@@ -46,7 +46,7 @@ services:
     '
 
     # Prepare to publish
-    - docker tag $REPO:$NAME $REPO:job-$CI_JOB_ID
+    - docker tag "$REPO:$NAME" "$REPO:job-"$CI_JOB_ID"_$NAME"
     - docker images
     - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
@@ -71,8 +71,8 @@ fedora.aarch64.gcc:
     TARGET_ARCH: "aarch64"
     DOCKERFILE: "test/extra/Dockerfile.arm64v8.fedora.29"
     DOCKER_DRIVER: overlay
-    IMAGE: "claudioandre/spidermonkey:fedora.aarch64.gcc"
-    NAME: "fedora.aarch64.gcc"
+    IMAGE: "claudioandre/spidermonkey:SM52-gcc.fedora-dev.aarch64"
+    NAME: "SM52-gcc.fedora-dev.aarch64"
     REPO: "claudioandre/spidermonkey"
 
 fedora.ppc64le.gcc:
@@ -84,8 +84,8 @@ fedora.ppc64le.gcc:
     TARGET_ARCH: "ppc64le"
     DOCKERFILE: "test/extra/Dockerfile.ppc64le.fedora.29"
     DOCKER_DRIVER: overlay
-    IMAGE: "claudioandre/spidermonkey:fedora.ppc64le.gcc"
-    NAME: "fedora.ppc64le.gcc"
+    IMAGE: "claudioandre/spidermonkey:SM52-gcc.fedora-dev.ppc64le"
+    NAME: "SM52-gcc.fedora-dev.ppc64le"
     REPO: "claudioandre/spidermonkey"
 
 fedora.aarch64:
@@ -99,4 +99,17 @@ fedora.aarch64:
     DOCKER_DRIVER: overlay
     IMAGE: "claudioandre/settings:fedora.aarch64"
     NAME: "fedora.aarch64"
+    REPO: "claudioandre/settings"
+
+fedora.ppc64le:
+  <<: *build
+  variables:
+    BASE: "fedora"
+    STATIC: "qemu,settings"
+    DEV: "devel"
+    TARGET_ARCH: "ppc64le"
+    DOCKERFILE: "test/extra/Dockerfile.ppc64le.fedora.29"
+    DOCKER_DRIVER: overlay
+    IMAGE: "claudioandre/settings:fedora.ppc64le"
+    NAME: "fedora.ppc64le"
     REPO: "claudioandre/settings"
