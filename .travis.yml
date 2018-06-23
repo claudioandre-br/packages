@@ -70,7 +70,7 @@ script:
     '
 
 after_success:
-  - docker tag $REPO:$NAME $REPO:job-$TRAVIS_JOB_NUMBER
+  - docker tag "$REPO:$NAME" "$REPO:job-"$TRAVIS_JOB_NUMBER"_$NAME"
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
