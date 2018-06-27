@@ -41,6 +41,8 @@ gcc --version
 echo '--------------------------------'
 gcc -dM -E -x c /dev/null
 echo '--------------------------------'
+cat /proc/cpuinfo
+echo '--------------------------------'
 
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
@@ -151,9 +153,11 @@ if [[ "$TEST" = "yes" ]]; then
         echo '----------------------------------------'
         echo "###    Build failed with $error errors    ###"
         echo '----------------------------------------'
+        arch=$(uname -m)
+        echo "----------------- $arch ------------------"
 
         # Allow errors on ARMv7, it is bugged. Abort only if not on ARMv7
-        if [[ "$arch" != "armv7l" ]]; then
+        if [[ "$arch" != "armv7l" && "$arch" != "armhf" ]]; then
             exit 1
         fi
     else
