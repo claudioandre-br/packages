@@ -17,7 +17,7 @@ env:
 matrix:
   include:
   # Static Analysis
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.static-analysis REPO=claudioandre/spidermonkey STATIC=analysis
+  - env: IMAGE=fedora:latest BASE=fedora NAME=fedora.static-analysis REPO=claudioandre/spidermonkey STATIC=analysis
 
   # Ubuntu
   - env: IMAGE=ubuntu:18.04 BASE=debian NAME=SM52-gcc.ubuntu-lts   REPO=claudioandre/spidermonkey
