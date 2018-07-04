@@ -1,5 +1,5 @@
-[![pipeline status](https://gitlab.com/claudioandre/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre/packages/pipelines)
-[![Build status](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre/johntheripper)
+[![pipeline status](https://gitlab.com/claudioandre-br/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre-br/packages/pipelines)
+[![Build status](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre-br/johntheripper)
 
 Packages
 =============
@@ -9,8 +9,8 @@ Packages
 In here there are **Snap**, **Flatpak**, and **Windows** packages.
 
 #### Ubuntu Snap Packages
-- John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes](https://github.com/claudioandre/packages/tree/master/john-the-ripper#john-the-ripper).
-- IRPF, a Brazilian government tool: check this [text](https://claudioandre.github.io/outros/irpf_package.htm?id=git) for more details.
+- John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes](https://github.com/claudioandre-br/packages/tree/master/john-the-ripper#john-the-ripper).
+- IRPF, a Brazilian government tool: check this [text](https://claudioandre-br.github.io/outros/irpf_package.htm?id=git) for more details.
 - Namebench, a benchmark tool: check [namebench](https://code.google.com/archive/p/namebench) for more details.
 - B1, a file archiver: check [B1](http://b1.org/) for more details.
 - Anatine, a Twitter client (deprecated): check [anatine](https://github.com/sindresorhus/anatine) for more details (*not published*).
@@ -24,12 +24,12 @@ All the Snap packages are built using a build server. At this moment, I'm using 
 Anyone can get, for free (as in beer), the reviewed packages from [**uAppExplorer**](https://uappexplorer.com/snaps?q=author%3AClaudio+Andr%C3%A9&sort=-points). Despite the fact it is an unofficial repository, all packages are hosted and reviewed (automatically) by Ubuntu.
 
 #### Flatpak Package
-- John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre/packages/tree/master/john-the-ripper#flatpak) for more details.
+- John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre-br/packages/tree/master/john-the-ripper#flatpak) for more details.
 
 At this moment, I'm using **GitLab** to build the Flatpak package.
 
 #### Windows Package
-- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre/packages/blob/master/john-the-ripper/readme.md#windows) for more details.
+- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/readme.md#windows) for more details.
 
 At this moment, I'm using **AppVeyor CI** to build the Windows package.
 

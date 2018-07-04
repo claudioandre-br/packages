@@ -18,14 +18,14 @@ error=0
 
 git clone https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/snap/john-the-ripper.opencl
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/snap/john-the-ripper.opencl
 chmod +x john-the-ripper.opencl
 cd src
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
 patch < 0001-Handle-self-confined-system-wide-build.patch
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
 patch < 0001-maint-revert-JtR-to-regex-1.4.patch
 
 arch=$(uname -m)

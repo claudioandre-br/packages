@@ -185,7 +185,7 @@ if [[ "$TEST" == *";afl-clang-fast;"* ]]; then
 fi
 
 # Apply all needed patches
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
 git apply 0002-maintenance-fix-the-expected-data-type-size.patch
 
 if [[ "$TEST" == *"usual;"* ]]; then

@@ -13,20 +13,20 @@ rm -rf .travis.yml buggy.sh circle.yml appveyor.yml .travis/ .circle/ .circleci/
 mkdir -p .circleci/
 mkdir -p .travis/
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/buggy.sh
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/buggy.sh
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/appveyor.yml
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/appveyor.yml
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/.travis.yml
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/travis-ci.sh  -P .travis/
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/.travis.yml
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/travis-ci.sh  -P .travis/
 
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/config.yml    -P .circleci/
-wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circleci/
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/config.yml    -P .circleci/
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circleci/
 
 
 # Patches
-wget https://raw.githubusercontent.com/claudioandre/packages/master/patches/3204.patch
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/3204.patch
 git am 3204.patch
 
 chmod +x buggy.sh

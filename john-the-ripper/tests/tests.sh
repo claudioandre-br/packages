@@ -109,8 +109,8 @@ if test "$EXTRAS" = "yes" ; then
     tar -xozf test.gpg.tar.gz
 
     # UTF-8 tests
-    wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/answers
-    wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/specials
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/answers
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/specials
 
     # Prepare for tests
     ../run/zip2john *.zip > ~/file1
