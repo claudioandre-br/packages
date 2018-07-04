@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export ALSA_CONFIG_PATH="$SNAP/etc/alsa.conf"
-
-exec $@

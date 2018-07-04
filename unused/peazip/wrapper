@@ -1,3 +1,0 @@
-#!/bin/sh
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SNAP/lib/i386-linux-gnu:$SNAP/usr/lib/i386-linux-gnu"
-exec $SNAP/bin/peazip "$@"
