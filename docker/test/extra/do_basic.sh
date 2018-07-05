@@ -85,7 +85,7 @@ function do_Install_Extras(){
                           libsoup-devel libwacom-devel libX11-devel libXi-devel libxml2-devel libxslt \
                           libXxf86misc-devel meson ModemManager-glib-devel NetworkManager-libnm-devel \
                           polkit-devel pulseaudio-libs-devel upower-devel \
-                          python3-dbusmock xorg-x11-server-Xvfb mesa-dri-drivers libsecret-devel
+                          python3-dbusmock xorg-x11-server-Xvfb mesa-dri-drivers libsecret-devel llvm
         fi
 
         if [[ $STATIC == "flatpak" ]]; then
