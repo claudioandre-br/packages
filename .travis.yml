@@ -28,6 +28,7 @@ matrix:
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz60
 
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora-dev          REPO=claudioandre/daemon       DEV=devel STATIC=daemon
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev          REPO=claudioandre/settings     DEV=devel STATIC=settings
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.flatpak      REPO=claudioandre/settings     DEV=devel STATIC=flatpak
 

@@ -88,6 +88,18 @@ function do_Install_Extras(){
                           python3-dbusmock xorg-x11-server-Xvfb mesa-dri-drivers libsecret-devel llvm
         fi
 
+        if [[ $STATIC == *"daemon"* ]]; then
+            # GNOME Settings daemon dependencies
+            dnf -y -q install alsa-lib-devel colord-devel cups-devel fontconfig-devel geoclue2-devel geocode-glib-devel \
+                gettext git glib2-devel gnome-desktop3-devel gnome-session gobject-introspection \
+                gsettings-desktop-schemas-devel gtk3-devel lcms2-devel libcanberra-devel libgtop2-devel \
+                libgudev-devel libgweather-devel libnotify-devel librsvg2-devel libX11-devel libXi-devel \
+                libXtst-devel libwacom-devel meson NetworkManager-libnm-devel nss-devel perl-interpreter \
+                polkit-devel pulseaudio-libs-devel pygobject3 python-dbusmock upower-devel wayland-devel \
+                which xorg-x11-drv-wacom-devel xorg-x11-server-Xvfb xorg-x11-utils mutter \
+                mesa-dri-drivers llvm
+        fi
+
         if [[ $STATIC == "flatpak" ]]; then
             # GNOME Settings flatpak dependencies
             dnf -y -q install flatpak flatpak-builder

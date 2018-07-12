@@ -26,7 +26,7 @@ elif [[ $STATIC == "flatpak" ]]; then
     do_Install_Extras
     do_Shrink_Image
 
-elif [[ $STATIC == *"settings"* ]]; then
+elif [[ $STATIC == *"settings"* || $STATIC == *"daemon"* ]]; then
     do_Install_Base_Dependencies
     do_Install_Dependencies
     do_Install_Extras
