@@ -42,7 +42,7 @@ function do_Install_Dependencies(){
     if [[ $BASE == "debian" ]]; then
         # Testing dependencies
         apt-get -y -qq install libgtk-3-dev gir1.2-gtk-3.0 xvfb gnome-desktop-testing dbus-x11 dbus \
-                               libedit-dev libgl1-mesa-dev lcov > /dev/null
+                               libedit-dev libgl1-mesa-dev lcov libreadline-dev > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
         # Testing dependencies
