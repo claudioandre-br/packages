@@ -21,12 +21,11 @@ matrix:
   - env: IMAGE=fedora:latest BASE=fedora NAME=fedora.static-analysis REPO=claudioandre/spidermonkey STATIC=analysis
 
   # Ubuntu
-  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=SM52-gcc.ubuntu-lts   REPO=claudioandre/spidermonkey
-  - env: IMAGE=ubuntu:devel BASE=debian NAME=SM52-gcc.ubuntu-dev   REPO=claudioandre/spidermonkey DEV=devel
+  - env: IMAGE=ubuntu:18.04 BASE=debian NAME=SM60-gcc.ubuntu-lts   REPO=claudioandre/spidermonkey
+  - env: IMAGE=ubuntu:devel BASE=debian NAME=SM60-gcc.ubuntu-dev   REPO=claudioandre/spidermonkey DEV=devel
 
   # Fedora
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz60
+  - env: IMAGE=fedora:rawhide BASE=fedora NAME=SM60-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel
 
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora-dev          REPO=claudioandre/daemon       DEV=devel STATIC=daemon
   - env: IMAGE=fedora:rawhide BASE=fedora NAME=fedora.dev          REPO=claudioandre/settings     DEV=devel STATIC=settings
@@ -53,7 +52,7 @@ script:
 
   # For a heavy build, add -m 500M --oom-kill-disable
   # -------------------------------------------------
-  - 'docker run --name $NAME -v $(pwd):/saved -v $(pwd)/ci-images.sh:/ci-images.sh
+  - 'docker run --name $NAME -v $(pwd):/on-host -v $(pwd)/ci-images.sh:/ci-images.sh
         -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=gcc -e STATIC=$STATIC $IMAGE
       bash -e -c "/ci-images.sh BUILD_MOZ"
     '

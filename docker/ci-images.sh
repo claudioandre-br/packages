@@ -5,8 +5,8 @@ function do_Set_Env(){
     echo '-- Set Environment --'
 
     #Save cache on host (outside the image), if linked
-    mkdir -p /cwd/.cache
-    export XDG_CACHE_HOME=/cwd/.cache
+    mkdir -p /on-host/.cache
+    export XDG_CACHE_HOME=/on-host/.cache
 
     export JHBUILD_RUN_AS_ROOT=1
     export SHELL=/bin/bash
@@ -20,7 +20,7 @@ function do_Set_Env(){
 }
 
 # ----------- Run the Tests -----------
-cd /saved
+cd /on-host
 
 if [[ -n "${BUILD_OPTS}" ]]; then
     extra_opts="($BUILD_OPTS)"

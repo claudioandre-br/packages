@@ -12,8 +12,8 @@ function do_Configure_MozBuild(){
     fi
 
     cat <<EOFILE >> ~/.config/jhbuildrc
-module_autogenargs['mozjs52'] = "$autogenargs"
-module_makeargs['mozjs52'] = '-s'
+module_autogenargs['mozjs60'] = "$autogenargs"
+module_makeargs['mozjs60'] = '-s'
 EOFILE
 
     echo '-- Done --'
@@ -27,19 +27,19 @@ function do_Build_Mozilla_jhbuild(){
     do_Configure_MozBuild
 
     # Build Mozilla Stuff
-    jhbuild build mozjs52
+    jhbuild build mozjs60
 }
 
 function do_Build_Mozilla(){
     echo
     echo '-- Building Mozilla SpiderMonkey --'
 
-    if [[ $STATIC == "moz60" ]]; then
-        git clone --depth 1 https://github.com/ptomato/mozjs.git -b mozjs60 /saved/spider
-        cd /saved/spider
+    if [[ $STATIC == "moz52" ]]; then
+        git clone --depth 1 https://github.com/ptomato/mozjs.git -b mozjs52 /on-host/spider
+        cd /on-host/spider
     else
-        git clone --depth 1 https://github.com/ptomato/mozjs.git -b mozjs52 /saved/spider
-        cd /saved/spider
+        git clone --depth 1 https://github.com/ptomato/mozjs.git -b mozjs60 /on-host/spider
+        cd /on-host/spider
     fi
 
     mkdir -p _build
