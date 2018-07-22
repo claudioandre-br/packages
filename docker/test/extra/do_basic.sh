@@ -20,7 +20,7 @@ function do_Install_Base_Dependencies(){
         if [[ $STATIC == *"qemu"* ]]; then
             dnf -y -q --nogpgcheck upgrade
         else
-            dnf -y -q upgrade
+            dnf -y -q upgrade --best --allowerasing
         fi
 
         # Base dependencies
@@ -46,13 +46,13 @@ function do_Install_Dependencies(){
 
     elif [[ $BASE == "fedora" ]]; then
         # Testing dependencies
-        dnf -y -q install gtk3 gtk3-devel gobject-introspection Xvfb gnome-desktop-testing dbus-x11 dbus \
+        dnf -y    install gtk3 gtk3-devel gobject-introspection Xvfb gnome-desktop-testing dbus-x11 dbus \
                           cairo intltool libxslt bison nspr zlib python3-devel dbus-glib libicu libffi pcre libxml2 libxslt libtool flex \
                           cairo-devel zlib-devel libffi-devel pcre-devel libxml2-devel libxslt-devel \
                           libedit-devel libasan libubsan libtsan compiler-rt lcov mesa-libGL-devel readline-devel
 
         if [[ $DEV == "devel" ]]; then
-            dnf -y -q install time
+            dnf -y    install time
         fi
     fi
 }
@@ -63,11 +63,11 @@ function do_Install_Extras(){
 
     if [[ $BASE == "debian" ]]; then
         # Distros development versions of needed libraries
-        apt-get -y -qq install libgirepository1.0-dev > /dev/null
+        apt-get -y -qq install libgirepository1.0-dev libsoup2.4-dev libwebkit2gtk-4.0-dev notify-osd > /dev/null
 
     elif [[ $BASE == "fedora" ]]; then
         # Distros development versions of needed libraries
-        dnf -y -q install gobject-introspection-devel
+        dnf -y -q install gobject-introspection-devel libsoup-devel webkit2gtk3
 
         if [[ $STATIC != *"qemu"* ]]; then
             # Distros debug info of needed libraries
