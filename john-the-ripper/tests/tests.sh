@@ -265,6 +265,7 @@ else
         do_Test "$JtR -test=0 --format=descrypt-ztex" "no valid ZTEX devices found" 0 0 "ERROR"
         do_Test "$JtR -test=0 --format=bcrypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
         do_Test "$JtR -test=0 --format=sha512crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+        do_Test "$JtR -test=0 --format=drupal7-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
     elif test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
         echo "$ JtR -test=0 --format=cpu"
         "$JtR" -test=0 --format=cpu
