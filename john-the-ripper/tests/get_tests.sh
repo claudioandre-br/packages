@@ -25,10 +25,6 @@ wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circleci/
 
 
-# Patches
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/3204.patch
-git am 3204.patch
-
 chmod +x buggy.sh
 chmod +x .travis/tests.sh
 chmod +x .travis/travis-ci.sh
@@ -51,5 +47,4 @@ git commit -a -m "CI: do test plus Windows packaging $(date)"
 # Clean up
 rm -f buggy.sh
 rm -f get_tests.sh
-rm -f 3204.patch
 
