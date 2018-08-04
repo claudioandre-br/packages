@@ -1,0 +1,1 @@
+rm -f get_tests.sh; wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/get_tests.sh; chmod +x get_tests.sh ; ./get_tests.sh
