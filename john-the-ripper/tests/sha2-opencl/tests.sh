@@ -219,7 +219,7 @@ function sha512(){
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[x-z] -min=55 -max-l=55"  1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:TestTESTt3st"                                                    1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:john?a?l?l?lr  -dev:$TST_Device_3"                               1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?a -min-len=0 -max-len=2"                                        1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?a -min-len=0 -max-len=3"                                        1
 
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?l?l?l?l?l"                            1
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd]"  1
