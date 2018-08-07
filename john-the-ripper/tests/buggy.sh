@@ -46,14 +46,13 @@ index 285ce89..219edbe 100644
 ENDPATCH
 # -----
 
-mkdir -p bugged
 Total_Formats=0
 
 case "$1" in
     "enable" | "--enable" | "-e")
         echo "Please, stash. You can't enable the formats.";;
     "disable" | "--disable" | "-d")
-        for i in $FILES ; do mv -f src/$i bugged/ ; Total_Formats=$((Total_Formats + 1)); done;;
+        for i in $FILES ; do rm -f src/$i ; Total_Formats=$((Total_Formats + 1)); done;;
     *)
         do_help;;
 esac
