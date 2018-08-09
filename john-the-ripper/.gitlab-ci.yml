@@ -18,7 +18,7 @@ build:
     - dnf -y update
     - dnf install -y flatpak flatpak-builder elfutils
     - flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
-    - flatpak install gnome org.freedesktop.Platform//1.6 org.freedesktop.Sdk//1.6
+    - flatpak install -y gnome org.freedesktop.Platform//1.6 org.freedesktop.Sdk//1.6
 
     # Build and export the flatpak package
     - cd john-the-ripper/flatpak
@@ -38,14 +38,14 @@ deploy:
     - dnf -y update
     - dnf install -y flatpak ostree
     - flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
-    - flatpak install gnome org.freedesktop.Platform//1.6
+    - flatpak install -y gnome org.freedesktop.Platform//1.6
     - echo Flatpak Installed
 
     # Install flatpak package
     - ostree --repo=repo init --mode=archive-z2
     - flatpak build-import-bundle repo john.flatpak
     - flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo
-    - flatpak --user install tutorial-repo com.openwall.John
+    - flatpak --user install -y tutorial-repo com.openwall.John
 
     # Do some testing
     - flatpak run com.openwall.John
