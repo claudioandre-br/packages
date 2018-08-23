@@ -131,11 +131,10 @@ $ flatpak run com.openwall.John --list=build-info
 
 To install John the Ripper by downloading the .zip file and installing manually, follow these steps:
 
-* Try to find out if your computer is running a 32-bit or 64-bit version of Windows. See also [this](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64).
-* Click the link of the 32-bit or 64-bit .zip to download the appropriate file to your machine.
-* Only the file win_x64.zip (or win_x32.zip) is required.
+* Only for 64-bit version of Windows. See also [this](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64).
+* Download the win_x64.zip file to your machine.
 * Navigate to where you downloaded the file and double click the compressed file [1].
-* Extract the John .zip file to a directory such as `C:\john-the-ripper`.
+* Extract it to a directory such as `C:\john-the-ripper`.
 * Start a command prompt.
 * Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
 * Run JtR:
@@ -144,8 +143,7 @@ C:\john-the-ripper\run>john --list=build-info
 C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
-The links below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [32-bit version](https://rebrand.ly/JtRWin32)
+The link below contains all the executables and libraries needed to run a fresh John the Ripper installation.
 - [64-bit version](https://rebrand.ly/JtRWin64)
 
 The highlights:
