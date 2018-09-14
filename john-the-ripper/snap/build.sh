@@ -16,7 +16,7 @@ report () {
 total=0
 error=0
 
-git clone https://github.com/magnumripper/JohnTheRipper.git tmp
+git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/snap/john-the-ripper.opencl
 chmod +x john-the-ripper.opencl
