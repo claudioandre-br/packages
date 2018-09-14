@@ -82,6 +82,9 @@ parts:
     source: .
     override-build: |
       ./build.sh
+      mkdir -p ../install/etc/bash_completion
+      cp run/john.*_completion ../install/etc/bash_completion/
+
     build-packages:
       - build-essential
       - libssl-dev
@@ -133,25 +136,3 @@ parts:
       - $extras
     stage:
       - $extras
-
-  transfer:
-    plugin: nil
-    after: [john-the-ripper]
-    source: .
-    override-build: |
-      wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo/run/john.bash_completion
-      wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo/run/john.zsh_completion
-      mkdir -p ../install/etc/bash_completion
-      cp john.bash_completion ../install/etc/bash_completion/john.bash_completion
-      cp john.zsh_completion ../install/etc/bash_completion/john.zsh_completion
-
-    prime:
-      - etc/
-    stage:
-      - etc/
-
-    # It seems "organize" is not run for plugin nil. So, the cp seen above.
-    organize:
-      john.bash_completion: etc/bash_completion/john.bash_completion
-      john.zsh_completion: etc/bash_completion/john.zsh_completion
-
