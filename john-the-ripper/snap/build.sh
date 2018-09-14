@@ -148,9 +148,11 @@ if [[ "$TEST" = "yes" ]]; then
     "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
     report "--format=sha512crypt --mask=jo?l[n-q]"
 
-    echo "====> T6:"
-    ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
-    report "--format=sha512crypt-opencl" "fails"
+    if [[ "$arch" == 'x86_64' ]]; then
+        echo "====> T6:"
+        ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
+        report "--format=sha512crypt-opencl" "fails"
+    fi
     echo "------------------------------------------------------------------"
     echo ""
 
