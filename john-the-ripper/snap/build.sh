@@ -33,6 +33,9 @@ arch=$(uname -m)
 # Set package version
 git rev-parse --short HEAD 2>/dev/null > ../../../../My_VERSION.TXT
 
+# Force CFLAGS with -O2
+export CFLAGS="-O2 $CFLAGS"
+
 # Show env info
 echo '--------------------------------'
 uname -m; id
@@ -42,6 +45,8 @@ echo '--------------------------------'
 gcc -dM -E -x c /dev/null
 echo '--------------------------------'
 cat /proc/cpuinfo
+echo '--------------------------------'
+env
 echo '--------------------------------'
 
 echo ""
