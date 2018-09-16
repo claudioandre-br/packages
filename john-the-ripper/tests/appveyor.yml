@@ -180,9 +180,9 @@ on_failure:
   - if exist "debug_logs.zip" appveyor PushArtifact "debug_logs.zip"
 
 on_finish:
-  - if exist "%PROJ_FOLDER%\JohnTheRipper\lib" 7z a -tzip "lib_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\lib"
-  - if exist "lib_x%bits%.zip" appveyor PushArtifact "lib_x%bits%.zip"
-  - if exist "lib_x%bits%.zip" del "lib_x%bits%.zip"
+  - if exist "%PROJ_FOLDER%\JohnTheRipper\lib" 7z a -tzip "optional.zip" "%PROJ_FOLDER%\JohnTheRipper\lib"
+  - if exist "optional.zip" appveyor PushArtifact "optional.zip"
+  - if exist "optional.zip" del "optional.zip"
 
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" if "%doing%" == "deploy" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
