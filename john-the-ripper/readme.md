@@ -149,7 +149,6 @@ The link below contains all the executables and libraries needed to run a fresh 
 The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
-- available for X86_64 and i386;
 - OpenCL binary available (GPU driver installation is needed);
 - generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
@@ -164,12 +163,11 @@ C:\john-the-ripper\run>set OMP_NUM_THREADS=1
 C:\john-the-ripper\run>john --list=build-info
 ```
 
-#### File hashes computed by the CI server
+#### File hash computed by the CI server
 ```
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
 SHA256          66F35CAABAE540E33CFA26BEB1B6E778128C32A3EBEDE488FA7BEC1DB549CE3F       C:\projects\JohnTheRipper\run\win_x64.zip
-SHA256          DFABE00799219B38AEF3CB096F756632342344BAEA18262A6B11D9FC1D0D1274       C:\projects\JohnTheRipper\run\win_x32.zip
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
