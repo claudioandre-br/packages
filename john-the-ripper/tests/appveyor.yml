@@ -173,6 +173,10 @@ test_script:
   - echo "====> T12:"
   - john tests.in --format=sha512crypt --max-run-time=300
 
+  # Remove the left-over from testing
+  - del john.log
+  - del john.pot
+
 on_failure:
   - dir ..\ /s > dir.txt
   - if exist "dir.txt" 7z a -tzip debug_logs.zip "dir.txt" > nul
