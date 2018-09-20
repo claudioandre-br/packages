@@ -88,18 +88,23 @@ rm -rf ../run/ztex
 TEST=yes #always
 sudo apt-get install -y language-pack-en
 
-if [[ "$TEST" = "yes" ]]; then
-    echo ""
-    echo "---------------------------- TESTING -----------------------------"
-    JTR_BIN='../run/john'
-    "$JTR_BIN" --list=build-info
+echo ""
+echo "---------------------------- TESTING -----------------------------"
+JTR_BIN='../run/john'
+"$JTR_BIN" --list=build-info
 
-    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
-    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
-    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
-    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
-    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
+echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
+echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
+echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
+echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
+echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
 
+if [[ "$TEST" = "full" ]]; then
+    echo "====> T Full:"
+    "$JTR_BIN" -test-full=0
+    report "-test-full=0"
+
+elif [[ "$TEST" = "yes" ]]; then
     echo
     echo "====> regex T1 A: 9 lines"
     "$JTR_BIN" --stdout --regex='[0-2]password[A-C]'
@@ -155,21 +160,22 @@ if [[ "$TEST" = "yes" ]]; then
     fi
     echo "------------------------------------------------------------------"
     echo ""
+fi
 
-    if [[ $error > 1 ]];  then
-        echo '----------------------------------------'
-        echo "###    Build failed with $error errors    ###"
-        echo '----------------------------------------'
-        arch=$(uname -m)
-        echo "----------------- $arch ------------------"
+if [[ $error > 1 ]];  then
+    echo '----------------------------------------'
+    echo "###    Build failed with $error errors    ###"
+    echo '----------------------------------------'
+    arch=$(uname -m)
+    echo "----------------- $arch ------------------"
 
-        # Allow errors on ARMv7, it is bugged. Abort only if not on ARMv7
-        if [[ "$arch" != "armv7l" && "$arch" != "armhf" ]]; then
-            exit 1
-        fi
-    else
-        echo '----------------------------------------'
-        echo "###  Performed $total tests in $SECONDS seconds  ###"
-        echo '----------------------------------------'
+    # Allow errors on ARMv7, it is bugged. Abort only if not on ARMv7
+    # Allow to run tests without aborting due to errors
+    if [[ "$arch" != "armv7l" && "$arch" != "armhf" && "$TEST" == "yes" ]]; then
+        exit 1
     fi
+else
+    echo '----------------------------------------'
+    echo "###  Performed $total tests in $SECONDS seconds  ###"
+    echo '----------------------------------------'
 fi
