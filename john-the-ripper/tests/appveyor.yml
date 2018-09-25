@@ -156,8 +156,8 @@ test_script:
 
   # Save checksums
   - echo "Create and save checksums"
-  - echo "File verification is the process of using an algorithm for verifying the integrity of a computer file. This can be done by comparing two files bit-by-bit, but requires two copies of the same file, and may miss systematic corruptions which might occur to both files. A more popular approach is to also store checksums (hashes) of files, also known as message digests, for later comparison." > ..\checksums.txt
-  - echo "**************************************************************************" >> ..\checksums.txt
+  - ps: echo "File verification is the process of using an algorithm for verifying the integrity of a computer file. This can be done by comparing two files bit-by-bit, but requires two copies of the same file, and may miss systematic corruptions which might occur to both files. A more popular approach is to also store checksums (hashes) of files, also known as message digests, for later comparison." | Tee-Object -FilePath ..\checksums.txt -Append
+  - ps: echo "**************************************************************************" | Tee-Object -FilePath ..\checksums.txt -Append
 
   - ps: Get-FileHash -Path .\*.exe | Tee-Object -FilePath ..\checksums.txt -Append
 
