@@ -164,10 +164,13 @@ C:\john-the-ripper\run>john --list=build-info
 ```
 
 #### File hash computed by the CI server
+File verification is the process of using an algorithm for verifying the integrity of a computer file. A popular approach is to store checksums (hashes) of files, also known as message digests, for later comparison.
+
+Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant files. For example:
 ```
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          66F35CAABAE540E33CFA26BEB1B6E778128C32A3EBEDE488FA7BEC1DB549CE3F       C:\projects\JohnTheRipper\run\win_x64.zip
+SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
 ```
 
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
