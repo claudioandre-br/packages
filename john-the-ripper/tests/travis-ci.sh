@@ -107,8 +107,8 @@ function do_Build_Docker_Command(){
             update="$update apt-get install -y -qq clang-4.0;"
         fi
 
-        if [[ "$TEST" == *";clang-5;"* ]]; then
-            update="$update apt-get install -y -qq clang-5.0;"
+        if [[ "$TEST" == *";clang-6;"* ]]; then
+            update="$update apt-get install -y -qq clang-6.0;"
         fi
 
         if [[ "$TEST" == *";experimental;"* ]]; then
@@ -172,8 +172,8 @@ if [[ "$TEST" == *";clang-4;"* ]]; then
     export CCO="clang-4.0"
 fi
 
-if [[ "$TEST" == *";clang-5;"* ]]; then
-    export CCO="clang-5.0"
+if [[ "$TEST" == *";clang-6;"* ]]; then
+    export CCO="clang-6.0"
 fi
 
 if [[ "$TEST" == *";afl-clang;"* ]]; then
