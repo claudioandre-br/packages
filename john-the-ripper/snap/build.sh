@@ -74,8 +74,8 @@ if [[ "$arch" == 'x86_64' ]]; then
     make kernel-copy
 else
     # CPU (OMP and extensions fallback)
-    ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
-    ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
+    ./configure --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
+    ./configure --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
 
     # Workaround for non X86
     ln -s ../run/john ../run/john-opencl
