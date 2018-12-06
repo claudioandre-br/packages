@@ -52,7 +52,8 @@ matrix:
   #Test a non SIMD build. OMP and non OpenMP. Note: non OpenMP + clang build fails
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=1
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=2
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=1
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=2
 
   #Enable alignment checking ubsan
   - compiler: clang
@@ -83,7 +84,8 @@ matrix:
 
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=1
   - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=2
-  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'"
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=1
+  - env: TEST="usual;ASAN;OPENCL;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror CPPFLAGS='-mno-sse2 -mno-mmx -U__SSE__'" F=2
 
   - env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-ubsan"
 
