@@ -7,6 +7,8 @@ function do_Init(){
     cp ../cisco4_tst.in .
     cp ../rawsha512_tst.in .
     cp ../XSHA512_tst.in .
+    cp ../SHA256crypt_tst.in .
+    cp ../SHA512crypt_tst.in .
 
     ../../run/john -form:cpu --list=format-tests 2> /dev/null | cut -f3 1> alltests.in
 
@@ -49,7 +51,7 @@ function do_Test_TS(){
 function do_Test_Suite(){
     cd ..
 
-    if [[ "$1" == "fast-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "rawsha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA256 Test Suite tests...'
         do_Test_TS raw-sha256-opencl "-dev:$TST_Device_1"
         do_Test_TS raw-sha256-opencl "-dev:$TST_Device_2"
@@ -59,7 +61,7 @@ function do_Test_Suite(){
         do_Test_TS raw-sha256-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
     fi
 
-    if [[ "$1" == "fast-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "rawsha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA512 Test Suite tests...'
         do_Test_TS raw-sha512-opencl "-dev:$TST_Device_1"
         do_Test_TS raw-sha512-opencl "-dev:$TST_Device_2"
@@ -176,13 +178,13 @@ function do_Regressions(){
 
 function do_All_Devices(){
 
-    if [[ "$1" == "fast-sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "rawsha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
     fi
 
-    if [[ "$1" == "fast-sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+    if [[ "$1" == "rawsha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test -dev:$i" "" ; done
         for i in $Device_List ; do do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" "" ; done
@@ -192,6 +194,30 @@ function do_All_Devices(){
 }
 
 function sha256(){
+    echo 'Running SHA256crypt cracking tests...'
+    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules --skip"                                           1500
+    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_Fast"                        1500
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    2
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$TST_Device_Fast,$TST_Device_3"                    2
+
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask:?l -min-len=0 -max-len=4"           1
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask:?d -min-len=0 -max-len=4"           1 "_GPU_MASK_CAND=0"
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$TST_Device_1"          1
+}
+
+function sha512(){
+    echo 'Running SHA512crypt cracking tests...'
+    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules --skip"                                           1500
+    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_Fast"                        1500
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    1
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    1
+
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask:?l -min-len=0 -max-len=4"           1
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask:?d -min-len=0 -max-len=4"           1 "_GPU_MASK_CAND=0"
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask=[Hh][E3e@][LlI][LlI][O0o][.\ ,][Ww][Oo0][Rr][LlI][Dd][\!~] -dev:$TST_Device_Fast"          1
+}
+
+function rawsha256(){
     echo 'Running raw-SHA256 cracking tests...'
     do_Test "cisco4_tst.in"    "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules --skip"                                           1500
     do_Test "rawsha256_tst.in" "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_2"                           1500
@@ -204,7 +230,7 @@ function sha256(){
     do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                          2
 }
 
-function sha512(){
+function rawsha512(){
     echo 'Running raw-SHA512 cracking tests...'
     do_Test "rawsha512_tst.in" "-form=raw-SHA512-opencl" "-wo:pw.dic --rules=all --skip"                                      1500
     do_Test "XSHA512_tst.in"   "-form=xSHA512-opencl"    "-wo:pw.dic --rules"                                                 1500
@@ -260,8 +286,10 @@ function do_help(){
     echo '               ./test-claudio.sh --ts [hash]'
     echo ' '
     echo 'Available hashes:'
-    echo '  fast-sha256: execute raw-sha256 cracking tests.'
-    echo '  fast-sha512: execute x/raw-sha512 cracking tests.'
+    echo '  sha256: execute sha256crypt cracking tests.'
+    echo '  sha512: execute sha512crypt cracking tests.'
+    echo '  rawsha256: execute raw-sha256 cracking tests.'
+    echo '  rawsha512: execute x/raw-sha512 cracking tests.'
     echo
 
     exit 0
@@ -296,6 +324,7 @@ Total_Erros=0
 TST_Device_1=0
 TST_Device_2=2
 TST_Device_3=7
+TST_Device_Fast=6
 do_Init
 
 #-----------   Tests   -----------
@@ -308,13 +337,28 @@ case "$1" in
         do_Mask_Test    #--mask
         sha256          #--cracking
         sha512          #   idem
+        rawsha256       #--cracking
+        rawsha512       #   idem
         ;;
     "--basic" | "-b")
         do_All_Devices "$2"
         ;;
     "--cracking" | "-c")
-        sha256
-        sha512
+        if [[ "$2" == "sha256" ]] || [[ -z "$2" ]]; then
+            sha256
+        fi
+
+        if [[ "$2" == "sha512" ]] || [[ -z "$2" ]]; then
+            sha512
+        fi
+
+        if [[ "$2" == "rawsha256" ]] || [[ -z "$2" ]]; then
+            rawsha256
+        fi
+
+        if [[ "$2" == "rawsha512" ]] || [[ -z "$2" ]]; then
+            rawsha512
+        fi
         ;;
     "--regression" | "-r")
         do_Regressions
@@ -325,11 +369,17 @@ case "$1" in
     "--mask" | "-m")
         do_Mask_Test
         ;;
-    "fast-sha256")
+    "sha256")
         sha256
         ;;
-    "fast-sha512")
+    "sha512")
         sha512
+        ;;
+    "rawsha256")
+        rawsha256
+        ;;
+    "rawsha512")
+        rawsha512
         ;;
 esac
 
