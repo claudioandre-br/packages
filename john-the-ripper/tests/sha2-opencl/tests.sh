@@ -172,7 +172,7 @@ function do_Regressions(){
     echo 'Regression testing...'
     do_Test "alltests.in"             "-form:Raw-SHA256-opencl"  "-wo:pw.dic --skip"              7  #Skip self test segfaults
     do_Test "XSHA512_tst.in"          "-form=xSHA512-opencl"     "-wo:pw.dic --rules --skip"   1500  #Skip self test segfaults II
-    do_Test "crack_me_if_you_can.tst" "-form:Raw-SHA512-opencl"  "-mask=?l?l?l?l"                 5  #Can't handle more than a few hashes
+    do_Test "crack_me_if_you_can.tst" "-form:Raw-SHA512-opencl"  "-mask=?l?l?l?l"                 6  #Can't handle more than a few hashes
     do_Test "regression_1.tst"        "-form:Raw-SHA256-opencl"  ""                           12027  #Miss cracks
 }
 
@@ -224,10 +224,10 @@ function rawsha256(){
     do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=50 -fork=4 -dev:$Dev_1"                    9
     do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=40 -fork=4 -dev:$Dev_3"                    9
 
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?l -min-len=4 -max-len=7"           2
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?d -min-len=1 -max-len=8"           4 "_GPU_MASK_CAND=0"
-    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"          1
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                   2
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?l -min-len=4 -max-len=7"           3
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?d -min-len=1 -max-len=8"           5 "_GPU_MASK_CAND=0"
+    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"          2
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                   3
 }
 
 function rawsha512(){
@@ -237,14 +237,14 @@ function rawsha512(){
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=50 -fork=4 -dev:$Dev_1"                   3
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=40 -fork=4 -dev:$Dev_3"                   3
 
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"                1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"                2
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?l?l?l?l?l?l?l --skip -dev:$Dev_2"                               1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?d2345?d?d?d"                                                    1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:1?d3?d5?d7?d90123?d5?d7?d90"                                     1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=?u?u?uCAPS"                                                      1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?d2345?d?d?d"                                                    2
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:1?d3?d5?d7?d90123?d5?d7?d90"                                     2
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=?u?u?uCAPS"                                                      2
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[x-z] -min=55 -max-l=55"  1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:TestTESTt3st"                                                    1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:john?a?l?l?lr  -dev:$Dev_3"                                      1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:TestTESTt3st"                                                    2
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:john?a?l?l?lr  -dev:$Dev_3"                                      2
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?a -min-len=0 -max-len=3"                                        1
 
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?l?l?l?l?l"                            1
