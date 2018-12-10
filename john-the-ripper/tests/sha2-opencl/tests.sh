@@ -53,50 +53,50 @@ function do_Test_Suite(){
 
     if [[ "$1" == "rawsha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA256 Test Suite tests...'
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_1"
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_2"
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_3"
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
-        do_Test_TS raw-sha256-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_1"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_2"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_3"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_1 --fork=2" "-internal"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_2 --fork=3" "-internal"
+        do_Test_TS raw-sha256-opencl "-dev:$Dev_3 --fork=4" "-internal"
     fi
 
     if [[ "$1" == "rawsha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running raw-SHA512 Test Suite tests...'
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_1"
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_2"
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_3"
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
-        do_Test_TS raw-sha512-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_1"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_2"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_3"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_1 --fork=2" "-internal"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_2 --fork=3" "-internal"
+        do_Test_TS raw-sha512-opencl "-dev:$Dev_3 --fork=4" "-internal"
 
         echo 'Running xSHA512 Test Suite tests...'
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_1"
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_2"
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_3"
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
-        do_Test_TS xsha512-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+        do_Test_TS xsha512-opencl "-dev:$Dev_1"
+        do_Test_TS xsha512-opencl "-dev:$Dev_2"
+        do_Test_TS xsha512-opencl "-dev:$Dev_3"
+        do_Test_TS xsha512-opencl "-dev:$Dev_1 --fork=2" "-internal"
+        do_Test_TS xsha512-opencl "-dev:$Dev_2 --fork=3" "-internal"
+        do_Test_TS xsha512-opencl "-dev:$Dev_3 --fork=4" "-internal"
     fi
 
     if [[ "$1" == "sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running SHA256crypt Test Suite tests...'
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_1"
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_2"
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_3"
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
-        do_Test_TS sha256crypt-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_1"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_2"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_3"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_1 --fork=2" "-internal"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_2 --fork=3" "-internal"
+        do_Test_TS sha256crypt-opencl "-dev:$Dev_3 --fork=4" "-internal"
     fi
 
     if [[ "$1" == "sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Running SHA512crypt Test Suite tests...'
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_1"
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_2"
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_3"
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_1 --fork=2" "-internal"
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_2 --fork=3" "-internal"
-        do_Test_TS sha512crypt-opencl "-dev:$TST_Device_3 --fork=4" "-internal"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_1"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_2"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_3"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_1 --fork=2" "-internal"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_2 --fork=3" "-internal"
+        do_Test_TS sha512crypt-opencl "-dev:$Dev_3 --fork=4" "-internal"
     fi
 
     cd - || return > /dev/null
@@ -195,56 +195,56 @@ function do_All_Devices(){
 
 function sha256(){
     echo 'Running SHA256crypt cracking tests...'
-    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules --skip"                                           1500
-    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_Fast"                        1500
-    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    2
-    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$TST_Device_Fast,$TST_Device_3"                    2
+    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules --skip"                                    1500
+    do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules=all -dev:$Dev_Fast"                        1500
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$Dev_Fast,$Dev_1"            2
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$Dev_Fast,$Dev_3"            2
 
     do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask:?l -min-len=0 -max-len=4"           1
     do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask:?d -min-len=0 -max-len=4"           1 "_GPU_MASK_CAND=0"
-    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$TST_Device_1"          1
+    do_Test "alltests.in"      "-form=SHA256crypt-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"            1
 }
 
 function sha512(){
     echo 'Running SHA512crypt cracking tests...'
-    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules --skip"                                           1500
-    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_Fast"                        1500
-    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    1
-    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$TST_Device_Fast,$TST_Device_1"                    1
+    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules --skip"                                    1500
+    do_Test "SHA512crypt_tst.in" "-form:SHA512crypt-opencl" "-wo:pw.dic --rules=all -dev:$Dev_Fast"                        1500
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=50 -fork=2 -dev:$Dev_Fast,$Dev_1"            1
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-incremental -max-run=40 -fork=2 -dev:$Dev_Fast,$Dev_1"            1
 
     do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask:?l -min-len=0 -max-len=4"           1
     do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask:?d -min-len=0 -max-len=4"           1 "_GPU_MASK_CAND=0"
-    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask=[Hh][E3e@][LlI][LlI][O0o][.\ ,][Ww][Oo0][Rr][LlI][Dd][\!~] -dev:$TST_Device_Fast"          1
+    do_Test "alltests.in"      "-form=SHA512crypt-opencl" "-mask=[Hh][E3e@][LlI][LlI][O0o][.\ ,][Ww][Oo0][Rr][LlI][Dd][\!~] -dev:$Dev_Fast"          1
 }
 
 function rawsha256(){
     echo 'Running raw-SHA256 cracking tests...'
-    do_Test "cisco4_tst.in"    "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules --skip"                                           1500
-    do_Test "rawsha256_tst.in" "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules=all -dev:$TST_Device_2"                           1500
-    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=50 -fork=4 -dev:$TST_Device_1"                    9
-    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=40 -fork=4 -dev:$TST_Device_3"                    9
+    do_Test "cisco4_tst.in"    "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules --skip"                                    1500
+    do_Test "rawsha256_tst.in" "-form:Raw-SHA256-opencl" "-wo:pw.dic --rules=all -dev:$Dev_2"                           1500
+    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=50 -fork=4 -dev:$Dev_1"                    9
+    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-incremental -max-run=40 -fork=4 -dev:$Dev_3"                    9
 
     do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?l -min-len=4 -max-len=7"           2
     do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:?d -min-len=1 -max-len=8"           4 "_GPU_MASK_CAND=0"
-    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$TST_Device_1"          1
-    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                          2
+    do_Test "alltests.in"      "-form=raw-SHA256-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"          1
+    do_Test "alltests.in"      "-form=Raw-SHA256-opencl" "-mask:tes?a?a"                                                   2
 }
 
 function rawsha512(){
     echo 'Running raw-SHA512 cracking tests...'
-    do_Test "rawsha512_tst.in" "-form=raw-SHA512-opencl" "-wo:pw.dic --rules=all --skip"                                      1500
-    do_Test "XSHA512_tst.in"   "-form=xSHA512-opencl"    "-wo:pw.dic --rules"                                                 1500
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=50 -fork=4 -dev:$TST_Device_1"                   3
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=40 -fork=4 -dev:$TST_Device_3"                   3
+    do_Test "rawsha512_tst.in" "-form=raw-SHA512-opencl" "-wo:pw.dic --rules=all --skip"                               1500
+    do_Test "XSHA512_tst.in"   "-form=xSHA512-opencl"    "-wo:pw.dic --rules"                                          1500
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=50 -fork=4 -dev:$Dev_1"                   3
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-incremental -max-run=40 -fork=4 -dev:$Dev_3"                   3
 
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$TST_Device_1"         1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?l?l?l?l?l?l?l --skip -dev:$TST_Device_2"                        1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=[Pp][Aa@][Ss5][Ss5][Ww][Oo0][Rr][Dd] -dev:$Dev_1"                1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?l?l?l?l?l?l?l --skip -dev:$Dev_2"                               1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?d2345?d?d?d"                                                    1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:1?d3?d5?d7?d90123?d5?d7?d90"                                     1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask=?u?u?uCAPS"                                                      1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[x-z] -min=55 -max-l=55"  1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:TestTESTt3st"                                                    1
-    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:john?a?l?l?lr  -dev:$TST_Device_3"                               1
+    do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:john?a?l?l?lr  -dev:$Dev_3"                                      1
     do_Test "alltests.in"      "-form=raw-SHA512-opencl" "-mask:?a -min-len=0 -max-len=3"                                        1
 
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?l?l?l?l?l"                            1
@@ -321,10 +321,10 @@ fi
 #-----------   Init   -----------
 Total_Tests=0
 Total_Erros=0
-TST_Device_1=0
-TST_Device_2=2
-TST_Device_3=7
-TST_Device_Fast=6
+Dev_1=0
+Dev_2=2
+Dev_3=7
+Dev_Fast=6
 do_Init
 
 #-----------   Tests   -----------
