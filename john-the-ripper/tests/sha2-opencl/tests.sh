@@ -369,18 +369,6 @@ case "$1" in
     "--mask" | "-m")
         do_Mask_Test
         ;;
-    "sha256")
-        sha256
-        ;;
-    "sha512")
-        sha512
-        ;;
-    "rawsha256")
-        rawsha256
-        ;;
-    "rawsha512")
-        rawsha512
-        ;;
 esac
 
 #-----------   Done  -----------
