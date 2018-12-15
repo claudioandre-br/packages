@@ -72,6 +72,8 @@ matrix:
     env: TEST="snap;"
 
   allow_failures:
+  - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-patch"
+
   - env: TEST="TS;"
 
   - env: TEST="TS;OPENCL;"
