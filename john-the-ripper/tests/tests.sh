@@ -232,6 +232,26 @@ elif test "$FUZZ" = "afl" ; then
     afl-fuzz -m none -t 5000+ -i in -o out -d "$JtR" --format=opencl --nolog --verb=1 @@
     echo $?
 
+elif test "$FUZZ" = "full" ; then
+    echo "$ JtR -test-full=1 @@ "
+
+    # Check if all formats passes self-test
+    "$JtR" -test-full=1 --format=raw-sha256-opencl
+    "$JtR" -test-full=1 --format=raw-sha512-opencl
+    "$JtR" -test-full=1 --format=xsha512-opencl
+    "$JtR" -test-full=1 --format=sha256crypt-opencl
+    "$JtR" -test-full=1 --format=sha512crypt-opencl
+
+elif test "$FUZZ" = "internal" ; then
+    echo "$ JtR --fuzz @@ "
+
+    # Check if all formats passes self-test
+    "$JtR" --fuzz --format=raw-sha256-opencl
+    "$JtR" --fuzz --format=raw-sha512-opencl
+    "$JtR" --fuzz --format=xsha512-opencl
+    "$JtR" --fuzz --format=sha256crypt-opencl
+    "$JtR" --fuzz --format=sha512crypt-opencl
+
 elif test "$EXTRAS" = "snap" ; then
     echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
     echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
