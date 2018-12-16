@@ -193,6 +193,7 @@ function do_All_Devices(){
             do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
         done
 
+        echo 'Evaluating xSHA512 in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:xSHA512-opencl" "--test -dev:$i" ""
             do_Test_Bench "-form:xSHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
@@ -319,7 +320,7 @@ function do_help(){
 }
 
 function do_version(){
-    echo 'Tester Sidekick, version 0.5-beta'
+    echo 'Tester Sidekick, version 0.6-beta'
     echo
     echo 'Copyright (C) 2016 Claudio André <claudioandre.br at gmail.com>'
     echo 'License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>'
