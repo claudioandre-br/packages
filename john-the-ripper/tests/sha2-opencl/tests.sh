@@ -296,17 +296,17 @@ do_Mask_Test () {
 }
 
 function do_help(){
-    echo 'Usage: ./test-claudio.sh [OPTIONS] [hash]'
+    echo 'Usage: ./tests.sh [OPTIONS] [hash]'
     echo
     echo '--help:       prints this help.'
     echo '--version:    prints the version information.'
     echo '--basic:      tests hashes against all available devices (CPU and GPU). To filter a hash type, use:'
-    echo '               ./test-claudio.sh --basic [hash]'
+    echo '               ./tests.sh --basic [hash]'
     echo '--cracking:   runs the cracking tests. To filter a hash type, use:'
-    echo '               ./test-claudio.sh [hash]'
+    echo '               ./tests.sh [hash]'
     echo '--regression: ensures fixed bugs were not reintroduced.'
     echo '--ts:         executes the Test Suite. To filter a hash type, use:'
-    echo '               ./test-claudio.sh --ts [hash]'
+    echo '               ./tests.sh --ts [hash]'
     echo ' '
     echo 'Available hashes:'
     echo '  sha256: execute sha256crypt cracking tests.'
