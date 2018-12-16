@@ -198,6 +198,22 @@ function do_All_Devices(){
             do_Test_Bench "-form:xSHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
         done
     fi
+
+    if [[ "$1" == "sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Evaluating sha256crypt in all devices...'
+        for i in $Device_List ; do
+            do_Test_Bench "-form:sha256crypt-opencl" "--test -dev:$i" ""
+            do_Test_Bench "-form:sha256crypt-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+        done
+    fi
+
+    if [[ "$1" == "sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
+        echo 'Evaluating sha512crypt in all devices...'
+        for i in $Device_List ; do
+            do_Test_Bench "-form:sha512crypt-opencl" "--test -dev:$i" ""
+            do_Test_Bench "-form:sha512crypt-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+        done
+    fi
 }
 
 function sha256(){
