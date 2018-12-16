@@ -34,6 +34,25 @@ function do_Done(){
     rm -f -- *.rec*
 }
 
+function do_Test_Full(){
+    for i in $Device_List ; do
+        TEMP=$(mktemp _tmp_output.XXXXXXXX)
+        TO_RUN="$3 ../../run/john --test-full=1 $1 $2 -dev:$i &> $TEMP"
+        eval "$TO_RUN"
+        ret_code=$?
+
+        if [[ $ret_code -ne 0 ]]; then
+            echo "ERROR ($ret_code): $TO_RUN"
+            echo
+
+            Total_Erros=$((Total_Erros + 1))
+        fi
+        Total_Tests=$((Total_Tests + 1))
+        #-- Remove tmp files.
+        rm "$TEMP"
+    done
+}
+
 function do_Test_TS(){
     TO_RUN="./jtrts.pl $3 -type $1 -passthru '$2'"
     eval "$TO_RUN"
@@ -217,6 +236,15 @@ function do_All_Devices(){
     fi
 }
 
+function do_Self_Test(){
+    echo 'Test full testing...'
+    do_Test_Full "-form:Raw-SHA256-opencl"
+    do_Test_Full "-form:Raw-SHA512-opencl"
+    do_Test_Full "-form=xSHA512-opencl"
+    do_Test_Full "-form:SHA256crypt-opencl"
+    do_Test_Full "-form:SHA512crypt-opencl"
+}
+
 function sha256(){
     echo 'Running SHA256crypt cracking tests...'
     do_Test "SHA256crypt_tst.in" "-form:SHA256crypt-opencl" "-wo:pw.dic --rules --skip"                                    1500
@@ -357,6 +385,7 @@ case "$1" in
     "--all" | "-a")
         do_All_Devices  #--basic
         do_Regressions  #--regression
+        do_Self_Test    #--self
         do_Test_Suite   #--ts
         do_Mask_Test    #--mask
         sha256          #--cracking
@@ -386,6 +415,9 @@ case "$1" in
         ;;
     "--regression" | "-r")
         do_Regressions
+        ;;
+    "--self" | "-s")
+        do_Self_Test
         ;;
     "--ts" | "-ts")
         do_Test_Suite "$2"
