@@ -142,7 +142,7 @@ function do_Test_Suite(){
 
 function do_Test_Bench(){
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
-    TO_RUN="$3 ../../run/john $1 $2 &> $TEMP"
+    TO_RUN="$3 ../../run/john $1 $2 --test=5 &> $TEMP"
     eval "$TO_RUN"
     ret_code=$?
 
@@ -160,6 +160,9 @@ function do_Test_Bench(){
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
     rm "$TEMP"
+
+    #Leave the OS alone for a moment
+    sleep 0.5
 }
 
 function do_Test(){
@@ -219,38 +222,38 @@ function do_All_Devices(){
     if [[ "$1" == "rawsha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do
-            do_Test_Bench "-form:Raw-SHA256-opencl" "--test -dev:$i" ""
-            do_Test_Bench "-form:Raw-SHA256-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA256-opencl" "-dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA256-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
         done
     fi
 
     if [[ "$1" == "rawsha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do
-            do_Test_Bench "-form:Raw-SHA512-opencl" "--test -dev:$i" ""
-            do_Test_Bench "-form:Raw-SHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA512-opencl" "-dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA512-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
         done
 
         echo 'Evaluating xSHA512 in all devices...'
         for i in $Device_List ; do
-            do_Test_Bench "-form:xSHA512-opencl" "--test -dev:$i" ""
-            do_Test_Bench "-form:xSHA512-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:xSHA512-opencl" "-dev:$i" ""
+            do_Test_Bench "-form:xSHA512-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
         done
     fi
 
     if [[ "$1" == "sha256" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating sha256crypt in all devices...'
         for i in $Device_List ; do
-            do_Test_Bench "-form:sha256crypt-opencl" "--test -dev:$i" ""
-            do_Test_Bench "-form:sha256crypt-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:sha256crypt-opencl" "-dev:$i" ""
+            do_Test_Bench "-form:sha256crypt-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
         done
     fi
 
     if [[ "$1" == "sha512" ]] || [[ -z "$1" ]] || [[ $# -eq 0 ]]; then
         echo 'Evaluating sha512crypt in all devices...'
         for i in $Device_List ; do
-            do_Test_Bench "-form:sha512crypt-opencl" "--test -dev:$i" ""
-            do_Test_Bench "-form:sha512crypt-opencl" "--test --mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:sha512crypt-opencl" "-dev:$i" ""
+            do_Test_Bench "-form:sha512crypt-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
         done
     fi
 }
