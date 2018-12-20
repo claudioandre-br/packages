@@ -185,10 +185,6 @@ if [[ "$TEST" == *";afl-clang-fast;"* ]]; then
     export CCO="afl-clang-fast"
 fi
 
-# Apply all needed patches
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0002-maintenance-fix-the-expected-data-type-size.patch
-git apply 0002-maintenance-fix-the-expected-data-type-size.patch
-
 if [[ "$TEST" == *"usual;"* ]]; then
     # Needed on ancient ASAN
     export ASAN_OPTIONS=symbolize=1
