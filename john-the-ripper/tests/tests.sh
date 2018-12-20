@@ -99,6 +99,7 @@ echo '--------------------------------'
 # Extra testing
 if test "$EXTRAS" = "yes" ; then
     # Get some data from wiki
+    echo --------------------------------------------
     wget http://openwall.info/wiki/_media/john/KeePass-samples.tar
     wget http://openwall.info/wiki/_media/john/rar_sample_files.tar
     wget http://openwall.info/wiki/_media/john/zip_sample_files.tar
@@ -109,15 +110,18 @@ if test "$EXTRAS" = "yes" ; then
     tar -xozf test.gpg.tar.gz
 
     # UTF-8 tests
+    echo --------------------------------------------
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/answers
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/specials
 
     # Prepare for tests
+    echo --------------------------------------------
     ../run/zip2john *.zip > ~/file1
     ../run/keepass2john keepass2.kdbx > ~/file2
     ../run/gpg2john *.asc > ~/file4
     ../run/rar2john *.rar > ~/file10
 
+    echo --------------------------------------------
     echo '$SHA512$cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e' > ~/self
     echo '$SHA512$b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86' >> ~/self
     echo '$SHA512$fa585d89c851dd338a70dcf535aa2a92fee7836dd6aff1226583e88e0996293f16bc009c652826e0fc5c706695a03cddce372f139eff4d13959da6f1f5d3eabe' >> ~/self
@@ -128,6 +132,7 @@ if test "$EXTRAS" = "yes" ; then
     echo 'XXX.zip:$pkzip2$1*2*2*0*10*4*7f808508*0*41*0*10*7f80*7319*8fe32c524ec41bc23f18d30fd3641020*$/pkzip2$:::::XXX.zip' >> ~/self
     echo 'XXX.zip:$pkzip2$1*2*2*0*10*4*7f808508*0*41*0*10*7f80*7319*30fc1e61e10e8d79ec55a90d58121392*$/pkzip2$:::::/home/claudio/Downloads/XXX.zip' >> ~/self
 
+    echo --------------------------------------------
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | md5sum  | cut -d" " -f1; done > ~/file3 # openssl md5
     for i in `../run/john -inc -stdout | head -1000 | shuf | head -30`; do echo -n $i | sha1sum | cut -d" " -f1; done > ~/file5
     for i in `../run/john -inc -stdout | head -100                   `; do echo -n $i | md5sum  | cut -d" " -f1; done > ~/file6
@@ -137,6 +142,7 @@ if test "$EXTRAS" = "yes" ; then
     # Tests
     Total_Tests=0
 
+    do_Test "$JtR --max-candidates=13 --stdout --mask=?l"              "13p 0:00:00"      -1  -1
     do_Test "$JtR --max-candidates=50 --stdout --mask=?l"              "26p 0:00:00"      -1  -1
 
     do_Test "$JtR ~/file1 --single"                                     "2g 0:00:00"      -1  -1
