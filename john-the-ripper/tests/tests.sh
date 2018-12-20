@@ -9,8 +9,8 @@ do_Test () {
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$1 &> $TEMP"
 
-    eval $TO_RUN || true
-    ret_code=$?
+    eval $TO_RUN; ret_code=$? || true
+    echo "====> ($ret_code)"
 
     if [[ "$5" == "ERROR" ]]; then
         read RESULT <<< $(cat $TEMP | grep "$2")
