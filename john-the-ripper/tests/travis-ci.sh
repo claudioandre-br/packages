@@ -216,9 +216,9 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
 
     # Run docker
     if [[ -n "$FUZZ" ]]; then
-        docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
+        docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
     else
-        docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+        docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
     fi
 
 elif [[ "$TEST" == *"stable;"* ]]; then
