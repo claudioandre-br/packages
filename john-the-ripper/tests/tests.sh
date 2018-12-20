@@ -9,10 +9,10 @@ do_Test () {
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$1 &> $TEMP"
 
-    if [[ "$5" == "ERROR" ]]; then
-        eval $TO_RUN || true
-        ret_code=$?
+    eval $TO_RUN || true
+    ret_code=$?
 
+    if [[ "$5" == "ERROR" ]]; then
         read RESULT <<< $(cat $TEMP | grep "$2")
 
         if [[ -z $RESULT ]]; then
@@ -26,8 +26,6 @@ do_Test () {
         echo "Test: ($1) failed, as expected ($ret_code)."
 
     else
-        eval $TO_RUN
-        ret_code=$?
 
         if [[ $ret_code -ne 0 ]]; then
             read MAX_TIME <<< $(echo $3 | awk '/-max-/ { print 1 }')
@@ -35,6 +33,10 @@ do_Test () {
             if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
                 echo "ERROR ($ret_code): $TO_RUN"
                 echo
+
+                echo "#################################################"
+                cat $TEMP
+                echo "#################################################"
 
                 exit 1
             fi
