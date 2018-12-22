@@ -9,8 +9,11 @@ do_Test () {
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
     TO_RUN="$1 &> $TEMP"
 
+    # Do not exit (abort Travis) if the command returns a non-zero status
+    set +e
     eval $TO_RUN; ret_code=$? || true
     echo "====> ($ret_code)"
+    set -e
 
     if [[ "$5" == "ERROR" ]]; then
         read RESULT <<< $(cat $TEMP | grep "$2")
@@ -28,7 +31,7 @@ do_Test () {
     else
 
         if [[ $ret_code -ne 0 ]]; then
-            read MAX_TIME <<< $(echo $3 | awk '/-max-/ { print 1 }')
+            read MAX_TIME <<< $(echo $1 | awk '/-max-/ { print 1 }')
 
             if ! [[ $ret_code -eq 1 && "$MAX_TIME" == "1" ]]; then
                 echo "ERROR ($ret_code): $TO_RUN"
