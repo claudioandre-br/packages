@@ -158,7 +158,7 @@ if test "$EXTRAS" = "yes" ; then
 
     do_Test "$JtR ~/hash --loopback"  "No password hashes left to crack (see FAQ)"        -1  -1
     do_Test "$JtR ~/self --loopback"                                    "1g 0:00:00"      -1  -1
-    do_Test "$JtR ~/hash --show"                        ""                                37 265
+    do_Test "$JtR ~/hash --show"                        ""                                37 263
     do_Test "$JtR ~/hash --show:left"                   ""                                 2   0  #Zip format
     do_Test "$JtR ~/hash --show --format=raw-sha1"      ""                                30   0
     do_Test "$JtR ~/self --show --format=Raw-sha512"    ""                                 1   2
