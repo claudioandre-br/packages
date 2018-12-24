@@ -168,9 +168,9 @@ if test "$EXTRAS" = "yes" ; then
 
     rm -f ../run/*.pot
     do_Test "$JtR ~/file6 --wordlist --rules=jumbo --format=raw-md5"   "66g 0:00:00"      -1  -1
-    do_Test "$JtR ~/hash --loopback --format=rar --max-l=5"              "1g 0:00:0"      -1  -1
+    # do_Test "$JtR ~/hash --loopback --format=rar --max-l=5"              "1g 0:00:0"      -1  -1
     do_Test "$JtR ~/file6 --show --format=raw-md5"                                ""      66  34
-    do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
+    # do_Test "$JtR ~/hash --show:left --format=rar"                                ""       1   1
     do_Test "$JtR ~/self -form=SHA512crypt"                             "1g 0:00:00"      -1  -1
 
     if test "$CC" = "gcc" ; then
