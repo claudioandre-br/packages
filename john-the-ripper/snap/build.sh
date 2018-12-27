@@ -49,6 +49,55 @@ echo '--------------------------------'
 env
 echo '--------------------------------'
 
+# Disable clueless formats
+echo '[Disabled:Formats]' >> ../run/john-local.conf
+echo '#formatname = Y' >> ../run/john-local.conf
+echo ".include '\$JOHN/dynamic_disabled.conf'" >> ../run/john-local.conf
+
+echo 'pbkdf2-hmac-md4 = Y' >> ../run/john-local.conf
+echo 'pbkdf2-hmac-md5 = Y' >> ../run/john-local.conf
+echo 'OpenBSD-SoftRAID = Y' >> ../run/john-local.conf
+echo 'dpapimk = Y' >> ../run/john-local.conf
+echo 'mscash2 = Y' >> ../run/john-local.conf
+echo 'iwork = Y' >> ../run/john-local.conf
+echo 'ethereum = Y' >> ../run/john-local.conf
+echo 'dmg = Y' >> ../run/john-local.conf
+echo 'adxcrypt = Y' >> ../run/john-local.conf
+echo 'encfs = Y' >> ../run/john-local.conf
+
+echo 'raw-BLAKE2 = Y' >> ../run/john-local.conf  #BLAKE2
+echo 'argon2 = Y' >> ../run/john-local.conf      #BLAKE2
+echo 'tezos = Y' >> ../run/john-local.conf       #BLAKE2
+
+echo 'diskcryptor = Y' >> ../run/john-local.conf #BE
+echo 'monero = Y' >> ../run/john-local.conf      #BE
+echo 'STRIP = Y' >> ../run/john-local.conf       #BE
+echo 'enpass = Y' >> ../run/john-local.conf      #BE
+
+echo 'RACF-KDFAES = Y' >> ../run/john-local.conf #SLOW
+echo 'RAR = Y' >> ../run/john-local.conf         #SLOW
+
+echo 'pbkdf2_hmac_md4-opencl = Y' >> ../run/john-local.conf
+echo 'pbkdf2_hmac_md5-opencl = Y' >> ../run/john-local.conf
+echo 'bf-opencl = Y' >> ../run/john-local.conf
+echo 'DES-opencl = Y' >> ../run/john-local.conf
+echo 'gpg-opencl = Y' >> ../run/john-local.conf
+echo 'krb5pa-md5-opencl = Y' >> ../run/john-local.conf
+echo 'mscash2-opencl = Y' >> ../run/john-local.conf
+echo 'nt-opencl = Y' >> ../run/john-local.conf
+echo 'ntlmv2-opencl = Y' >> ../run/john-local.conf
+echo 'o5logon-opencl = Y' >> ../run/john-local.conf
+echo 'rawmd5-opencl = Y' >> ../run/john-local.conf
+echo 'rawmd4-opencl = Y' >> ../run/john-local.conf
+echo 'xsha512-free-opencl = Y' >> ../run/john-local.conf
+echo 'mysqlsha1-opencl = Y' >> ../run/john-local.conf
+echo 'mscash-opencl = Y' >> ../run/john-local.conf
+echo 'sl3-opencl = Y' >> ../run/john-local.conf
+echo 'rawsha1-opencl = Y' >> ../run/john-local.conf
+echo 'salted_sha-opencl = Y' >> ../run/john-local.conf
+echo 'bitlocker-opencl = Y' >> ../run/john-local.conf
+echo 'keepass-opencl = Y' >> ../run/john-local.conf
+
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
@@ -124,7 +173,8 @@ rm -rf ../run/kerberom
 rm -rf ../run/ztex
 
 # Do some testing
-TEST=yes #always
+TEST=full #always
+EXTRA=yes
 sudo apt-get install -y language-pack-en
 
 echo ""
@@ -142,8 +192,9 @@ if [[ "$TEST" = "full" ]]; then
     echo "====> T Full:"
     "$JTR_BIN" -test-full=0
     report "-test-full=0"
+fi
 
-elif [[ "$TEST" = "yes" ]]; then
+if [[ "$EXTRA" = "yes" ]]; then
     echo
     echo "====> regex T1 A: 9 lines"
     "$JTR_BIN" --stdout --regex='[0-2]password[A-C]'
@@ -164,22 +215,13 @@ elif [[ "$TEST" = "yes" ]]; then
     echo "====> regex T3 B: 2 lines, encoding"
     "$JTR_BIN" -stdout --regex='ab(ö|c)' -target-enc=cp437
     echo
+
     echo "====> T4:"
     "$JTR_BIN" -test-full=0 --format=nt
     report "-test-full=0 --format=nt"
     echo "====> T5:"
     "$JTR_BIN" -test-full=0 --format=sha256crypt
     report "-test-full=0 --format=sha256crypt"
-    echo "------------------------------------------------------------------"
-    "$JTR_BIN" -test=0 --format=raw*
-    report "-test=0 --format=raw*"
-    echo "------------------------------------------------------------------"
-    "$JTR_BIN" -test=0 --format=dynamic
-    report "--format=dynamic"
-    echo "------------------------------------------------------------------"
-    "$JTR_BIN" -test=0 --format=sha* --verb=5 --tune=report
-    report "--format=sha* --verb=5 --tune=report"
-    echo "------------------------------------------------------------------"
     echo
 
     echo "====> T10:"
@@ -192,13 +234,19 @@ elif [[ "$TEST" = "yes" ]]; then
     "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
     report "--format=sha512crypt --mask=jo?l[n-q]"
 
+    echo "------------------------------------------------------------------"
+    "$JTR_BIN" -test=0 --format=sha* --verb=5 --tune=report
+    report "--format=sha* --verb=5 --tune=report"
+    echo "------------------------------------------------------------------"
+    echo
+
     if [[ "$arch" == 'x86_64' ]]; then
         echo "====> T6:"
         ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
         report "--format=sha512crypt-opencl" "fails"
+        echo "------------------------------------------------------------------"
+        echo
     fi
-    echo "------------------------------------------------------------------"
-    echo ""
 fi
 
 if [[ $error > 1 ]];  then
@@ -214,7 +262,7 @@ if [[ $error > 1 ]];  then
         exit 1
     fi
 else
-    echo '----------------------------------------'
-    echo "###  Performed $total tests in $SECONDS seconds  ###"
-    echo '----------------------------------------'
+    echo '-----------------------------------------------------'
+    echo "###  Performed $total tests in $SECONDS seconds ($error errors)  ###"
+    echo '-----------------------------------------------------'
 fi
