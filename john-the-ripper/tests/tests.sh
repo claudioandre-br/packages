@@ -153,7 +153,7 @@ if test "$EXTRAS" = "yes" ; then
     do_Test "$JtR ~/file1 --single"                                     "2g 0:00:00"      -1  -1
     do_Test "$JtR ~/file2 --wordlist"                                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/file3 --incremental --format=Raw-MD5"              "30g 0:00:00"      -1  -1
-    do_Test "$JtR ~/file4"                                              "4g 0:00:00"      -1  -1
+    #do_Test "$JtR ~/file4"                                              "4g 0:00:00"      -1  -1
     do_Test "$JtR ~/file5"                                             "30g 0:00:00"      -1  -1
 
     do_Test "$JtR ~/hash --loopback"  "No password hashes left to crack (see FAQ)"        -1  -1

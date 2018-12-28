@@ -64,6 +64,7 @@ echo 'ethereum = Y' >> ../run/john-local.conf
 echo 'dmg = Y' >> ../run/john-local.conf
 echo 'adxcrypt = Y' >> ../run/john-local.conf
 echo 'encfs = Y' >> ../run/john-local.conf
+echo 'gpg = Y' >> ../run/john-local.conf
 
 echo 'raw-BLAKE2 = Y' >> ../run/john-local.conf  #BLAKE2
 echo 'argon2 = Y' >> ../run/john-local.conf      #BLAKE2
