@@ -223,6 +223,15 @@ if [[ "$EXTRA" = "yes" ]]; then
     echo "====> T5:"
     "$JTR_BIN" -test-full=0 --format=sha256crypt
     report "-test-full=0 --format=sha256crypt"
+    echo "====> T6.0:"
+    "$JTR_BIN" -test=3 -form='dynamic=md5(sha1($s).md5($p))'
+    report '-test=3 -form="dynamic=md5(sha1($s).md5($p))"'
+    echo "====> T6.1:"
+    "$JTR_BIN" -test=3 -form='dynamic=md5(sha1($s.$p).md5($p))'
+    report '-test=3 -form="dynamic=md5(sha1($s.$p).md5($p))"'
+    echo "====> T6.2:"
+    "$JTR_BIN" -test=3 -form='dynamic=md5($p)'
+    report '-test=3 -form="dynamic=md5($p)"'
     echo
 
     echo "====> T10:"

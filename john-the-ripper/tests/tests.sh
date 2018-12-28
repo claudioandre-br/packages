@@ -274,6 +274,13 @@ elif test "$EXTRAS" = "snap" ; then
     "$JtR" -test-full=0 --format=nt
     echo "====> T5-a:"
     "$JtR" -test-full=0 --format=sha512crypt
+    echo "====> T6.0:"
+    "$JtR" -test=3 -form='dynamic=md5(sha1($s).md5($p))'
+    echo "====> T6.1:"
+    "$JtR" -test=3 -form='dynamic=md5(sha1($s.$p).md5($p))'
+    echo "====> T6.2:"
+    "$JtR" -test=3 -form='dynamic=md5($p)'
+
     echo "------------------------------------------------------------------"
     "$JtR" -test=0
     echo "------------------------------------------------------------------"

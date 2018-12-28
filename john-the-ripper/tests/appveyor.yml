@@ -175,6 +175,13 @@ test_script:
         john -test-full=0 --format=cpu
     )
 
+  - echo "====> T6.0:"
+  - john -test=3 -form='dynamic=md5(sha1($s).md5($p))'
+  - echo "====> T6.1:"
+  - john -test=3 -form='dynamic=md5(sha1($s.$p).md5($p))'
+  - echo "====> T6.2:"
+  - john -test=3 -form='dynamic=md5($p)'
+
   - echo "====> T10:"
   - john tests.in --format=nt --fork=2 --max-run-time=300
   - echo "====> T11:"
