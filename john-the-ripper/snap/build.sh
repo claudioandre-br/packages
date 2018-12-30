@@ -258,21 +258,16 @@ if [[ "$EXTRA" = "yes" ]]; then
         echo
     fi
 fi
+echo '-------------------------------------------'
+echo "###  Performed $total tests in $SECONDS seconds  ###"
+echo '-------------------------------------------'
 
-if [[ $error > 1 ]];  then
+if [[ $error > 0 ]];  then
     echo '----------------------------------------'
     echo "###    Build failed with $error errors    ###"
     echo '----------------------------------------'
     arch=$(uname -m)
     echo "----------------- $arch ------------------"
 
-    # Allow errors on ARMv7, it is bugged. Abort only if not on ARMv7
-    # Allow to run tests without aborting due to errors
-    if [[ "$arch" != "armv7l" && "$arch" != "armhf" && "$TEST" == "yes" ]]; then
-        exit 1
-    fi
-else
-    echo '-----------------------------------------------------'
-    echo "###  Performed $total tests in $SECONDS seconds ($error errors)  ###"
-    echo '-----------------------------------------------------'
+    exit 1
 fi
