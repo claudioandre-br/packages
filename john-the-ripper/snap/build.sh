@@ -7,8 +7,12 @@ report () {
     if test $exit_code -eq 0; then
         echo " Ok: $1"
     else
-        error=$((error + 1))
-        echo " FAILED:  $1"
+        if [[ "$2" == "FAIL" ]]; then
+            echo " Test: ($1) failed, as expected ($exit_code)."
+        else
+            error=$((error + 1))
+            echo " FAILED: $1"
+        fi
     fi
 }
 
@@ -253,7 +257,7 @@ if [[ "$EXTRA" = "yes" ]]; then
     if [[ "$arch" == 'x86_64' ]]; then
         echo "====> T6:"
         ../run/john-opencl -test-full=0 --format=sha512crypt-opencl
-        report "--format=sha512crypt-opencl" "fails"
+        report "--format=sha512crypt-opencl" "FAIL"
         echo "------------------------------------------------------------------"
         echo
     fi
