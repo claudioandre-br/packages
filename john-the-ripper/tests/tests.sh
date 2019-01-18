@@ -1,3 +1,4 @@
+
 #!/bin/bash -e
 
 #------------------------------------------------------
@@ -7,21 +8,21 @@ do_Test () {
     echo
     echo "==> ($1)"
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
-    TO_RUN="$1 &> $TEMP"
+    TO_RUN="$1 2>&1 | tee $TEMP"
 
     # Do not exit (abort Travis) if the command returns a non-zero status
     set +e
-    eval $TO_RUN; ret_code=$? || true
+    eval $TO_RUN
+    ret_code=$?
     echo "====> ($ret_code)"
     set -e
 
     if [[ "$5" == "ERROR" ]]; then
         read RESULT <<< $(cat $TEMP | grep "$2")
 
-        if [[ -z $RESULT ]]; then
+        if [[ -z $RESULT || $ret_code -eq 0 ]]; then
             echo --------------------------------------------
             echo "Test: ($1) FAILED"
-            tail -n10 $TEMP
             echo --------------------------------------------
             echo
             exit 1
@@ -37,10 +38,6 @@ do_Test () {
                 echo "ERROR ($ret_code): $TO_RUN"
                 echo
 
-                echo "#################################################"
-                cat $TEMP
-                echo "#################################################"
-
                 exit 1
             fi
         fi
@@ -51,7 +48,6 @@ do_Test () {
             if [[ -z $RESULT ]]; then
                 echo --------------------------------------------
                 echo "Test: ($1) FAILED"
-                tail -n10 $TEMP
                 echo --------------------------------------------
                 echo
                 exit 1
@@ -79,9 +75,6 @@ do_Test () {
         fi
     fi
     Total_Tests=$((Total_Tests + 1))
-    echo "#################################################"
-    cat $TEMP
-    echo "#################################################"
 
     #-- Remove the tmp file.
     rm $TEMP
@@ -183,8 +176,8 @@ if test "$EXTRAS" = "yes" ; then
 
     do_Test "$JtR ~/self --form=oldoffice --mask=5?d5?a73?A3"                   "1g 0:00:00"      -1  -1
     do_Test "$JtR ~/self --form=oldoffice --increm:digits --min-l=6 --max-l=6"  "1g 0:00:00"      -1  -1
-    do_Test "$JtR specials -word:answers --mask=?w?a"                           "2g 0:00:0"       -1  -1
-    do_Test "$JtR specials -word:answers -form=SHA512crypt"                    "15g 0:00:0"       -1  -1
+    do_Test "$JtR specials -word:answers --mask=?w?a"                           "2g 0:00:"       -1  -1
+    do_Test "$JtR specials -word:answers -form=SHA512crypt"                    "15g 0:00:"       -1  -1
     #do_Test "$JtR ~/self --form=pkzip --mask=zipcrypto"                         "1g 0:00:00"      -1  -1
     #do_Test "$JtR ~/self --form=pkzip"                                          "1g 0:00:00"      -1  -1
 
