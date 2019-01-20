@@ -60,16 +60,16 @@ deploy:
 
     - echo
     - echo "====> T4:"
-    - "$JTR_BIN" -test-full=0 --format=nt
+    - $JTR_BIN -test-full=0 --format=nt
     - echo "====> T5:"
-    - "$JTR_BIN" -test-full=0 --format=sha256crypt
+    - $JTR_BIN -test-full=0 --format=sha256crypt
     - echo "------------------------------------------------------------------"
-    - "$JTR_BIN" -test=0 --format=raw*
+    - $JTR_BIN -test=0 --format=raw*
     - echo "------------------------------------------------------------------"
 
     - echo "====> T10:"
-    - "$JTR_BIN" tests.in --format=nt --fork=2
+    - $JTR_BIN tests.in --format=nt --fork=2
     - echo "====> T11:"
-    - "$JTR_BIN" tests.in --format=raw-sha256 --fork=2
+    - $JTR_BIN tests.in --format=raw-sha256 --fork=2
     - echo "====> T12-a:"
-    - "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
+    - $JTR_BIN tests.in --format=sha512crypt --mask=jo?l[n-q]
