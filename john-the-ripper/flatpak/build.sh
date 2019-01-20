@@ -96,3 +96,6 @@ else
     echo "====> T12-a:"
     "$JTR_BIN" tests.in --format=sha512crypt --mask=jo?l[n-q]
 fi
+# Remove the left-over from testing
+rm -f ../run/john.log
+rm -f ../run/john.pot
