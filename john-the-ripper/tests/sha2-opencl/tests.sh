@@ -404,10 +404,10 @@ fi
 #-----------   Init   -----------
 Total_Tests=0
 Total_Erros=0
-Dev_1=0
-Dev_2=2
-Dev_3=7
-Dev_Fast=6
+Dev_1=5
+Dev_2=0
+Dev_3=4
+Dev_Fast=3
 do_Init
 
 #-----------   Tests   -----------
