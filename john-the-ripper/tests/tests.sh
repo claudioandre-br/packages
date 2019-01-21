@@ -7,12 +7,11 @@ do_Test () {
     echo
     echo "==> ($1)"
     TEMP=$(mktemp _tmp_output.XXXXXXXX)
-    TO_RUN="$1 2>&1 | tee $TEMP"
+    TO_RUN="$1"
 
     # Do not exit (abort Travis) if the command returns a non-zero status
     set +e
-    eval $TO_RUN
-    ret_code=$?
+    eval "$TO_RUN" 2>&1 | tee $TEMP; ret_code=${PIPESTATUS[0]}
     echo "====> ($ret_code)"
     set -e
 
