@@ -20,6 +20,9 @@ report () {
 total=0
 error=0
 
+# Testing controls
+TEST='yes;full;extra'
+
 git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/snap/john-the-ripper.opencl
@@ -27,7 +30,12 @@ chmod +x john-the-ripper.opencl
 cd src
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
-patch < 0001-Handle-self-confined-system-wide-build.patch
+
+if [[ -z "${TEST##*no*}" ]]; then
+    echo "====> Packaging:"
+    SYSTEM_WIDE='--with-systemwide'
+    patch < 0001-Handle-self-confined-system-wide-build.patch
+fi
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
 patch < 0001-maint-revert-JtR-to-regex-1.4.patch
@@ -111,25 +119,25 @@ if [[ "$arch" == 'x86_64' ]]; then
     sudo apt-get install -y beignet-dev
 
     # OpenCL (and OMP fallback)
-    ./configure --disable-native-tests --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl-non-omp
-    ./configure --disable-native-tests --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-opencl-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl
+    ./configure --disable-native-tests $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl-non-omp
+    ./configure --disable-native-tests $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-opencl-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-opencl
 
     # CPU (OMP and extensions fallback)
-    ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj4 && mv ../run/john ../run/john-sse2-non-omp
-    ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-sse2
-    ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mavx" && make -s clean && make -sj4 && mv ../run/john ../run/john-avx-non-omp
-    ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-avx
-    ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mxop" && make -s clean && make -sj4 && mv ../run/john ../run/john-xop-non-omp
-    ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-xop
-    ./configure --disable-native-tests --disable-opencl --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mavx2" && make -s clean && make -sj4 && mv ../run/john ../run/john-non-omp
-    ./configure --disable-native-tests --disable-opencl --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && make -s clean && make -sj4
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj4 && mv ../run/john ../run/john-sse2-non-omp
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-sse2
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mavx" && make -s clean && make -sj4 && mv ../run/john ../run/john-avx-non-omp
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-avx
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mxop" && make -s clean && make -sj4 && mv ../run/john ../run/john-xop-non-omp
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && make -s clean && make -sj4 && mv ../run/john ../run/john-xop
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED -mavx2" && make -s clean && make -sj4 && mv ../run/john ../run/john-non-omp
+    ./configure --disable-native-tests --disable-opencl $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && make -s clean && make -sj4
 
     # Install OpenCL kernel code
     make kernel-copy
 else
     # CPU (OMP and extensions fallback)
-    ./configure --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
-    ./configure --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
+    ./configure $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
+    ./configure $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
 
     if false; then
         # Rename binaries
@@ -137,8 +145,8 @@ else
         mv ../run/john ../run/john-neon-omp
 
         # Allow to compare SIMD and non-SIMD builds
-        ./configure --disable-native-tests --disable-simd --with-systemwide --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
-        ./configure --disable-native-tests --disable-simd --with-systemwide                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
+        ./configure --disable-native-tests --disable-simd $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
+        ./configure --disable-native-tests --disable-simd $SYSTEM_WIDE                 CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
 
         # Rename new binaries
         mv ../run/john-non-omp ../run/john-no-omp
@@ -178,8 +186,6 @@ rm -rf ../run/kerberom
 rm -rf ../run/ztex
 
 # Do some testing
-TEST=full #always
-EXTRA=yes
 sudo apt-get install -y language-pack-en
 
 echo ""
@@ -193,13 +199,13 @@ echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests
 echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
 echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
 
-if [[ "$TEST" = "full" ]]; then
+if [[ -z "${TEST##*full*}" ]]; then
     echo "====> T Full:"
     "$JTR_BIN" -test-full=0
     report "-test-full=0"
 fi
 
-if [[ "$EXTRA" = "yes" ]]; then
+if [[ -z "${TEST##*extra*}" ]]; then
     echo
     echo "====> regex T1 A: 9 lines"
     "$JTR_BIN" --stdout --regex='[0-2]password[A-C]'
