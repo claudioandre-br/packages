@@ -32,7 +32,7 @@ index ee3314e5d..ad349735f 100644
  #ifndef JOHN_SYSTEMWIDE_EXEC /* please refer to the notes above */
 -#define JOHN_SYSTEMWIDE_EXEC		"/usr/libexec/john"
 +#if defined(_SNAP)
-+#define JOHN_SYSTEMWIDE_EXEC		"/snap/john-the-ripper/current"
++#define JOHN_SYSTEMWIDE_EXEC		"/snap/john-the-ripper/current/run"
 +#else
 +#define JOHN_SYSTEMWIDE_EXEC		"/app/bin"
 +#endif
@@ -40,7 +40,7 @@ index ee3314e5d..ad349735f 100644
  #ifndef JOHN_SYSTEMWIDE_HOME
 -#define JOHN_SYSTEMWIDE_HOME		"/usr/share/john"
 +#if defined(_SNAP)
-+#define JOHN_SYSTEMWIDE_HOME		"/snap/john-the-ripper/current"
++#define JOHN_SYSTEMWIDE_HOME		"/snap/john-the-ripper/current/run"
 +#else
 +#define JOHN_SYSTEMWIDE_HOME		"/app/bin"
 +#endif
