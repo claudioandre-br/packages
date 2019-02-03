@@ -205,7 +205,7 @@ elif [[ "$TEST" == *"ztex;"* ]]; then
     do_Build_Docker_Command "libusb-1.0-0-dev" "PROBLEM='ztex'" "Ubuntu"
 
     # Run docker
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:18.10 sh -c "$docker_command"
 
 elif [[ "$TEST" == *"fresh;"* ]]; then
     # 'Recent' environment (compiler/OS)
