@@ -110,6 +110,7 @@ build_script:
         shell "mkdir -p ../etc/OpenCL/vendors"
         shell "echo 'c:\Windows\System32\amdocl64.dll' > ../etc/OpenCL/vendors/amd.icd"
         shell "echo 'c:\Windows\System32\nvopencl.dll' > ../etc/OpenCL/vendors/nvidia.icd"
+        shell "echo 'c:\Windows\System32\nvopencl64.dll' > ../etc/OpenCL/vendors/nvidia64.icd"
 
         # Install OpenCL kernel code
         shell "make -s kernel-copy"
