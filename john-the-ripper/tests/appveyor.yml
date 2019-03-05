@@ -22,7 +22,7 @@ environment:
     # CygWin 32bits build
     - arch: x86
       bits: 32
-      doing: deploy
+      doing: test
       test: yes
       location: cygwin
 
