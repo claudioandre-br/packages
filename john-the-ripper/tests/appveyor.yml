@@ -78,7 +78,7 @@ install:
 build_script:
   # Install required packages and allow extra formats
   - ps: |
-      cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P openssl-devel -P libbz2-devel -P libgmp-devel -P zlib-devel"
+      cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libssl-devel -P libbz2-devel -P libgmp-devel -P zlib-devel"
       cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libOpenCL-devel -P libcrypt-devel"
 
   - ps: |
