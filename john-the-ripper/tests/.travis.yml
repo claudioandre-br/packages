@@ -29,6 +29,7 @@ matrix:
   - env: TEST="ztex;ASAN;clang;"         BUILD_OPTS="--enable-ztex --enable-werror"
   - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan"
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-patch"
+  - env: TEST="fresh;ASAN;clang;"        FUZZ="check"
 
   #Test using TS - CPU formats
   - compiler: clang

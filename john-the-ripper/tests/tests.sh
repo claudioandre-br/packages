@@ -284,6 +284,11 @@ elif test "$EXTRAS" = "snap" ; then
     echo "====> T12-a:"
     "$JtR" tests.in --format=sha512crypt --mask=jo?l[n-q]
 
+elif test "$FUZZ" = "check" ; then
+    echo "$ make check "
+
+    make check
+
 else
     # ---- Regular testing ----
     # Trusty AMD GPU drivers on Travis are fragile.
