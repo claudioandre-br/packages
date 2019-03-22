@@ -75,16 +75,17 @@ install:
         }
       }
 
-build_script:
+before_build:
   # Install required packages and allow extra formats
   - ps: |
       cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libssl-devel -P libbz2-devel -P libgmp-devel -P zlib-devel"
       cmd /c "C:\$env:Location\setup-$env:Arch.exe -q -P libOpenCL-devel -P libcrypt-devel"
 
+build_script:
   - ps: |
-      Write-Host "----------------------------"
-      Write-Host "   =====  Building  =====   " -ForegroundColor White
-      Write-Host "----------------------------"
+      Write-Host "--------------------------------------------------------"
+      Write-Host "                 =====  Building  =====                 " -ForegroundColor White
+      Write-Host "--------------------------------------------------------"
 
   - ps: |
       echo 'Compiler version'
@@ -142,24 +143,37 @@ build_script:
         shell "./configure --disable-opencl && make -s clean && make -sj2"
       }
 
-test_script:
-  - ps: |
-      Write-Host "----------------------------"
-      Write-Host "    =====  Testing  =====   " -ForegroundColor White
-      Write-Host "----------------------------"
 
+after_build:
   - cd %PROJ_FOLDER%\JohnTheRipper\run
 
-  # ASLR and DEP
-  - echo "Enable ASLR and DEP for the Windows binary of JtR"
+  # Enable ASLR and DEP
+  - ps: |
+      Write-Host "---------------------------------------------------------"
+      Write-Host "==  Enable ASLR and DEP for the Windows binary of JtR  ==" -ForegroundColor White
+      Write-Host "---------------------------------------------------------"
+
   - peflags --dynamicbase=true --nxcompat=true *.exe
 
-  # Save checksums
-  - echo "Create and save checksums"
-  - ps: echo "File verification is the process of using an algorithm for verifying the integrity of a computer file. This can be done by comparing two files bit-by-bit, but requires two copies of the same file, and may miss systematic corruptions which might occur to both files. A more popular approach is to also store checksums (hashes) of files, also known as message digests, for later comparison." | Tee-Object -FilePath ..\checksums.txt -Append
-  - ps: echo "**************************************************************************" | Tee-Object -FilePath ..\checksums.txt -Append
+  # Compute checksums
+  - ps: |
+      Write-Host "--------------------------------------------------------"
+      Write-Host "        =====  Compute and Save Checksums  =====        " -ForegroundColor White
+      Write-Host "--------------------------------------------------------"
 
-  - ps: Get-FileHash -Path .\*.exe | Tee-Object -FilePath ..\checksums.txt -Append
+  - ps: |
+      echo "File verification is the process of using an algorithm for verifying the integrity of a computer file. A popular approach is to store checksums (hashes) of files, also known as message digests, for later comparison." | Tee-Object -FilePath ..\checksums.txt -Append
+  - ps: |
+      echo "**************************************************************************" | Tee-Object -FilePath ..\checksums.txt -Append
+
+  - ps: |
+      Get-FileHash -Path .\*.exe | Tee-Object -FilePath ..\checksums.txt -Append
+
+test_script:
+  - ps: |
+      Write-Host "--------------------------------------------------------"
+      Write-Host "                 =====  Testing  =====                  " -ForegroundColor White
+      Write-Host "--------------------------------------------------------"
 
   # Build info
   - john --list=build-info
@@ -189,6 +203,7 @@ test_script:
   - echo "====> T12:"
   - john tests.in --format=sha512crypt --max-run-time=300
 
+after_test:
   # Remove the left-over from testing
   - del john.log
   - del john.pot
@@ -216,8 +231,8 @@ on_finish:
         Get-FileHash "win_x$bits.zip"
 
       } else {
-        Write-Host "---------------------------------------"
-        Write-Host "    =====  No Files to Upload  =====   " -ForegroundColor White
-        Write-Host "---------------------------------------"
+        Write-Host "--------------------------------------------------------"
+        Write-Host "            =====  No Files to Upload  =====            " -ForegroundColor Red
+        Write-Host "--------------------------------------------------------"
       }
 
