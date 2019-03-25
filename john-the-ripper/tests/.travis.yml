@@ -27,7 +27,7 @@ matrix:
   - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-werror --enable-ubsan"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-werror --enable-ubsan"
   - env: TEST="ztex;ASAN;clang;"         BUILD_OPTS="--enable-ztex --enable-werror"
-  - env: TEST="fresh;clang-4;"           BUILD_OPTS="--enable-ubsan"
+  - env: TEST="fresh;clang-6;"           BUILD_OPTS="--enable-ubsan"
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-patch"
   - env: TEST="fresh;ASAN;clang;"        FUZZ="check"
 
