@@ -101,6 +101,9 @@ fi
 if [[ $2 == "TEST" ]]; then
     export WINEDEBUG=-all
 
+    echo '-- Build Info --'
+    $WINE $JTR_BIN --list=build-info
+
     echo "---------------------------- TESTING -----------------------------"
     echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
     echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
