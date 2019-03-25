@@ -53,12 +53,6 @@ function do_Copy_Dlls(){
     if [[ $ARCH == "i686" ]]; then
         cp "$basepath/libgcc_s_sjlj-1.dll" ../run
     fi
-
-#      xcopy C:\$msys\$mingw\bin\libeay32.dll ..\run\
-#      xcopy C:\$msys\$mingw\bin\ssleay32.dll ..\run\
-#      if ($arch -eq "i686") {
-#        xcopy C:\$msys\$mingw\bin\libgcc_s_dw2-1.dll ..\run\
-#      }
     echo '-- Done --'
 }
 
@@ -79,11 +73,9 @@ if [[ $# -eq 1 ]]; then
 
     do_Show_Compiler
 
-    if [[ $ARCH != *"OSX"* ]]; then
+    if [[ -n $WINE ]]; then
         do_Copy_Dlls
         export WINEDEBUG=-all
-    else
-        do_Install_Dependencies
     fi
 
     if [[ $ARCH == "i686" ]]; then
@@ -94,13 +86,10 @@ if [[ $# -eq 1 ]]; then
         ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
     fi
 
-    if [[ $ARCH == *"ARM"* ]]; then
+    if [[ $ARCH == *"NIX"* || $ARCH == *"ARM"* || $ARCH == *"OSX"* ]]; then
         ./configure --enable-werror
     fi
 
-    if [[ $ARCH == *"OSX"* ]]; then
-        ./configure --enable-werror
-    fi
     # Build
     make -sj2
 
