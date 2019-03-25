@@ -23,13 +23,20 @@ function do_Install_Dependencies(){
     echo '-- Done --'
 }
 
-function do_Show_Compiler(){
+function do_Show_Info(){
 
     if [[ ! -z $CCO ]]; then
         echo
         echo '-- Compiler in use --'
         $CCO --version
     fi
+    echo '--------------------------------'
+    uname -a; id
+    echo '--------------------------------'
+    cat /proc/cpuinfo
+    echo '--------------------------------'
+    env
+    echo '--------------------------------'
 }
 
 function do_Copy_Dlls(){
@@ -71,7 +78,7 @@ if [[ $# -eq 1 ]]; then
     id
     env
 
-    do_Show_Compiler
+    do_Show_Info
 
     if [[ -n $WINE ]]; then
         do_Copy_Dlls

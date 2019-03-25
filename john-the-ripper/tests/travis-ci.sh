@@ -37,8 +37,14 @@ function do_Build(){
 
     echo -en 'travis_fold:start:build_environment\r'
     echo 'Useful build system information'
-    id; uname -a
-    printenv
+    echo '--------------------------------'
+    uname -a; id
+    echo '--------------------------------'
+    cat /proc/cpuinfo
+    echo '--------------------------------'
+    env
+    echo '--------------------------------'
+
     echo -en 'travis_fold:end:build_environment\r'
 
     if [[ ! -z $CC ]]; then
