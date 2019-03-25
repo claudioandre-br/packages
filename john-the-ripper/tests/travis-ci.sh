@@ -245,7 +245,6 @@ elif [[ "$TEST" == *"snap fedora;"* ]]; then
       dnf -y -q upgrade;
       dnf -y install snapd;
       snap install --channel=edge john-the-ripper;
-      snap connect john-the-ripper:process-control core:process-control;
       snap alias john-the-ripper john;
       echo '--------------------------------';
       john -list=build-info;
