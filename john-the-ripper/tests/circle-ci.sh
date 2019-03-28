@@ -94,7 +94,7 @@ if [[ $# -eq 1 ]]; then
     fi
 
     if [[ $ARCH == *"NIX"* || $ARCH == *"ARM"* || $ARCH == *"OSX"* ]]; then
-        ./configure --enable-werror
+        ./configure --enable-werror $ASAN
     fi
 
     # Build
@@ -111,22 +111,27 @@ if [[ $2 == "TEST" ]]; then
     echo '-- Build Info --'
     $WINE $JTR_BIN --list=build-info
 
-    echo "---------------------------- TESTING -----------------------------"
-    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
-    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
-    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
-    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
-    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
+    if [[ $EXTRA == "CHECK" ]]; then
+        echo "--------------------------- make check ---------------------------"
+        make check
+    else
+        echo "---------------------------- TESTING -----------------------------"
+        echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
+        echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
+        echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
+        echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
+        echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
 
-    echo "====> T10:"
-    $WINE $JTR_BIN tests.in --format=nt
-    echo "====> T11:"
-    $WINE $JTR_BIN tests.in --format=raw-sha256
-    echo "====> T12:"
-    $WINE $JTR_BIN tests.in --format=sha512crypt --mask=jo?l[n-q]
+        echo "====> T10:"
+        $WINE $JTR_BIN tests.in --format=nt
+        echo "====> T11:"
+        $WINE $JTR_BIN tests.in --format=raw-sha256
+        echo "====> T12:"
+        $WINE $JTR_BIN tests.in --format=sha512crypt --mask=jo?l[n-q]
 
-    echo
-    echo '-- Test Full --'
-    $WINE $JTR_BIN --test-full=0
+        echo
+        echo '-- Test Full --'
+        $WINE $JTR_BIN --test-full=0
+    fi
 fi
 
