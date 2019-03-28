@@ -51,7 +51,8 @@ jobs:
           BASE: "fedora"
           TARGET_ARCH: "NIX"
           EXTRA: "CHECK"
-          CCO: "gcc"
+          ASAN: "--enable-asan"
+          CCO: "clang"
 
   test-64bits:
     <<: *common_linux
