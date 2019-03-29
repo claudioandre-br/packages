@@ -144,7 +144,7 @@ C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
 The link below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [Stable version](https://rebrand.ly/JtRWin64)
+- [Stable version](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACuCrEtGasgDH6vsHHDLaz2a/win_x64.zip)
 - [64-bit development version](https://rebrand.ly/JtRWin64)
 
 The highlights:

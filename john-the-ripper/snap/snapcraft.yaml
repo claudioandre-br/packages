@@ -22,7 +22,7 @@ version-script: |
         text='S'
         ;;
   esac
-  echo "1.8J1-$git_tag$text"
+  echo "1.9J1-$git_tag$text"
 
 confinement: strict
 grade: stable
