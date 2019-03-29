@@ -132,7 +132,6 @@ $ flatpak run com.openwall.John --list=build-info
 
 To install John the Ripper by downloading the .zip file and installing manually, follow these steps:
 
-* Only for 64-bit version of Windows. See also [this](https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64).
 * Download the win_x64.zip file to your machine.
 * Navigate to where you downloaded the file and double click the compressed file [1].
 * Extract it to a directory such as `C:\john-the-ripper`.
@@ -180,8 +179,9 @@ SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5
 ### Running OpenCL
 Some adjustments may be necessary to allow John the Ripper detect your GPU hardware. If you are facing problems, please ask for support.
 * That being said, the first advice to be given to anyone facing Windows problems would be:
-  * replacing cygwin's OpenCL library `cygOpenCL-1.dll` with OpenCL.dll installed in System32 should make everything _almost_ work.
+  * replacing cygwin's OpenCL library `cygOpenCL-1.dll` with `OpenCL.dll` installed in the System32 folder should make everything _almost_ work.
 
+Benchmarking:
 ```
 C:\bleeding\run>john --test=5 --format=sha512crypt-opencl
 Device 0: Juniper [AMD Radeon HD 6700 Series]
