@@ -176,7 +176,9 @@ SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5
 **[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
 
 ### Running OpenCL
-Some adjustments might be required to allow John the Ripper detect your GPU hardware. If you are facing problems, please, ask for support. That said, it works perfectly:
+Some adjustments may be necessary to allow John the Ripper detect your GPU hardware. If you are facing problems, please ask for support.
+* That being said, the first advice to be given to anyone facing Windows problems would be:
+  * replacing cygwin's OpenCL library `cygOpenCL-1.dll` with OpenCL.dll installed in System32 should make everything _almost_ work.
 
 ![image](https://user-images.githubusercontent.com/1702923/34458379-c1ec23a4-edb7-11e7-8913-e500a87d38ab.png)
 
