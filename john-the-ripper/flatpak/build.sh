@@ -22,7 +22,7 @@ if [[ "$TEST" != "yes" ]]; then
             ;;
     esac
     # View package version
-    echo "s/edge/1.8JP-$git_tag$text/g"
+    echo "s/edge/1.9J1-$git_tag$text/g"
 
     echo ""
     echo "---------------------------- BUILDING -----------------------------"
