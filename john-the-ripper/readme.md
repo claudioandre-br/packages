@@ -28,7 +28,8 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 The highlights:
 - fallback for CPU[*] and OMP;
 - regex and prince modes available;
-- available for X86_64, armhf, arm64, ppc64, and s390x;
+- OpenCL binary available (GPU driver installation is needed);
+- stable versions available for X86_64, armhf, arm64, ppc64, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
@@ -150,6 +151,7 @@ The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL binary available (GPU driver installation is needed);
+- stable versions available for X86_64 and i386;
 - generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
 - security feature Data Execution Prevention (DEP) enabled.
