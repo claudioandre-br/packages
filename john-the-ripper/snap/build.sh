@@ -285,3 +285,4 @@ fi
 # Remove the left-over from testing
 rm -f ../run/john.log
 rm -f ../run/john.pot
+rm -f ../run/john-local.conf
