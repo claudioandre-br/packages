@@ -180,8 +180,13 @@ Some adjustments may be necessary to allow John the Ripper detect your GPU hardw
 * That being said, the first advice to be given to anyone facing Windows problems would be:
   * replacing cygwin's OpenCL library `cygOpenCL-1.dll` with OpenCL.dll installed in System32 should make everything _almost_ work.
 
-![image](https://user-images.githubusercontent.com/1702923/34458379-c1ec23a4-edb7-11e7-8913-e500a87d38ab.png)
-
+```
+C:\bleeding\run>john --test=5 --format=sha512crypt-opencl
+Device 0: Juniper [AMD Radeon HD 6700 Series]
+Benchmarking: sha512crypt-opencl, crypt(3) $6$ (rounds=5000) [SHA512 OpenCL]... DONE
+Speed for cost 1 (iteration count) of 5000
+Raw:	11522 c/s real, 819200 c/s virtual
+```
 
 Real cracking:
 ```
