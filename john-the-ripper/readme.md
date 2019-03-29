@@ -61,17 +61,17 @@ $ sudo snap alias john-the-ripper.wpapcap2john wpapcap2john
 Once enabled, John itself plus the *2john tools can be invoked using the aliases. In the example, to run John type `my-john`.
 
 ### Acessing OpenCL
-It is possible to run the JtR OpenCL binary using the workaround seen below. To see the installed revision (**Rev**), execute:
+To run JtR OpenCL version you must install the snap using `developer mode`. It enables users to install snaps without enforcing security policies. To do this, you must install John using (**UNTESTED**):
 ```
-$ snap list john-the-ripper
-Name             Version          Rev  Developer        Notes
-john-the-ripper  1.8-J1-fb051f3+  60   claudioandre-br  -
+$ sudo snap install john-the-ripper --devmode
 ```
 
-Then (replace 60 with your current version number):
+When installed this way, snaps behave similarly to traditional *.deb* packages in terms of accessing system resources.
+
+To run JtR OpenCL binary:
 ```
-$ /snap/john-the-ripper/60/john-the-ripper.opencl -list=build-info
-$ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
+$ john-the-ripper.opencl -list=build-info
+$ john-the-ripper.opencl -list=opencl-devices
 ```
 
 ### Deployments
