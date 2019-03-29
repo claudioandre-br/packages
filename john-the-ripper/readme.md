@@ -74,7 +74,7 @@ $ /snap/john-the-ripper/60/john-the-ripper.opencl -list=opencl-devices
 ```
 
 ### Deployments
-Currently, we are deploying a developing version of JtR in all channels (even in the stable channel). That situation might change in the future when a new john Jumbo 2 version becames available. That said, if you want to access the hot and bleeding JtR, you should follow the development channel. For a clean installation:
+If you followed the above instructions, you installed the stable version of John the Ripper Jumbo J2 in your system. If you want to access the hot and bleeding developing version of JtR, you must follow a development channel. For a clean installation:
 ```
 sudo snap install --channel=edge john-the-ripper
 ```
