@@ -75,7 +75,7 @@ $ john-the-ripper.opencl -list=opencl-devices
 ```
 
 ### Deployments
-If you followed the above instructions, you installed the stable version of John the Ripper Jumbo J2 in your system. If you want to access the hot and bleeding developing version of JtR, you must follow a development channel. For a clean installation:
+If you followed the above instructions, you installed the stable version of John the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and bleeding developing version of JtR, you must follow a development channel. For a clean installation:
 ```
 sudo snap install --channel=edge john-the-ripper
 ```
@@ -144,7 +144,8 @@ C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
 The link below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [64-bit version](https://rebrand.ly/JtRWin64)
+- [Stable version](https://rebrand.ly/JtRWin64)
+- [64-bit development version](https://rebrand.ly/JtRWin64)
 
 The highlights:
 - fallback for CPU[*] and OMP;
@@ -216,8 +217,3 @@ Hello world!     (?)
 Use the "--show" option to display all of the cracked passwords reliably
 Session completed
 ```
-
-**Random notes:**
-- sse4.1 detection has problems on 32 bits;
-- fallback chain is AVX2 -> XOP -> AVX -> SSE4.1 -> SSE2 (is SSE4.1 needed at all?);
-- only one binary to run CPU and OpenCL formats (anyone needs different binaries?).
