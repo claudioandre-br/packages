@@ -166,7 +166,8 @@ after_build:
       Write-Host "==  Enable ASLR and DEP for the Windows binary of JtR  ==" -ForegroundColor White
       Write-Host "---------------------------------------------------------"
 
-  - peflags --dynamicbase=true --nxcompat=true *.exe
+  - ps: |
+      shell "make peflags"
 
   # Compute checksums
   - ps: |
