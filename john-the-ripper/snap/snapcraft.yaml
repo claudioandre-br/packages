@@ -1,28 +1,7 @@
 name: john-the-ripper
 version: edge
 version-script: |
-  arch=$(uname -m)
-  text='x'
-  git_tag=$(cat My_VERSION.TXT)
-
-  case "$arch" in
-    'x86_64')
-        text='X'
-        ;;
-    'armhf' | 'armv7l')
-        text='a'
-        ;;
-    'aarch64' | 'arm64')
-        text='B'
-        ;;
-    'ppc64le' | 'powerpc64le')
-        text='P'
-        ;;
-    's390x')
-        text='S'
-        ;;
-  esac
-  echo "1.9J1-$git_tag$text"
+  ./package_version.sh
 
 confinement: strict
 grade: stable
