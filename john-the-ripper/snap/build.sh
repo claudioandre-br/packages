@@ -79,3 +79,7 @@ source run_tests.sh
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/clean_package.sh
 source clean_package.sh
+
+# Get the script that computes the package version
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/package_version.sh
+chmod +x package_version.sh
