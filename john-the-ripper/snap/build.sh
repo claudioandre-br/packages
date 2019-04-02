@@ -6,6 +6,9 @@ arch=$(uname -m)
 JTR_BIN='../run/john'
 JTR_CL='../run/john-opencl'
 
+# Enable a system wide build
+SYSTEM_WIDE='--with-systemwide'
+
 # Get JtR source code and adjust it to create a SNAP package
 git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
@@ -17,7 +20,6 @@ cd src
 
 if [[ -z "${TEST##*no*}" ]]; then
     echo "====> Packaging:"
-    SYSTEM_WIDE='--with-systemwide'
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
     patch < 0001-Handle-self-confined-system-wide-build.patch
 fi
@@ -62,14 +64,21 @@ else
     # CPU (OMP and extensions fallback)
     ./configure $SYSTEM_WIDE --disable-openmp CPPFLAGS="-D_SNAP -D_BOXED" && make -s clean && make -sj2 && mv ../run/john ../run/john-non-omp
     ./configure $SYSTEM_WIDE                  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && make -s clean && make -sj2
+fi
 
-    # Workaround for non X86
+# Workaround for non X86 (non-OpenCL)
+if [[ ! -f ../run/john-opencl ]]; then
     ln -s ../run/john ../run/john-opencl
 fi
+
 # To be able to run testing
 sudo apt-get install -y language-pack-en
 
 # "---------------------------- TESTING -----------------------------"
+# Allow to test a system wide build
+mkdir --parents /snap/john-the-ripper/current/
+ln -s $(realpath ../run) /snap/john-the-ripper/current/run
+
 # Adjust the testing environment, import and run some testing
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/disable_formats.sh
 source disable_formats.sh
