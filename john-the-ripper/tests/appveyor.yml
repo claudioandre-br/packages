@@ -52,6 +52,11 @@ install:
   - echo "JtR 1.8J1-%gitDescribe%"
   - echo '--------------------------------'
 
+  # Apply patch(es)
+  - appveyor DownloadFile "https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Remove-peflags-from-the-default-target.patch" -FileName 0001.patch
+  - git apply 0001.patch
+  # 1. Remove peflags from the default target on Windows
+
   - ps: |
       $arch = $env:Arch
       $bits = $env:Bits
