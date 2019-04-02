@@ -36,8 +36,8 @@
             "buildsystem": "simple",
             "subdir": "src",
             "build-commands": [
-                "## build script ##",
-                "../build"
+                "###### build script ######",
+                "../build.sh"
             ],
             "sources": [
                 {
@@ -55,14 +55,40 @@
                 },
                 {
                     "type": "file",
+                    "path": "../tests/show_info.sh",
+                    "dest-filename": "show_info.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/package_version.sh",
+                    "dest-filename": "package_version.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/disable_formats.sh",
+                    "dest-filename": "disable_formats.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/run_tests.sh",
+                    "dest-filename": "run_tests.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/clean_package.sh",
+                    "dest-filename": "clean_package.sh"
+                },
+                {
+                    "type": "file",
                     "path": "build.sh",
-                    "dest-filename": "build"
+                    "dest-filename": "build.sh"
                 }
             ],
             "post-install": [
+                "###### Install JtR system wide ######",
                 "cp -r ../run/. /app/bin",
-                "## Some fast checks ##",
-                "TEST=yes ../build"
+                "###### Some fast checks ######",
+                "TASK=test ../build.sh"
             ]
         }
     ]
