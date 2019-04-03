@@ -86,9 +86,7 @@
             ],
             "post-install": [
                 "###### Install JtR system wide ######",
-                "cp -r ../run/. /app/bin",
-                "###### Some fast checks ######",
-                "TASK=test ../build.sh"
+                "cp -r ../run/. /app/bin"
             ]
         }
     ]

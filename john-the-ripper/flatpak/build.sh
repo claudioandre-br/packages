@@ -49,5 +49,3 @@ elif [[ "$TASK" == "test" ]]; then
     source ../run_tests.sh
 fi
 source ../clean_package.sh
-
-echo '=================================='
