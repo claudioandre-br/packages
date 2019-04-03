@@ -80,6 +80,11 @@
                 },
                 {
                     "type": "file",
+                    "path": "../tests/run_build.sh",
+                    "dest-filename": "run_build.sh"
+                },
+                {
+                    "type": "file",
                     "path": "build.sh",
                     "dest-filename": "build.sh"
                 }
