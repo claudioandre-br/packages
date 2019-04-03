@@ -18,11 +18,8 @@ chmod +x john-the-ripper.opencl
 # We are in packages folder, change to JtR folder
 cd src
 
-if [[ -z "${TEST##*no*}" ]]; then
-    echo "====> Packaging:"
-    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
-    patch < 0001-Handle-self-confined-system-wide-build.patch
-fi
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
+patch < 0001-Handle-self-confined-system-wide-build.patch
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
 patch < 0001-maint-revert-JtR-to-regex-1.4.patch
@@ -92,3 +89,4 @@ source clean_package.sh
 # Get the script that computes the package version
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/package_version.sh
 chmod +x package_version.sh
+cp package_version.sh ../../../../package_version.sh

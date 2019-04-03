@@ -28,8 +28,6 @@ deploy:
   stage: deploy
 
   script:
-    - cd john-the-ripper/flatpak
-
     # Test a previous package
     # - wget https://gitlab.com/claudioandre-br/packages/-/jobs/189386446/artifacts/raw/john.flatpak
 
@@ -46,6 +44,7 @@ deploy:
     - export arch=$(uname -m)
     - export JTR_BIN='flatpak run com.openwall.John'
     - export JTR_CL='/app/bin/john-opencl'
+    - cd john-the-ripper/flatpak
 
     # Adjust the testing environment, import and run some testing
     - ../tests/run_tests.sh
