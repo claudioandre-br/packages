@@ -34,18 +34,18 @@ if [[ -z "$TASK" ]]; then
 
     if [[ "$arch" == "x86_64" ]]; then
         # CPU (OMP and extensions fallback)
-        ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-sse2-non-omp
-        ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
-        ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mavx" && do_build ../run/john-avx-non-omp
-        ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && do_build ../run/john-avx
-        ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mxop" && do_build ../run/john-xop-non-omp
-        ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && do_build ../run/john-xop
-        ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mavx2" && do_build ../run/john-non-omp
-        ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && do_build
+        ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED" && do_build ../run/john-sse2-non-omp
+        ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
+        ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED -mavx" && do_build ../run/john-avx-non-omp
+        ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && do_build ../run/john-avx
+        ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED -mxop" && do_build ../run/john-xop-non-omp
+        ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && do_build ../run/john-xop
+        ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED -mavx2" && do_build ../run/john-non-omp
+        ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && do_build
     else
         # Non X86 CPU (OMP and extensions fallback)
-        ./configure $OTHER_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
-        ./configure $OTHER_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
+        ./configure $OTHER_NO_OPENMP CPPFLAGS="-D_BOXED" && do_build ../run/john-non-omp
+        ./configure $OTHER_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
     fi
 
     # Workaround for non X86 (non-OpenCL)
