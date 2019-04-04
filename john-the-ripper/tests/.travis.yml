@@ -62,9 +62,9 @@ matrix:
 
   - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
-  - env: TEST="fresh;ASAN;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz" # --fuzz
+  - env: TEST="fresh;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz" # --fuzz
 
-  - env: TEST="fresh;ASAN;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"     # --test-full=1
+  - env: TEST="fresh;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"     # --test-full=1
 
   #Test --restore using TS
   #- env: TEST="TS --restore;" # WE KNOW IT IS NOT WORKING
@@ -99,9 +99,9 @@ matrix:
 
   - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
 
-  - env: TEST="fresh;ASAN;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz"
 
-  - env: TEST="fresh;ASAN;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="fresh;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"
 
   - env: TEST="snap;"
 
