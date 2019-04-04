@@ -6,7 +6,7 @@
 #########################################################################
 
 
-if [[ -n "$TRAVIS_COMMIT" ]]; then
+if [[ -n "$TRAVIS_COMPILER" ]]; then
     echo -en 'travis_fold:start:build_environment\r'
 fi
 echo 'Build system information'
@@ -20,7 +20,7 @@ echo '--------------------------------'
 env
 echo '--------------------------------'
 
-if [[ -n "$TRAVIS_COMMIT" ]]; then
+if [[ -n "$TRAVIS_COMPILER" ]]; then
     echo -en 'travis_fold:end:build_environment\r'
 fi
 
@@ -32,7 +32,7 @@ else
     TMP_CC="gcc"
 fi
 
-if [[ -n "$TRAVIS_COMMIT" ]]; then
+if [[ -n "$TRAVIS_COMPILER" ]]; then
     echo -en 'travis_fold:start:compiler_info\r'
 fi
 echo 'Compiler information'
@@ -43,6 +43,6 @@ echo '--------------------------------'
 "$TMP_CC" -dM -E -x c /dev/null
 echo '--------------------------------'
 
-if [[ -n "$TRAVIS_COMMIT" ]]; then
+if [[ -n "$TRAVIS_COMPILER" ]]; then
     echo -en 'travis_fold:end:compiler_info\r'
 fi
