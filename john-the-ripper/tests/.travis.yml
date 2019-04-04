@@ -40,6 +40,9 @@ matrix:
   #Test OpenMP with OMP_NUM_THREADS=1
   - env: TEST="usual;ASAN;" OMP_NUM_THREADS=1
 
+  #Test --enable-openmp-for-fast-formats
+  - env: TEST="usual;ASAN;" BUILD_OPTS="--enable-openmp-for-fast-formats"
+
   #Test a non OpenMP build with clang (unusual test environment)
   - compiler: clang
     env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
@@ -80,6 +83,8 @@ matrix:
   - env: TEST="TS --internal;OPENCL;"
 
   - env: TEST="usual;ASAN;" OMP_NUM_THREADS=1
+
+  - env: TEST="usual;ASAN;" BUILD_OPTS="--enable-openmp-for-fast-formats"
 
   - env: TEST="usual;ASAN;" BUILD_OPTS="--disable-native-tests --disable-openmp --enable-werror"
 
