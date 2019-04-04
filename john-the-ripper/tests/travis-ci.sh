@@ -221,7 +221,7 @@ elif [[ "$TEST" == *"fresh;"* ]]; then
     do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "Ubuntu"
 
     # Run docker
-    if [[ -n "$FUZZ" ]]; then
+    if [[ -n "$FUZZ" || "$TEST" == *";POCL;"* ]]; then
         docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
     else
         docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"

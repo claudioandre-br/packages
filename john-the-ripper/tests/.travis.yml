@@ -9,10 +9,12 @@ matrix:
   - dist: precise
     env: TEST="stable;usual;gcc;" BUILD_OPTS="--enable-werror"
 
-  #Test JtR using a gcc build and OpenCL (clang + ASAN + OpenCL build fails)
-  - env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-werror"
+  #DON'T run a test on JtR using a gcc build and OpenCL
+   # with ASAN (gcc + OpenCL + ASAN) it works
+   # regular (gcc + OpenCL build fails) build fails => (could not find module by name='fglrx')
 
-  #Test JtR using an ordinary OpenCL build
+  #Test JtR using a clang build and OpenCL
+   # (clang + ASAN + OpenCL build fails)
   - compiler: clang
     env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-werror"
 
