@@ -75,10 +75,8 @@ if [[ $# -eq 1 ]]; then
     echo '-- Environment --'
     echo "Running on: $BASE"
     echo "Doing: $1"
-    id
-    env
 
-    do_Show_Info
+    source ../show_info.sh
 
     if [[ -n $WINE ]]; then
         do_Copy_Dlls

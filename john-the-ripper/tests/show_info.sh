@@ -24,10 +24,12 @@ if [[ -n "$TRAVIS_COMMIT" ]]; then
     echo -en 'travis_fold:end:build_environment\r'
 fi
 
-if [[ -z "$CC" ]]; then
-    TMP_CC="gcc"
-else
+if [[ -n $CCO ]]; then
+    TMP_CC="$CCO"
+elif [[ -n "$CC" ]]; then
     TMP_CC="$CC"
+else
+    TMP_CC="gcc"
 fi
 
 if [[ -n "$TRAVIS_COMMIT" ]]; then

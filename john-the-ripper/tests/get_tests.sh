@@ -14,6 +14,7 @@ mkdir -p .circleci/
 mkdir -p .travis/
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/buggy.sh
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/appveyor.yml
 

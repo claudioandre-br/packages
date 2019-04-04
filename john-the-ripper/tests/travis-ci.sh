@@ -32,30 +32,12 @@ function do_Install_Dependencies(){
 }
 
 function do_Build(){
+
+    source show_info.sh
+
     echo
     echo '-- Building JtR --'
 
-    echo -en 'travis_fold:start:build_environment\r'
-    echo 'Useful build system information'
-    echo '--------------------------------'
-    uname -a; id
-    echo '--------------------------------'
-    cat /proc/cpuinfo
-    echo '--------------------------------'
-    env
-    echo '--------------------------------'
-
-    echo -en 'travis_fold:end:build_environment\r'
-
-    if [[ ! -z $CC ]]; then
-        echo -en 'travis_fold:start:compiler_info\r'
-        echo 'Compiler version'
-        $CC --version
-        echo '--------------------------------'
-        $CC -dM -E -x c /dev/null
-        echo -en 'travis_fold:end:compiler_info\r'
-        echo '--------------------------------'
-    fi
     # Configure and build
     cd src || exit 1
     eval ./configure "$ASAN_OPT $BUILD_OPTS"
