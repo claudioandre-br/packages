@@ -122,10 +122,6 @@ build_script:
         # Install OpenCL kernel code
         shell "make -s kernel-copy"
 
-        # Remove unused stuff
-        shell "rm -rf ../run/kerberom"
-        shell "rm -rf ../run/ztex"
-
         # Save CygWin Dlls
         mkdir ..\lib
         xcopy C:\$location\bin\*.dll ..\lib\
@@ -215,6 +211,10 @@ after_test:
   # Remove the left-over from testing
   - del john.log
   - del john.pot
+  - del john-local.conf
+
+  # Remove unused stuff
+  - shell "rm -rf ../run/ztex"
 
 on_failure:
   - dir ..\ /s > dir.txt
@@ -225,7 +225,6 @@ on_failure:
 on_finish:
   - if exist "%PROJ_FOLDER%\JohnTheRipper\lib" 7z a -tzip "optional.zip" "%PROJ_FOLDER%\JohnTheRipper\lib"
   - if exist "optional.zip" appveyor PushArtifact "optional.zip"
-  - if exist "optional.zip" del "optional.zip"
 
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" if "%doing%" == "deploy" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
