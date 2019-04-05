@@ -26,9 +26,6 @@ environment:
       test: yes
       location: cygwin
 
-    # MinGW requires a patch in configure
-    # - it is necessary to disable 'Handle --prefix -> JOHN_SYSTEMWIDE'
-
 install:
   - echo '--------------------------------'
   - systeminfo | findstr /C:"OS"
@@ -37,7 +34,7 @@ install:
   - cd %BUILD_FOLDER%
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp
-  - appveyor UpdateBuild -Version "1.8J1-%gitDescribe%"
+  - appveyor UpdateBuild -Version "1.9J1-%gitDescribe%"
 
   - ps: |
       if ($env:Test -eq "package") {
@@ -248,6 +245,7 @@ on_finish:
   - ps: |
       if ($Zipfile = Get-ChildItem "win_x$bits.zip") {
         Get-FileHash "win_x$bits.zip"
+        Get-FileHash "optional.zip"
 
       } else {
         Write-Host "--------------------------------------------------------"
