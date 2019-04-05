@@ -29,7 +29,7 @@ report () {
 }
 
 # Variable initialization
-total=0
+total=1
 error=0
 
 echo "---------------------------- TESTING -----------------------------"
