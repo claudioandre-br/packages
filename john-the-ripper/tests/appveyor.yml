@@ -122,10 +122,6 @@ build_script:
         # Install OpenCL kernel code
         shell "make -s kernel-copy"
 
-        # Save CygWin Dlls
-        mkdir ..\lib
-        xcopy C:\$location\bin\*.dll ..\lib\
-
         # Needed dlls (Tested on Windows 7 32 bits and Windows 10 64 bits)
         xcopy C:\$location\bin\cygwin1.dll         ..\run\
         xcopy C:\$location\bin\cygbz2-1.dll        ..\run\
@@ -145,7 +141,9 @@ build_script:
       } else {
         shell "./configure --disable-opencl && make -s clean && make -sj2"
       }
-
+      # Save CygWin Dlls
+      mkdir ..\lib
+      xcopy C:\$location\bin\*.dll ..\lib\
 
 after_build:
   - cd %PROJ_FOLDER%\JohnTheRipper\run
@@ -225,7 +223,7 @@ on_failure:
 
 on_finish:
   - if exist "%PROJ_FOLDER%\JohnTheRipper\lib" 7z a -tzip "optional.zip" "%PROJ_FOLDER%\JohnTheRipper\lib"
-  - if exist "optional.zip" appveyor PushArtifact "optional.zip"
+  - if exist "optional.zip" if "%doing%" == "deploy" appveyor PushArtifact "optional.zip"
 
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" if "%doing%" == "deploy" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
