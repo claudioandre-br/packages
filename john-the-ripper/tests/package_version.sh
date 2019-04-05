@@ -15,9 +15,6 @@ case "$arch" in
     'x86_64')
         text='X'
         ;;
-    'armhf' | 'armv7l')
-        text='a'
-        ;;
     'aarch64' | 'arm64')
         text='B'
         ;;
@@ -26,6 +23,15 @@ case "$arch" in
         ;;
     's390x')
         text='S'
+        ;;
+    'armhf' | 'armv7l')
+        text='a'
+        ;;
+    'i686' | 'i386')
+        text='i'
+        ;;
+    'ppc' | 'powerpc')
+        text='w'
         ;;
 esac
 # View package version
