@@ -113,7 +113,7 @@ build_script:
         shell "./configure --disable-native-tests                  CPPFLAGS='-mxop   -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-xop-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-avx\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-xop"
         shell "./configure --disable-native-tests --disable-openmp CPPFLAGS='-mavx2  -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-xop\\\`"\`" ' && make -s clean && make -sj2  && make -s strip && mv ../run/john ../run/john-avx2-non-omp"
         shell "./configure --disable-native-tests                  CPPFLAGS='-mavx2  -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\`"\\\`"john-avx2-non-omp\\\`"\`" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\`"\\\`"john-xop\\\`"\`" ' && make -s clean && make -sj2  && make -s strip"
-        }
+
         # Configure OpenCL ICD
         shell "mkdir -p ../etc/OpenCL/vendors"
         shell "echo 'c:\Windows\System32\amdocl64.dll' > ../etc/OpenCL/vendors/amd.icd"
@@ -211,10 +211,11 @@ after_test:
   # Remove the left-over from testing
   - del john.log
   - del john.pot
-  - del john-local.conf
 
   # Remove unused stuff
-  - shell "rm -rf ../run/ztex"
+  - ps: |
+      shell "rm -f ../run/john-local.conf"
+      shell "rm -rf ../run/ztex"
 
 on_failure:
   - dir ..\ /s > dir.txt

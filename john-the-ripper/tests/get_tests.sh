@@ -37,6 +37,7 @@ git add .travis.yml
 git add circle.yml
 git add .travis/
 git add .circleci/
+git add show_info.sh
 
 # Ban all problematic formats (disable buggy formats)
 # If a formats fails its tests on super, I will burn it.
