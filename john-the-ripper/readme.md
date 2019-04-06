@@ -28,8 +28,8 @@ $ john-the-ripper -form=SHA512crypt ~/alltests.in
 The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
-- OpenCL binary available (GPU driver installation is needed);
-- John 1.9.0 Jumbo 1 stable version available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
+- OpenCL available (GPU driver installation is needed);
+- a stable version (John 1.9.0 Jumbo 1) is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
 - a development version is available for X86_64, arm64, ppc64el, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
@@ -145,15 +145,15 @@ C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
 The link below contains all the executables and libraries needed to run a fresh John the Ripper installation.
-- [John 1.9.0 Jumbo 1 32bit (stable version)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
-- [John 1.9.0 Jumbo 1 64bit (stable version)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
-- [64-bit development version](https://rebrand.ly/JtRWin64)
+- [A stable 32bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
+- [A stable 64bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
+- [A 64bit development version](https://rebrand.ly/JtRWin64)
 
 The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
-- OpenCL binary available (GPU driver installation is needed);
-- John 1.9.0 Jumbo 1 stable version available for X86_64 and i386;
+- OpenCL available (GPU driver installation is needed);
+- a stable version (John 1.9.0 Jumbo 1) is available for X86_64 and i386;
 - a development version is available for X86_64;
 - generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
