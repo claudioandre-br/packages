@@ -84,11 +84,11 @@ if [[ $# -eq 1 ]]; then
     fi
 
     if [[ $ARCH == "i686" ]]; then
-        ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32
+        ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32       CPPFLAGS="-g -gdwarf-2"
     fi
 
     if [[ $ARCH == "x86_64" ]]; then
-        ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64
+        ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64 CPPFLAGS="-g -gdwarf-2"
     fi
 
     if [[ $ARCH == *"NIX"* || $ARCH == *"ARM"* || $ARCH == *"OSX"* ]]; then
