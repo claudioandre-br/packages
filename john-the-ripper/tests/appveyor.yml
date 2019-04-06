@@ -130,7 +130,7 @@ build_script:
         xcopy C:\$location\bin\cyggmp-10.dll       ..\run\
         xcopy C:\$location\bin\cygssl-1*.dll       ..\run\
         xcopy C:\$location\bin\cygz.dll            ..\run\
-        xcopy C:\$location\bin\cygcrypt-0.dll      ..\run\
+        xcopy C:\$location\bin\cygcrypt-*.dll      ..\run\
         xcopy C:\$location\bin\cygOpenCL-1.dll     ..\run\
 
         if ($arch -eq "x86_64") {
