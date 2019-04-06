@@ -37,8 +37,8 @@ At this moment, I'm using **AppVeyor CI** to build the Windows package.
 
 Our CI (continuous integration) testing scheme stresses John the Ripper source code using:
 - CentOS 6, Ubuntu 12.04, Ubuntu 14.04, Ubuntu 16.04, Ubuntu 17.10, Ubuntu 19.04 (devel), Fedora 29, and Windows;
-- gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 6.2, gcc 6.4, gcc 7.2, gcc 8, and gcc 9;
-- clang 4, clang 6, clang 7, and clang 8;
+- gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 7.2, gcc 7.4, gcc 8.3, and gcc 9.0;
+- clang 3.9, clang 4.0, clang 5.0, clang 6.0, clang 7.0, and clang 8.0;
 - SIMD and non-SIMD builds (including AVX512);
 - OpenMP and non-OpenMP builds;
 - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
