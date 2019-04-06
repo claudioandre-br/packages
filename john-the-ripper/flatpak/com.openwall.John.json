@@ -8,6 +8,11 @@
     "finish-args": [
         "--filesystem=home"
     ],
+    "cleanup" : [
+        "/include",
+        "*.la",
+        "*.a"
+    ],
     "modules": [
         {
             "name": "libpcap",
@@ -25,9 +30,9 @@
             "subdir": "./src",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/teeshop/rexgen.git",
-                    "branch": "1.4.0"
+                    "type": "archive",
+                    "url": "https://github.com/teeshop/rexgen/archive/1.4.0.zip",
+                    "sha256": "a7903c21e20e0817b7c760bd13fcff802839b71c1f95db926cf52bb93f13f69d"
                 }
             ]
         },
@@ -91,7 +96,11 @@
             ],
             "post-install": [
                 "###### Install JtR system wide ######",
-                "cp -r ../run/. /app/bin"
+                "cp -r ../run/.   /app/bin",
+                "cp -r ../doc/    /app/",
+                "cp    ../README* /app/",
+                "mkdir -p /app/share/bash-completion/completions",
+                "cp ../run/john.*_completion /app/share/bash-completion/completions"
             ]
         }
     ]

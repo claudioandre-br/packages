@@ -48,11 +48,6 @@ if [[ -z "$TASK" ]]; then
         ./configure $OTHER_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
     fi
 
-    # Workaround for non X86 (non-OpenCL)
-    if [[ ! -f ../run/john-opencl ]]; then
-        ln -s ../run/john ../run/john-opencl
-    fi
-
 elif [[ "$TASK" == "test" ]]; then
     # "---------------------------- TESTING -----------------------------"
 
