@@ -7,7 +7,7 @@ JTR_BIN='../run/john'
 JTR_CL='../run/john-opencl'
 
 # Build options (system wide, disable checks, etc.)
-SYSTEM_WIDE='--with-systemwide'
+SYSTEM_WIDE='--with-systemwide --enable-rexgen'
 CL_REGULAR="--disable-native-tests $SYSTEM_WIDE"
 CL_NO_OPENMP="--disable-native-tests $SYSTEM_WIDE --disable-openmp"
 X86_REGULAR="--disable-native-tests --disable-opencl $SYSTEM_WIDE"
@@ -48,7 +48,7 @@ source run_build.sh
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
-if [[ "$arch" == 'x86_64' ]]; then
+if [[ "$arch" == 'x86_64'  || "$arch" == "i?86" ]]; then
     # Allow an OpenCL build
     sudo apt-get install -y beignet-dev
 

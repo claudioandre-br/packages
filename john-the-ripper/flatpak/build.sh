@@ -7,7 +7,7 @@ JTR_BIN='/app/bin/john'
 JTR_CL='/app/bin/john-opencl'
 
 # Build options (system wide, disable checks, etc.)
-SYSTEM_WIDE='--with-systemwide'
+SYSTEM_WIDE='--with-systemwide --enable-rexgen'
 CL_REGULAR="--disable-native-tests $SYSTEM_WIDE"
 CL_NO_OPENMP="--disable-native-tests $SYSTEM_WIDE --disable-openmp"
 X86_REGULAR="--disable-native-tests --disable-opencl $SYSTEM_WIDE"
@@ -32,7 +32,7 @@ if [[ -z "$TASK" ]]; then
     echo ""
     echo "---------------------------- BUILDING -----------------------------"
 
-    if [[ "$arch" == "x86_64" ]]; then
+    if [[ "$arch" == "x86_64" || "$arch" == "i?86" ]]; then
         # CPU (OMP and extensions fallback)
         ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED" && do_build ../run/john-sse2-non-omp
         ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
