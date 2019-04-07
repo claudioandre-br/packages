@@ -28,7 +28,7 @@ FILES="pbkdf2-hmac-md4_fmt_plug.c pbkdf2-hmac-md5_fmt_plug.c $CL/opencl_pbkdf2_h
        mscash2_fmt_plug.c $CL/opencl_keepass_fmt_plug.c monero_fmt_plug.c iwork_fmt_plug.c ethereum_fmt_plug.c \
        dmg_fmt_plug.c adxcrypt_fmt_plug.c rawBLAKE2_512_fmt_plug.c encfs_fmt_plug.c gpg_fmt_plug.c \
        $CL/opencl_encfs_fmt_plug.c $CL/opencl_wpapsk_fmt_plug.c $CL/src/opencl_wpapmk_fmt_plug.c \
-       racf_kdfaes_fmt_plug.c"
+       racf_kdfaes_fmt_plug.c HDAA_fmt_plug.c"
 
 #BCrypt
 patch -l -f -p1 <<ENDPATCH
