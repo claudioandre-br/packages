@@ -25,6 +25,7 @@ function do_Init(){
 
 function do_Done(){
     rm alltests.in
+    rm test.in
     rm pw.dic
     rm rawsha256_tst.in
     rm cisco4_tst.in
@@ -206,7 +207,10 @@ function do_Test(){
     Total_Tests=$((Total_Tests + 1))
     #-- Remove tmp files.
     rm tst-cla.pot
-    rm "$TEMP"
+
+    if [[ $ret_code -eq 0 ]]; then
+        rm "$TEMP"
+    fi
 }
 
 function do_Regressions(){
@@ -337,6 +341,32 @@ function rawsha512(){
     do_Test "alltests.in"      "-form=xSHA512-opencl" "-mask:?d -min-len=4 -max-len=8"              6
 }
 
+function do_Random(){
+    echo 'Running random cracking tests...'
+    do_Test "test1.in"    "-form:sha512crypt-opencl" "--incremental --skip"                         200
+    do_Test "test2.in"    "-form:sha512crypt-opencl" "--incremental -dev:$Dev_Fast"                 200
+    do_Test "test3.in"    "-form:sha512crypt-opencl" "--incremental -fork=2 -dev:$Dev_3"             50
+    do_Test "test5.in"    "-form:sha256crypt-opencl" "--incremental -dev:$Dev_Fast"                 600
+
+    for i in `../../run/john -inc -stdout | head -15000 | shuf | head -5309`; do echo -n $i | sha512sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha512-opencl" "--incremental -fork=3 -dev:$Dev_Fast"          5309
+
+    for i in `../../run/john -inc -stdout | head -15000 | shuf | head -5309`; do echo -n $i | sha256sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha256-opencl" "--incremental -fork=5 -dev:$Dev_Fast"          5309
+
+    for i in `seq 1 35027 99999999`; do echo -n $i | sha256sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha256-opencl" "--mask=?d --min-len=0 --max-len=8"             2855
+
+    for i in `seq 9999999 1743778271 999999999999`; do echo -n $i | sha256sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha256-opencl" "--mask=?d --min-len=0 --max-len=12"             574
+
+    for i in `seq 1 35027 99999999`; do echo -n $i | sha512sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha512-opencl" "--mask=?d --min-len=0 --max-len=8 -dev:$Dev_Fast"   2855 "_GPU_AUTOTUNE_LIMIT=500"
+
+    for i in `seq 9999999 1743778271 99999999999`; do echo -n $i | sha512sum | sed 's/-/ /g'; done > test.in
+    do_Test "test.in"    "-form:raw-sha512-opencl" "--mask=?d --min-len=7 --max-len=11 -dev:$Dev_3"      58  "_GPU_AUTOTUNE_LIMIT=500"
+}
+
 do_Mask_Test () {
     #-- Copied from an issue.
     #for i in `cat post.lst`; do echo $i | mkpasswd -m sha-512 -P 0 ; done > ~/testhashes
@@ -364,6 +394,7 @@ function do_help(){
     echo '               ./tests.sh --basic [hash]'
     echo '--cracking:   runs the cracking tests. To filter a hash type, use:'
     echo '               ./tests.sh [hash]'
+    echo '--random:     runs a few random cracking tests.'
     echo '--regression: ensures fixed bugs were not reintroduced.'
     echo '--ts:         executes the Test Suite. To filter a hash type, use:'
     echo '               ./tests.sh --ts [hash]'
@@ -404,10 +435,10 @@ fi
 #-----------   Init   -----------
 Total_Tests=0
 Total_Erros=0
-Dev_1=6
-Dev_2=1
-Dev_3=5
-Dev_Fast=4
+Dev_1=6    # GTX TITAN
+Dev_2=1    # Radeon RX Vega
+Dev_3=5    # GTX TITAN X
+Dev_Fast=4 # GTX 1080
 do_Init
 
 #-----------   Tests   -----------
@@ -415,10 +446,10 @@ do_Init
 case "$1" in
     "--all" | "-a")
         do_All_Devices  #--basic
-        do_Regressions  #--regression
-        do_Self_Test    #--self
-        do_Fuzz         #--fuzz
         do_Test_Suite   #--ts
+        do_Self_Test    #--self
+        do_Regressions  #--regression
+        do_Fuzz         #--fuzz
         do_Mask_Test    #--mask
         sha256          #--cracking
         sha512          #   idem
@@ -444,6 +475,9 @@ case "$1" in
         if [[ "$2" == "rawsha512" ]] || [[ -z "$2" ]]; then
             rawsha512
         fi
+        ;;
+    "--random")
+        do_Random
         ;;
     "--regression" | "-r")
         do_Regressions
