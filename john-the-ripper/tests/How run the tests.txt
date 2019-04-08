@@ -1,1 +1,12 @@
 rm -f get_tests.sh; wget https://raw.githubusercontent.com/claudioandre/packages/master/john-the-ripper/tests/get_tests.sh; chmod +x get_tests.sh ; ./get_tests.sh
+
+
+john --list=build-info
+john-the-ripper -list=format-tests | cut -f3 > ~/alltests.in
+john-the-ripper -form=SHA512crypt ~/alltests.in
+
+john-the-ripper -list=format-tests --format=sha512crypt | cut -f4 | head > ~/solucao
+john-the-ripper -form=SHA512crypt ~/alltests.in -w:/home/claudio/solucao
+
+john --incremental=digits --mask='?w?d?d?d' --min-len=8 --max-len=8 --stdout | head
+john --incremental=digits --mask='?w?d?d?d' --min-len=8 --stdout | head
