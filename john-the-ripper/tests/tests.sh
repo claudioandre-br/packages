@@ -256,7 +256,7 @@ elif test "$FUZZ" = "internal" ; then
 
 elif test "$EXTRAS" = "snap" ; then
     # Required defines
-    TEST=';full;extra;' # Controls how the test will happen
+    TEST=';full;extra;crack;' # Controls how the test will happen
     arch=$(uname -m)
     JTR_BIN="$JtR"
     JTR_CL=""

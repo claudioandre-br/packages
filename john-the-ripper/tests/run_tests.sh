@@ -110,6 +110,18 @@ if [[ -z "${TEST##*extra*}" ]]; then
         echo
     fi
 fi
+
+if [[ -z "${TEST##*crack*}" ]]; then
+    $JTR_BIN -list=format-tests | cut -f3 > alltests.in
+    $JTR_BIN -form=SHA512crypt alltests.in --max-run=45
+
+    $JTR_BIN -list=format-tests --format=sha512crypt | cut -f4 | head > solucao
+    $JTR_BIN -form=SHA512crypt alltests.in -w:solucao
+
+    $JTR_BIN --incremental=digits --mask='?w?d?d?d' --min-len=8 --max-len=8 --stdout | head
+    $JTR_BIN --incremental=digits --mask='?w?d?d?d' --min-len=8 --stdout | head
+fi
+
 echo '-------------------------------------------'
 echo "###  Performed $total tests in $SECONDS seconds  ###"
 echo '-------------------------------------------'
