@@ -102,7 +102,7 @@ if [[ -z "${TEST##*extra*}" ]]; then
     echo "------------------------------------------------------------------"
     echo
 
-    if [[ "$arch" == 'x86_64' ]]; then
+    if [[ "$arch" == 'x86_64' && -n "$JTR_CL" ]]; then
         echo "====> T6:"
         "$JTR_CL" -test-full=0 --format=sha512crypt-opencl
         report "--format=sha512crypt-opencl" "FAIL"
