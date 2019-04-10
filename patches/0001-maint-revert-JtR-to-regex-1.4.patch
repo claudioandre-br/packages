@@ -95,7 +95,7 @@ index a0cff213b..b0a65820f 100644
 +		c_simplestring_clear(buffer);
 +		if (options.internal_cp != UTF_8)
 +			utf8_to_cp_r(word, word, sizeof(word));
- 		if (options.mask) {
+ 		if (options.flags & FLG_MASK_CHK) {
  			if (do_mask_crack(word)) {
  				retval = 1;
 @@ -302,7 +298,7 @@ int do_regex_hybrid_crack(struct db_main *db, const char *regex,
@@ -134,7 +134,7 @@ index a0cff213b..b0a65820f 100644
 -		word = c_simplestring_to_string(buffer);
 +		c_simplestring_to_utf8_string(buffer, &word[0], sizeof(word));
 +		c_simplestring_clear(buffer);
- 		if (options.mask) {
+ 		if (options.flags & FLG_MASK_CHK) {
  			if (do_mask_crack(word))
  				break;
  		} else
