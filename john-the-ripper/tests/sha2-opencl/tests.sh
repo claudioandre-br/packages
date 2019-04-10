@@ -25,7 +25,7 @@ function do_Init(){
 
 function do_Done(){
     rm alltests.in
-    rm test.in
+    rm -f test.in
     rm pw.dic
     rm rawsha256_tst.in
     rm cisco4_tst.in
