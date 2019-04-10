@@ -227,7 +227,7 @@ function do_All_Devices(){
         echo 'Evaluating raw-sha256 in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:Raw-SHA256-opencl" "-dev:$i" ""
-            do_Test_Bench "-form:Raw-SHA256-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA256-opencl" "--mask -dev:$i" ""
         done
     fi
 
@@ -235,13 +235,13 @@ function do_All_Devices(){
         echo 'Evaluating raw-sha512 in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:Raw-SHA512-opencl" "-dev:$i" ""
-            do_Test_Bench "-form:Raw-SHA512-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:Raw-SHA512-opencl" "--mask -dev:$i" ""
         done
 
         echo 'Evaluating xSHA512 in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:xSHA512-opencl" "-dev:$i" ""
-            do_Test_Bench "-form:xSHA512-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:xSHA512-opencl" "--mask -dev:$i" ""
         done
     fi
 
@@ -249,7 +249,7 @@ function do_All_Devices(){
         echo 'Evaluating sha256crypt in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:sha256crypt-opencl" "-dev:$i" ""
-            do_Test_Bench "-form:sha256crypt-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:sha256crypt-opencl" "--mask -dev:$i" ""
         done
     fi
 
@@ -257,7 +257,7 @@ function do_All_Devices(){
         echo 'Evaluating sha512crypt in all devices...'
         for i in $Device_List ; do
             do_Test_Bench "-form:sha512crypt-opencl" "-dev:$i" ""
-            do_Test_Bench "-form:sha512crypt-opencl" "--mask=?d?d?d?d5678 -dev:$i" ""
+            do_Test_Bench "-form:sha512crypt-opencl" "--mask -dev:$i" ""
         done
     fi
 }
