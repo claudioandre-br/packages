@@ -255,34 +255,14 @@ elif test "$FUZZ" = "internal" ; then
     "$JtR" --fuzz --format=sha512crypt-opencl
 
 elif test "$EXTRAS" = "snap" ; then
-    echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
-    echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
-    echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
-    echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
-    echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
+    # Required defines
+    TEST=';full;extra;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    echo "====> T4:"
-    "$JtR" -test-full=0 --format=nt
-    echo "====> T5-a:"
-    "$JtR" -test-full=0 --format=sha512crypt
-    echo "====> T6.0:"
-    "$JtR" -test=3 -form='dynamic=md5(sha1($s).md5($p))'
-    echo "====> T6.1:"
-    "$JtR" -test=3 -form='dynamic=md5(sha1($s.$p).md5($p))'
-    echo "====> T6.2:"
-    "$JtR" -test=3 -form='dynamic=md5($p)'
-
-    echo "------------------------------------------------------------------"
-    "$JtR" -test=0
-    echo "------------------------------------------------------------------"
-    echo
-
-    echo "====> T10:"
-    "$JtR" tests.in --format=nt --fork=2
-    echo "====> T11:"
-    "$JtR" tests.in --format=raw-sha256 --fork=2
-    echo "====> T12-a:"
-    "$JtR" tests.in --format=sha512crypt --mask=jo?l[n-q]
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 elif test "$FUZZ" = "check" ; then
     echo "$ make check "
