@@ -114,7 +114,7 @@ fi
 if [[ -z "${TEST##*crack*}" ]]; then
     echo "====> T Crack:"
     $JTR_BIN -list=format-tests | cut -f3 > alltests.in
-    $JTR_BIN -form=SHA512crypt alltests.in --max-len=2 --status=30
+    $JTR_BIN -form=SHA512crypt alltests.in --max-len=2 --progress=30
 
     $JTR_BIN -list=format-tests --format=sha512crypt | cut -f4 | head > solucao
     $JTR_BIN -form=SHA512crypt alltests.in -w:solucao
