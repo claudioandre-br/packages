@@ -122,7 +122,7 @@ function do_Build_Docker_Command(){
       echo; \
       $0 DO_BUILD; \
       cd /cwd/src; \
-      $2 ../.travis/tests.sh
+      $2 ../.travis/CI-tests.sh
    "
 }
 
@@ -183,7 +183,7 @@ if [[ "$TEST" == *"usual;"* ]]; then
     do_Prepare_To_Test
 
     # Run the test: --test-full=0
-    ../.travis/tests.sh
+    ../.travis/CI-tests.sh
 
 elif [[ "$TEST" == *"ztex;"* ]]; then
     # 'Recent' environment (compiler/OS)
@@ -226,7 +226,7 @@ elif [[ "$TEST" == *"snap;"* ]]; then
     sudo snap install --channel=edge john-the-ripper
 
     # Run the test
-    .travis/tests.sh "SNAP"
+    .travis/CI-tests.sh "SNAP"
 
 elif [[ "$TEST" == *"snap fedora;"* ]]; then
     docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "
