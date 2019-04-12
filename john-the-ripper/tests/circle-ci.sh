@@ -112,6 +112,32 @@ if [[ $2 == "TEST" ]]; then
     if [[ $EXTRA == "CHECK" ]]; then
         echo "--------------------------- make check ---------------------------"
         make check
+    elif [[ $EXTRA == "AFL_FUZZ" ]]; then
+        echo "------------------------- fuzzing check --------------------------"
+        echo "$ afl-fuzz -i in -o out JtR @@ "
+        export LWS=8
+        export GWS=64
+
+        # Check if all formats passes self-test
+        "$JTR_BIN" -test-full=0 --format=raw-sha256-opencl
+        "$JTR_BIN" -test-full=0 --format=raw-sha512-opencl
+        "$JTR_BIN" -test-full=0 --format=xsha512-opencl
+        "$JTR_BIN" -test-full=0 --format=sha256crypt-opencl
+        "$JTR_BIN" -test-full=0 --format=sha512crypt-opencl
+
+        mkdir -p in
+        export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+        export AFL_NO_UI=1
+        #echo core >/proc/sys/kernel/core_pattern
+
+        "$JTR_BIN" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
+        "$JTR_BIN" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
+        "$JTR_BIN" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
+        "$JTR_BIN" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
+        "$JTR_BIN" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
+        "$JTR_BIN" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
+        afl-fuzz -m none -t 500+ -i in -o out -d "$JTR_BIN" --format=opencl --nolog --verb=1 @@
+        echo $?
     else
         echo "---------------------------- TESTING -----------------------------"
         echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
