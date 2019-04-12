@@ -224,6 +224,7 @@ on_failure:
 on_finish:
   - if exist "%PROJ_FOLDER%\JohnTheRipper\lib" 7z a -tzip "optional.zip" "%PROJ_FOLDER%\JohnTheRipper\lib"
   - if exist "optional.zip" if "%doing%" == "deploy" appveyor PushArtifact "optional.zip"
+  - move optional.zip ..\
 
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\run"
   - if exist "%PROJ_FOLDER%\JohnTheRipper\run\john.exe" if "%doing%" == "deploy" 7z a -tzip "win_x%bits%.zip" "%PROJ_FOLDER%\JohnTheRipper\doc"
@@ -235,7 +236,7 @@ on_finish:
   - ps: |
       if ($Zipfile = Get-ChildItem "win_x$bits.zip") {
         Get-FileHash "win_x$bits.zip"
-        Get-FileHash "optional.zip"
+        Get-FileHash "..\optional.zip"
 
       } else {
         Write-Host "--------------------------------------------------------"
