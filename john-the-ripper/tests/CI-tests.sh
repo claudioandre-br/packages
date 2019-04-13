@@ -257,7 +257,10 @@ else
     # Trusty AMD GPU drivers on Travis are fragile.
     # - a simple run of --test fails;
     # - clang reports memory issues.
-    if test -z "$OPENCL" ; then
+    if test "$FUZZ" = "slow" ; then
+        echo "$ JtR -test=0 --format=cpu"
+        "$JtR" -test=0 --format=cpu
+    elif test -z "$OPENCL" ; then
         echo "$ JtR -test-full=0"
         "$JtR" -test-full=0
     elif test -z "$F" -o "$F" = "1" ; then
