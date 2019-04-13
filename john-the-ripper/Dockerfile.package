@@ -2,7 +2,7 @@ FROM fedora:29
 MAINTAINER Claudio André (c) 2017-2019 1.0.F29
 
 RUN dnf -y -q update && \
-    dnf -y -q install \
+    dnf -y    install \
         flatpak flatpak-builder elfutils wget git && \
     flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo && \
     flatpak install -y gnome org.freedesktop.Platform//1.6 org.freedesktop.Sdk//1.6 && \
