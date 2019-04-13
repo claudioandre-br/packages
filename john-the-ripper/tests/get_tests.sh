@@ -18,7 +18,7 @@ wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/appveyor.yml
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/.travis.yml
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/tests.sh      -P .travis/
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/CI-tests.sh   -P .travis/
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/travis-ci.sh  -P .travis/
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/config.yml    -P .circleci/
@@ -26,7 +26,7 @@ wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-
 
 
 chmod +x buggy.sh
-chmod +x .travis/tests.sh
+chmod +x .travis/CI-tests.sh
 chmod +x .travis/travis-ci.sh
 chmod +x .circleci/circle-ci.sh
 
