@@ -8,7 +8,7 @@ function do_Install_Dependencies(){
     sudo apt-get update -qq
     sudo apt-get -y -qq install \
         build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config \
-        debhelper libnet1-dev libbz2-dev wget clang llvm zlib1g-dev > /dev/null
+        debhelper libnet1-dev libbz2-dev wget clang llvm zlib1g-dev wget > /dev/null
 
     if [[ "$_system_version" != "12.04" ]]; then
         # Ubuntu precise doesn't have this package
@@ -79,7 +79,7 @@ function do_Build_Docker_Command(){
         update="\
           yum -y -q upgrade; \
           yum -y -q groupinstall 'Development Tools'; \
-          yum -y -q install openssl-devel gmp-devel libpcap-devel bzip2-devel;"
+          yum -y -q install openssl-devel gmp-devel libpcap-devel bzip2-devel wget;"
     else
         update="\
           apt-get update -qq; \

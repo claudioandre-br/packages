@@ -21,7 +21,7 @@ function do_Copy_Dlls(){
 cd src
 
 # Setup testing environment
-JTR_BIN=../run/john
+JTR=../run/john
 export OMP_NUM_THREADS=3
 
 # Control System Information presentation
@@ -53,7 +53,7 @@ if [[ $2 == "BUILD" ]]; then
 
     echo
     echo '-- Build Info --'
-    $WINE $JTR_BIN --list=build-info
+    $WINE $JTR --list=build-info
 
 elif [[ $2 == "TEST" ]]; then
 
@@ -64,7 +64,7 @@ elif [[ $2 == "TEST" ]]; then
     # Required defines
     TEST=";$EXTRA;extra;" # Controls how the test will happen
     arch=$(uname -m)
-    JTR_BIN="$WINE $JtR"
+    JTR_BIN="$WINE $JTR"
     JTR_CL=""
 
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh

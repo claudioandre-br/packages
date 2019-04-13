@@ -82,19 +82,25 @@ if [[ -z "${TEST##*extra*}" ]]; then
     report '-test=3 -form="dynamic=md5($p)"'
     echo
 
-    echo "====> T10:"
-    $JTR_BIN ~/tests.in --format=nt --fork=2
-    report "tests.in --format=nt --fork=2"
-    echo "====> T11:"
-    $JTR_BIN ~/tests.in --format=raw-sha256 --fork=2
-    report "--format=raw-sha256 --fork=2"
+    if [[ -z "$WINE" ]]; then
+        echo "====> T10:"
+        $JTR_BIN ~/tests.in --format=nt --fork=2
+        report "tests.in --format=nt --fork=2"
+        echo "====> T11:"
+        $JTR_BIN ~/tests.in --format=raw-sha256 --fork=2
+        report "--format=raw-sha256 --fork=2"
+    fi
     echo "====> T12:"
     $JTR_BIN ~/tests.in --format=sha512crypt --mask=jo?l[n-q]
     report "--format=sha512crypt --mask=jo?l[n-q]"
 
     echo "------------------------------------------------------------------"
-    $JTR_BIN -test=0 --format=sha* --verb=5 --tune=report
-    report "--format=sha* --verb=5 --tune=report"
+    $JTR_BIN -test=0 --format=sha1crypt --verb=5 --tune=report
+    report "--format=sha1crypt --verb=5 --tune=report"
+    $JTR_BIN -test=0 --format=sha256crypt --verb=5 --tune=report
+    report "--format=sha256crypt --verb=5 --tune=report"
+    $JTR_BIN -test=0 --format=sha512crypt --verb=5 --tune=report
+    report "--format=sha512crypt --verb=5 --tune=report"
     echo "------------------------------------------------------------------"
     echo
 
