@@ -83,7 +83,7 @@ function do_Build_Docker_Command(){
     else
         update="\
           apt-get update -qq; \
-          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev zlib1g-dev > /dev/null; \
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev zlib1g-dev git > /dev/null; \
           apt-get install -y -qq $1 || true;"
 
         if [[ "$TEST" == *";POCL;"* ]]; then
