@@ -57,7 +57,6 @@ apps:
 parts:
   john-the-ripper:
     plugin: nil
-    after: [regex]
     source: .
     override-build: |
       ./build.sh
@@ -82,19 +81,6 @@ parts:
       ../build/README.md: README.md
       ../build/README-jumbo: README-jumbo
       ../build/john-the-ripper.opencl: john-the-ripper.opencl
-
-  regex:
-    plugin: cmake
-    source: https://github.com/teeshop/rexgen.git
-    source-type: git
-    source-subdir: ./src
-    source-tag: 1.4.0
-
-    build-packages:
-      - build-essential
-      - flex
-      - bison
-      - libicu-dev
 
   libs:
     plugin: nil

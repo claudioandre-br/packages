@@ -25,18 +25,6 @@
             ]
         },
         {
-            "name": "librexgen",
-            "buildsystem": "cmake",
-            "subdir": "./src",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/teeshop/rexgen/archive/1.4.0.zip",
-                    "sha256": "a7903c21e20e0817b7c760bd13fcff802839b71c1f95db926cf52bb93f13f69d"
-                }
-            ]
-        },
-        {
             "name": "john",
             "buildsystem": "simple",
             "subdir": "src",
@@ -53,10 +41,6 @@
                 {
                     "type": "patch",
                     "path": "confined-system-wide-build.patch"
-                },
-                {
-                    "type": "patch",
-                    "path": "use-regex-1.4.patch"
                 },
                 {
                     "type": "file",

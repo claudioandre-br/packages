@@ -28,9 +28,6 @@ cd src
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-Handle-self-confined-system-wide-build.patch
 patch < 0001-Handle-self-confined-system-wide-build.patch
 
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/patches/0001-maint-revert-JtR-to-regex-1.4.patch
-patch < 0001-maint-revert-JtR-to-regex-1.4.patch
-
 # Set package version
 git rev-parse --short HEAD 2>/dev/null > ../../../../My_VERSION.TXT
 

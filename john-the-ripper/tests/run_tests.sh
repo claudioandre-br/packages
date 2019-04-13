@@ -49,24 +49,20 @@ fi
 
 if [[ -z "${TEST##*extra*}" ]]; then
     echo
-    echo "====> regex T1 A: 9 lines"
-    $JTR_BIN --stdout --regex='[0-2]password[A-C]'
-    echo "====> regex T1 B: 2 lines, 1 special character"
-    $JTR_BIN --stdout --regex=ab[öc]
-    echo "====> regex T1 C: 7 lines, 7 special characters, quotation marks"
-    $JTR_BIN --stdout --regex="ab[£öçüàñẽ]"
-    echo "====> regex T1 D: 5 lines, 4 special characters, quotation marks"
-    $JTR_BIN --stdout --regex='ab(ö|¿|e|¡|!)'
-    echo "====> regex T1 E: 2 lines, 1 special character, vertical bar"
-    $JTR_BIN --stdout --regex='ab(ö|c)'
-    echo "====> regex T1 F: 3 lines, 5 special characters, vertical bar"
-    $JTR_BIN --stdout --regex='ab(ö,¿|\?,e|¡,!)'
-    echo "====> regex T2: 2 lines, at the end"
-    echo magnum | $JTR_BIN -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3 A: 2 lines, at the end, encoding"
-    echo müller | iconv -f UTF-8 -t cp850 | $JTR_BIN -inp=cp850 -stdout -stdin -regex='\0[01]'
-    echo "====> regex T3 B: 2 lines, encoding"
-    $JTR_BIN -stdout --regex='ab(ö|c)' -target-enc=cp437
+    echo "====> mask T1 A: 9 lines"
+    $JTR_BIN --stdout --mask='[0-2]password[A-C]'
+    echo "====> mask T1 C: 7 lines, 7 special characters, quotation marks"
+    $JTR_BIN --stdout --mask="ab[£öçüàñẽ]" --internal-codepage=ISO-8859-1
+    echo "====> mask T1 E: 3 lines, 1 special character, vertical bar"
+    $JTR_BIN --stdout --mask='ab[ö|c]' --internal-codepage=ISO-8859-1
+    echo "====> mask T1 F: 8 lines, 5 special characters, vertical bar"
+    $JTR_BIN --stdout --mask='ab[ö,¿|\?,e|¡,!]' --internal-codepage=ISO-8859-1
+    echo "====> mask T2: 2 lines, at the end"
+    echo magnum | $JTR_BIN -stdout -stdin -mask='?w[01]'
+    echo "====> mask T3 A: 2 lines, at the end, encoding"
+    echo müller | iconv -f UTF-8 -t cp850 | $JTR_BIN -inp=cp850 -stdout -stdin -mask='?W[01]'
+    echo "====> mask T3 B: 3 lines, encoding"
+    $JTR_BIN -stdout --mask='ab[ö|c]' -target-enc=cp437
     echo
 
     echo "====> T4:"
