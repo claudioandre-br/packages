@@ -42,13 +42,13 @@ echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> ~/tes
 echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> ~/tests.in
 
 if [[ -z "${TEST##*full*}" ]]; then
-    echo "====> T Full:"
+    echo "--------------------------- test full ---------------------------"
     $JTR_BIN -test-full=0
     report "-test-full=0"
 fi
 
 if [[ -z "${TEST##*extra*}" ]]; then
-    echo
+    echo "--------------------------- extras ---------------------------"
     echo "====> mask T1 A: 9 lines"
     $JTR_BIN --stdout --mask='[0-2]password[A-C]'
     echo "====> mask T1 C: 7 lines, 7 special characters, quotation marks"
@@ -99,7 +99,7 @@ if [[ -z "${TEST##*extra*}" ]]; then
     echo
 
     if [[ "$arch" == 'x86_64' && -n "$JTR_CL" ]]; then
-        echo "====> T6:"
+        echo "====> T20:"
         "$JTR_CL" -test-full=0 --format=sha512crypt-opencl
         report "--format=sha512crypt-opencl" "FAIL"
         echo "------------------------------------------------------------------"
@@ -108,27 +108,120 @@ if [[ -z "${TEST##*extra*}" ]]; then
 fi
 
 if [[ -z "${TEST##*crack*}" ]]; then
-    echo "====> T Crack:"
+    echo "--------------------------- real cracking ---------------------------"
     $JTR_BIN -list=format-tests | cut -f3 > alltests.in
     $JTR_BIN -form=SHA512crypt alltests.in --max-len=2 --progress=30
+    report "-form=SHA512crypt alltests.in --max-len=2 --progress=30"
 
     $JTR_BIN -list=format-tests --format=sha512crypt | cut -f4 | head > solucao
     $JTR_BIN -form=SHA512crypt alltests.in -w:solucao
+    report "-form=SHA512crypt alltests.in -w:solucao"
 
     $JTR_BIN --incremental=digits --mask='?w?d?d?d' --min-len=8 --max-len=8 --stdout | head
     $JTR_BIN --incremental=digits --mask='?w?d?d?d' --min-len=8 --stdout | head
+
+    total=$((total + 4))
+fi
+
+if [[ -z "${TEST##*CHECK*}" ]]; then
+    echo "--------------------------- make check ---------------------------"
+    make check
+    report "make check"
+fi
+
+if [[ -z "${TEST##*AFL_FUZZ*}" ]]; then
+    echo "------------------------- afl fuzzing --------------------------"
+    echo "$ afl-fuzz -i in -o out JtR @@ "
+    export LWS=8
+    export GWS=64
+
+    mkdir -p in
+    export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+    export AFL_NO_UI=1
+    #echo core >/proc/sys/kernel/core_pattern
+
+    $JTR_BIN -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
+    $JTR_BIN -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
+    $JTR_BIN -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
+    $JTR_BIN -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
+    $JTR_BIN -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
+    $JTR_BIN -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
+    afl-fuzz -m none -t 500+ -i in -o out -d $JTR_BIN --format=opencl --nolog --verb=1 @@
+    echo $?
+
+    total=$((total + 1))
+fi
+
+if [[ -z "${TEST##*ZZUF_FUZZ*}" ]]; then
+    echo "------------------------- zzuf fuzzing --------------------------"
+    echo "$ zzuf -s 0:1000 -c -C 3 -T 3 JtR"
+    export LWS=8
+    export GWS=64
+
+    $JtR -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
+    echo $?
+
+    $JtR -form:raw-sha512 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
+    echo $?
+
+    $JtR -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
+    echo $?
+
+    $JtR -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
+    echo $?
+
+    total=$((total + 4))
+fi
+
+if [[ -z "${TEST##*MY_INTERNAL*}" ]]; then
+    echo "------------------------- fuzzing --fuzz --------------------------"
+    echo "$ JtR --fuzz @@ "
+
+    # Check if all formats passes self-test
+    $JtR --fuzz --format=raw-sha256-opencl
+    $JtR --fuzz --format=raw-sha512-opencl
+    $JtR --fuzz --format=xsha512-opencl
+    $JtR --fuzz --format=sha256crypt-opencl
+    $JtR --fuzz --format=sha512crypt-opencl
+fi
+
+if [[ -z "${TEST##*MY_FULL*}" ]]; then
+    echo "------------------------- test full --------------------------"
+    echo "$ JtR -test-full=1 @@ "
+
+    # Check if all formats passes self-test
+    $JtR -test-full=10 --format=raw-sha256-opencl
+    $JtR -test-full=10 --format=raw-sha512-opencl
+    $JtR -test-full=10 --format=xsha512-opencl
+    $JtR -test-full=10 --format=sha256crypt-opencl
+    $JtR -test-full=10 --format=sha512crypt-opencl
+
+    $JtR -test-full=10 --format=sha256crypt-opencl --mask
+    $JtR -test-full=10 --format=sha512crypt-opencl --mask
+    $JtR -test-full=10 --format=raw-sha256-opencl --mask
+    $JtR -test-full=10 --format=raw-sha512-opencl --mask
+    $JtR -test-full=10 --format=xsha512-opencl    --mask
+
+    $JtR -test-full=10 --format=sha256crypt-opencl --mask=?w?l?d?a?1
+    $JtR -test-full=10 --format=sha512crypt-opencl --mask=?w?l?d?a?1
+    $JtR -test-full=10 --format=raw-sha256-opencl --mask=?w?l?d?a?1
+    $JtR -test-full=10 --format=raw-sha512-opencl --mask=?w?l?d?a?1
+    $JtR -test-full=10 --format=xsha512-opencl    --mask=?w?l?d?a?1
 fi
 
 echo '-------------------------------------------'
 echo "###  Performed $total tests in $SECONDS seconds  ###"
 echo '-------------------------------------------'
+echo "----------------- $(uname -m) ------------------"
 
 if [[ $error > 0 ]];  then
     echo '----------------------------------------'
     echo "###    Build failed with $error errors    ###"
     echo '----------------------------------------'
-    arch=$(uname -m)
-    echo "----------------- $arch ------------------"
 
     exit 1
 fi

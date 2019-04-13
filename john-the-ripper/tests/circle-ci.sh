@@ -27,7 +27,7 @@ function do_Copy_Dlls(){
     echo
     echo '-- Copying Dlls --'
 
-    basepath="/usr/$ARCH-w64-mingw32/sys-root/mingw/bin"
+    basepath="/usr/$TARGET_ARCH-w64-mingw32/sys-root/mingw/bin"
 
     cp "$basepath/libgomp-1.dll" ../run
     cp "$basepath/libgmp-10.dll" ../run
@@ -42,7 +42,7 @@ function do_Copy_Dlls(){
 
 # ----------- BUILD -----------
 cd src
-ARCH=$1
+
 JTR_BIN=../run/john
 export OMP_NUM_THREADS=3
 
@@ -53,18 +53,19 @@ if [[ $# -eq 1 ]]; then
     echo "Running on: $BASE"
     echo "Doing: $1"
 
-    source ../show_info.sh
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
+    source show_info.sh
 
     if [[ -n $WINE ]]; then
         do_Copy_Dlls
         export WINEDEBUG=-all
     fi
 
-    if [[ $ARCH == "x86_64" ]]; then
+    if [[ $TARGET_ARCH == "x86_64" ]]; then
         ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64 CPPFLAGS="-g -gdwarf-2"
     fi
 
-    if [[ $ARCH == *"NIX"* || $ARCH == *"ARM"* || $ARCH == *"OSX"* ]]; then
+    if [[ $TARGET_ARCH == *"NIX"* || $TARGET_ARCH == *"ARM"* ]]; then
         ./configure --enable-werror $ASAN $BUILD_OPTS
     fi
 
@@ -82,57 +83,13 @@ if [[ $2 == "TEST" ]]; then
         do_Copy_Dlls
         export WINEDEBUG=-all
     fi
+    # Required defines
+    TEST=";$EXTRA;extra;" # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$WINE $JtR"
+    JTR_CL=""
 
-    echo '-- Build Info --'
-    $WINE $JTR_BIN --list=build-info
-
-    if [[ $EXTRA == "CHECK" ]]; then
-        echo "--------------------------- make check ---------------------------"
-        make check
-    elif [[ $EXTRA == "AFL_FUZZ" ]]; then
-        echo "------------------------- fuzzing check --------------------------"
-        echo "$ afl-fuzz -i in -o out JtR @@ "
-        export LWS=8
-        export GWS=64
-
-        # Check if all formats passes self-test
-        "$JTR_BIN" -test-full=0 --format=raw-sha256-opencl
-        "$JTR_BIN" -test-full=0 --format=raw-sha512-opencl
-        "$JTR_BIN" -test-full=0 --format=xsha512-opencl
-        "$JTR_BIN" -test-full=0 --format=sha256crypt-opencl
-        "$JTR_BIN" -test-full=0 --format=sha512crypt-opencl
-
-        mkdir -p in
-        export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-        export AFL_NO_UI=1
-        #echo core >/proc/sys/kernel/core_pattern
-
-        "$JTR_BIN" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
-        "$JTR_BIN" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
-        "$JTR_BIN" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
-        "$JTR_BIN" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
-        "$JTR_BIN" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
-        "$JTR_BIN" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
-        afl-fuzz -m none -t 500+ -i in -o out -d "$JTR_BIN" --format=opencl --nolog --verb=1 @@
-        echo $?
-    else
-        echo "---------------------------- TESTING -----------------------------"
-        echo '$NT$066ddfd4ef0e9cd7c256fe77191ef43c' > tests.in
-        echo '$NT$8846f7eaee8fb117ad06bdd830b7586c' >> tests.in
-        echo 'df64225ca3472d32342dd1a33e4d7019f01c513ed7ebe85c6af102f6473702d2' >> tests.in
-        echo '73e6bc8a66b5cead5e333766963b5744c806d1509e9ab3a31b057a418de5c86f' >> tests.in
-        echo '$6$saltstring$fgNTR89zXnDUV97U5dkWayBBRaB0WIBnu6s4T7T8Tz1SbUyewwiHjho25yWVkph2p18CmUkqXh4aIyjPnxdgl0' >> tests.in
-
-        echo "====> T10:"
-        $WINE $JTR_BIN tests.in --format=nt
-        echo "====> T11:"
-        $WINE $JTR_BIN tests.in --format=raw-sha256
-        echo "====> T12:"
-        $WINE $JTR_BIN tests.in --format=sha512crypt --mask=jo?l[n-q]
-
-        echo
-        echo '-- Test Full --'
-        $WINE $JTR_BIN --test-full=0
-    fi
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 fi
 

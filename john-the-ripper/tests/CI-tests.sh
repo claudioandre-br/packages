@@ -184,75 +184,44 @@ if test "$EXTRAS" = "yes" ; then
     echo '--------------------------------------------------------------------------------'
 
 elif test "$FUZZ" = "zzuf" ; then
-    echo "$ zzuf -s 0:1000 -c -C 3 -T 3 JtR"
-    export LWS=16
-    export GWS=128
+    # Required defines
+    TEST=';ZZUF_FUZZ;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    # Check if all formats passes self-test
-    "$JtR" -test-full=0 --format=raw-sha256-opencl
-    "$JtR" -test-full=0 --format=raw-sha512-opencl
-    "$JtR" -test-full=0 --format=xsha512-opencl
-    "$JtR" -test-full=0 --format=sha256crypt-opencl
-    "$JtR" -test-full=0 --format=sha512crypt-opencl
-
-    "$JtR" -test-full=0 --format=sha256crypt-opencl --mask
-    "$JtR" -test-full=0 --format=sha512crypt-opencl --mask
-    "$JtR" -test-full=0 --format=raw-sha256-opencl --mask=?l?d?a?1
-    "$JtR" -test-full=0 --format=raw-sha512-opencl --mask=?l?d?a?1
-
-    "$JtR" -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
-    echo $?
-
-    "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 "$JtR" --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
-    echo $?
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 elif test "$FUZZ" = "afl" ; then
-    echo "$ afl-fuzz -i in -o out JtR @@ "
-    export LWS=16
-    export GWS=128
+    # Required defines
+    TEST=';AFL_FUZZ;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    # Check if all formats passes self-test
-    "$JtR" -test-full=0 --format=raw-sha256-opencl
-    "$JtR" -test-full=0 --format=raw-sha512-opencl
-    "$JtR" -test-full=0 --format=xsha512-opencl
-    "$JtR" -test-full=0 --format=sha256crypt-opencl
-    "$JtR" -test-full=0 --format=sha512crypt-opencl
-
-    mkdir -p in
-    export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
-    export AFL_NO_UI=1
-    #echo core >/proc/sys/kernel/core_pattern
-
-    "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1
-    "$JtR" -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash2
-    "$JtR" -form:raw-sha512  --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash3
-    "$JtR" -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
-    "$JtR" -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
-    "$JtR" -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
-    afl-fuzz -m none -t 5000+ -i in -o out -d "$JtR" --format=opencl --nolog --verb=1 @@
-    echo $?
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 elif test "$FUZZ" = "full" ; then
-    echo "$ JtR -test-full=1 @@ "
+    # Required defines
+    TEST=';MY_FULL;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    # Check if all formats passes self-test
-    "$JtR" -test-full=1 --format=raw-sha256-opencl
-    "$JtR" -test-full=1 --format=raw-sha512-opencl
-    "$JtR" -test-full=1 --format=xsha512-opencl
-    "$JtR" -test-full=1 --format=sha256crypt-opencl
-    "$JtR" -test-full=1 --format=sha512crypt-opencl
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 elif test "$FUZZ" = "internal" ; then
-    echo "$ JtR --fuzz @@ "
+    # Required defines
+    TEST=';MY_INTERNAL;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    # Check if all formats passes self-test
-    "$JtR" --fuzz --format=raw-sha256-opencl
-    "$JtR" --fuzz --format=raw-sha512-opencl
-    "$JtR" --fuzz --format=xsha512-opencl
-    "$JtR" --fuzz --format=sha256crypt-opencl
-    "$JtR" --fuzz --format=sha512crypt-opencl
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 elif test "$EXTRAS" = "snap" ; then
     # Required defines
@@ -265,9 +234,14 @@ elif test "$EXTRAS" = "snap" ; then
     source run_tests.sh
 
 elif test "$FUZZ" = "check" ; then
-    echo "$ make check "
+    # Required defines
+    TEST=';CHECK;' # Controls how the test will happen
+    arch=$(uname -m)
+    JTR_BIN="$JtR"
+    JTR_CL=""
 
-    make check
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+    source run_tests.sh
 
 else
     # ---- Regular testing ----

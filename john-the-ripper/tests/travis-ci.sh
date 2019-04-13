@@ -115,6 +115,7 @@ function do_Build_Docker_Command(){
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export EXTRAS=$EXTRAS; \
+      export TEST=$TEST; \
       export FUZZ=$FUZZ; \
       export AFL_HARDEN=1; \
       export ASAN_OPT=$ASAN_OPT; \
