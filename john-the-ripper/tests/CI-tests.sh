@@ -79,7 +79,7 @@ do_Test () {
 }
 
 # ---- Show JtR Build Info ----
-if [[ "$TEST" == "snap" ]];  then
+if [[ "$TEST" == *"snap;"* ]];  then
     JtR="john"
 else
     JtR="../run/john"

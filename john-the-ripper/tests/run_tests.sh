@@ -138,8 +138,8 @@ fi
 if [[ -z "${TEST##*AFL_FUZZ*}" ]]; then
     echo "------------------------- afl fuzzing --------------------------"
     echo "$ afl-fuzz -i in -o out JtR @@ "
-    export LWS=8
-    export GWS=64
+    export LWS=5
+    export GWS=25
 
     mkdir -p in
     export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
@@ -154,7 +154,7 @@ if [[ -z "${TEST##*AFL_FUZZ*}" ]]; then
     $JTR_BIN -form:Xsha512     --list=format-tests 2> /dev/null | cut -f3 | sed -n '2p'  1> in/test_hash4
     $JTR_BIN -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash5
     $JTR_BIN -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p'  1> in/test_hash6
-    afl-fuzz -m none -t 500+ -i in -o out -d $JTR_BIN --format=opencl --nolog --verb=1 @@
+    afl-fuzz -m none -t 5000+ -i in -o out -d $JTR_BIN --format=opencl --nolog --verb=1 @@
     echo $?
 
     total=$((total + 1))
