@@ -2,9 +2,9 @@ FROM centos:centos6
 MAINTAINER Claudio André (c) 2017-2019 1.0.CentOS6
 
 RUN yum -y -q update && \
+    yum -y    groupinstall 'Development Tools' && \
     yum -y    install \
-        openssl-devel gmp-devel libpcap-devel bzip2-devel wget \
-        @development-tools && \
+        openssl-devel gmp-devel libpcap-devel bzip2-devel wget && \
     useradd -U -m JtR
 
 USER JtR

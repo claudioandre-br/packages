@@ -1,11 +1,9 @@
-sudo: required
 dist: trusty
 services:
 - docker
 
 branches:
   only:
-  - docker
   - images
 
 env:
@@ -17,51 +15,89 @@ env:
 
 matrix:
   include:
-  - env: IMAGE=fedora:rawhide BASE=fedora NAME=meu-SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz52 CC=gcc
-  - env: IMAGE=ubuntu:devel   BASE=debian NAME=meu-SM52-gcc.ubuntu-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz52 CC=gcc
+  - env: REPO=claudioandre/john   NAME=fedora.29           DOCKERFILE=Dockerfile.F29
+  - env: REPO=claudioandre/john   NAME=fedora.29.flatpak   DOCKERFILE=Dockerfile.flatpak.package
+  - env: REPO=claudioandre/john   NAME=ubuntu.1710         DOCKERFILE=Dockerfile.Ubuntu1710
+  - env: REPO=claudioandre/john   NAME=ubuntu.devel        DOCKERFILE=Dockerfile.UbuntuDevel
+  - env: REPO=claudioandre/john   NAME=centos.6            DOCKERFILE=Dockerfile.CentOS6
 
 script:
-  - cd docker
   - export log_message=$(git log -n 1)
-
-  - 'if [[ "$TRAVIS_EVENT_TYPE" != "cron" && "$log_message" == *"[filter images]"* && "$log_message" != *"[$NAME]"* ]]; then
+  - 'if [[ "$log_message" == *"[skip image:$NAME]"* ]]; then
        echo -e "\n*** NOTHING TO DO ***\n";
        exit 0;
      else
        echo -e "\n*** BUILDING ***\n";
      fi'
 
-  # Register QEMU
-  - 'if [[ $EMU_EXTRA == "yes" ]]; then
-       docker run --rm --privileged multiarch/qemu-user-static:register --reset;
-     fi'
-
-  # For a heavy build, add -m 500M --oom-kill-disable
-  # -------------------------------------------------
-  - 'docker run --name $NAME -v $(pwd):/on-host -v $(pwd)/ci-images.sh:/ci-images.sh
-        -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=$CC -e STATIC=$STATIC $IMAGE
-      bash -e -c "/ci-images.sh BUILD_MOZ"
-    '
-  - docker commit $NAME $REPO:$NAME
+  - cd john-the-ripper
+  - docker build -t "$REPO:$NAME" - < "$DOCKERFILE"
 
   # Test the build
   - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
-       rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs;
-       docker run -v $(pwd):/cwd -e DEV=$DEV -e TEST=check -e CC=gcc $REPO:$NAME bash -e -c "cd /cwd && test/test-ci.sh GJS";
+       git clone  https://github.com/magnumripper/JohnTheRipper.git john && cd john/src;
+       docker run --user=root -v $(pwd):/cwd $REPO:$NAME bash -e -c "cd /cwd && ./configure && make -sj2";
      fi
     '
 
 after_success:
-  - docker tag "$REPO:$NAME" "$REPO:job-"$TRAVIS_JOB_NUMBER"_$NAME"
+  - docker tag "$REPO:$NAME" "$REPO:"$NAME"_J$TRAVIS_JOB_NUMBER"
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
 
   # Do not push, if requested
-  - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[dont push]"* ]]; then
+  - 'if [[ "$log_message" != *"[dont push]"* ]]; then
        docker push $REPO;
      fi
     '
 
+#################################################
+#  include:
+#  - env: IMAGE=fedora:rawhide BASE=fedora NAME=meu-SM52-gcc.fedora-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz52 CC=gcc
+#  - env: IMAGE=ubuntu:devel   BASE=debian NAME=meu-SM52-gcc.ubuntu-dev REPO=claudioandre/spidermonkey DEV=devel STATIC=moz52 CC=gcc
+#script:
+#  - cd docker
+#  - export log_message=$(git log -n 1)
+#
+#  - 'if [[ "$TRAVIS_EVENT_TYPE" != "cron" && "$log_message" == *"[filter images]"* && "$log_message" != *"[$NAME]"* ]]; then
+#       echo -e "\n*** NOTHING TO DO ***\n";
+#       exit 0;
+#     else
+#       echo -e "\n*** BUILDING ***\n";
+#     fi'
+#
+#  # Register QEMU
+#  - 'if [[ $EMU_EXTRA == "yes" ]]; then
+#       docker run --rm --privileged multiarch/qemu-user-static:register --reset;
+#     fi'
+#
+#  # For a heavy build, add -m 500M --oom-kill-disable
+#  # -------------------------------------------------
+#  - 'docker run --name $NAME -v $(pwd):/on-host -v $(pwd)/ci-images.sh:/ci-images.sh
+#        -e BASE=$BASE -e OS=$IMAGE -e BUILD_OPTS=$BUILD_OPTS -e DEV=$DEV -e CC=$CC -e STATIC=$STATIC $IMAGE
+#      bash -e -c "/ci-images.sh BUILD_MOZ"
+#    '
+#  - docker commit $NAME $REPO:$NAME
+#
+#  # Test the build
+#
+#  - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
+#       rm -rf gjs && git clone https://github.com/GNOME/gjs.git && cd gjs;
+#       docker run -v $(pwd):/cwd -e DEV=$DEV -e TEST=check -e CC=gcc $REPO:$NAME bash -e -c "cd /cwd && test/test-ci.sh GJS";
+#     fi
+#    '
+#
+#after_success:
+#  - docker tag "$REPO:$NAME" "$REPO:job-"$TRAVIS_JOB_NUMBER"_$NAME"
+#  - docker images
+#  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+#
+#  # Do not push, if requested
+#  - 'if [[ "$TRAVIS_EVENT_TYPE" == "cron" || "$log_message" != *"[dont push]"* ]]; then
+#       docker push $REPO;
+#     fi
+#    '
+#
 #################################################
 # export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
 # 'if [[ $NAME == "fedora.26.gcc" ]]; then
