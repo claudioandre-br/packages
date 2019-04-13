@@ -29,9 +29,7 @@ jobs:
     docker:
       - image: claudioandre/john:fedora.29.gcc
         environment:
-          BASE: "fedora"
           TARGET_ARCH: "i686"
-          CCO: "gcc"
           WINE: "wine"
 
   test-fedora:
@@ -39,16 +37,13 @@ jobs:
     docker:
       - image: claudioandre/john:fedora.29.gcc
         environment:
-          BASE: "fedora"
           TARGET_ARCH: "NIX"
-          CCO: "gcc"
 
   make-check:
     <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.29.gcc
         environment:
-          BASE: "fedora"
           TARGET_ARCH: "NIX"
           EXTRA: "CHECK"
           ASAN: "--enable-asan"
@@ -59,7 +54,6 @@ jobs:
     docker:
       - image: claudioandre/john:fedora.29.gcc
         environment:
-          BASE: "fedora"
           TARGET_ARCH: "NIX"
           EXTRA: "AFL_FUZZ"
 
@@ -68,19 +62,8 @@ jobs:
     docker:
       - image: claudioandre/john:fedora.29.gcc
         environment:
-          BASE: "fedora"
           TARGET_ARCH: "x86_64"
-          CCO: "gcc"
           WINE: "wine"
-
-  build-armhf:
-    <<: *common_linux
-    docker:
-      - image: claudioandre/spidermonkey:fedora.armv7hf.gcc0
-        environment:
-          BASE: "fedora"
-          TARGET_ARCH: "ARMv7"
-          CCO: "gcc"
 
   build-osx82:
     <<: *common_osx
@@ -89,7 +72,6 @@ jobs:
     environment:
       BASE: "OSX"
       TARGET: "OSX xcode 8.2"
-      CCO: "gcc"
 
   build-osx91:
     <<: *common_osx
@@ -98,7 +80,6 @@ jobs:
     environment:
       BASE: "OSX"
       TARGET: "OSX xcode 9.1.0"
-      CCO: "gcc"
 
 workflows:
   version: 2
