@@ -23,22 +23,6 @@ function do_Install_Dependencies(){
     echo '-- Done --'
 }
 
-function do_Show_Info(){
-
-    if [[ ! -z $CCO ]]; then
-        echo
-        echo '-- Compiler in use --'
-        $CCO --version
-    fi
-    echo '--------------------------------'
-    uname -a; id
-    echo '--------------------------------'
-    cat /proc/cpuinfo
-    echo '--------------------------------'
-    env
-    echo '--------------------------------'
-}
-
 function do_Copy_Dlls(){
     echo
     echo '-- Copying Dlls --'
@@ -52,14 +36,7 @@ function do_Copy_Dlls(){
     cp "$basepath/zlib1.dll" ../run
     cp "$basepath/libcrypto-10.dll" ../run
     cp "$basepath/libssl-10.dll" ../run
-
-    if [[ $ARCH == "x86_64" ]]; then
-        cp "$basepath/libgcc_s_seh-1.dll" ../run
-    fi
-
-    if [[ $ARCH == "i686" ]]; then
-        cp "$basepath/libgcc_s_sjlj-1.dll" ../run
-    fi
+    cp "$basepath/libgcc_s_seh-1.dll" ../run
     echo '-- Done --'
 }
 
@@ -83,10 +60,6 @@ if [[ $# -eq 1 ]]; then
         export WINEDEBUG=-all
     fi
 
-    if [[ $ARCH == "i686" ]]; then
-        ./configure --host=i686-w64-mingw32 --build=i686-redhat-linux-gnu --target=i686-w64-mingw32       CPPFLAGS="-g -gdwarf-2"
-    fi
-
     if [[ $ARCH == "x86_64" ]]; then
         ./configure --host=x86_64-w64-mingw32 --build=x86_64-redhat-linux-gnu --target=x86_64-w64-mingw64 CPPFLAGS="-g -gdwarf-2"
     fi
@@ -96,7 +69,7 @@ if [[ $# -eq 1 ]]; then
     fi
 
     # Build
-    make -sj2
+    make -sj4
 
     echo
     echo '-- Build Info --'
@@ -104,7 +77,11 @@ if [[ $# -eq 1 ]]; then
 fi
 
 if [[ $2 == "TEST" ]]; then
-    export WINEDEBUG=-all
+
+    if [[ -n $WINE ]]; then
+        do_Copy_Dlls
+        export WINEDEBUG=-all
+    fi
 
     echo '-- Build Info --'
     $WINE $JTR_BIN --list=build-info

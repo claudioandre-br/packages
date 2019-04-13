@@ -19,13 +19,6 @@ environment:
       test: yes
       location: cygwin64
 
-    # CygWin 32bits build
-    - arch: x86
-      bits: 32
-      doing: deploy
-      test: yes
-      location: cygwin
-
 install:
   - echo '--------------------------------'
   - systeminfo | findstr /C:"OS"
@@ -132,12 +125,8 @@ build_script:
         xcopy C:\$location\bin\cygz.dll            ..\run\
         xcopy C:\$location\bin\cygcrypt-*.dll      ..\run\
         xcopy C:\$location\bin\cygOpenCL-1.dll     ..\run\
+        xcopy C:\$location\bin\cyggcc_s-seh-1.dll ..\run\
 
-        if ($arch -eq "x86_64") {
-          xcopy C:\$location\bin\cyggcc_s-seh-1.dll ..\run\
-        } else {
-          xcopy C:\$location\bin\cyggcc_s-1.dll     ..\run\
-        }
       } else {
         shell "./configure --disable-opencl && make -s clean && make -sj2"
       }

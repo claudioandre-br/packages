@@ -24,15 +24,7 @@ jobs:
           name: Testing JtR OSX
           command: .circleci/circle-ci.sh $TARGET TEST_OSX
 
-  test-32bits:
-    <<: *common_linux
-    docker:
-      - image: claudioandre/john:fedora.29.gcc
-        environment:
-          TARGET_ARCH: "i686"
-          WINE: "wine"
-
-  test-fedora:
+  linux-F29:
     <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.29.gcc
@@ -49,7 +41,7 @@ jobs:
           ASAN: "--enable-asan"
           CCO: "clang"
 
-  fuzzing:
+  afl-fuzz:
     <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.29.gcc
@@ -59,7 +51,7 @@ jobs:
           BUILD_OPTS: "--enable-fuzz"
           CCO: "afl-clang-fast"
 
-  test-64bits:
+  wine-64bits:
     <<: *common_linux
     docker:
       - image: claudioandre/john:fedora.29.gcc
@@ -87,8 +79,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - test-32bits
-      - test-64bits
-      - test-fedora
+      - linux-F29
+      - wine-64bits
       - make-check
-      - fuzzing
+      - afl-fuzz
