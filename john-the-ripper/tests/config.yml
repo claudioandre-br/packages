@@ -57,6 +57,7 @@ jobs:
           TARGET_ARCH: "NIX"
           EXTRA: "AFL_FUZZ"
           BUILD_OPTS: "--enable-fuzz"
+          CCO: "afl-clang-fast"
 
   test-64bits:
     <<: *common_linux
