@@ -1,28 +1,5 @@
 #!/bin/bash -e
 
-function do_Install_Dependencies(){
-    echo
-    echo '-- Installing Dependencies --'
-
-    if [[ $BASE == "fedora" ]]; then
-        dnf -y -q upgrade
-
-        # Testing dependencies
-        dnf -y -q install mingw32-gcc mingw64-gcc mingw32-gcc-c++ mingw64-gcc-c++ mingw32-libgomp mingw64-libgomp \
-                          mingw32-openssl mingw64-openssl mingw32-gmp mingw64-gmp mingw32-bzip2 mingw64-bzip2 \
-                          @development-tools wine
-
-    elif [[ $BASE == "OSX" ]]; then
-        brew install --force openssl
-
-    else
-        echo
-        echo '-- Error: invalid BASE code --'
-        exit 1
-    fi
-    echo '-- Done --'
-}
-
 function do_Copy_Dlls(){
     echo
     echo '-- Copying Dlls --'
@@ -43,18 +20,20 @@ function do_Copy_Dlls(){
 # ----------- BUILD -----------
 cd src
 
+# Setup testing environment
 JTR_BIN=../run/john
 export OMP_NUM_THREADS=3
 
-if [[ $# -eq 1 ]]; then
-    # Show some environment info
-    echo
-    echo '-- Environment --'
-    echo "Running on: $BASE"
-    echo "Doing: $1"
+# Control System Information presentation
+if [[ $2 == "TEST" ]]; then
+    MUTE_SYS_INFO="Yes"
+fi
+TASK_RUNNING="$2"
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
+source show_info.sh
 
-    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
-    source show_info.sh
+# Build and testing
+if [[ $2 == "BUILD" ]]; then
 
     if [[ -n $WINE ]]; then
         do_Copy_Dlls
@@ -75,9 +54,8 @@ if [[ $# -eq 1 ]]; then
     echo
     echo '-- Build Info --'
     $WINE $JTR_BIN --list=build-info
-fi
 
-if [[ $2 == "TEST" ]]; then
+elif [[ $2 == "TEST" ]]; then
 
     if [[ -n $WINE ]]; then
         do_Copy_Dlls

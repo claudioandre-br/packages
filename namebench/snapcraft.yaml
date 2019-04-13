@@ -27,7 +27,7 @@ parts:
       - tcl
       - blt
       - xdg-utils
-      - python-dnspython   
+      - python-dnspython
       - python-graphy
       - python-jinja2
       - python-simplejson

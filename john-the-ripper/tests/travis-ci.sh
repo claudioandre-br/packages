@@ -33,6 +33,9 @@ function do_Install_Dependencies(){
 
 function do_Build(){
 
+    BASE="Ubuntu"
+    TASK_RUNNING="$TEST"
+    wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
     source show_info.sh
 
     echo
@@ -72,7 +75,7 @@ function do_Build_Docker_Command(){
     echo
     echo '-- Build Docker command --'
 
-    if [[ "$3" == "CentOS" ]]; then
+    if [[ "$2" == "CentOS" ]]; then
         update="\
           yum -y -q upgrade; \
           yum -y -q groupinstall 'Development Tools'; \
@@ -114,16 +117,15 @@ function do_Build_Docker_Command(){
       $update \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
-      export EXTRAS=$EXTRAS; \
       export TEST=$TEST; \
+      export TRAVIS_COMPILER=$TRAVIS_COMPILER; \
       export FUZZ=$FUZZ; \
-      export AFL_HARDEN=1; \
       export ASAN_OPT=$ASAN_OPT; \
       export BUILD_OPTS='$BUILD_OPTS'; \
       echo; \
       $0 DO_BUILD; \
       cd /cwd/src; \
-      $2 ../.travis/CI-tests.sh
+      ../.travis/CI-tests.sh
    "
 }
 
@@ -140,10 +142,6 @@ fi
 
 if [[ "$TEST" == *";OPENCL;"* ]]; then
     export OPENCL="yes"
-fi
-
-if [[ "$TEST" == *";EXTRAS;"* ]]; then
-    export EXTRAS="yes"
 fi
 
 if [[ "$TEST" == *";gcc;"* ]]; then
@@ -187,33 +185,31 @@ if [[ "$TEST" == *"usual;"* ]]; then
     ../.travis/CI-tests.sh
 
 elif [[ "$TEST" == *"ztex;"* ]]; then
-    # 'Recent' environment (compiler/OS)
-    # clang 4 + ASAN + libOpenMP + fork are not working on CI.
-
     # Build the docker command line
-    do_Build_Docker_Command "libusb-1.0-0-dev" "PROBLEM='ztex'" "Ubuntu"
+    do_Build_Docker_Command "libusb-1.0-0-dev" "Ubuntu"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:18.10 sh -c "$docker_command"
 
 elif [[ "$TEST" == *"fresh;"* ]]; then
-    # 'Recent' environment (compiler/OS)
-    # clang 4 + ASAN + libOpenMP + fork are not working on CI.
-
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "PROBLEM='slow'" "Ubuntu"
+    do_Build_Docker_Command "$FUZZ" "Ubuntu"
 
     # Run docker
-    if [[ -n "$FUZZ" || "$TEST" == *";POCL;"* ]]; then
-        docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
-    else
-        docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
-    fi
+    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+
+elif [[ "$TEST" == *"OpenCL;"* ]]; then
+    # What is working for OpenCL
+    # Build the docker command line
+    do_Build_Docker_Command "$FUZZ" "Ubuntu"
+
+    # Run docker
+    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
 
 elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "PROBLEM='CentOS'" "CentOS"
+    do_Build_Docker_Command "$FUZZ" "CentOS"
 
     # Run docker
     docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6 sh -c "$docker_command"
@@ -227,18 +223,7 @@ elif [[ "$TEST" == *"snap;"* ]]; then
     sudo snap install --channel=edge john-the-ripper
 
     # Run the test
-    .travis/CI-tests.sh "SNAP"
-
-elif [[ "$TEST" == *"snap fedora;"* ]]; then
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd fedora:latest sh -c "
-      dnf -y -q upgrade;
-      dnf -y install snapd;
-      snap install --channel=edge john-the-ripper;
-      snap alias john-the-ripper john;
-      echo '--------------------------------';
-      john -list=build-info;
-      echo '--------------------------------'
-   "
+    .travis/CI-tests.sh
 
 elif [[ "$TEST" == *"TS;"* ]]; then
     # Configure and build
@@ -283,4 +268,6 @@ else
     echo  "Nothing to do!!"
     echo  -----------------
 fi
-
+# --------- General notes ---------
+# 'Recent' environment (compiler/OS)
+# clang 4 + ASAN + libOpenMP + fork are not working on CI.

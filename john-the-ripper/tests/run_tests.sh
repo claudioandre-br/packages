@@ -5,7 +5,7 @@
 #
 #########################################################################
 # All "master" scripts have to add this defines
-# 
+#
 # define TEST=';full;extra;'
 # define arch=$(uname -m)
 # define JTR_BIN='../run/john'
@@ -138,6 +138,8 @@ if [[ -z "${TEST##*AFL_FUZZ*}" ]]; then
     mkdir -p in
     export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
     export AFL_NO_UI=1
+    export AFL_HARDEN=1
+
     #echo core >/proc/sys/kernel/core_pattern
 
     $JTR_BIN -form:raw-sha256  --list=format-tests 2> /dev/null | cut -f3 | sed -n '11p' 1> in/test_hash1

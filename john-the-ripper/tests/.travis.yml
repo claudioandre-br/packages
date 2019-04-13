@@ -23,7 +23,7 @@ matrix:
   - env: TEST="fresh;ASAN;gcc;"          BUILD_OPTS="--enable-werror --enable-ubsan"
   - env: TEST="fresh;ASAN;EXTRAS;clang;" BUILD_OPTS="--enable-werror --enable-ubsan"
   - env: TEST="fresh;ASAN;EXTRAS;gcc;"   BUILD_OPTS="--enable-werror --enable-ubsan"
-  - env: TEST="ztex;ASAN;clang;"         BUILD_OPTS="--enable-ztex --enable-werror"
+  - env: TEST="ztex;ASAN;clang;"         BUILD_OPTS="--enable-ztex --enable-werror"  FUZZ="ztex"
   - env: TEST="fresh;clang-6;"           BUILD_OPTS="--enable-ubsan"
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-patch"
 
@@ -60,20 +60,20 @@ matrix:
     env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-ubsan"
 
   #Test fuzzing
-  - env: TEST="fresh;POCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;afl-clang-fast;" BUILD_OPTS="--enable-fuzz" FUZZ="afl"
 
-  - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;clang;"  BUILD_OPTS="--enable-fuzz" FUZZ="zzuf"
 
-  - env: TEST="fresh;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz" # --fuzz
+  - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="internal"  # --fuzz
 
-  - env: TEST="fresh;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"     # --test-full=1
+  - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="full"      # --test-full=1
 
   #Test --restore using TS
   #- env: TEST="TS --restore;" # WE KNOW IT IS NOT WORKING
 
   #Test the Ubuntu Snap package
   - dist: xenial
-    env: TEST="snap;"
+    env: TEST="snap;" FUZZ="snap"
 
   allow_failures:
   - env: TEST="fresh;experimental;"      BUILD_OPTS="--enable-patch"
@@ -97,15 +97,15 @@ matrix:
 
   - env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-ubsan"
 
-  - env: TEST="fresh;POCL;clang;" FUZZ="zzuf" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;afl-clang-fast;" BUILD_OPTS="--enable-fuzz" FUZZ="afl"
 
-  - env: TEST="fresh;POCL;afl-clang-fast;" FUZZ="afl" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;clang;"  BUILD_OPTS="--enable-fuzz" FUZZ="zzuf"
 
-  - env: TEST="fresh;POCL;" FUZZ="internal" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="internal"  # --fuzz
 
-  - env: TEST="fresh;POCL;" FUZZ="full" BUILD_OPTS="--enable-fuzz"
+  - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="full"      # --test-full=1
 
-  - env: TEST="snap;"
+  - env: TEST="snap;" FUZZ="snap"
 
   fast_finish: true
 

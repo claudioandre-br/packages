@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Building JtR
-          command: .circleci/circle-ci.sh $TARGET_ARCH
+          command: .circleci/circle-ci.sh $TARGET_ARCH BUILD
       - run:
           name: Testing JtR
           command: .circleci/circle-ci.sh $TARGET_ARCH TEST
@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: Building JtR OSX
-          command: .circleci/circle-ci.sh $TARGET
+          command: .circleci/circle-ci.sh $TARGET BUILD
       - run:
           name: Testing JtR OSX
           command: .circleci/circle-ci.sh $TARGET TEST_OSX
@@ -82,4 +82,3 @@ workflows:
       - linux-F29
       - wine-64bits
       - make-check
-      - afl-fuzz

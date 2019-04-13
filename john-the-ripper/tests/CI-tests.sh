@@ -79,9 +79,8 @@ do_Test () {
 }
 
 # ---- Show JtR Build Info ----
-if [[ "$1" == "SNAP" ]];  then
+if [[ "$TEST" == "snap" ]];  then
     JtR="john"
-    export EXTRAS="snap"
 else
     JtR="../run/john"
 fi
@@ -93,7 +92,7 @@ echo '--------------------------------'
 echo '--------------------------------'
 
 # Extra testing
-if test "$EXTRAS" = "yes" ; then
+if [[ -z "${TEST##*EXTRAS*}" ]]; then
     # Get some data from wiki
     echo --------------------------------------------
     wget http://openwall.info/wiki/_media/john/KeePass-samples.tar
@@ -223,7 +222,7 @@ elif test "$FUZZ" = "internal" ; then
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
     source run_tests.sh
 
-elif test "$EXTRAS" = "snap" ; then
+elif test "$FUZZ" = "snap" ; then
     # Required defines
     TEST=';full;extra;crack;' # Controls how the test will happen
     arch=$(uname -m)
@@ -243,24 +242,22 @@ elif test "$FUZZ" = "check" ; then
     wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
     source run_tests.sh
 
+elif test "$FUZZ" = "ztex" ; then
+    echo "$ JtR -test=0 --format=ztex"
+    do_Test "$JtR -test=0 --format=descrypt-ztex" "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=bcrypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=sha512crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=drupal7-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=sha256crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=md5crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+    do_Test "$JtR -test=0 --format=phpass-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
+
 else
     # ---- Regular testing ----
     # Trusty AMD GPU drivers on Travis are fragile.
     # - a simple run of --test fails;
     # - clang reports memory issues.
-    if test "$PROBLEM" = "ztex" ; then
-        echo "$ JtR -test=0 --format=ztex"
-        do_Test "$JtR -test=0 --format=descrypt-ztex" "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=bcrypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=sha512crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=drupal7-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=sha256crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=md5crypt-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-        do_Test "$JtR -test=0 --format=phpass-ztex"   "no valid ZTEX devices found" 0 0 "ERROR"
-    elif test "$PROBLEM" = "slow" -a "$CC" = "gcc" ; then
-        echo "$ JtR -test=0 --format=cpu"
-        "$JtR" -test=0 --format=cpu
-    elif test -z "$OPENCL" ; then
+    if test -z "$OPENCL" ; then
         echo "$ JtR -test-full=0"
         "$JtR" -test-full=0
     elif test -z "$F" -o "$F" = "1" ; then
@@ -274,8 +271,6 @@ else
         if test -z "$F" -o "$F" = "2" ; then
 
             if test "$CC" != "clang" ; then
-                # ---- Show JtR OpenCL Info ----
-                echo '--------------------------------'
                 echo "OpenCL: john --list=opencl-devices"
                 "$JtR" --list=opencl-devices -verb=5
                 echo '--------------------------------'
@@ -284,4 +279,3 @@ else
         fi
     fi
 fi
-

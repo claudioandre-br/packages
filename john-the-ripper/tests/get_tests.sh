@@ -14,7 +14,6 @@ mkdir -p .circleci/
 mkdir -p .travis/
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/buggy.sh
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
 
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/appveyor.yml
 
@@ -37,7 +36,6 @@ git add .travis.yml
 git add circle.yml
 git add .travis/
 git add .circleci/
-git add show_info.sh
 
 # Ban all problematic formats (disable buggy formats)
 # If a formats fails its tests on super, I will burn it.

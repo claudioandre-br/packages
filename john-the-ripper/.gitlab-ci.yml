@@ -12,7 +12,7 @@ build:
 
   variables:
     BUNDLE: "john.flatpak"
-    
+
   script:
     # Build and export the flatpak package
     - cd john-the-ripper/flatpak
