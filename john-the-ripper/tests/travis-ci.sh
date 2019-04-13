@@ -117,7 +117,7 @@ function do_Build_Docker_Command(){
       $update \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
-      export TEST=$TEST; \
+      export TEST='$TEST'; \
       export TRAVIS_COMPILER=$TRAVIS_COMPILER; \
       export FUZZ=$FUZZ; \
       export ASAN_OPT=$ASAN_OPT; \

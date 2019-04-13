@@ -30,10 +30,8 @@ chmod +x .travis/CI-tests.sh
 chmod +x .travis/travis-ci.sh
 chmod +x .circleci/circle-ci.sh
 
-git add .circle/CircleCI-MinGW.sh
 git add appveyor.yml
 git add .travis.yml
-git add circle.yml
 git add .travis/
 git add .circleci/
 
