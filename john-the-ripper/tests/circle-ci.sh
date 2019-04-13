@@ -92,7 +92,7 @@ if [[ $# -eq 1 ]]; then
     fi
 
     if [[ $ARCH == *"NIX"* || $ARCH == *"ARM"* || $ARCH == *"OSX"* ]]; then
-        ./configure --enable-werror $ASAN
+        ./configure --enable-werror $ASAN $BUILD_OPTS
     fi
 
     # Build
