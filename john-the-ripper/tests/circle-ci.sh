@@ -22,7 +22,6 @@ cd src
 
 # Setup testing environment
 JTR=../run/john
-export OMP_NUM_THREADS=3
 
 # Control System Information presentation
 if [[ $2 == "TEST" ]]; then
@@ -62,7 +61,7 @@ elif [[ $2 == "TEST" ]]; then
         export WINEDEBUG=-all
     fi
     # Required defines
-    TEST=";$EXTRA;extra;" # Controls how the test will happen
+    TEST=";$EXTRA;" # Controls how the test will happen
     arch=$(uname -m)
     JTR_BIN="$WINE $JTR"
     JTR_CL=""

@@ -17,8 +17,9 @@ matrix:
   include:
   - env: REPO=claudioandre/john   NAME=fedora.29           DOCKERFILE=Dockerfile.F29
   - env: REPO=claudioandre/john   NAME=fedora.29.flatpak   DOCKERFILE=Dockerfile.flatpak.package
-  - env: REPO=claudioandre/john   NAME=ubuntu.1710         DOCKERFILE=Dockerfile.Ubuntu1710
+  - env: REPO=claudioandre/john   NAME=ubuntu.opencl       DOCKERFILE=Dockerfile.OpenCL
   - env: REPO=claudioandre/john   NAME=ubuntu.devel        DOCKERFILE=Dockerfile.UbuntuDevel
+  - env: REPO=claudioandre/john   NAME=ubuntu.rolling      DOCKERFILE=Dockerfile.UbuntuRolling
   - env: REPO=claudioandre/john   NAME=centos.6            DOCKERFILE=Dockerfile.CentOS6
 
 script:
@@ -36,7 +37,7 @@ script:
   # Test the build
   - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
        git clone  https://github.com/magnumripper/JohnTheRipper.git john && cd john/src;
-       docker run --user=root -v $(pwd):/cwd $REPO:$NAME bash -e -c "cd /cwd && ./configure && make -sj2";
+       docker run -v $(pwd):/cwd $REPO:$NAME bash -e -c "cd /cwd && ./configure && make -sj2";
      fi
     '
 
