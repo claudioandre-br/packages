@@ -18,7 +18,7 @@ apps:
     command: run/john
     plugs: [home]
   opencl:
-    command: run/john-opencl
+    command: run/john
     plugs: [home]
   dmg2john:
     command: run/dmg2john
@@ -80,7 +80,6 @@ parts:
       ../build/README: README
       ../build/README.md: README.md
       ../build/README-jumbo: README-jumbo
-      ../build/john-the-ripper.opencl: john-the-ripper.opencl
 
   libs:
     plugin: nil

@@ -43,7 +43,7 @@ deploy:
     - export TEST=';full;extra;' # Controls how the test will happen
     - export arch=$(uname -m)
     - export JTR_BIN='flatpak run com.openwall.John'
-    - export JTR_CL='/app/bin/john-opencl'
+    - export JTR_CL='flatpak run com.openwall.John'
     - cd john-the-ripper/flatpak
 
     # Adjust the testing environment, import and run some testing
