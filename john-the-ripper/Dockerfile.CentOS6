@@ -7,6 +7,6 @@ RUN yum -y -q update && \
         openssl-devel gmp-devel libpcap-devel bzip2-devel wget && \
     useradd -U -m JtR
 
-USER JtR
+# USER JtR => it is much better to use root on Travis
 ENV BASE CentOS
 CMD /bin/bash

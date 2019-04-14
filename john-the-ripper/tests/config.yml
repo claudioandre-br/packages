@@ -2,7 +2,7 @@ version: 2
 jobs:
   common_linux: &common_linux
     docker:
-      - image: claudioandre/john:fedora.29.gcc
+      - image: claudioandre/john:fedora.29
     steps:
       - checkout
       - run:
@@ -27,37 +27,43 @@ jobs:
   linux-F29:
     <<: *common_linux
     docker:
-      - image: claudioandre/john:fedora.29.gcc
+      - image: claudioandre/john:fedora.29
         environment:
           TARGET_ARCH: "NIX"
+          EXTRA: "full;extra;crack;"
+          OMP_NUM_THREADS: 2
 
   make-check:
     <<: *common_linux
     docker:
-      - image: claudioandre/john:fedora.29.gcc
+      - image: claudioandre/john:fedora.29
         environment:
           TARGET_ARCH: "NIX"
-          EXTRA: "CHECK"
+          EXTRA: "CHECK;"
           ASAN: "--enable-asan"
-          CCO: "clang"
+          CC: "clang"
+          OMP_NUM_THREADS: 3
 
   afl-fuzz:
     <<: *common_linux
     docker:
-      - image: claudioandre/john:fedora.29.gcc
+      - image: claudioandre/john:ubuntu.opencl
         environment:
           TARGET_ARCH: "NIX"
           EXTRA: "AFL_FUZZ"
           BUILD_OPTS: "--enable-fuzz"
-          CCO: "afl-clang-fast"
+          CC: "afl-clang-fast"
+          OMP_NUM_THREADS: 2
 
   wine-64bits:
     <<: *common_linux
     docker:
-      - image: claudioandre/john:fedora.29.gcc
+      - image: claudioandre/john:fedora.29
         environment:
           TARGET_ARCH: "x86_64"
+          EXTRA: "full;extra;"
           WINE: "wine"
+          OMP_NUM_THREADS: 3
 
   build-osx82:
     <<: *common_osx
@@ -82,3 +88,4 @@ workflows:
       - linux-F29
       - wine-64bits
       - make-check
+      - afl-fuzz

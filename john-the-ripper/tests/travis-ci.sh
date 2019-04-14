@@ -75,16 +75,10 @@ function do_Build_Docker_Command(){
     echo
     echo '-- Build Docker command --'
 
-    if [[ "$2" == "CentOS" ]]; then
-        update="\
-          yum -y -q upgrade; \
-          yum -y -q groupinstall 'Development Tools'; \
-          yum -y -q install openssl-devel gmp-devel libpcap-devel bzip2-devel wget;"
-    else
+    if [[ true ]]; then
         update="\
           apt-get update -qq; \
-          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev zlib1g-dev git > /dev/null; \
-          apt-get install -y -qq $1 || true;"
+          apt-get install -y -qq build-essential libssl-dev yasm libgmp-dev libpcap-dev pkg-config debhelper libnet1-dev libbz2-dev wget llvm libomp-dev zlib1g-dev git > /dev/null; "
 
         if [[ "$TEST" == *";POCL;"* ]]; then
             update="$update apt-get install -y -qq libpocl-dev ocl-icd-libopencl1 pocl-opencl-icd opencl-headers;"
@@ -95,15 +89,7 @@ function do_Build_Docker_Command(){
             update="$update apt-get install -y -qq clang;"
         fi
 
-        if [[ "$TEST" == *";clang-4;"* ]]; then
-            update="$update apt-get install -y -qq clang-4.0;"
-        fi
-
-        if [[ "$TEST" == *";clang-6;"* ]]; then
-            update="$update apt-get install -y -qq clang-6.0;"
-        fi
-
-        if [[ "$TEST" == *";experimental;"* ]]; then
+        if [[ "$TEST" == *"experimental;"* ]]; then
             update="$update apt-get install -y -qq software-properties-common;"
             update="$update add-apt-repository -y ppa:ubuntu-toolchain-r/test;"
             update="$update apt-get update -qq;"
@@ -115,6 +101,30 @@ function do_Build_Docker_Command(){
     docker_command=" \
       cd /cwd; \
       $update \
+      export OPENCL=$OPENCL; \
+      export CC=$CCO; \
+      export TEST='$TEST'; \
+      export TRAVIS_COMPILER=$TRAVIS_COMPILER; \
+      export FUZZ=$FUZZ; \
+      export ASAN_OPT=$ASAN_OPT; \
+      export BUILD_OPTS='$BUILD_OPTS'; \
+      echo; \
+      $0 DO_BUILD; \
+      cd /cwd/src; \
+      ../.travis/CI-tests.sh
+   "
+}
+
+function do_Build_Docker_Command_Image(){
+    echo
+    echo '-- Build Docker command --'
+
+    if [[ "$TEST" == *";POCL;"* ]]; then
+        export OPENCL="yes"
+    fi
+
+    docker_command=" \
+      cd /cwd; \
       export OPENCL=$OPENCL; \
       export CC=$CCO; \
       export TEST='$TEST'; \
@@ -144,11 +154,7 @@ if [[ "$TEST" == *";OPENCL;"* ]]; then
     export OPENCL="yes"
 fi
 
-if [[ "$TEST" == *";gcc;"* ]]; then
-    export CCO="gcc"
-fi
-
-if [[ "$TEST" == *";experimental;"* ]]; then
+if [[ "$TEST" == *";gcc;"* || "$TEST" == *";experimental;"* ]]; then
     export CCO="gcc"
 fi
 
@@ -156,16 +162,8 @@ if [[ "$TEST" == *";clang;"* ]]; then
     export CCO="clang"
 fi
 
-if [[ "$TEST" == *";clang-4;"* ]]; then
-    export CCO="clang-4.0"
-fi
-
 if [[ "$TEST" == *";clang-6;"* ]]; then
     export CCO="clang-6.0"
-fi
-
-if [[ "$TEST" == *";afl-clang;"* ]]; then
-    export CCO="afl-clang"
 fi
 
 if [[ "$TEST" == *";afl-clang-fast;"* ]]; then
@@ -186,33 +184,40 @@ if [[ "$TEST" == *"usual;"* ]]; then
 
 elif [[ "$TEST" == *"ztex;"* ]]; then
     # Build the docker command line
-    do_Build_Docker_Command "libusb-1.0-0-dev" "Ubuntu"
+    do_Build_Docker_Command_Image
 
     # Run docker
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:18.10 sh -c "$docker_command"
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd claudioandre/john:ubuntu.rolling sh -c "$docker_command"
 
 elif [[ "$TEST" == *"fresh;"* ]]; then
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "Ubuntu"
+    do_Build_Docker_Command_Image
 
     # Run docker
-    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
+    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd claudioandre/john:ubuntu.devel sh -c "$docker_command"
+
+elif [[ "$TEST" == *"experimental;"* ]]; then
+    # Build the docker command line
+    do_Build_Docker_Command
+ 
+     # Run docker
+     docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:devel sh -c "$docker_command"
 
 elif [[ "$TEST" == *"OpenCL;"* ]]; then
     # What is working for OpenCL
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "Ubuntu"
+    do_Build_Docker_Command_Image
 
     # Run docker
-    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd ubuntu:17.10 sh -c "$docker_command"
+    docker run --cap-add SYS_PTRACE -v "$HOME":/root -v "$(pwd)":/cwd claudioandre/john:ubuntu.opencl sh -c "$docker_command"
 
 elif [[ "$TEST" == *"stable;"* ]]; then
     # Stable environment (compiler/OS)
     # Build the docker command line
-    do_Build_Docker_Command "$FUZZ" "CentOS"
+    do_Build_Docker_Command_Image
 
     # Run docker
-    docker run -v "$HOME":/root -v "$(pwd)":/cwd centos:centos6 sh -c "$docker_command"
+    docker run -v "$HOME":/root -v "$(pwd)":/cwd claudioandre/john:centos.6 sh -c "$docker_command"
 
 elif [[ "$TEST" == *"snap;"* ]]; then
     # Prepare environment

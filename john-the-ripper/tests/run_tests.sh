@@ -195,6 +195,7 @@ if [[ -z "${TEST##*MY_INTERNAL*}" ]]; then
     $JtR --fuzz --format=xsha512-opencl
     $JtR --fuzz --format=sha256crypt-opencl
     $JtR --fuzz --format=sha512crypt-opencl
+    total=$((total + 5))
 fi
 
 if [[ -z "${TEST##*MY_FULL*}" ]]; then
@@ -219,6 +220,7 @@ if [[ -z "${TEST##*MY_FULL*}" ]]; then
     $JtR -test-full=10 --format=raw-sha256-opencl --mask=?w?l?d?a?1
     $JtR -test-full=10 --format=raw-sha512-opencl --mask=?w?l?d?a?1
     $JtR -test-full=10 --format=xsha512-opencl    --mask=?w?l?d?a?1
+    total=$((total + 15))
 fi
 
 echo '-------------------------------------------'

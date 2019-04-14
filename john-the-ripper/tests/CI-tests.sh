@@ -278,6 +278,7 @@ else
                 "$JtR" --list=opencl-devices -verb=5
                 echo '--------------------------------'
             fi
+            echo "$ JtR -test-full=0 --format=opencl"
             "$JtR" -test-full=0 --format=opencl
         fi
     fi
