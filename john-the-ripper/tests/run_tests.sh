@@ -106,7 +106,7 @@ if [[ -z "${TEST##*extra*}" ]]; then
 
     if [[ -n "$JTR_CL" ]]; then
         echo "====> T20:"
-        "$JTR_CL" -test-full=0 --format=sha512crypt-opencl
+        $JTR_CL -test-full=0 --format=sha512crypt-opencl
         report "--format=sha512crypt-opencl" "FAIL"
         echo "------------------------------------------------------------------"
         echo
