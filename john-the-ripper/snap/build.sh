@@ -41,7 +41,7 @@ source run_build.sh
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
-if [[ "$arch" == 'x86_64'  || "$arch" == "i?86" ]]; then
+if [[ "$arch" == "x86_64" ]]; then
     # Allow an OpenCL build
     sudo apt-get install -y beignet-dev
 
@@ -60,12 +60,8 @@ if [[ "$arch" == 'x86_64'  || "$arch" == "i?86" ]]; then
     # Install OpenCL kernel code
     make kernel-copy
 
-elif [[ "$arch" == 'i686' ]]; then
-    # Temporary
-    ./configure $OTHER_NO_OPENMP --disable-native-tests CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
-    ./configure $OTHER_REGULAR   --disable-native-tests CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
 else
-    # Non X86 CPU (OMP and extensions fallback)
+    # Non X86 CPU
     ./configure $OTHER_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
     ./configure $OTHER_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
 fi

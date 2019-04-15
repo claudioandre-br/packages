@@ -30,7 +30,7 @@ if [[ -z "$TASK" ]]; then
     echo ""
     echo "---------------------------- BUILDING -----------------------------"
 
-    if [[ "$arch" == "x86_64" || "$arch" == "i?86" ]]; then
+    if [[ "$arch" == "x86_64" ]]; then
         # CPU (OMP and extensions fallback)
         ./configure $X86_NO_OPENMP CPPFLAGS="-D_BOXED" && do_build ../run/john-sse2-non-omp
         ./configure $X86_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
@@ -47,7 +47,7 @@ if [[ -z "$TASK" ]]; then
         make kernel-copy
 
     else
-        # Non X86 CPU (OMP and extensions fallback)
+        # Non X86 CPU
         ./configure $OTHER_NO_OPENMP CPPFLAGS="-D_BOXED" && do_build ../run/john-non-omp
         ./configure $OTHER_REGULAR   CPPFLAGS="-D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
     fi
