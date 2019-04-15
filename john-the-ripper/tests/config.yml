@@ -41,7 +41,6 @@ jobs:
           TARGET_ARCH: "NIX"
           EXTRA: "CHECK;"
           ASAN: "--enable-asan"
-          CC: "clang"
           OMP_NUM_THREADS: 3
 
   afl-fuzz:
@@ -51,7 +50,7 @@ jobs:
         environment:
           TARGET_ARCH: "NIX"
           EXTRA: "AFL_FUZZ"
-          BUILD_OPTS: "--enable-fuzz"
+          BUILD_OPTS: "--enable-fuzz --disable-native-tests"
           CC: "afl-clang-fast"
           OMP_NUM_THREADS: 2
 
