@@ -166,20 +166,20 @@ if [[ -z "${TEST##*ZZUF_FUZZ*}" ]]; then
     export LWS=8
     export GWS=64
 
-    $JtR -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
+    $JTR_BIN -form:raw-sha256 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JTR_BIN --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
     echo $?
 
-    $JtR -form:raw-sha512 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
+    $JTR_BIN -form:raw-sha512 --list=format-tests 2> /dev/null | cut -f3 | sed -n '7p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JTR_BIN --format=raw-sha256-opencl --skip --max-run=1 --verb=1 test_hash
     echo $?
 
-    $JtR -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
+    $JTR_BIN -form:sha256crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JTR_BIN --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
     echo $?
 
-    $JtR -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
-    zzuf -s 0:1000 -c -C 1 -T 3 $JtR --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
+    $JTR_BIN -form:sha512crypt --list=format-tests 2> /dev/null | cut -f3 | sed -n '3p' 1> test_hash
+    zzuf -s 0:1000 -c -C 1 -T 3 $JTR_BIN --format=sha512crypt-opencl --skip --max-run=1 --verb=1 test_hash
     echo $?
 
     total=$((total + 4))
@@ -190,11 +190,11 @@ if [[ -z "${TEST##*MY_INTERNAL*}" ]]; then
     echo "$ JtR --fuzz @@ "
 
     # Check if all formats passes self-test
-    $JtR --fuzz --format=raw-sha256-opencl
-    $JtR --fuzz --format=raw-sha512-opencl
-    $JtR --fuzz --format=xsha512-opencl
-    $JtR --fuzz --format=sha256crypt-opencl
-    $JtR --fuzz --format=sha512crypt-opencl
+    $JTR_BIN --fuzz --format=raw-sha256-opencl
+    $JTR_BIN --fuzz --format=raw-sha512-opencl
+    $JTR_BIN --fuzz --format=xsha512-opencl
+    $JTR_BIN --fuzz --format=sha256crypt-opencl
+    $JTR_BIN --fuzz --format=sha512crypt-opencl
     total=$((total + 5))
 fi
 
@@ -203,23 +203,23 @@ if [[ -z "${TEST##*MY_FULL*}" ]]; then
     echo "$ JtR -test-full=1 @@ "
 
     # Check if all formats passes self-test
-    $JtR -test-full=10 --format=raw-sha256-opencl
-    $JtR -test-full=10 --format=raw-sha512-opencl
-    $JtR -test-full=10 --format=xsha512-opencl
-    $JtR -test-full=10 --format=sha256crypt-opencl
-    $JtR -test-full=10 --format=sha512crypt-opencl
+    $JTR_BIN -test-full=10 --format=raw-sha256-opencl
+    $JTR_BIN -test-full=10 --format=raw-sha512-opencl
+    $JTR_BIN -test-full=10 --format=xsha512-opencl
+    $JTR_BIN -test-full=10 --format=sha256crypt-opencl
+    $JTR_BIN -test-full=10 --format=sha512crypt-opencl
 
-    $JtR -test-full=10 --format=sha256crypt-opencl --mask
-    $JtR -test-full=10 --format=sha512crypt-opencl --mask
-    $JtR -test-full=10 --format=raw-sha256-opencl --mask
-    $JtR -test-full=10 --format=raw-sha512-opencl --mask
-    $JtR -test-full=10 --format=xsha512-opencl    --mask
+    $JTR_BIN -test-full=10 --format=sha256crypt-opencl --mask
+    $JTR_BIN -test-full=10 --format=sha512crypt-opencl --mask
+    $JTR_BIN -test-full=10 --format=raw-sha256-opencl --mask
+    $JTR_BIN -test-full=10 --format=raw-sha512-opencl --mask
+    $JTR_BIN -test-full=10 --format=xsha512-opencl    --mask
 
-    $JtR -test-full=10 --format=sha256crypt-opencl --mask=?w?l?d?a?1
-    $JtR -test-full=10 --format=sha512crypt-opencl --mask=?w?l?d?a?1
-    $JtR -test-full=10 --format=raw-sha256-opencl --mask=?w?l?d?a?1
-    $JtR -test-full=10 --format=raw-sha512-opencl --mask=?w?l?d?a?1
-    $JtR -test-full=10 --format=xsha512-opencl    --mask=?w?l?d?a?1
+    $JTR_BIN -test-full=10 --format=sha256crypt-opencl --mask=?w?l?d?a?1
+    $JTR_BIN -test-full=10 --format=sha512crypt-opencl --mask=?w?l?d?a?1
+    $JTR_BIN -test-full=10 --format=raw-sha256-opencl --mask=?w?l?d?a?1
+    $JTR_BIN -test-full=10 --format=raw-sha512-opencl --mask=?w?l?d?a?1
+    $JTR_BIN -test-full=10 --format=xsha512-opencl    --mask=?w?l?d?a?1
     total=$((total + 15))
 fi
 
