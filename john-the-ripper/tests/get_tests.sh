@@ -1,6 +1,17 @@
-#!/bin/bash
-#Check to assure we are in the right place
+######################################################################
+# Copyright (c) 2019 Claudio André <claudioandre.br at gmail.com>
+#
+# This program comes with ABSOLUTELY NO WARRANTY; express or implied.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, as expressed in version 2, seen at
+# http://www.gnu.org/licenses/gpl-2.0.html
+######################################################################
 
+#!/bin/bash
+
+#Check to assure we are in the right place
 if [[ ! -d src || ! -d run ]] && [[ $1 != "-f" ]]; then
     echo
     echo 'It seems you are in the wrong directory. To ignore this message, add -f to the command line.'
