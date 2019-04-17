@@ -365,6 +365,10 @@ function do_Random(){
 
     for i in `seq 9999999 1743778271 99999999999`; do echo -n $i | sha512sum | sed 's/-/ /g'; done > test.in
     do_Test "test.in"    "-form:raw-sha512-opencl" "--mask=?d --min-len=7 --max-len=11 -dev:$Dev_3"      58  "_GPU_AUTOTUNE_LIMIT=500"
+
+    # $JtR --mask=?a --min-len=0 --max-len=5 --format=raw-sha512-opencl 100%_salt_free_110%_hassle.txt
+    # 395g 0:00:00:55 99,94% (5) (ETA: 02:23:28) 7.115g/s 141968Kp/s 141968Kc/s 15102GC/s o2j"|..aa|||
+    do_Test "100%_salt_free_110%_hassle.txt"    "-form:raw-sha512-opencl" "--mask=?a --min-len=0 --max-len=5"      395
 }
 
 do_Mask_Test () {
