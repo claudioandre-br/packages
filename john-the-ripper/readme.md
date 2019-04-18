@@ -129,7 +129,8 @@ The average gap expected is 1 week.
 > Built and deployed using GitLab CI
 
 [**Flatpak**](http://flatpak.org//) is a new framework for desktop applications
-on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
+on Linux, built to be distribution agnostic and allow deployment on any Linux
+operating system out there.
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
@@ -154,11 +155,12 @@ Install and configure flatpak itself:
 
 ```bash
  dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
- flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
+ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak repository
  flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
 ```
 
-Navigate to where you downloaded the john.flatpak file. Now, let's install the software:
+Navigate to where you downloaded the john.flatpak file. Now, let's install the
+software:
 
 ```bash
  mkdir repo
@@ -182,7 +184,7 @@ Run John the Ripper and check if it is working:
 To install John the Ripper by downloading the .zip file and installing manually,
 follow these steps:
 
-- Download the win_x64.zip file to your machine.
+- Download the ZIP file to your machine.
 - Navigate to where you downloaded the file and double click the compressed file [1].
 - Extract it to a directory such as `C:\john-the-ripper`.
 - Start a command prompt.
