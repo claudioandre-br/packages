@@ -1,6 +1,6 @@
 [![pipeline status](https://gitlab.com/claudioandre-br/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre-br/packages/pipelines)
 [![Build status](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre-br/johntheripper)
-[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](hhttps://github.com/claudioandre-br/packages/blob/master/LICENSE.txt)
+[![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/claudioandre-br/packages/blob/master/LICENSE.txt)
 
 # Packages
 

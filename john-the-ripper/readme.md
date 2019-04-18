@@ -2,154 +2,207 @@
 
 > John the Ripper password cracker
 
-[Openwall](http://openwall.com/) John the Ripper (JtR) is a fast password cracker, currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary purpose is to detect weak Unix passwords. Besides several crypt(3) password hash types most commonly found on various Unix systems, supported out of the box are Windows LM hashes, plus lots of other hashes and ciphers.
+[Openwall](http://openwall.com/) John the Ripper (JtR) is a fast password cracker,
+currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary
+purpose is to detect weak Unix passwords. Besides several crypt(3) password hash
+types most commonly found on various Unix systems, supported out of the box are
+Windows LM hashes, plus lots of other hashes and ciphers.
 
 ## Snap
+
 > Built and deployed using Launchpad
 
-[**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application together with its dependencies, and a description of how it should safely be run on your system.
+[**A Snap**](http://snapcraft.io/) is a fancy zip file containing an application
+together with its dependencies, and a description of how it should safely be run
+on your system.
 
-You can install JtR by following the instructions at [https://snapcraft.io/john-the-ripper](https://snapcraft.io/john-the-ripper).
+You can install JtR by following the instructions at
+[https://snapcraft.io/john-the-ripper](https://snapcraft.io/john-the-ripper).
 
-Terminal-based users should [enable snap support](https://docs.snapcraft.io/core/install), then install JtR like this:
+Terminal-based users should [enable snap support](https://docs.snapcraft.io/core/install),
+then install JtR like this:
+
+```bash
+ sudo snap install john-the-ripper
 ```
-$ sudo snap install john-the-ripper
-```
 
-Also, You can download the packages for all supported architectures at [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper).
+Also, You can download the packages for all supported architectures at
+[**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper).
 
-John run confined under a restrictive security sandbox by default. Nevertheless, you can access and audit any file located in your home. Below, an usage example:
-```
-$ john-the-ripper -list=build-info
-$ john-the-ripper -list=format-tests | cut -f3 > ~/alltests.in
-$ john-the-ripper -form=SHA512crypt ~/alltests.in
+John run confined under a restrictive security sandbox by default. Nevertheless,
+you can access and audit any file located in your home. Below, an usage example:
+
+```bash
+ john-the-ripper -list=build-info
+ john-the-ripper -list=format-tests | cut -f3 > ~/alltests.in
+ john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
 The highlights:
+
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
-- a stable version (John 1.9.0 Jumbo 1) is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
+- a stable version (John 1.9.0 Jumbo 1) is available for X86_64, armhf, arm64,
+ppc64el, i386, powerpc, and s390x;
 - a development version is available for X86_64, arm64, ppc64el, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
-[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+[*] John the Ripper runs using the best SIMD instructions available on the host
+it's running on.
 
 ### Running a non-OpenMP build
-In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying `OMP_NUM_THREADS=1 john <options>` in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
-```
+
+In some situations a non-OpenMP build may be faster. You can ask to fallback to a
+non-OpenMP build specifying `OMP_NUM_THREADS=1 john <options>` in the command line.
+You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
+
+```bash
 OMP_NUM_THREADS=1 john --list=build-info
 ```
 
 ### Enabling Aliases
-You are free to pick and set up aliases. To enable the usage of aliases with John the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
-```
-$ sudo snap alias john-the-ripper my-john
-$ sudo snap alias john-the-ripper.dmg2john dmg2john
-$ sudo snap alias john-the-ripper.hccap2john hccap2john
-$ sudo snap alias john-the-ripper.racf2john racf2john
-$ sudo snap alias john-the-ripper.vncpcap2john vncpcap2john
-$ sudo snap alias john-the-ripper.zip2john zip2john
-$ sudo snap alias john-the-ripper.gpg2john gpg2john
-$ sudo snap alias john-the-ripper.keepass2john keepass2john
-$ sudo snap alias john-the-ripper.putty2john putty2john
-$ sudo snap alias john-the-ripper.rar2john rar2john
-$ sudo snap alias john-the-ripper.uaf2john uaf2john
-$ sudo snap alias john-the-ripper.wpapcap2john wpapcap2john
 
+You are free to pick and set up aliases. To enable the usage of aliases with John
+the Ripper snap, run `sudo snap alias john-the-ripper <alias>`. For example:
+
+```bash
+ sudo snap alias john-the-ripper my-john
+ sudo snap alias john-the-ripper.dmg2john dmg2john
+ sudo snap alias john-the-ripper.hccap2john hccap2john
+ sudo snap alias john-the-ripper.racf2john racf2john
+ sudo snap alias john-the-ripper.vncpcap2john vncpcap2john
+ sudo snap alias john-the-ripper.zip2john zip2john
+ sudo snap alias john-the-ripper.gpg2john gpg2john
+ sudo snap alias john-the-ripper.keepass2john keepass2john
+ sudo snap alias john-the-ripper.putty2john putty2john
+ sudo snap alias john-the-ripper.rar2john rar2john
+ sudo snap alias john-the-ripper.uaf2john uaf2john
+ sudo snap alias john-the-ripper.wpapcap2john wpapcap2john
 ```
 
-Once enabled, John itself plus the *2john tools can be invoked using the aliases. In the example, to run John type `my-john`.
+Once enabled, John itself plus the *2john tools can be invoked using the aliases.
+In the example, to run John type `my-john`.
 
 ### Acessing OpenCL
-To run JtR OpenCL version you must install the snap using `developer mode`. It enables users to install snaps without enforcing security policies. To do this, you must install John using (**UNTESTED**):
-```
-$ sudo snap install john-the-ripper --devmode
+
+To run JtR OpenCL version you must install the snap using `developer mode`. It
+enables users to install snaps without enforcing security policies. To do this,
+you must install John using (**UNTESTED**):
+
+```bash
+ sudo snap install john-the-ripper --devmode
 ```
 
-When installed this way, snaps behave similarly to traditional *.deb* packages in terms of accessing system resources.
+When installed this way, snaps behave similarly to traditional *.deb* packages in
+terms of accessing system resources.
 
 To run JtR OpenCL binary:
-```
-$ john-the-ripper.opencl -list=build-info
-$ john-the-ripper.opencl -list=opencl-devices
+
+```bash
+ john-the-ripper.opencl -list=build-info
+ john-the-ripper.opencl -list=opencl-devices
 ```
 
 ### Deployments
-If you followed the above instructions, you installed the stable version of John the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and bleeding developing version of JtR, you must follow a development channel. For a clean installation:
-```
-sudo snap install --channel=edge john-the-ripper
+
+If you followed the above instructions, you installed the stable version of John
+the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and bleeding
+developing version of JtR, you must follow a development channel. For a clean
+installation:
+
+```bash
+ sudo snap install --channel=edge john-the-ripper
 ```
 
 If you already has JtR installed:
-```
-sudo snap refresh --channel=edge john-the-ripper
+
+```bash
+ sudo snap refresh --channel=edge john-the-ripper
 ```
 
-If you do so, you will be running the development version available on GitHub. The average gap expected is 1 week.
+If you do so, you will be running the development version available on GitHub.
+The average gap expected is 1 week.
 
 ## Flatpak
+
 > Built and deployed using GitLab CI
 
-[**Flatpak**](http://flatpak.org//) is a new framework for desktop applications on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
+[**Flatpak**](http://flatpak.org//) is a new framework for desktop applications
+on Linux, built to be distribution agnostic and allow deployment on any Linux operating system out there.
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-John the Ripper single-file flatpak bundle was built and tested on [GitLab](https://gitlab.com/claudioandre-br/packages/pipelines). You can get it [here](https://rebrand.ly/JtRFlatpak).
+John the Ripper single-file flatpak bundle was built and tested on
+[GitLab](https://gitlab.com/claudioandre-br/packages/pipelines). You can get it
+[here](https://rebrand.ly/JtRFlatpak).
 
 The highlights:
+
 - fallback for CPU[*] and OMP;
 - prince mode available.
 
-[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+[*] John the Ripper runs using the best SIMD instructions available on the host
+it's running on.
 
 ******
-The necessary steps to install the package are listed below. They were tested on a clean Fedora 25 docker image, but they should work for every supported distro out there. Don't worry, it can't hurt your Linux environment.
+The necessary steps to install the package are listed below. They were tested on
+a clean Fedora 25 docker image, but they should work for every supported distro
+out there. Don't worry, it can't hurt your Linux environment.
 
 Install and configure flatpak itself:
-```
-$ dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
-$ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
-$ flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
+
+```bash
+ dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
+ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak itself repository
+ flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
 ```
 
 Navigate to where you downloaded the john.flatpak file. Now, let's install the software:
-```
-$ mkdir repo
-$ ostree --repo=repo init --mode=archive-z2
-$ flatpak build-import-bundle repo john.flatpak
-$ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo # not system wide (--user)
-$ flatpak --user install tutorial-repo com.openwall.John
+
+```bash
+ mkdir repo
+ ostree --repo=repo init --mode=archive-z2
+ flatpak build-import-bundle repo john.flatpak
+ flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo # not system wide (--user)
+ flatpak --user install tutorial-repo com.openwall.John
 ```
 
 Run John the Ripper and check if it is working:
-```
-$ flatpak run com.openwall.John
-$ flatpak run com.openwall.John --list=build-info
+
+```bash
+ flatpak run com.openwall.John
+ flatpak run com.openwall.John --list=build-info
 ```
 
 ## Windows
+
 > Built and deployed using AppVeyor CI
 
-To install John the Ripper by downloading the .zip file and installing manually, follow these steps:
+To install John the Ripper by downloading the .zip file and installing manually,
+follow these steps:
 
-* Download the win_x64.zip file to your machine.
-* Navigate to where you downloaded the file and double click the compressed file [1].
-* Extract it to a directory such as `C:\john-the-ripper`.
-* Start a command prompt.
-* Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
-* Run JtR:
-```
+- Download the win_x64.zip file to your machine.
+- Navigate to where you downloaded the file and double click the compressed file [1].
+- Extract it to a directory such as `C:\john-the-ripper`.
+- Start a command prompt.
+- Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
+- Run JtR:
+
+```powershell
 C:\john-the-ripper\run>john --list=build-info
 C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
-The link below contains all the executables and libraries needed to run a fresh John the Ripper installation.
+The link below contains all the executables and libraries needed to run a fresh
+John the Ripper installation.
+
 - [A stable 32bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
 - [A stable 64bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
 - [A 64bit development version](https://rebrand.ly/JtRWin64)
 
 The highlights:
+
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
@@ -159,34 +212,52 @@ The highlights:
 - security feature Address Space Layout Randomisation (ASLR) enabled;
 - security feature Data Execution Prevention (DEP) enabled.
 
-[*] John the Ripper runs using the best SIMD instructions available on the host it's running on.
+[*] John the Ripper runs using the best SIMD instructions available on the host
+it's running on.
 
 ### Running a non-OpenMP build
-In some situations a non-OpenMP build may be faster. You can ask to fallback to a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line. You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
-```
+
+In some situations a non-OpenMP build may be faster. You can ask to fallback to
+a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line.
+You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
+
+```powershell
 C:\john-the-ripper\run>set OMP_NUM_THREADS=1
 C:\john-the-ripper\run>john --list=build-info
 ```
 
 #### File hash computed by the CI server
-File verification is the process of using an algorithm for verifying the integrity of a computer file. A popular approach is to store checksums (hashes) of files, also known as message digests, for later comparison.
 
-Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant files. For example:
-```
+File verification is the process of using an algorithm for verifying the integrity
+of a computer file. A popular approach is to store checksums (hashes) of files,
+also known as message digests, for later comparison.
+
+Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant
+files. For example:
+
+```text
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
 SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
 ```
 
-**[1] Note:** This step assumes you already have a recent version of WinZip installed, and that you know how to use it. If not, you can get WinZip and information about the program at www.winzip.com.
+**[1] Note:** This step assumes you already have a recent version of WinZip
+installed, and that you know how to use it. If not, you can get WinZip and
+information about the program at www.winzip.com.
 
 ### Running OpenCL
-Some adjustments may be necessary to allow John the Ripper detect your GPU hardware. If you are facing problems, please ask for support.
-* That being said, the first advice to be given to anyone facing Windows problems would be:
-  * replacing cygwin's OpenCL library `cygOpenCL-1.dll` with `OpenCL.dll` installed in the System32 folder should make everything _almost_ work.
+
+Some adjustments may be necessary to allow John the Ripper detect your GPU
+hardware. If you are facing problems, please ask for support.
+
+- That being said, the first advice to be given to anyone facing Windows problems
+would be:
+  - replacing cygwin's OpenCL library `cygOpenCL-1.dll` with `OpenCL.dll` installed
+  in the System32 folder should make everything _almost_ work.
 
 Benchmarking:
-```
+
+```bash
 C:\bleeding\run>john --test=5 --format=sha512crypt-opencl
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Benchmarking: sha512crypt-opencl, crypt(3) $6$ (rounds=5000) [SHA512 OpenCL]... DONE
@@ -195,7 +266,8 @@ Raw:	11522 c/s real, 819200 c/s virtual
 ```
 
 Real cracking:
-```
+
+```bash
 C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
@@ -206,7 +278,7 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 1g 0:00:00:28  3/3 0.03540g/s 5553p/s 9178c/s 9178C/s 123456
 ```
 
-```
+```bash
 C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
