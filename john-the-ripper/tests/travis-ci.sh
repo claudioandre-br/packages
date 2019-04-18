@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ######################################################################
 # Copyright (c) 2019 Claudio André <claudioandre.br at gmail.com>
 #
@@ -8,8 +10,6 @@
 # the Free Software Foundation, as expressed in version 2, seen at
 # http://www.gnu.org/licenses/gpl-2.0.html
 ######################################################################
-
-#!/bin/bash
 
 function do_Install_Dependencies(){
     echo
