@@ -38,13 +38,17 @@ you can access and audit any file located in your home. Below, an usage example:
  john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
+For your convenience, the snap installed on your system contains its build log at
+`/snap/john-the-ripper/current/snap/manifest.yaml`.
+
 The highlights:
 
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
-- a stable version (John 1.9.0 Jumbo 1) is available for X86_64, armhf, arm64,
-ppc64el, i386, powerpc, and s390x;
+- a stable version (John 1.9.0 Jumbo 1):
+  - is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
+  - has regex mode available;
 - a development version is available for X86_64, arm64, ppc64el, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
@@ -208,9 +212,9 @@ The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
+- generic crypt(3) format available;
 - a stable version (John 1.9.0 Jumbo 1) is available for X86_64 and i386;
 - a development version is available for X86_64;
-- generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
 - security feature Data Execution Prevention (DEP) enabled.
 

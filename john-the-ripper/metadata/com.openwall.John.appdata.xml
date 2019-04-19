@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2019 Claudio André <claudioandre.br at gmail.com> -->
+<component type="console-application">
+  <id>com.openwall.John</id>
+  <metadata_license>GPL-2.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
+
+  <name>John the Ripper Community Edition</name>
+  <summary>John the Ripper "Jumbo" password cracker</summary>
+  <description>
+    <p>
+       John the Ripper is a fast password cracker. Its primary purpose is to
+       detect weak Unix passwords. Besides several crypt(3) password hash types,
+       supported out of the box are Windows LM hashes, plus lots of other hashes
+       and ciphers.
+
+       Read more at:
+       - https://github.com/magnumripper/JohnTheRipper
+       - https://rebrand.ly/JtRPackage
+    </p>
+  </description>
+
+  <icon type="local">/share/icons/icon.png</icon>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/metadata/help.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/metadata/build-info.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://www.openwall.com/john/</url>
+  <url type="contact">https://www.openwall.com/lists/john-users/</url>
+  <url type="donation">https://www.zerodayclothing.com/openwall_store.php</url>
+  <url type="bugtracker">https://github.com/magnumripper/JohnTheRipper/issues</url>
+
+  <developer_name>Openwall and others</developer_name>
+  <update_contact>claudioandre.br@gmail.com</update_contact>
+
+  <categories>
+    <category>Security</category>
+  </categories>
+
+  <launchable type="desktop-id">com.openwall.John.desktop</launchable>
+  <provides>
+    <binary>john</binary>
+    <binary>dmg2john</binary>
+    <binary>hccap2john</binary>
+    <binary>racf2john</binary>
+    <binary>vncpcap2john</binary>
+    <binary>zip2john</binary>
+    <binary>gpg2john</binary>
+    <binary>keepass2john</binary>
+    <binary>putty2john</binary>
+    <binary>rar2john</binary>
+    <binary>uaf2john</binary>
+    <binary>wpapcap2john</binary>
+  </provides>
+
+  <releases>
+    <release type="stable" version="1.9.0J1" date="2019-04-19" urgency="high">
+      <description>
+        <p>Major release.</p>
+      </description>
+
+      <url>https://example.org/releases/version-1.2.html</url>
+
+      <artifacts>
+        <artifact type="binary" platform="x86_64-linux-gnu">
+          <location>https://example.com/mytarball.bin.tar.xz</location>
+          <checksum type="sha256">....</checksum>
+          <size type="download">12345678</size>
+          <size type="installed">42424242</size>
+        </artifact>
+        <artifact type="binary" platform="win32">
+          <location>https://example.com/mytarball.bin.exe</location>
+        </artifact>
+        <artifact type="source">
+          <location>https://example.com/mytarball.tar.xz</location>
+          <checksum type="sha256">....</checksum>
+        </artifact>
+      </artifacts>
+    </release>
+  </releases>
+
+</component>

@@ -4,7 +4,7 @@
     "runtime-version": "1.6",
     "sdk": "org.freedesktop.Sdk",
     "command": "john",
-    "tags": [ "edge" ],
+    "tags": [ "1.9J1-f389ca4", "1.9.0 Jumbo 1" ],
     "finish-args": [
         "--filesystem=home"
     ],
@@ -76,6 +76,18 @@
                     "type": "file",
                     "path": "build.sh",
                     "dest-filename": "build.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "com.openwall.John.appdata.xml"
+                },
+                {
+                    "type": "file",
+                    "path": "com.openwall.John.desktop"
+                },
+                {
+                    "type": "file",
+                    "path": "com.openwall.John.png"
                 }
             ],
             "post-install": [
@@ -83,8 +95,13 @@
                 "cp -r ../run/.   /app/bin",
                 "cp -r ../doc/    /app/",
                 "cp    ../README* /app/",
+                "###### Bash Completion ######",
                 "mkdir -p /app/share/bash-completion/completions",
-                "cp ../run/john.*_completion /app/share/bash-completion/completions"
+                "cp ../run/john.*_completion /app/share/bash-completion/completions",
+                "###### Environment ######",
+                "install -Dm644 com.openwall.John.png /app/share/icons/com.openwall.John.png",
+                "install -Dm644 com.openwall.John.desktop /app/share/applications/com.openwall.John.desktop",
+                "install -Dm644 com.openwall.John.appdata.xml /app/share/appdata/com.openwall.John.appdata.xml"
             ]
         }
     ]

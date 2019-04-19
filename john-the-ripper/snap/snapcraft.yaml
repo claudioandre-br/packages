@@ -4,7 +4,12 @@ version-script: |
   ./package_version.sh
 
 confinement: strict
-grade: stable
+grade: devel
+assumes: [ snapd2.38 ]
+base: core18
+
+license: GPL-2.0
+title: John the Ripper Community Edition
 summary: John the Ripper "Jumbo" password cracker
 description: |
   John the Ripper is a fast password cracker, currently available for many flavors
@@ -12,6 +17,8 @@ description: |
   Unix passwords. Besides several crypt(3) password hash types most commonly found
   on various Unix systems, supported out of the box are Windows LM hashes, plus lots
   of other hashes and ciphers.
+
+icon: share/icons/icon.png
 
 apps:
   john-the-ripper:
@@ -62,6 +69,8 @@ parts:
       ./build.sh
       mkdir -p ../install/etc/bash_completion
       cp run/john.*_completion ../install/etc/bash_completion/
+      mkdir -p ../install/share/icons
+      cp icon.png ../install/share/icons/icon.png
 
     build-packages:
       - build-essential
@@ -85,12 +94,13 @@ parts:
     plugin: nil
 
     stage-packages:
-      - openssl
       - libgomp1
-      - libgmp10
       - libpcap0.8
-      - libbz2-1.0
       - ocl-icd-libopencl1
+      # Staged from core18 runtime
+      # openssl
+      # libgmp10
+      # libbz2
 
     filesets:
       extras:
