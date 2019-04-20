@@ -19,6 +19,7 @@ build:
     - flatpak-builder --repo=repo build com.openwall.John.json
     - flatpak build-bundle repo john.flatpak com.openwall.John
     - cp john.flatpak "$CI_PROJECT_DIR"
+    - sha256sum john.flatpak
 
   environment:
     name: review/$CI_COMMIT_REF_NAME
