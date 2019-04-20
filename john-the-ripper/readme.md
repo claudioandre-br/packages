@@ -38,8 +38,9 @@ you can access and audit any file located in your home. Below, an usage example:
  john-the-ripper -form=SHA512crypt ~/alltests.in
 ```
 
-For your convenience, the snap installed on your system contains its build log at
-`/snap/john-the-ripper/current/snap/manifest.yaml`.
+For your convenience, the snap installed on your system contains the file
+`/snap/john-the-ripper/current/snap/manifest.yaml` which field `build_url`
+points to its build log.
 
 The highlights:
 
@@ -183,7 +184,7 @@ Install and configure flatpak itself:
 ```bash
  dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
  flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak repository
- flatpak install gnome org.freedesktop.Platform//18.08 # install the runtime (base "container")
+ flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
 ```
 
 Navigate to where you downloaded the john.flatpak file. Now, let's install the
@@ -226,8 +227,12 @@ C:\john-the-ripper\run>john --test --format=SHA512crypt
 The link below contains all the executables and libraries needed to run a fresh
 John the Ripper installation.
 
-- [A stable 32bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
-- [A stable 64bit version (John 1.9.0 Jumbo 1)](https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/)
+- [Stable John 1.9.0 Jumbo 1 32bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip)
+[(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_optional.zip)
+[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_log.txt)
+- [Stable John 1.9.0 Jumbo 1 64bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x64_win.zip)
+[(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_optional.zip)
+[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_log.txt)
 - [A 64bit development version](https://rebrand.ly/JtRWin64)
 
 The highlights:

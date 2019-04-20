@@ -16,9 +16,10 @@
 
        Read more at:
        - github.com/magnumripper/JohnTheRipper
-       - rebrand.ly/JtRPackage
 
-       This version integrates lots of contributed patches including GPU support.
+       This version integrates lots of contributed patches, including GPU support,
+       has fallback for CPU SIMD extensions and for OMP, moreover, has regex and
+       prince modes available.
     </p>
   </description>
 
@@ -74,11 +75,11 @@
         </p>
       </description>
 
-      <url>https://github.com/claudioandre-br/JohnTheRipper/releases/tag/1.9.0-jumbo-1</url>
+      <url>https://www.openwall.com/lists/john-users/2014/12/18/23</url>
 
       <artifacts>
         <artifact type="binary" platform="x86_64-linux-gnu">
-          <location>https://gitlab.com/claudioandre-br/packages/-/jobs/199529296/artifacts/file/john.flatpak</location>
+          <location>https://openwall.info/wiki/_media/john/1.9.0J1/john.flatpak.zip</location>
         </artifact>
         <artifact type="binary" platform="flatpak">
           <location>https://flathub.org/apps/detais/com.openwall.John</location>
@@ -87,10 +88,10 @@
           <location>https://snapcraft.io/john-the-ripper</location>
         </artifact>
         <artifact type="binary" platform="win32">
-          <location>https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/?preview=x32_win.zip</location>
+          <location>https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip</location>
         </artifact>
         <artifact type="binary" platform="win64">
-          <location>https://www.dropbox.com/sh/ze42dpzpz8at4oq/AACd2vH8RnFdHbFJ17Gd0S4Ra/?preview=x64_win.zip</location>
+          <location>https://openwall.info/wiki/_media/john/1.9.0J1/x64_win.zip</location>
         </artifact>
         <artifact type="source">
           <location>https://github.com/claudioandre-br/JohnTheRipper/archive/1.9.0-jumbo-1.tar.gz</location>
