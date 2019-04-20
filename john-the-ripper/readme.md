@@ -29,7 +29,7 @@ then install JtR like this:
 Also, You can download the packages for all supported architectures at
 [**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper).
 
-John run confined under a restrictive security sandbox by default. Nevertheless,
+John runs confined under a restrictive security sandbox by default. Nevertheless,
 you can access and audit any file located in your home. Below, an usage example:
 
 ```bash
@@ -49,7 +49,8 @@ The highlights:
 - a stable version (John 1.9.0 Jumbo 1):
   - is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
   - has regex mode available;
-- a development version is available for X86_64, arm64, ppc64el, and s390x;
+- a development version:
+  - is available for X86_64, arm64, ppc64el, and s390x;
 - you can also run it using the alias **john**, e.g. `john -list=build-info`.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
@@ -108,7 +109,7 @@ To run JtR OpenCL binary:
  john-the-ripper.opencl -list=opencl-devices
 ```
 
-### Deployments
+### Snap Deployments
 
 If you followed the above instructions, you installed the stable version of John
 the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and bleeding
@@ -138,19 +139,41 @@ operating system out there.
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-John the Ripper single-file flatpak bundle was built and tested on
-[GitLab](https://gitlab.com/claudioandre-br/packages/pipelines). You can get it
-[here](https://rebrand.ly/JtRFlatpak).
+You can install JtR by following the instructions at
+[https://flathub.org/apps/detais/com.openwall.John](https://flathub.org/apps/detais/com.openwall.John).
+
+John runs confined under a restrictive security sandbox by default. Nevertheless,
+you can access and audit any file located in your home. Below, an usage example:
+
+```bash
+ flatpak run com.openwall.John -list=build-info
+ flatpak run com.openwall.John -list=format-tests | cut -f3 > ~/alltests.in
+ flatpak run com.openwall.John -form=SHA512crypt ~/alltests.in
+```
 
 The highlights:
 
 - fallback for CPU[*] and OMP;
 - prince mode available.
+- a stable version (John 1.9.0 Jumbo 1):
+  - is available for X86_64, arm, aarch64, and i386;
+  - has regex mode available;
+- a development version:
+  - is available for X86_64 and aarch64;
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
 it's running on.
 
-******
+### Flatpak Deployments
+
+If you followed the above instructions, you installed the stable version of John
+the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and bleeding
+developing version of JtR, you must install a bundle.
+
+John the Ripper single-file flatpak bundle was built and tested on
+[GitLab](https://gitlab.com/claudioandre-br/packages/pipelines). You can get it
+[here](https://rebrand.ly/JtRFlatpak).
+
 The necessary steps to install the package are listed below. They were tested on
 a clean Fedora 25 docker image, but they should work for every supported distro
 out there. Don't worry, it can't hurt your Linux environment.
@@ -160,7 +183,7 @@ Install and configure flatpak itself:
 ```bash
  dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
  flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak repository
- flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
+ flatpak install gnome org.freedesktop.Platform//18.08 # install the runtime (base "container")
 ```
 
 Navigate to where you downloaded the john.flatpak file. Now, let's install the
@@ -213,15 +236,17 @@ The highlights:
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
 - generic crypt(3) format available;
-- a stable version (John 1.9.0 Jumbo 1) is available for X86_64 and i386;
-- a development version is available for X86_64;
+- a stable version (John 1.9.0 Jumbo 1):
+  - is available for X86_64 and i386;
+- a development version:
+  - is available for X86_64;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
 - security feature Data Execution Prevention (DEP) enabled.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
 it's running on.
 
-### Running a non-OpenMP build
+### Running a non-OpenMP build on Windows
 
 In some situations a non-OpenMP build may be faster. You can ask to fallback to
 a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line.
