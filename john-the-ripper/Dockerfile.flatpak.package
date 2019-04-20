@@ -15,8 +15,8 @@ MAINTAINER Claudio André (c) 2017-2019 1.0.F29
 RUN dnf -y -q update && \
     dnf -y    install \
         flatpak flatpak-builder elfutils wget git && \
-    flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo && \
-    flatpak install -y gnome org.freedesktop.Platform//1.6 org.freedesktop.Sdk//1.6 && \
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+    flatpak install -y flathub org.freedesktop.Platform//18.08 org.freedesktop.Sdk//18.08 && \
     useradd -U -m JtR
 
 USER JtR

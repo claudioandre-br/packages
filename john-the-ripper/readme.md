@@ -183,8 +183,8 @@ Install and configure flatpak itself:
 
 ```bash
  dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
- flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo # add the flatpak repository
- flatpak install gnome org.freedesktop.Platform//1.6 # install the runtime (base "container")
+ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # flatpak repository
+ flatpak install -y flathub org.freedesktop.Platform//18.08 # install the runtime (base "container")
 ```
 
 Navigate to where you downloaded the john.flatpak file. Now, let's install the
