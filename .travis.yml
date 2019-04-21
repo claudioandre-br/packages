@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 services:
 - docker
 
@@ -31,7 +31,7 @@ script:
        echo -e "\n*** BUILDING ***\n";
      fi'
 
-  - cd john-the-ripper
+  - cd john-the-ripper/tests/Dockerfiles
   - docker build -t "$REPO:$NAME" - < "$DOCKERFILE"
 
   # Test the build
