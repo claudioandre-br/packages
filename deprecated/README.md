@@ -17,6 +17,16 @@ In here there are **Snap**, **Flatpak**, and **Windows** packages.
 - Namebench, a benchmark tool: check [namebench](https://code.google.com/archive/p/namebench)
 for more details.
 - B1, a file archiver: check [B1](http://b1.org/) for more details.
+- Anatine, a Twitter client (deprecated): check [anatine](https://github.com/sindresorhus/anatine)
+for more details (*not published*).
+- Corebird, a Twitter client: check [corebird](https://github.com/baedert/corebird)
+for more details (*not published*).
+- doctl, a Digital Ocean tool: check [doctl](https://github.com/digitalocean/doctl)
+for more details (*not published*).
+- Peazip, a file archiver: check [peazip](http://www.peazip.org/) for more details
+(*not published*; upstream is not working on Linux).
+- Polly, a Twitter client: check [polly](https://launchpad.net/polly) for more details
+(*not published*; upstream is dead).
 
 All the Snap packages are built using a build server. At this moment, I'm using
 **Launchpad** to build the Snap packages.
