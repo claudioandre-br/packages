@@ -27,4 +27,4 @@ RUN apt-get update -qq && \
 
 USER JtR
 ENV BASE ubuntu
-CMD /bin/bash
+ENTRYPOINT /john/run/john

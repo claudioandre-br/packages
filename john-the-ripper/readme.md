@@ -324,3 +324,35 @@ Algorithm       Hash                                                            
 ---------       ----                                                                   ----
 SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
 ```
+
+## Docker Image
+
+> Built using Travis CI and deployed using Docker Hub
+
+For future reference, we have a Docker image of John the Ripper Jumbo 1.9.0.J1
+available.
+
+In order to use and test it:
+
+```bash
+ # CPU only formats
+ docker run -it claudioandre/john:v1.9.0J1 <options>
+
+ # To run ztex formats
+ docker run -it --device=/dev/ttyUSB0 claudioandre/john:v1.9.0J1 <options>
+```
+
+Run John the Ripper and check if it is working:
+
+```bash
+ docker run -it claudioandre/john:v1.9.0J1
+ docker run -it claudioandre/john:v1.9.0J1 -list=build-info
+ docker run -it claudioandre/john:v1.9.0J1 -format=cpu
+ docker run -it claudioandre/john:v1.9.0J1 -list=format-tests | cut -f3 > ~/alltests.in
+ docker run -it -v "$HOME":/host claudioandre/john:v1.9.0J1 -form=SHA512crypt /host/alltests.in --max-run=300
+```
+
+The highlights:
+
+- ztex formats available;
+- prince mode available.
