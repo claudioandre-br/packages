@@ -213,7 +213,7 @@ To install John the Ripper by downloading the .zip file and installing manually,
 follow these steps:
 
 - Download the ZIP file to your machine.
-- Navigate to where you downloaded the file and double click the compressed file [1].
+- Navigate to where you downloaded the file and double click the compressed file.
 - Extract it to a directory such as `C:\john-the-ripper`.
 - Start a command prompt.
 - Navigate to the directory you extracted the .zip file, e.g., `cd C:\john-the-ripper\run`.
@@ -262,25 +262,6 @@ C:\john-the-ripper\run>set OMP_NUM_THREADS=1
 C:\john-the-ripper\run>john --list=build-info
 ```
 
-#### File hash computed by the CI server
-
-File verification is the process of using an algorithm for verifying the integrity
-of a computer file. A popular approach is to store checksums (hashes) of files,
-also known as message digests, for later comparison.
-
-Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant
-files. For example:
-
-```text
-Algorithm       Hash                                                                   Path
----------       ----                                                                   ----
-SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
-```
-
-**[1] Note:** This step assumes you already have a recent version of WinZip
-installed, and that you know how to use it. If not, you can get WinZip and
-information about the program at www.winzip.com.
-
 ### Running OpenCL
 
 Some adjustments may be necessary to allow John the Ripper detect your GPU
@@ -327,4 +308,19 @@ Hello world!     (?)
 1g 0:00:05:06 DONE (2018-01-01 15:08) 0.003265g/s 11369p/s 11369c/s 11369C/s HelloYworik_..HelloLworurU
 Use the "--show" option to display all of the cracked passwords reliably
 Session completed
+```
+
+#### File hash computed by the CI server
+
+File verification is the process of using an algorithm for verifying the integrity
+of a computer file. A popular approach is to store checksums (hashes) of files,
+also known as message digests, for later comparison.
+
+Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant
+files. For example:
+
+```text
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
 ```
