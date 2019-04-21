@@ -21,6 +21,7 @@ matrix:
   - env: REPO=claudioandre/john   NAME=ubuntu.devel        DOCKERFILE=Dockerfile.UbuntuDevel
   - env: REPO=claudioandre/john   NAME=ubuntu.rolling      DOCKERFILE=Dockerfile.UbuntuRolling
   - env: REPO=claudioandre/john   NAME=centos.6            DOCKERFILE=Dockerfile.CentOS6
+  - env: REPO=claudioandre/john   NAME=v1.9.0J1            DOCKERFILE=Dockerfile   BIN_VERSION=yes
 
 script:
   - export log_message=$(git log -n 1)
@@ -31,8 +32,13 @@ script:
        echo -e "\n*** BUILDING ***\n";
      fi'
 
-  - cd john-the-ripper/tests/Dockerfiles
-  - docker build -t "$REPO:$NAME" - < "$DOCKERFILE"
+  - 'if [[ "$BIN_VERSION" == "yes" ]]; then
+       cd john-the-ripper;
+       git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git john;
+     else
+       cd john-the-ripper/tests/Dockerfiles;
+     fi'
+  - docker build -t "$REPO:$NAME" --file "$DOCKERFILE" .
 
   # Test the build
   - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
