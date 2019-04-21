@@ -23,7 +23,8 @@
     </p>
   </description>
 
-  <icon type="local">/app/share/icons/com.openwall.John.png</icon>
+  <icon type="remote">https://openwall.info/wiki/_media/john/1.9.0J1/com.openwall.john.png</icon>
+  <icon type="stock">security-high.svg</icon>
   <screenshots>
     <screenshot type="default">
       <image>https://openwall.info/wiki/_media/john/help.png</image>
