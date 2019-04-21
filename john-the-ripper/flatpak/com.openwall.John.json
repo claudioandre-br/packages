@@ -6,7 +6,8 @@
     "command": "john",
     "tags": [ "edge" ],
     "finish-args": [
-        "--filesystem=home"
+        "--filesystem=home",
+        "--device=dri"
     ],
     "cleanup" : [
         "/include",
