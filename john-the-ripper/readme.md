@@ -47,12 +47,12 @@ The highlights:
 - fallback for CPU[*] and OMP;
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
+- also available via the alias **john**, e.g. `john -list=build-info`;
 - a stable version (John 1.9.0 Jumbo 1):
   - is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
   - has regex mode available;
 - a development version:
-  - is available for X86_64, arm64, ppc64el, and s390x;
-- you can also run it using the alias **john**, e.g. `john -list=build-info`.
+  - is available for X86_64, arm64, ppc64el, and s390x.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
 it's running on.
@@ -132,7 +132,7 @@ The average gap expected is 1 week.
 
 ## Flatpak
 
-> Built and deployed using GitLab CI
+> Built and deployed using FlatHub and GitLab CI
 
 [**Flatpak**](http://flatpak.org//) is a new framework for desktop applications
 on Linux, built to be distribution agnostic and allow deployment on any Linux
@@ -160,7 +160,7 @@ The highlights:
   - is available for X86_64, arm, aarch64, and i386;
   - has regex mode available;
 - a development version:
-  - is available for X86_64 and aarch64;
+  - is available for X86_64.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
 it's running on.
@@ -241,12 +241,12 @@ The highlights:
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
 - generic crypt(3) format available;
+- security feature Address Space Layout Randomisation (ASLR) enabled;
+- security feature Data Execution Prevention (DEP) enabled;
 - a stable version (John 1.9.0 Jumbo 1):
   - is available for X86_64 and i386;
 - a development version:
-  - is available for X86_64;
-- security feature Address Space Layout Randomisation (ASLR) enabled;
-- security feature Data Execution Prevention (DEP) enabled.
+  - is available for X86_64.
 
 [*] John the Ripper runs using the best SIMD instructions available on the host
 it's running on.

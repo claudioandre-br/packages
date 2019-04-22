@@ -30,7 +30,7 @@ Anyone can get, for free (as in beer), the reviewed packages from [**uAppExplore
 - John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre-br/packages/tree/master/john-the-ripper#flatpak)
 for more details.
 
-At this moment, I'm using **GitLab** to build the Flatpak package.
+At this moment, I'm using **FlatHub** and **GitLab** to build the Flatpak package.
 
 #### Windows Package
 
@@ -38,6 +38,13 @@ At this moment, I'm using **GitLab** to build the Flatpak package.
  for more details.
 
 At this moment, I'm using **AppVeyor CI** to build the Windows package.
+
+#### Docker Image
+
+- John the Ripper also has a Docker image. [Click here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/readme.md#docker-image)
+ for more details.
+
+At this moment, I'm using **Travis CI** to build the Docker image.
 
 ## Testing
 
