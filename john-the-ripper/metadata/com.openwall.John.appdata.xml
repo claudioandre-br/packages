@@ -18,8 +18,8 @@
        - github.com/magnumripper/JohnTheRipper
 
        This version integrates lots of contributed patches, including GPU support,
-       has fallback for CPU SIMD extensions and for OMP, moreover, has regex and
-       prince modes available.
+       dynamic expressions, has fallback for CPU SIMD extensions and for OMP,
+       moreover, has on device mask acceleration, and prince mode available.
     </p>
   </description>
 
