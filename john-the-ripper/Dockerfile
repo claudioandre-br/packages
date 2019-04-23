@@ -14,18 +14,40 @@ LABEL maintainer Claudio André (c) 2017-2019 1.9.0J1
 LABEL software John the Ripper 1.9.0 Jumbo 1
 
 COPY john/ /john
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 
 RUN apt-get update -qq && \
     apt-get install -y \
         build-essential libssl-dev zlib1g-dev yasm libgmp-dev libpcap-dev pkg-config \
         libbz2-dev wget git libusb-1.0-0-dev && \
     useradd -U -m JtR && \
-    #Build John
+    # Build John the Ripper
     cd john/src && \
-    ./configure --disable-native-tests --enable-ztex CPPFLAGS=-msse2 && \
-    make -sj2 && rm *.o
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-msse2'   && make -s clean && make -sj2 && mv ../run/john ../run/john-sse2-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-msse2'   && make -s clean && make -sj2 && mv ../run/john ../run/john-sse2 && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mssse3'  && make -s clean && make -sj2 && mv ../run/john ../run/john-ssse3-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mssse3'  && make -s clean && make -sj2 && mv ../run/john ../run/john-ssse3 && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-msse4.1' && make -s clean && make -sj2 && mv ../run/john ../run/john-sse4.1-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-msse4.1' && make -s clean && make -sj2 && mv ../run/john ../run/john-sse4.1 && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-msse4.2' && make -s clean && make -sj2 && mv ../run/john ../run/john-sse4.2-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-msse4.2' && make -s clean && make -sj2 && mv ../run/john ../run/john-sse4.2 && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mavx'    && make -s clean && make -sj2 && mv ../run/john ../run/john-avx-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mavx'    && make -s clean && make -sj2 && mv ../run/john ../run/john-avx && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mxop'    && make -s clean && make -sj2 && mv ../run/john ../run/john-xop-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mxop'    && make -s clean && make -sj2 && mv ../run/john ../run/john-xop && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mavx2'   && make -s clean && make -sj2 && mv ../run/john ../run/john-avx2-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mavx2'   && make -s clean && make -sj2 && mv ../run/john ../run/john-avx2 && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mavx512f'  && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512f-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mavx512f'  && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512f && \
+      ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mavx512bw' && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512bw-no-omp && \
+      ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mavx512bw' && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512bw && \
+    # Clean the image
+    rm *.o && apt-get -y remove --purge build-essential && \
+      apt-get -y clean && \
+      rm -rf /var/lib/apt/lists/*
 
 USER JtR
 ENV BASE ubuntu
-ENTRYPOINT ["/john/run/john"]
-CMD ["--help"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["sse2"]
