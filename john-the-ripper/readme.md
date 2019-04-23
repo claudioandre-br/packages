@@ -176,7 +176,7 @@ John the Ripper single-file flatpak bundle was built and tested on
 [here](https://rebrand.ly/JtRFlatpak).
 
 The necessary steps to install the package are listed below. They were tested on
-a clean Fedora 25 docker image, but they should work for every supported distro
+a clean Fedora 29 docker image, but they should work for every supported distro
 out there. Don't worry, it can't hurt your Linux environment.
 
 Install and configure flatpak itself:
@@ -191,11 +191,7 @@ Navigate to where you downloaded the john.flatpak file. Now, let's install the
 software:
 
 ```bash
- mkdir repo
- ostree --repo=repo init --mode=archive-z2
- flatpak build-import-bundle repo john.flatpak
- flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo # not system wide (--user)
- flatpak --user install tutorial-repo com.openwall.John
+ flatpak --user install --bundle john.flatpak # per-user installation (not system wide)
 ```
 
 Run John the Ripper and check if it is working:
