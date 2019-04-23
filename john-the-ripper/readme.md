@@ -326,7 +326,7 @@ SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5
 > Built using Travis CI and deployed using Docker Hub
 
 For testing and future reference, we have a Docker image of John the Ripper
-Jumbo 1.9.0.J1. In order to use and test it:
+Jumbo 1.9.0.J1. To use it:
 
 ```bash
  # CPU only formats
@@ -352,9 +352,9 @@ The highlights:
 - ztex formats available;
 - prince mode available.
 
-These binaries are available. Their ids are sse2, sse2-no-omp, ssse3, etc:
+The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 
-- /john/run/john-sse2 (the default binary)
+- /john/run/john-sse2 (default binary)
 - /john/run/john-sse2-no-omp
 - /john/run/john-ssse3
 - /john/run/john-ssse3-no-omp
