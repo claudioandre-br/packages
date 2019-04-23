@@ -13,7 +13,7 @@
 set -e
 echo "$@"
 binaries="sse2 sse2-no-omp ssse3 ssse3-no-omp sse4.1 sse4.1-no-omp sse4.2 sse4.2-no-omp
-          avx avx-no-omp xop avx-no-omp avx2 avx2-no-omp
+          avx avx-no-omp xop xop-no-omp avx2 avx2-no-omp
           avx512f avx512f-no-omp avx512bw avx512bw-no-omp
           "
 binary="$1"
