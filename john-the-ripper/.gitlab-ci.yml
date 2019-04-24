@@ -33,7 +33,7 @@ deploy:
     # - wget https://gitlab.com/claudioandre-br/packages/-/jobs/189386446/artifacts/raw/john.flatpak
 
     # Install flatpak package
-    - flatpak --user install --bundle john.flatpak
+    - flatpak install --user -y --bundle john.flatpak
 
     # Do some testing
     - flatpak run com.openwall.John

@@ -26,9 +26,6 @@ then install JtR like this:
  sudo snap install john-the-ripper
 ```
 
-Also, You can download the packages for all supported architectures at
-[**uAppExplorer**](https://uappexplorer.com/snap/ubuntu/john-the-ripper).
-
 John runs confined under a restrictive security sandbox by default. Nevertheless,
 you can access and audit any file located in your home. Below, an usage example:
 

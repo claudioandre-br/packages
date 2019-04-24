@@ -19,7 +19,7 @@
 
        This version integrates lots of contributed patches, including GPU support,
        dynamic expressions, has fallback for CPU SIMD extensions and for OMP,
-       moreover, has on device mask acceleration, and prince mode available.
+       moreover, has on device mask acceleration and prince mode available.
     </p>
   </description>
 
