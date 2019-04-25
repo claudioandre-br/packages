@@ -217,7 +217,7 @@ C:\john-the-ripper\run>john --list=build-info
 C:\john-the-ripper\run>john --test --format=SHA512crypt
 ```
 
-The link below contains all the executables and libraries needed to run a fresh
+The links below contain all the executables and libraries needed to run a fresh
 John the Ripper installation.
 
 - [Stable John 1.9.0 Jumbo 1 32bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip)
