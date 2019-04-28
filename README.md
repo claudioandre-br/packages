@@ -59,6 +59,7 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
 - clang 3.9, clang 4.0, clang 5.0, clang 6.0, clang 7.0, and clang 8.0;
 - SIMD and non-SIMD builds (including AVX512);
 - OpenMP and non-OpenMP builds;
+- LE (Little Endian) and BE (Big Endian) builds;
 - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
 - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
 - MinGW + Wine (on Fedora Linux);
