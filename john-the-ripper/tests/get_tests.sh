@@ -35,6 +35,7 @@ wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/config.yml    -P .circleci/
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/circle-ci.sh  -P .circleci/
 
+wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/.cirrus.yml
 
 chmod +x buggy.sh
 chmod +x .travis/CI-tests.sh
@@ -43,6 +44,7 @@ chmod +x .circleci/circle-ci.sh
 
 git add appveyor.yml
 git add .travis.yml
+git add .cirrus.yml
 git add .travis/
 git add .circleci/
 
