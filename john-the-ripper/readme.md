@@ -337,11 +337,19 @@ Run John the Ripper and check if it is working:
 
 ```bash
  docker run -it claudioandre/john:v1.9.0J1 # => SSE2
- docker run -it claudioandre/john:v1.9.0J1 -list=format-tests | cut -f3 > ~/alltests.in
  docker run -it claudioandre/john:v1.9.0J1 ssse3-no-omp -list=build-info
- docker run -it claudioandre/john:v1.9.0J1 avx2 -test=0 -format=cpu
- docker run -it claudioandre/john:v1.9.0J1 avx512bw
+ docker run -it claudioandre/john:v1.9.0J1 avx512bw -test=0 -format=cpu
+ docker run -it claudioandre/john:v1.9.0J1 -list=format-tests | cut -f3 > ~/alltests.in
  docker run -it -v "$HOME":/host claudioandre/john:v1.9.0J1 avx -form=SHA512crypt /host/alltests.in --max-run=300
+```
+
+Compare the performance of SIMD extensions:
+
+```bash
+ docker run -it claudioandre/john:v1.9.0J1 sse2    --test=10 --format=SHA12crypt
+ docker run -it claudioandre/john:v1.9.0J1 sse4.1  --test=10 --format=SHA12crypt
+ docker run -it claudioandre/john:v1.9.0J1 avx     --test=10 --format=SHA12crypt
+ docker run -it claudioandre/john:v1.9.0J1 avx2    --test=10 --format=SHA12crypt
 ```
 
 The highlights:
