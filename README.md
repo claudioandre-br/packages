@@ -51,11 +51,11 @@ At this moment, I'm using **Travis CI** to build the Docker image.
 Our CI (continuous integration) testing scheme stresses John the Ripper source code
  using:
 
-- FreeBSD 11 and FreeBSD 12 [^1];
 - CentOS 6, Ubuntu 12.04, Ubuntu 14.04, Ubuntu 16.04, Ubuntu 17.10, Ubuntu 19.04
 (devel), and Fedora 29;
+- FreeBSD 11 and FreeBSD 12;
 - Windows Server 2012 R2 and Windows Server 2016;
-- gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 6.2[^2], gcc 7.2, gcc 7.4, gcc 8.3, and gcc 9.0;
+- gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 6.2[^1], gcc 7.2, gcc 7.4, gcc 8.3, and gcc 9.0;
 - clang 3.9, clang 4.0, clang 5.0, clang 6.0, clang 7.0, and clang 8.0;
 - SIMD and non-SIMD builds (including AVX512);
 - OpenMP and non-OpenMP builds;
@@ -67,8 +67,7 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
 - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
 
-[^1]: under development.
-[^2]: will be decomissioned in May 2019.
+[^1]: will be decomissioned in May 2019.
 
 ## License
 
