@@ -267,7 +267,7 @@ would be:
 
 Benchmarking:
 
-```bash
+```text
 C:\bleeding\run>john --test=5 --format=sha512crypt-opencl
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Benchmarking: sha512crypt-opencl, crypt(3) $6$ (rounds=5000) [SHA512 OpenCL]... DONE
@@ -277,7 +277,7 @@ Raw:	11522 c/s real, 819200 c/s virtual
 
 Real cracking:
 
-```bash
+```text
 C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
@@ -288,7 +288,7 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 1g 0:00:00:28  3/3 0.03540g/s 5553p/s 9178c/s 9178C/s 123456
 ```
 
-```bash
+```text
 C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
@@ -315,7 +315,8 @@ files. For example:
 ```text
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          228055F2CF88F055A657BCAE3E3A898298B3AEC5766534D2B567D8993F71D2D5       C:\projects\JohnTheRipper\run\win_x64.zip
+SHA256          768C9D39453C9380CCCFE179FDF559BCCDE9E3AFA0C612F55FFB1823F35105E4       C:\win_x64.zip
+SHA256          466A7C1B8E4DCA72E1B80D721E9894524DA484B299CEE478CD73835C29D16454       C:\optional.zip
 ```
 
 ## Docker Image
