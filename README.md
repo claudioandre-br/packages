@@ -1,5 +1,6 @@
-[![pipeline status](https://gitlab.com/claudioandre-br/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre-br/packages/pipelines)
-[![Build status](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre-br/johntheripper)
+[![Flatpak Build](https://gitlab.com/claudioandre-br/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre-br/packages/pipelines)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre-br/johntheripper)
+[![FreeBSD Build](https://api.cirrus-ci.com/github/claudioandre-br/JohnTheRipper.svg)](https://cirrus-ci.com/github/claudioandre-br/JohnTheRipper)
 [![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/claudioandre-br/packages/blob/master/LICENSE.txt)
 
 # Packages
