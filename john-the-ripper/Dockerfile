@@ -43,7 +43,8 @@ RUN apt-get update -qq && \
       ./configure --disable-native-tests --enable-ztex --disable-openmp CPPFLAGS='-mavx512bw' && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512bw-no-omp && \
       ./configure --disable-native-tests --enable-ztex                  CPPFLAGS='-mavx512bw' && make -s clean && make -sj2 && mv ../run/john ../run/john-avx512bw && \
     # Clean the image
-    rm *.o && apt-get -y remove --purge build-essential && \
+    rm *.o && apt-get -y remove --purge build-essential yasm git && \
+      apt-get -y autoremove && \
       apt-get -y clean && \
       rm -rf /var/lib/apt/lists/*
 

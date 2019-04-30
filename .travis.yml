@@ -47,6 +47,17 @@ script:
      fi
     '
 
+  # Test the build
+  - 'if [[ "$log_message" == *"[test image]"* && "$log_message" == *"[$NAME]"* ]]; then
+       docker run claudioandre/john:v1.9.0J1 sse2    --test=10 --format=SHA512crypt;
+       docker run claudioandre/john:v1.9.0J1 ssse3   --test=10 --format=SHA512crypt;
+       docker run claudioandre/john:v1.9.0J1 sse4.1  --test=10 --format=SHA512crypt;
+       docker run claudioandre/john:v1.9.0J1 avx     --test=10 --format=SHA512crypt;
+       docker run claudioandre/john:v1.9.0J1 sse4.2-no-omp  --test=10 --format=SHA512crypt;
+       docker run claudioandre/john:v1.9.0J1 avx-no-omp     --test=10 --format=SHA512crypt;
+     fi
+    '
+
 after_success:
   - docker tag "$REPO:$NAME" "$REPO:"$NAME"_J$TRAVIS_JOB_NUMBER"
   - docker images

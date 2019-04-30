@@ -347,10 +347,10 @@ Run John the Ripper and check if it is working:
 Compare the performance of SIMD extensions:
 
 ```bash
- docker run -it claudioandre/john:v1.9.0J1 sse2    --test=10 --format=SHA12crypt
- docker run -it claudioandre/john:v1.9.0J1 sse4.1  --test=10 --format=SHA12crypt
- docker run -it claudioandre/john:v1.9.0J1 avx     --test=10 --format=SHA12crypt
- docker run -it claudioandre/john:v1.9.0J1 avx2    --test=10 --format=SHA12crypt
+ docker run -it claudioandre/john:v1.9.0J1 sse2    --test=10 --format=SHA512crypt
+ docker run -it claudioandre/john:v1.9.0J1 sse4.1  --test=10 --format=SHA512crypt
+ docker run -it claudioandre/john:v1.9.0J1 avx     --test=10 --format=SHA512crypt
+ docker run -it claudioandre/john:v1.9.0J1 avx2    --test=10 --format=SHA512crypt
 ```
 
 The highlights:
