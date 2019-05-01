@@ -238,13 +238,14 @@ it's running on.
 The links below contain all the executables and libraries needed to run a fresh
 John the Ripper installation.
 
-- [Stable John 1.9.0 Jumbo 1 32bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip)
+- Stable John 1.9.0 Jumbo 1
+  - The [32bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip)
 [(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_optional.zip)
-[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_log.txt)
-- [Stable John 1.9.0 Jumbo 1 64bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x64_win.zip)
+[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_log.txt);
+  - The [64bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x64_win.zip)
 [(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_optional.zip)
-[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_log.txt)
-- [A 64bit development version](https://rebrand.ly/JtRWin64)
+[(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_log.txt);
+- Development [64bit version](https://rebrand.ly/JtRWin64).
 
 ### Running a non-OpenMP build on Windows
 
