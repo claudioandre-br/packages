@@ -247,6 +247,8 @@ John the Ripper installation.
 [(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_log.txt);
 - Development [64bit version](https://rebrand.ly/JtRWin64).
 
+Libs **may** be needed on some systems.
+
 ### Running a non-OpenMP build on Windows
 
 In some situations a non-OpenMP build may be faster. You can ask to fallback to
