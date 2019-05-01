@@ -1,0 +1,117 @@
+name: john-the-ripper
+version: edge
+version-script: |
+  ./package_version.sh
+
+confinement: strict
+grade: stable
+summary: John the Ripper "Jumbo" password cracker
+description: |
+  John the Ripper is a fast password cracker, currently available for many flavors
+  of Unix, Windows, DOS, BeOS, and OpenVMS. Its primary purpose is to detect weak
+  Unix passwords. Besides several crypt(3) password hash types most commonly found
+  on various Unix systems, supported out of the box are Windows LM hashes, plus lots
+  of other hashes and ciphers.
+
+apps:
+  john-the-ripper:
+    command: run/john
+    plugs: [home]
+  opencl:
+    command: run/john-opencl
+    plugs: [home]
+  dmg2john:
+    command: run/dmg2john
+    plugs: [home]
+  hccap2john:
+    command: run/hccap2john
+    plugs: [home]
+  racf2john:
+    command: run/racf2john
+    plugs: [home]
+  vncpcap2john:
+    command: run/vncpcap2john
+    plugs: [home]
+  zip2john:
+    command: run/zip2john
+    plugs: [home]
+  gpg2john:
+    command: run/gpg2john
+    plugs: [home]
+  keepass2john:
+    command: run/keepass2john
+    plugs: [home]
+  putty2john:
+    command: run/putty2john
+    plugs: [home]
+  rar2john:
+    command: run/rar2john
+    plugs: [home]
+  uaf2john:
+    command: run/uaf2john
+    plugs: [home]
+  wpapcap2john:
+    command: run/wpapcap2john
+    plugs: [home]
+
+parts:
+  john-the-ripper:
+    plugin: nil
+    after: [regex]
+    source: .
+    override-build: |
+      ./build.sh
+      mkdir -p ../install/etc/bash_completion
+      cp run/john.*_completion ../install/etc/bash_completion/
+
+    build-packages:
+      - build-essential
+      - libssl-dev
+      - libgmp-dev
+      - libpcap-dev
+      - libbz2-dev
+      - opencl-headers
+      - git
+      - wget
+      - patch
+
+    organize:
+      ../build/run/: run/
+      ../build/doc/: doc/
+      ../build/README: README
+      ../build/README.md: README.md
+      ../build/README-jumbo: README-jumbo
+      ../build/john-the-ripper.opencl: john-the-ripper.opencl
+
+  regex:
+    plugin: cmake
+    source: https://github.com/teeshop/rexgen.git
+    source-type: git
+    source-subdir: ./src
+    source-tag: 1.4.0
+
+    build-packages:
+      - build-essential
+      - flex
+      - bison
+      - libicu-dev
+
+  libs:
+    plugin: nil
+
+    stage-packages:
+      - openssl
+      - libgomp1
+      - libgmp10
+      - libpcap0.8
+      - libbz2-1.0
+      - ocl-icd-libopencl1
+
+    filesets:
+      extras:
+        - -usr/local/man
+        - -usr/share/
+    prime:
+      - $extras
+    stage:
+      - $extras

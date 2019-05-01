@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2019 Claudio André <claudioandre.br at gmail.com> -->
+<component type="console-application">
+  <id>com.openwall.John</id>
+  <metadata_license>GPL-2.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
+  <name>John the Ripper Community Edition</name>
+  <summary>John the Ripper "Jumbo" password cracker</summary>
+  <description>
+    <p>
+       John the Ripper is a fast password cracker. Its primary purpose is to
+       detect weak Unix passwords. Besides several crypt(3) password hash types,
+       supported out of the box are Windows LM hashes, plus lots of other hashes
+       and ciphers.
+
+       Read more at:
+
+       - https://github.com/magnumripper/JohnTheRipper
+       - https://rebrand.ly/JtRPackage
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://dashboard.snapcraft.io/site_media/appmedia/2016/04/Captura_de_tela_de_2016-04-17_11-22-56.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://www.openwall.com/john/</url>
+  <url type="contact">https://www.openwall.com/lists/john-users/</url>
+  <url type="donation">https://www.zerodayclothing.com/openwall_store.php</url>
+</component>

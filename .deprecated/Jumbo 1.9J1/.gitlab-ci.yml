@@ -1,0 +1,51 @@
+# Fedora docker image.
+image: claudioandre/john:fedora.29.flatpak16
+
+services:
+  - docker:dind
+
+build:
+  stage: build
+  artifacts:
+    paths:
+    - john.flatpak
+
+  variables:
+    BUNDLE: "john.flatpak"
+
+  script:
+    # Build and export the flatpak package
+    - cd john-the-ripper/flatpak
+    - flatpak-builder --repo=repo build com.openwall.John.json
+    - flatpak build-bundle repo john.flatpak com.openwall.John
+    - cp john.flatpak "$CI_PROJECT_DIR"
+    - sha256sum john.flatpak
+
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://gitlab.com/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/raw/${BUNDLE}
+
+deploy:
+  stage: deploy
+
+  script:
+    # Test a previous package
+    # - wget https://gitlab.com/claudioandre-br/packages/-/jobs/189386446/artifacts/raw/john.flatpak
+
+    # Install flatpak package
+    - ostree --repo=repo init --mode=archive-z2
+    - flatpak build-import-bundle repo john.flatpak
+    - flatpak --user remote-add --no-gpg-verify --if-not-exists tutorial-repo repo
+    - flatpak --user install -y tutorial-repo com.openwall.John
+
+    # Do some testing
+    - flatpak run com.openwall.John
+    - flatpak run com.openwall.John --list=build-info
+    - export TEST=';full;extra;' # Controls how the test will happen
+    - export arch=$(uname -m)
+    - export JTR_BIN='flatpak run com.openwall.John'
+    - export JTR_CL='flatpak run com.openwall.John'
+    - cd john-the-ripper/flatpak
+
+    # Adjust the testing environment, import and run some testing
+    - ../tests/run_tests.sh

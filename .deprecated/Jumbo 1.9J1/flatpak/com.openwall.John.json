@@ -1,0 +1,107 @@
+{
+    "id": "com.openwall.John",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "1.6",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "john",
+    "tags": [ "edge" ],
+    "finish-args": [
+        "--filesystem=home"
+    ],
+    "cleanup" : [
+        "/include",
+        "*.la",
+        "*.a"
+    ],
+    "modules": [
+        {
+            "name": "libpcap",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz",
+                    "sha256": "673dbc69fdc3f5a86fb5759ab19899039a8e5e6c631749e48dcd9c6f0c83541e"
+                }
+            ]
+        },
+        {
+            "name": "librexgen",
+            "buildsystem": "cmake",
+            "subdir": "./src",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/teeshop/rexgen/archive/1.4.0.zip",
+                    "sha256": "a7903c21e20e0817b7c760bd13fcff802839b71c1f95db926cf52bb93f13f69d"
+                }
+            ]
+        },
+        {
+            "name": "john",
+            "buildsystem": "simple",
+            "subdir": "src",
+            "build-commands": [
+                "###### build script ######",
+                "../build.sh"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/magnumripper/JohnTheRipper.git",
+                    "branch": "bleeding-jumbo"
+                },
+                {
+                    "type": "patch",
+                    "path": "confined-system-wide-build.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "use-regex-1.4.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/show_info.sh",
+                    "dest-filename": "show_info.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/package_version.sh",
+                    "dest-filename": "package_version.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/disable_formats.sh",
+                    "dest-filename": "disable_formats.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/run_tests.sh",
+                    "dest-filename": "run_tests.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/clean_package.sh",
+                    "dest-filename": "clean_package.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "../tests/run_build.sh",
+                    "dest-filename": "run_build.sh"
+                },
+                {
+                    "type": "file",
+                    "path": "build.sh",
+                    "dest-filename": "build.sh"
+                }
+            ],
+            "post-install": [
+                "###### Install JtR system wide ######",
+                "cp -r ../run/.   /app/bin",
+                "cp -r ../doc/    /app/",
+                "cp    ../README* /app/",
+                "mkdir -p /app/share/bash-completion/completions",
+                "cp ../run/john.*_completion /app/share/bash-completion/completions"
+            ]
+        }
+    ]
+}
