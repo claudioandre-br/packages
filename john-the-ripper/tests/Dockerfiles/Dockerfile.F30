@@ -1,0 +1,25 @@
+######################################################################
+# Copyright (c) 2019 Claudio André <claudioandre.br at gmail.com>
+#
+# This program comes with ABSOLUTELY NO WARRANTY; express or implied.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, as expressed in version 2, seen at
+# http://www.gnu.org/licenses/gpl-2.0.html
+######################################################################
+
+FROM fedora:30
+MAINTAINER Claudio André (c) 2017-2019 1.0.F30
+
+RUN dnf -y -q update && \
+    dnf -y    install \
+        mingw32-gcc mingw64-gcc mingw32-gcc-c++ mingw64-gcc-c++ mingw32-libgomp mingw64-libgomp \
+        mingw32-openssl mingw64-openssl mingw32-gmp mingw64-gmp mingw32-bzip2 mingw64-bzip2 \
+        @development-tools wine openssl-devel gmp-devel libpcap-devel bzip2-devel wget \
+        clang libasan libubsan libtsan american-fuzzy-lop zzuf pocl-devel && \
+    useradd -U -m JtR
+
+USER JtR
+ENV BASE fedora
+CMD /bin/bash
