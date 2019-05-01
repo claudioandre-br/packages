@@ -381,3 +381,28 @@ The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 - /john/run/john-avx512f-no-omp
 - /john/run/john-avx512bw
 - /john/run/john-avx512bw-no-omp
+
+## Packages Checksums
+
+> John the Ripper 1.9.0 Jumbo 1 is NOT released yet. John the Ripper 1.9.0 Jumbo 1 checksums computed by Build Servers
+
+### Windows Packages
+
+```text
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          FEB7EA6F45AF7D009BE67A00113851FDB7408796386ED94F3125931D2CEB73E4       C:\win_x32.zip
+SHA256          CF374AF5632D89CEF3836C1FFEC54722FBE97DD040CCB2003F8D7DB8ACDA9515       C:\optional.zip
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          768C9D39453C9380CCCFE179FDF559BCCDE9E3AFA0C612F55FFB1823F35105E4       C:\win_x64.zip
+SHA256          466A7C1B8E4DCA72E1B80D721E9894524DA484B299CEE478CD73835C29D16454       C:\optional.zip
+```
+
+### Flatpak Package
+
+```bash
+$ sha256sum john.flatpak
+5600141f2cd9bf49b2165607e46b19882d4a2b3d53b95e08d722a288d5b9d9d8  john.flatpak
+```
