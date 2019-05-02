@@ -321,7 +321,6 @@ files. For example:
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
 SHA256          768C9D39453C9380CCCFE179FDF559BCCDE9E3AFA0C612F55FFB1823F35105E4       C:\win_x64.zip
-SHA256          466A7C1B8E4DCA72E1B80D721E9894524DA484B299CEE478CD73835C29D16454       C:\optional.zip
 ```
 
 ## Docker Image
@@ -407,4 +406,10 @@ SHA256          466A7C1B8E4DCA72E1B80D721E9894524DA484B299CEE478CD73835C29D16454
 ```bash
 $ sha256sum john.flatpak
 5600141f2cd9bf49b2165607e46b19882d4a2b3d53b95e08d722a288d5b9d9d8  john.flatpak
+```
+
+### Docker Digest
+
+```bash
+Digest: sha256:8ad28067e0c37ec98e26445f240b4faa77c3b2804d2cee86fb0370d6d44ee24c
 ```
