@@ -335,7 +335,7 @@ Jumbo 1.9.0.J1. To use it:
  docker run -it claudioandre/john:v1.9.0J1 <binary id> <john options>
 
  # To run ztex formats
- docker run -it --device=/dev/ttyUSB0 claudioandre/john:v1.9.0J1 <binary id> <john options>
+ docker run -it --device=/dev/ttyUSB0 claudioandre/john:v1.9.0J1 ztex <john options>
 ```
 
 Run John the Ripper and check if it is working:
@@ -382,6 +382,8 @@ The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 - /john/run/john-avx512f-no-omp
 - /john/run/john-avx512bw
 - /john/run/john-avx512bw-no-omp
+- /john/run/john-ztex (SSE2)
+- /john/run/john-ztex-no-omp (SSE2)
 
 ## Packages Checksums
 

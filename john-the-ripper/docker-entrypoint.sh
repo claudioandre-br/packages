@@ -15,6 +15,7 @@ echo "$@"
 binaries="sse2 sse2-no-omp ssse3 ssse3-no-omp sse4.1 sse4.1-no-omp sse4.2 sse4.2-no-omp
           avx avx-no-omp xop xop-no-omp avx2 avx2-no-omp
           avx512f avx512f-no-omp avx512bw avx512bw-no-omp
+          ztex ztex-no-omp
           "
 binary="$1"
 
@@ -22,7 +23,9 @@ if [[ $# -gt 0 && "$binaries" == *"$binary"* ]]; then
     shift
 fi
 
-if [[ "$binary" = 'sse2-no-omp' ]]; then
+if [[ "$binary" = 'sse2' ]]; then
+    exec /john/run/john-sse2 "$@"
+elif [[ "$binary" = 'sse2-no-omp' ]]; then
     exec /john/run/john-sse2-no-omp "$@"
 elif [[ "$binary" = 'ssse3' ]]; then
     exec /john/run/john-ssse3 "$@"
@@ -56,6 +59,10 @@ elif [[ "$binary" = 'avx512bw' ]]; then
     exec /john/run/john-avx512bw "$@"
 elif [[ "$binary" = 'avx512bw-no-omp' ]]; then
     exec /john/run/john-avx512bw-no-omp "$@"
+elif [[ "$binary" = 'ztex' ]]; then
+    exec /john/run/john-ztex "$@"
+elif [[ "$binary" = 'ztex-no-omp' ]]; then
+    exec /john/run/john-ztex-no-omp "$@"
 else
     exec /john/run/john-sse2 "$@"
 fi
