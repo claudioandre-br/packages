@@ -44,19 +44,20 @@ FILES="pbkdf2-hmac-md4_fmt_plug.c pbkdf2-hmac-md5_fmt_plug.c $CL/opencl_pbkdf2_h
 #BCrypt
 patch -l -f -p1 <<ENDPATCH
 diff --git a/src/john.c b/src/john.c
-index 285ce89..219edbe 100644
+index 81434897b..d22b4472c 100644
 --- a/src/john.c
 +++ b/src/john.c
-@@ -362,7 +362,7 @@ static void john_register_all(void)
- 	john_register_one(&fmt_DES);
- 	john_register_one(&fmt_BSDI);
- 	john_register_one(&fmt_MD5);
--	john_register_one(&fmt_BF);
-+	//john_register_one(&fmt_BF);
--	john_register_one(&fmt_scrypt);
-+	//john_register_one(&fmt_scrypt);
- 	john_register_one(&fmt_LM);
- 	john_register_one(&fmt_AFS);
+@@ -374,8 +374,8 @@ static void john_register_all(void)
+        john_register_one(&fmt_BSDI);
+        john_register_one(&fmt_MD5);
+        john_register_one(&fmt_md5crypt_long);
+-       john_register_one(&fmt_BF);
+-       john_register_one(&fmt_scrypt);
++       //john_register_one(&fmt_BF);
++       //john_register_one(&fmt_scrypt);
+        john_register_one(&fmt_LM);
+        john_register_one(&fmt_AFS);
+        john_register_one(&fmt_trip);
 ENDPATCH
 # -----
 
