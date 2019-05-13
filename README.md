@@ -54,10 +54,14 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
 
 - FreeBSD 11 and FreeBSD 12;
 - Windows Server 2012 R2 and Windows Server 2016;
+- macOS 10.13 (Darwin Kernel Version 17.4.0);
+- macOS 10.14 (Darwin Kernel Version 18.5.0);
 - CentOS 6, Ubuntu 12.04, Ubuntu 14.04, Ubuntu 16.04, Ubuntu 17.10, Ubuntu 19.04
 (devel), and Fedora 29;
 - gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 6.2[^1], gcc 7.2, gcc 7.4, gcc 8.3, and gcc 9.0;
 - clang 3.9, clang 4.0, clang 5.0, clang 6.0, clang 7.0, and clang 8.0;
+- Xcode 9.4; Apple LLVM version 9.1.0 (clang-902.0.39.2);
+- Xcode 10.2; Apple LLVM version 10.0.1 (clang-1001.0.46.4);
 - SIMD and non-SIMD builds (including AVX512);
 - OpenMP and non-OpenMP builds;
 - LE (Little Endian) and BE (Big Endian) builds;

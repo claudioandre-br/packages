@@ -71,6 +71,14 @@ matrix:
   - dist: xenial
     env: TEST="snap;" FUZZ="snap"
 
+  - os: osx
+    osx_image: xcode10.2
+    env: TEST="MacOS;" OPENCL="yes"
+
+  - os: osx
+    osx_image: xcode9.4
+    env: TEST="MacOS;" OPENCL="yes"
+
   allow_failures:
   - env: TEST="experimental;"            BUILD_OPTS="--enable-werror"
 

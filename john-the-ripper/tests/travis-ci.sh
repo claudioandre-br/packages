@@ -193,6 +193,13 @@ if [[ "$TEST" == *"usual;"* ]]; then
     # Run the test: --test-full=0
     ../.travis/CI-tests.sh
 
+elif [[ "$TEST" == *"MacOS;"* ]]; then
+    # Configure and build
+    do_Build
+
+    # Run the test: --test-full=0
+    ../.travis/CI-tests.sh
+
 elif [[ "$TEST" == *"ztex;"* ]]; then
     # Build the docker command line
     do_Build_Docker_Command_Image
