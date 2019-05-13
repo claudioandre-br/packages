@@ -60,10 +60,6 @@ matrix:
     env: TEST="usual;OPENCL;" BUILD_OPTS="--enable-ubsan"
 
   #Test fuzzing
-  - env: TEST="OpenCL;POCL;afl-clang-fast;" BUILD_OPTS="--enable-fuzz" FUZZ="afl"
-
-  - env: TEST="OpenCL;POCL;clang;"  BUILD_OPTS="--enable-fuzz" FUZZ="zzuf"
-
   - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="internal"  # --fuzz
 
   - env: TEST="OpenCL;POCL;"        BUILD_OPTS="--enable-fuzz" FUZZ="full"      # --test-full=1
