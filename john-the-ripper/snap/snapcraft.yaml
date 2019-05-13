@@ -8,8 +8,8 @@ grade: devel
 assumes: [ snapd2.38 ]
 base: core18
 
-license: GPL-2.0
-title: John the Ripper Community Edition
+#license: GPL-2.0
+#title: John the Ripper Community Edition
 summary: John the Ripper "Jumbo" password cracker
 description: |
   John the Ripper is a fast password cracker, currently available for many flavors
@@ -18,7 +18,7 @@ description: |
   on various Unix systems, supported out of the box are Windows LM hashes, plus lots
   of other hashes and ciphers.
 
-icon: share/icons/icon.png
+icon: icon.png
 
 apps:
   john-the-ripper:
