@@ -86,9 +86,7 @@ parts:
     organize:
       ../build/run/: run/
       ../build/doc/: doc/
-      ../build/README: README
       ../build/README.md: README.md
-      ../build/README-jumbo: README-jumbo
 
   libs:
     plugin: nil
