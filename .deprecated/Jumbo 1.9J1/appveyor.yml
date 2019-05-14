@@ -5,12 +5,12 @@ environment:
 
   matrix:
     # CygWin 64bits build on Windows Server 2016
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      arch: x86_64
-      bits: 64
-      doing: test
-      test: yes
-      location: cygwin64
+    # APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    #  arch: x86_64
+    #  bits: 64
+    #  doing: test
+    #  test: yes
+    #  location: cygwin64
 
     # CygWin 64bits build
     - arch: x86_64
@@ -41,8 +41,10 @@ install:
         # Use upstream source code
         cd $env:PROJ_FOLDER
         Remove-Item ./JohnTheRipper -Force -Recurse -ErrorAction SilentlyContinue
-        git clone -q --depth 1 https://github.com/magnumripper/JohnTheRipper.git JohnTheRipper
+        git clone -q https://github.com/magnumripper/JohnTheRipper.git JohnTheRipper
         cd $env:BUILD_FOLDER
+        git checkout a16c8a76259ab870c07e5123c237b1900402d9a6
+        dir # Only to result in Ok
       }
   - git describe --dirty=+ --always 2>nul > __git.tmp
   - set /p gitDescribe=<__git.tmp

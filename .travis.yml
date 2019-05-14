@@ -43,6 +43,7 @@ script:
   # Test the build
   - 'if [[ "$log_message" == *"[run test]"* && "$log_message" == *"[$NAME]"* ]]; then
        git clone  https://github.com/magnumripper/JohnTheRipper.git john && cd john/src;
+       # git checkout a16c8a76259ab870c07e5123c237b1900402d9a6; # Make it a reproducible build
        docker run -v $(pwd):/cwd $REPO:$NAME bash -e -c "cd /cwd && ./configure && make -sj2";
      fi
     '

@@ -29,6 +29,14 @@ OTHER_NO_OPENMP="$SYSTEM_WIDE --disable-openmp"
 git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 
+# Uncomment for a release
+# _JUMBO_RELEASE="528d06304c300d60d18c656575e56e04a45ac80d"
+
+# Make it a reproducible build
+if [[ -n "$_JUMBO_RELEASE" ]]; then
+    git checkout "$_JUMBO_RELEASE"
+fi
+
 # We are in packages folder, change to JtR folder
 cd src
 
@@ -52,7 +60,7 @@ source run_build.sh
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
-if [[ "$arch" == "x86_64" ]]; then
+if [[ "$arch" == "x86_64" || "$arch" == "i686" ]]; then
     # Allow an OpenCL build
     sudo apt-get install -y beignet-dev
 

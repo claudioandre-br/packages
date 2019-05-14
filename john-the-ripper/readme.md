@@ -45,7 +45,7 @@ The highlights:
 - prince mode available;
 - OpenCL available (GPU driver installation is needed);
 - also available via the alias **john**, e.g. `john -list=build-info`;
-- a stable version (John 1.9.0 Jumbo 1):
+- the stable John 1.9.0 Jumbo 1:
   - is available for X86_64, armhf, arm64, ppc64el, i386, powerpc, and s390x;
   - has regex mode available;
 - a development version:
@@ -153,7 +153,7 @@ The highlights:
 
 - fallback for CPU[*] and OMP;
 - prince mode available.
-- a stable version (John 1.9.0 Jumbo 1):
+- the stable John 1.9.0 Jumbo 1:
   - is available for X86_64, arm, aarch64, and i386;
   - has regex mode available;
 - a development version:
@@ -225,7 +225,7 @@ The highlights:
 - generic crypt(3) format available;
 - security feature Address Space Layout Randomisation (ASLR) enabled;
 - security feature Data Execution Prevention (DEP) enabled;
-- a stable version (John 1.9.0 Jumbo 1):
+- the stable John 1.9.0 Jumbo 1:
   - is available for X86_64 and i386;
 - a development version:
   - is available for X86_64.
@@ -238,14 +238,14 @@ it's running on.
 The links below contain all the executables and libraries needed to run a fresh
 John the Ripper installation.
 
-- Stable John 1.9.0 Jumbo 1
+- the stable John 1.9.0 Jumbo 1:
   - The [32bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x32_win.zip)
 [(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_optional.zip)
 [(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x32_log.txt);
   - The [64bit version](https://openwall.info/wiki/_media/john/1.9.0J1/x64_win.zip)
 [(libs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_optional.zip)
 [(logs)](https://openwall.info/wiki/_media/john/1.9.0J1/x64_log.txt);
-- Development [64bit version](https://rebrand.ly/JtRWin64).
+- a development [64bit version](https://rebrand.ly/JtRWin64).
 
 Libs **may** be needed on some systems.
 
@@ -387,31 +387,31 @@ The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 
 ## Packages Checksums
 
-> John the Ripper 1.9.0 Jumbo 1 is NOT released yet. John the Ripper 1.9.0 Jumbo 1 checksums computed by Build Servers
+> John the Ripper 1.9.0 Jumbo 1 checksums computed by Build Servers
 
 ### Windows Packages
 
 ```text
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          FEB7EA6F45AF7D009BE67A00113851FDB7408796386ED94F3125931D2CEB73E4       C:\win_x32.zip
-SHA256          CF374AF5632D89CEF3836C1FFEC54722FBE97DD040CCB2003F8D7DB8ACDA9515       C:\optional.zip
+SHA256          C06274B7AB3064844F4D36F9CE943492EC666FA50B97C595A02A54719DC40398       C:\win_x32.zip
+SHA256          64B8DDF2B930210263546D52B796740F689C22D539652EBA0D7FE5E3CD024BAB       C:\optional.zip
 
 Algorithm       Hash                                                                   Path
 ---------       ----                                                                   ----
-SHA256          768C9D39453C9380CCCFE179FDF559BCCDE9E3AFA0C612F55FFB1823F35105E4       C:\win_x64.zip
-SHA256          466A7C1B8E4DCA72E1B80D721E9894524DA484B299CEE478CD73835C29D16454       C:\optional.zip
+SHA256          75C085D1625B50E70EE2906227DC9EE3722A8D24377057E7E22B5FE8579E9314       C:\win_x64.zip
+SHA256          8AF77CB39B1D3E05CF6AFC317151F02C7847A61727D868F9EF49471C9BBA75DB       C:\optional.zip
 ```
 
 ### Flatpak Package
 
 ```bash
 $ sha256sum john.flatpak
-5600141f2cd9bf49b2165607e46b19882d4a2b3d53b95e08d722a288d5b9d9d8  john.flatpak
+5f330b46f4f40035714678aade47155c58d9eee819adef6951d032552c31813d  john.flatpak
 ```
 
 ### Docker Digest
 
 ```bash
-Digest: sha256:8ad28067e0c37ec98e26445f240b4faa77c3b2804d2cee86fb0370d6d44ee24c
+Digest: sha256:4ea2eb998a335cb1d482ba125fd10862f807e36e96c39e31fa96a2325579e154
 ```

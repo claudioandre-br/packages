@@ -16,11 +16,19 @@ X86_NO_OPENMP="--disable-native-tests --disable-opencl $SYSTEM_WIDE --disable-op
 OTHER_REGULAR="$SYSTEM_WIDE"
 OTHER_NO_OPENMP="$SYSTEM_WIDE --disable-openmp"
 
+# Uncomment for a release
+_JUMBO_RELEASE="a16c8a76259ab870c07e5123c237b1900402d9a6"
+
 # Get JtR source code and adjust it to create a SNAP package
 git clone --depth 10 https://github.com/magnumripper/JohnTheRipper.git tmp
 cp -r tmp/. .
 wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/snap/john-the-ripper.opencl
 chmod +x john-the-ripper.opencl
+
+# Make it a reproducible build
+if [[ -n "$_JUMBO_RELEASE" ]]; then
+    git checkout "$_JUMBO_RELEASE"
+fi
 
 # We are in packages folder, change to JtR folder
 cd src

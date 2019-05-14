@@ -46,9 +46,9 @@
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/magnumripper/JohnTheRipper.git",
-                    "branch": "bleeding-jumbo"
+                    "type": "archive",
+                    "url": "https://github.com/magnumripper/JohnTheRipper/archive/1.9.0-Jumbo-1.zip",
+                    "sha256": "48d30775dd3324b5a915c11c2fd52c21621377f76ea007c3982edb825c7f3442"
                 },
                 {
                     "type": "patch",
