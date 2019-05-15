@@ -1,15 +1,12 @@
-[![Flatpak Build](https://gitlab.com/claudioandre-br/packages/badges/master/pipeline.svg)](https://gitlab.com/claudioandre-br/packages/pipelines)
-[![Windows Build](https://ci.appveyor.com/api/projects/status/hd7cp5qt34xfu7d8?svg=true)](https://ci.appveyor.com/project/claudioandre-br/johntheripper)
-[![FreeBSD Build](https://api.cirrus-ci.com/github/claudioandre-br/JohnTheRipper.svg)](https://cirrus-ci.com/github/claudioandre-br/JohnTheRipper)
+# Packages
+
 [![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/claudioandre-br/packages/blob/master/LICENSE.txt)
 
-# Packages
+This repository contains Snaps, a Flatpak, Windows packages, and a Docker Image.
 
 [Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways
 of distributing Linux applications among a wide range of different distros. They
 are technologies to deploy applications in a secure, sandboxed and containerised way.
-
-In here there are **Snap**, **Flatpak**, and **Windows** packages.
 
 #### Ubuntu Snap Packages
 
