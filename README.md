@@ -87,6 +87,18 @@ and IBM System z.
 | S390x | SIMD is not supported |
 | x86| AVX512BW, AVX512F, AVX2, XOP, AVX, SSE4.2, SSE4.1, SSSE3, SSE2 |
 
+### Development builds
+
+| Provider   | OS | Development builds |
+| ------------- | ------------- | ----- |
+| AppVeyor CI | Windows | ✓ Build artifacts available |
+| Azure | Linux, Windows (+ GPU) | ∅ Under development |
+| Circle CI | Linux | ✗ No build artifacts |
+| Cirrus CI | FreeBSD | ✗ No build artifacts |
+| GitLab CI | Linux (FlatPak app) | ✓ Build artifacts available |
+| LaunchPad | Linux (Snap app) | ✓ Build artifacts available |
+| Travis CI | Linux, macOS | ✗ No build artifacts |
+
 ## License
 
 GNU General Public License v2.0
