@@ -60,36 +60,37 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
   - macOS 10.13 (Darwin Kernel Version 17.4.0);
   - macOS 10.14 (Darwin Kernel Version 18.5.0);
 - Linux:
-  - CentOS 6, Ubuntu 12.04, Ubuntu 14.04, Ubuntu 16.04, Ubuntu 17.10, Ubuntu 19.04
-(devel), and Fedora 30;
+  - CentOS 6, Ubuntu 12.04, Ubuntu 16.04, Ubuntu 18.04, Ubuntu 19.04, Ubuntu 19.10
+ (devel), and Fedora 30;
 - Compilers:
   - gcc 4.4, gcc 4.6, gcc 4.8, gcc 5.4, gcc 7.2, gcc 7.4, gcc 8.3, and gcc 9.0;
   - clang 3.9, clang 4.0, clang 5.0, clang 6.0, clang 7.0, and clang 8.0;
   - Xcode 9.4; Apple LLVM version 9.1.0 (clang-902.0.39.2);
   - Xcode 10.2; Apple LLVM version 10.0.1 (clang-1001.0.46.4);
-- SIMD and non-SIMD builds;
-- OpenMP and non-OpenMP builds;
-- LE (Little Endian) and BE (Big Endian) builds;
-- ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
-- Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
-- MinGW + Wine (on Fedora Linux);
-- CygWin on Windows Server;
-- OpenCL on CPU using AMD drivers and POCL (<http://portablecl.org/>);
-- And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
+- Builds:
+  - SIMD and non-SIMD builds;
+  - OpenMP and non-OpenMP builds;
+  - LE (Little Endian) and BE (Big Endian) builds;
+  - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
+  - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
+  - MinGW + Wine on Fedora Linux;
+  - CygWin on Windows Server;
+  - OpenCL on CPU using AMD drivers and POCL (<http://portablecl.org/>);
+  - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
 
-### Supported and tested SIMD extensions
+#### Supported and Tested SIMD Extensions
 
 | Architecture | SIMD |
-|:-:|:-:|
+| :-: | :-: |
 | ARM | NEON, ASIMD |
 | PowerPC | Altivec |
 | S390x | SIMD is not supported |
 | x86| AVX512BW, AVX512F, AVX2, XOP, AVX, SSE4.2, SSE4.1, SSSE3, SSE2 |
 
-### Development builds
+#### Development Builds and Artifacts
 
-| Provider   | OS | Development builds |
+| Provider   | OS | Artifacts |
 | ------------- | ------------- | ----- |
 | AppVeyor CI | Windows | ✓ Build artifacts available |
 | Azure | Linux, Windows (+ GPU) | ∅ Under development |
