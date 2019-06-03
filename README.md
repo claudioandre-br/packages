@@ -75,9 +75,14 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
   - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
   - MinGW + Wine on Fedora Linux;
   - CygWin on Windows Server;
-  - OpenCL on CPU using AMD drivers and POCL (<http://portablecl.org/>);
+  - OpenCL on CPU using Apple drivers and POCL (<http://portablecl.org/>);
+  - OpenCL on GPU using Azure cloud (_work in progress_);
   - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
+- Plans and Future Vision:
+  - Build a fully automated build and release pipeline using Azure DevOps Services
+    to create the CI/CD pipeline and Azure App Service for deploying to
+    development/staging and production.
 
 #### Supported and Tested SIMD Extensions
 
@@ -93,7 +98,7 @@ and IBM System z.
 | Provider   | OS | Artifacts |
 | ------------- | ------------- | ----- |
 | AppVeyor CI | Windows | ✓ Build artifacts available |
-| Azure | Linux, Windows (+ GPU) | ∅ Under development |
+| Azure | Linux and Windows (plus OpenCL on GPU) | ∅ Under development |
 | Circle CI | Linux | ✗ No build artifacts |
 | Cirrus CI | FreeBSD | ✗ No build artifacts |
 | GitLab CI | Linux (FlatPak app) | ✓ Build artifacts available |
