@@ -105,6 +105,14 @@ and IBM System z.
 | LaunchPad | Linux (Snap app) | ✓ Build artifacts available |
 | Travis CI | Linux, macOS | ✗ No build artifacts |
 
+## Security
+
+Please inspect all packages prior to running any of them to ensure safety.
+We already know they're safe, but you should verify the security and contents of any
+binary from the internet you are not familiar with.
+
+We take security very seriously.
+
 ## License
 
 GNU General Public License v2.0

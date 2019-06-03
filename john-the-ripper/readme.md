@@ -8,6 +8,12 @@ purpose is to detect weak Unix passwords. Besides several crypt(3) password hash
 types most commonly found on various Unix systems, supported out of the box are
 Windows LM hashes, plus lots of other hashes and ciphers.
 
+NOTE: Please inspect all packages prior to running any of them to ensure safety.
+We already know they're safe, but you should verify the security and contents of any
+binary from the internet you are not familiar with.
+
+We take security very seriously.
+
 ## Snap
 
 > Built and deployed using Launchpad
