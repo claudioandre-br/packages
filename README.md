@@ -75,7 +75,7 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
   - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
   - MinGW and Wine on Fedora Linux;
   - CygWin on Windows Server;
-  - OpenCL on CPU using Apple drivers and POCL (<http://portablecl.org/>);
+  - OpenCL on CPU using Apple, Intel, and POCL runtimes (<http://portablecl.org/>);
   - OpenCL on GPU using Azure cloud (_work in progress_);
   - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
