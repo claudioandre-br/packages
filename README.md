@@ -73,16 +73,18 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
   - LE (Little Endian) and BE (Big Endian) builds;
   - ASAN (address sanitizer) and UBSAN (undefined behavior sanitizer);
   - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
-  - MinGW + Wine on Fedora Linux;
+  - MinGW and Wine on Fedora Linux;
   - CygWin on Windows Server;
   - OpenCL on CPU using Apple drivers and POCL (<http://portablecl.org/>);
   - OpenCL on GPU using Azure cloud (_work in progress_);
   - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
-- Plans and Future Vision:
-  - Build a fully automated build and release pipeline using Azure DevOps Services
-    to create the CI/CD pipeline and Azure App Service for deploying to
-    development/staging and production.
+
+Our plans and future vision:
+
+- Develop a fully automated build and release pipeline using Azure DevOps Services
+  to create the CI/CD pipeline and Azure App Service for deploying to
+  development/staging and production. See the [release workflow here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/CI-workflow.pdf).
 
 #### Supported and Tested SIMD Extensions
 
