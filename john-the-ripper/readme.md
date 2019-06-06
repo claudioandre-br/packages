@@ -146,6 +146,8 @@ Flatpak is available for the [most common Linux distributions](http://flatpak.or
 You can install JtR by following the instructions at
 [https://flathub.org/apps/details/com.openwall.John](https://flathub.org/apps/details/com.openwall.John).
 
+Also, you can download and install the [64bit version](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/john.flatpak.zip) flatpak bundle.
+
 John runs confined under a restrictive security sandbox by default. Nevertheless,
 you can access and audit any file located in your home. Below, an usage example:
 
@@ -245,12 +247,12 @@ The links below contain all the executables and libraries needed to run a fresh
 John the Ripper installation.
 
 - the stable John 1.9.0 Jumbo 1:
-  - The [32bit version](https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/1.9.0.J1/x32_win.zip)
-[(libs)](https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/1.9.0.J1/x32_optional.zip)
-[(logs)](https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/1.9.0.J1/x32_log.txt);
-  - The [64bit version](https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/1.9.0.J1/x64_win.zip)
-[(libs)](https://github.com/claudioandre-br/packages/raw/master/john-the-ripper/1.9.0.J1/x64_optional.zip)
-[(logs)](https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/1.9.0.J1/x64_log.txt);
+  - The [32bit version](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x32_win.zip)
+[(libs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x32_optional.zip)
+[(logs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x32_log.txt);
+  - The [64bit version](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_win.zip)
+[(libs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_optional.zip)
+[(logs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_log.txt);
 - a development [64bit version](https://rebrand.ly/JtRWin64).
 
 Libs **may** be needed on some systems.
