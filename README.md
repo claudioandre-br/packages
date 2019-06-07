@@ -75,7 +75,7 @@ Our CI (continuous integration) testing scheme stresses John the Ripper source c
   - Fuzzing (<https://en.wikipedia.org/wiki/Fuzzing>);
   - MinGW and Wine on Fedora Linux;
   - CygWin on Windows Server;
-  - OpenCL on CPU using Apple, Intel, and POCL runtimes (<http://portablecl.org/>);
+  - OpenCL on CPU using Apple, Intel, and POCL (<http://portablecl.org/>) runtimes;
   - OpenCL on GPU using Azure cloud (_work in progress_);
   - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
@@ -101,12 +101,12 @@ Our plans and future vision:
 | Provider   | OS | Artifacts |
 | ------------- | ------------- | ----- |
 | AppVeyor CI | Windows | ✓ Build artifacts available |
-| Azure | Linux and Windows (plus OpenCL on GPU) | ∅ Under development |
+| Azure | Linux and Windows (plus OpenCL) | ∅ Under development |
 | Circle CI | Linux | ✗ No build artifacts |
 | Cirrus CI | FreeBSD | ✗ No build artifacts |
 | GitLab CI | Linux (FlatPak app) | ✓ Build artifacts available |
 | LaunchPad | Linux (Snap app) | ✓ Build artifacts available |
-| Travis CI | Linux, macOS | ✗ No build artifacts |
+| Travis CI | Linux and macOS | ✗ No build artifacts |
 
 ## Security
 
