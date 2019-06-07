@@ -83,8 +83,9 @@ and IBM System z.
 Our plans and future vision:
 
 - Develop a fully automated build and release pipeline using Azure DevOps Services
-  to create the CI/CD pipeline and Azure App Service for deploying to
-  development/staging and production. See the [release workflow here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/CI-workflow.pdf).
+  to create the CI/CD pipeline and Azure Services for deploying to development/staging and
+  production.
+  See the [release workflow here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/CI-workflow.pdf).
 
 #### Supported and Tested SIMD Extensions
 
