@@ -143,10 +143,16 @@ operating system out there.
 
 Flatpak is available for the [most common Linux distributions](http://flatpak.org/getting.html).
 
-You can install JtR by following the instructions at
-[https://flathub.org/apps/details/com.openwall.John](https://flathub.org/apps/details/com.openwall.John).
+To install JtR, simply run:
 
-Also, you can download and install the [64bit version](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/john.flatpak.zip) flatpak bundle.
+```bash
+ dnf install -y flatpak # or 'yum install', 'apt-get install', etc.
+ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo # flatpak repository
+ flatpak install flathub com.openwall.John
+```
+
+~~You can install JtR by following the instructions at
+[https://flathub.org/apps/details/com.openwall.John](https://flathub.org/apps/details/com.openwall.John).~~
 
 John runs confined under a restrictive security sandbox by default. Nevertheless,
 you can access and audit any file located in your home. Below, an usage example:
