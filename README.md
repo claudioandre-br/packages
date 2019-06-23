@@ -46,8 +46,10 @@ At this moment, I'm using **Travis CI** to build the Docker image.
 
 ## Testing
 
-Our CI (continuous integration) testing scheme stresses John the Ripper source code
- using:
+Using multiple providers, I've created my DevOps infrastructure. I am mostly interested
+in quality assurance, CI (continuous integration), and CD (continuous delivery). To achieve
+this goal, our testing scheme builds, scrutinizes and inspects the source code of John the Ripper
+using:
 
 - Microsoft Windows:
   - Windows Server 2012 R2 Datacenter (6.3.9600 N/A Build 9600);
