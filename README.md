@@ -48,7 +48,7 @@ At this moment, I'm using **Travis CI** to build the Docker image.
 
 Using multiple providers, I've created my DevOps infrastructure. I am mostly interested
 in quality assurance, CI (continuous integration), and CD (continuous delivery). To achieve
-this goal, our testing scheme builds, scrutinizes and inspects the source code of John the Ripper
+this goal, my testing scheme builds and inspects the source code of John the Ripper
 using:
 
 - Microsoft Windows:
@@ -82,7 +82,7 @@ using:
   - And a final assessment using ARMv7 (armhf), ARMv8 (aarch64), PowerPC64 Little-Endian,
 and IBM System z.
 
-Our plans and future vision:
+Plans and future vision:
 
 - Develop a fully automated build and release pipeline using Azure DevOps Services
   to create the CI/CD pipeline and Azure Services for deploying to development/staging and
