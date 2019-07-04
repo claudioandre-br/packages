@@ -183,8 +183,8 @@ the Ripper Jumbo 1.9.0.J1 in your system. If you want to access the hot and blee
 developing version of JtR, you must install a bundle.
 
 John the Ripper single-file flatpak bundle was built and tested on
-[GitLab](https://gitlab.com/claudioandre-br/packages/pipelines). You can get it
-[here](https://github.com/claudioandre-br/JohnTheRipper/releases/tag/jumbo-dev).
+[GitLab](https://gitlab.com/claudioandre-br/JtR-CI/pipelines). You can get it
+[here](https://github.com/claudioandre-br/packages/releases/tag/jumbo-dev).
 
 The necessary steps to install the package are listed below. They were tested on
 a clean Fedora 29 docker image, but they should work for every supported distro
@@ -259,7 +259,7 @@ John the Ripper installation.
   - The [64bit version](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_win.zip)
 [(libs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_optional.zip)
 [(logs)](https://github.com/claudioandre-br/packages/releases/download/1.9.0-jumbo-1/x64_log.txt);
-- a development [64bit version](https://github.com/claudioandre-br/JohnTheRipper/releases/tag/jumbo-dev).
+- a development [64bit version](https://github.com/claudioandre-br/packages/releases/tag/jumbo-dev).
 
 Libs **may** be needed on some systems.
 
