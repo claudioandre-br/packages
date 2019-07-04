@@ -341,8 +341,8 @@ SHA256          768C9D39453C9380CCCFE179FDF559BCCDE9E3AFA0C612F55FFB1823F35105E4
 
 > Built using Travis CI and deployed using Docker Hub
 
-For testing and future reference, we have a Docker image of John the Ripper
-Jumbo 1.9.0.J1. To use it:
+For testing and future reference, we have a Docker image of John the Ripper.
+To use it:
 
 ```bash
  # CPU only formats
@@ -356,6 +356,7 @@ Run John the Ripper and check if it is working:
 
 ```bash
  docker run -it claudioandre/john:v1.9.0J1 # => SSE2
+ docker run -it claudioandre/john:v1.9.0J1 best # => uses the best SIMD available
  docker run -it claudioandre/john:v1.9.0J1 ssse3-no-omp -list=build-info
  docker run -it claudioandre/john:v1.9.0J1 avx512bw -test=0 -format=cpu
  docker run -it claudioandre/john:v1.9.0J1 -list=format-tests | cut -f3 > ~/alltests.in
@@ -373,8 +374,10 @@ Compare the performance of SIMD extensions:
 
 The highlights:
 
-- ztex formats available;
-- prince mode available.
+- auto-selection of the best SIMD if user specifies `best` as the `<binary id>`;
+- prince mode available;
+- the stable John 1.9.0 Jumbo 1:
+  - ztex formats available.
 
 The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 
