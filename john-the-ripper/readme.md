@@ -374,10 +374,11 @@ Compare the performance of SIMD extensions:
 
 The highlights:
 
-- auto-selection of the best SIMD if user specifies `best` as the `<binary id>`;
 - prince mode available;
 - the stable John 1.9.0 Jumbo 1:
-  - ztex formats available.
+  - has ztex formats available.
+- the development version `claudioandre/john:v1.9.0J2`:
+  - has auto-selection of the best SIMD if user specifies `best` as the `<binary id>`.
 
 The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
 
