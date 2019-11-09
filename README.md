@@ -70,6 +70,7 @@ using:
   - clang 5.0, clang 6.0, and clang 9.0;
   - Xcode 9.4; Apple LLVM version 9.1.0 (clang-902.0.39.2);
   - Xcode 10.2; Apple LLVM version 10.0.1 (clang-1001.0.46.4);
+  - Xcode 11.2; Apple LLVM version 10.0.1 (clang-1001.0.46.4);
 - Builds:
   - SIMD and non-SIMD builds;
   - OpenMP and non-OpenMP builds;
