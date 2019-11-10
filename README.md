@@ -35,7 +35,7 @@ At this moment, I'm using **FlatHub** and **GitLab** to build the Flatpak packag
 - John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/readme.md#windows)
  for more details.
 
-At this moment, I'm using **AppVeyor CI** to build the Windows package.
+At this moment, I'm using **AppVeyor CI** and **Azure DevOps** to build the Windows package.
 
 #### Docker Image
 
