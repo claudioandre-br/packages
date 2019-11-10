@@ -214,7 +214,7 @@ Run John the Ripper and check if it is working:
 
 ## Windows
 
-> Built and deployed using AppVeyor CI
+> Built and deployed using AppVeyor CI and Azure DevOps
 
 To install John the Ripper by downloading the .zip file and installing manually,
 follow these steps:
