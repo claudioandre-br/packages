@@ -405,9 +405,9 @@ The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc) are:
 
 ## Packages Checksums
 
-> John the Ripper checksums computed by Build Servers
+> Released packages checksums computed by Build Servers
 
-### John 1.9.0 Jumbo 1
+### John the Ripper 1.9.0 Jumbo 1
 
 #### Windows Packages
 
