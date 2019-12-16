@@ -405,9 +405,11 @@ The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc) are:
 
 ## Packages Checksums
 
-> John the Ripper 1.9.0 Jumbo 1 checksums computed by Build Servers
+> John the Ripper checksums computed by Build Servers
 
-### Windows Packages
+### John 1.9.0 Jumbo 1
+
+#### Windows Packages
 
 ```text
 Algorithm       Hash                                                                   Path
@@ -421,14 +423,14 @@ SHA256          75C085D1625B50E70EE2906227DC9EE3722A8D24377057E7E22B5FE8579E9314
 SHA256          8AF77CB39B1D3E05CF6AFC317151F02C7847A61727D868F9EF49471C9BBA75DB       C:\optional.zip
 ```
 
-### Flatpak Package
+#### Flatpak Package
 
 ```bash
 $ sha256sum john.flatpak
 5f330b46f4f40035714678aade47155c58d9eee819adef6951d032552c31813d  john.flatpak
 ```
 
-### Docker Digest
+#### Docker Digest
 
 ```bash
 Digest: sha256:4ea2eb998a335cb1d482ba125fd10862f807e36e96c39e31fa96a2325579e154
