@@ -328,7 +328,7 @@ File verification is the process of using an algorithm for verifying the integri
 of a computer file. A popular approach is to store checksums (hashes) of files,
 also known as message digests, for later comparison.
 
-Accessing the AppVeyor `Console` Tab, you can view the hashes of all relevant
+Accessing the build logs, you can view the hashes of all relevant
 files. For example:
 
 ```text
@@ -380,7 +380,7 @@ The highlights:
 - the development version (`claudioandre/john:v1.9.0J2`):
   - has auto-selection of the best SIMD if user specifies `best` as the `<binary id>`.
 
-The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc):
+The available binaries (their IDs are sse2, sse2-no-omp, ssse3, etc) are:
 
 - /john/run/john-sse2 (default binary)
 - /john/run/john-sse2-no-omp
