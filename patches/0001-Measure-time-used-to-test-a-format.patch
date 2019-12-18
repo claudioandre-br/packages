@@ -1,0 +1,46 @@
+From 8fe9e665fc304b495fe9c9b526114da0b3925333 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Wed, 18 Dec 2019 11:38:48 -0300
+Subject: [PATCH 1/2] Measure time used to test a format
+
+---
+ src/bench.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/src/bench.c b/src/bench.c
+index 0a50588a6..dac5ac4cf 100644
+--- a/src/bench.c
++++ b/src/bench.c
+@@ -742,6 +742,7 @@ AGAIN:
+ 		char *result, *msg_1, *msg_m;
+ 		struct bench_results results_1, results_m;
+ 		char s_real[64], s_virtual[64];
++		clock_t start, end;
+ 
+ #ifndef BENCH_BUILD
+ /* Silently skip formats for which we have no tests, unless forced */
+@@ -805,6 +806,8 @@ AGAIN:
+ 		if ((options.flags & FLG_LOOPTEST) && john_main_process)
+ 			printf("#%u ", ++loop_total);
+ #endif
++		start = clock();
++
+ 		if (john_main_process)
+ 		printf("%s: %s%s%s%s [%s%s%s%s]... ",
+ 		    benchmark_time ? "Benchmarking" : "Testing",
+@@ -883,6 +886,12 @@ AGAIN:
+ 		}
+ 
+ 		if (john_main_process && !(options.flags & FLG_NOTESTS)) {
++			double cpu_time_used;
++
++			end = clock();
++			cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
++			printf(" (%f secs) ", cpu_time_used);
++
+ 			if (!benchmark_time)
+ 				printf("PASS\n");
+ 			else if (options.verbosity >= VERB_MAX)
+-- 
+2.20.1
+
