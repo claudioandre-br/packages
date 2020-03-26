@@ -1,0 +1,42 @@
+From 870bc0df5481007856e22cd08ebac87e2ff10170 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Thu, 26 Mar 2020 12:02:11 -0300
+Subject: [PATCH] Reenable OpenCL
+
+---
+ .travis.yml          | 2 +-
+ .travis/travis-ci.sh | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index f2995ee05..e3fb29296 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -62,7 +62,7 @@ matrix:
+   # #########################################
+ 
+   # #### Intel OpenCL runtime Docker based testing
+-  - if: branch = bleeding-jumbo AND env(TRAVIS_PULL_REQUEST) = false
++  - if: branch = bleeding-jumbo
+     os: linux
+     compiler: gcc
+     env: DOCKER="yes" OPENCL="yes"
+diff --git a/.travis/travis-ci.sh b/.travis/travis-ci.sh
+index 947fbca07..21cc6ef8f 100755
+--- a/.travis/travis-ci.sh
++++ b/.travis/travis-ci.sh
+@@ -54,6 +54,11 @@ fi
+ 
+ # Except for MacOS, split tests
+ if [[ "$OPENCL" == "yes" && "$TRAVIS_OS_NAME" != "osx" ]]; then
++
++    if [[ "$TRAVIS_PULL_REQUEST" == "true" && "$DOCKER" == "yes" ]]; then
++        echo '== Skip Intel OpenCL CPU Testing on PRs =='
++        exit 0
++    fi
+     echo '== Running $JTR -test=0 --format=opencl =='
+     $JTR -test=0 --format=opencl
+ else
+-- 
+2.20.1
+
