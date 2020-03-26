@@ -56,8 +56,8 @@ using:
   - Windows Server 2016 Datacenter (10.0.14393 N/A Build 14393);
   - Windows Server 2019 Datacenter (10.0.17763 N/A Build 17763);
 - Unix®-like BSD:
-  - FreeBSD 11 (11.2-RELEASE);
-  - FreeBSD 12 (12.0-RELEASE);
+  - FreeBSD 11 (11.3-RELEASE);
+  - FreeBSD 12 (12.1-RELEASE);
 - MacOS:
   - macOS 10.13 (Darwin Kernel Version 17.4.0);
   - macOS 10.14 (Darwin Kernel Version 18.5.0);
