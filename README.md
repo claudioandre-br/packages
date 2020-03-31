@@ -4,9 +4,13 @@
 
 This repository contains Snaps, a Flatpak, Windows packages, and a Docker Image.
 
+John the Ripper snap package achieved 5 thousand active users (7 Day Active Users) [*].
+
 [Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways
 of distributing Linux applications among a wide range of different distros. They
 are technologies to deploy applications in a secure, sandboxed and containerised way.
+
+[*] The number of unique users who had at least one session within a 7 day period.
 
 #### Ubuntu Snap Packages
 
