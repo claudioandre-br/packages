@@ -270,8 +270,8 @@ a non-OpenMP build specifying the value of OMP_NUM_THREADS in the command line.
 You avail the best SIMD instructions at one's disposal without any OpenMP stuff. E.g.:
 
 ```powershell
-C:\john-the-ripper\run>set OMP_NUM_THREADS=1
-C:\john-the-ripper\run>john --list=build-info
+PS C:\john-the-ripper\run> set OMP_NUM_THREADS=1
+PS C:\john-the-ripper\run> .\john --list=build-info
 ```
 
 ### Running OpenCL
@@ -281,13 +281,13 @@ hardware. If you are facing problems, please ask for support.
 
 - That being said, the first advice to be given to anyone facing Windows problems
 would be:
-  - replacing cygwin's OpenCL library `cygOpenCL-1.dll` with `OpenCL.dll` installed
-  in the System32 folder should make everything _almost_ work.
+  - replacing cygwin's OpenCL library `cygOpenCL-1.dll` in the `run` directory with `OpenCL.dll` installed
+  in the `c:\Windows\System32` folder should make everything _almost_ work. Make a backup of `cygOpenCL-1.dll`, copy in the `OpenCL.dll`, and rename the copied file `cygOpenCL-1.dll`. After this, if you get errors like `Error building kernel /run/kernels/cryptsha512_kernel_GPU.cl` try running john from the subdirectory `kernels` (e.g. from `/run/kernels` run john like `../john.exe`).
 
 Benchmarking:
 
 ```text
-C:\bleeding\run>john --test=5 --format=sha512crypt-opencl
+PS C:\bleeding\run> .\john --test=5 --format=sha512crypt-opencl
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Benchmarking: sha512crypt-opencl, crypt(3) $6$ (rounds=5000) [SHA512 OpenCL]... DONE
 Speed for cost 1 (iteration count) of 5000
@@ -296,8 +296,8 @@ Raw:	11522 c/s real, 819200 c/s virtual
 
 Real cracking:
 
-```text
-C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt
+```powershell
+PS C:\bleeding\run> .\john --format=sha512crypt-opencl d:\hash.txt
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
 Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
@@ -307,8 +307,8 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 1g 0:00:00:28  3/3 0.03540g/s 5553p/s 9178c/s 9178C/s 123456
 ```
 
-```text
-C:\bleeding\run>john --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
+```powershell
+PS C:\bleeding\run> .\john --format=sha512crypt-opencl d:\hash.txt --mask=Hello?awor?l?l?a
 Device 0: Juniper [AMD Radeon HD 6700 Series]
 Using default input encoding: UTF-8
 Loaded 2 password hashes with 2 different salts (sha512crypt-opencl, crypt(3) $6$ [SHA512 OpenCL])
