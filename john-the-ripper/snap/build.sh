@@ -50,39 +50,43 @@ git rev-parse --short HEAD 2>/dev/null > ../../../../My_VERSION.TXT
 export CFLAGS="-O2 $CFLAGS"
 
 # Show environmen information
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/show_info.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/show_info.sh
 source show_info.sh
 
 # Build helper
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_build.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/run_build.sh
 source run_build.sh
 
 echo ""
 echo "---------------------------- BUILDING -----------------------------"
 
 if [[ "$arch" == "x86_64" || "$arch" == "i686" ]]; then
-    # Allow an OpenCL build
-    sudo apt-get install -y beignet-dev
+    # Workaround (WTF)
+    sudo ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/x86_64-linux-gnu/libOpenCL.so
 
     # CPU (OMP and extensions fallback)
-    ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-sse2-non-omp
-    ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
-    ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -msse4.1" && do_build ../run/john-sse4-non-omp
-    ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -msse4.1 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse4-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && do_build ../run/john-sse4
-    ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mavx" && do_build ../run/john-avx-non-omp
-    ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mavx -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse4\\\"\"" && do_build ../run/john-avx
-    ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mxop" && do_build ../run/john-xop-non-omp
-    ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mxop -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && do_build ../run/john-xop
-    ./configure $X86_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED -mavx2" && do_build ../run/john-non-omp
-    ./configure $X86_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -mavx2 -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && do_build
+    ./configure $X86_NO_OPENMP --enable-simd=sse2   CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-sse2-non-omp
+    ./configure $X86_REGULAR   --enable-simd=sse2   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse2-non-omp\\\"\"" && do_build ../run/john-sse2
+    ./configure $X86_NO_OPENMP --enable-simd=sse4.1 CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-sse4-non-omp
+    ./configure $X86_REGULAR   --enable-simd=sse4.1 CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-sse4-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse2\\\"\"" && do_build ../run/john-sse4
+    ./configure $X86_NO_OPENMP --enable-simd=avx    CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-avx-non-omp
+    ./configure $X86_REGULAR   --enable-simd=avx    CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-sse4\\\"\"" && do_build ../run/john-avx
+    ./configure $X86_NO_OPENMP --enable-simd=xop    CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-xop-non-omp
+    ./configure $X86_REGULAR   --enable-simd=xop    CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-xop-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx\\\"\"" && do_build ../run/john-xop
+    ./configure $X86_NO_OPENMP --enable-simd=avx2   CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
+    ./configure $X86_REGULAR   --enable-simd=avx2   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-xop\\\"\"" && do_build ../run/john-avx2
 
-    # Install OpenCL kernel code
-    make kernel-copy
+    if [[ "$arch" == "x86_64" ]]; then
+        ./configure $X86_NO_OPENMP --enable-simd=avx512f  CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-avx512f-non-omp
+        ./configure $X86_REGULAR   --enable-simd=avx512f  CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx512f-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx2\\\"\"" && do_build ../run/john-avx512f
+        ./configure $X86_NO_OPENMP --enable-simd=avx512bw CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-avx512bw-non-omp
+        ./configure $X86_REGULAR   --enable-simd=avx512bw CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-avx512bw-non-omp\\\"\" -DCPU_FALLBACK -DCPU_FALLBACK_BINARY=\"\\\"john-avx512f\\\"\"" && do_build
+    fi
 
 else
     # Non X86 CPU
-    ./configure $OTHER_NO_OPENMP CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
-    ./configure $OTHER_REGULAR   CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
+    ./configure $OTHER_NO_OPENMP   CPPFLAGS="-D_SNAP -D_BOXED" && do_build ../run/john-non-omp
+    ./configure $OTHER_REGULAR     CPPFLAGS="-D_SNAP -D_BOXED -DOMP_FALLBACK -DOMP_FALLBACK_BINARY=\"\\\"john-non-omp\\\"\"" && do_build
 fi
 
 # To be able to run testing
@@ -94,16 +98,16 @@ mkdir --parents /snap/john-the-ripper/current/
 ln -s $(realpath ../run) /snap/john-the-ripper/current/run
 
 # Adjust the testing environment, import and run some testing
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/disable_formats.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/disable_formats.sh
 source disable_formats.sh
 
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/run_tests.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/run_tests.sh
 source run_tests.sh
 
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/clean_package.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/clean_package.sh
 source clean_package.sh
 
 # Get the script that computes the package version
-wget https://raw.githubusercontent.com/claudioandre-br/packages/master/john-the-ripper/tests/package_version.sh
+wget https://raw.githubusercontent.com/claudioandre-br/JtR-CI/master/tests/package_version.sh
 chmod +x package_version.sh
 cp package_version.sh ../../../../package_version.sh

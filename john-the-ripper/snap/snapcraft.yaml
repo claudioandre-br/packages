@@ -6,7 +6,7 @@ version-script: |
 confinement: strict
 grade: devel
 assumes: [ snapd2.38 ]
-base: core18
+base: core20
 
 #license: GPL-2.0
 #title: John the Ripper Community Edition
@@ -23,43 +23,43 @@ icon: icon.png
 apps:
   john-the-ripper:
     command: run/john
-    plugs: [home]
+    plugs: [home, removable-media]
   opencl:
     command: run/john
-    plugs: [home]
+    plugs: [home, removable-media]
   dmg2john:
     command: run/dmg2john
-    plugs: [home]
+    plugs: [home, removable-media]
   hccap2john:
     command: run/hccap2john
-    plugs: [home]
+    plugs: [home, removable-media]
   racf2john:
     command: run/racf2john
-    plugs: [home]
+    plugs: [home, removable-media]
   vncpcap2john:
     command: run/vncpcap2john
-    plugs: [home]
+    plugs: [home, removable-media]
   zip2john:
     command: run/zip2john
-    plugs: [home]
+    plugs: [home, removable-media]
   gpg2john:
     command: run/gpg2john
-    plugs: [home]
+    plugs: [home, removable-media]
   keepass2john:
     command: run/keepass2john
-    plugs: [home]
+    plugs: [home, removable-media]
   putty2john:
     command: run/putty2john
-    plugs: [home]
+    plugs: [home, removable-media]
   rar2john:
     command: run/rar2john
-    plugs: [home]
+    plugs: [home, removable-media]
   uaf2john:
     command: run/uaf2john
-    plugs: [home]
+    plugs: [home, removable-media]
   wpapcap2john:
     command: run/wpapcap2john
-    plugs: [home]
+    plugs: [home, removable-media]
 
 parts:
   john-the-ripper:
@@ -78,10 +78,14 @@ parts:
       - libgmp-dev
       - libpcap-dev
       - libbz2-dev
-      - opencl-headers
+      - zlib1g-dev
       - git
       - wget
       - patch
+      # OpenCL stuff is available only in X86 architecture, make it optional
+      - try:
+        - beignet-dev
+        - opencl-headers
 
     organize:
       ../build/run/: run/
