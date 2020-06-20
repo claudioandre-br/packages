@@ -20,7 +20,7 @@ index 8f4e3c53c..fcbe3529c 100644
 +      test: package
        location: cygwin64
  
-+    # CygWin 64bits build
++    # CygWin 32bits build
 +    - arch: x86
 +      bits: 32
 +      doing: deploy
