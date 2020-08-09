@@ -1,6 +1,8 @@
-# John the Ripper
+# Deprecated
 
 > John the Ripper password cracker
+
+To get the latest version visit [John the Ripper packages](https://github.com/openwall/john-packages).
 
 [Openwall](http://openwall.com/) John the Ripper (JtR) is a fast password cracker,
 currently available for many flavors of Unix, Windows, DOS, and OpenVMS. Its primary

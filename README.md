@@ -4,19 +4,13 @@
 
 This repository contains Snaps, a Flatpak, Windows packages, and a Docker Image.
 
-```Text
-John the Ripper snap package achieved 5 thousand active users [*].
-```
-
 [Snap](http://snapcraft.io/) and [Flatpak](http://flatpak.org/) are cool new ways
 of distributing Linux applications among a wide range of different distros. They
 are technologies to deploy applications in a secure, sandboxed and containerised way.
 
-[*] 7 Day Active Users: the number of unique users who had at least one session within a 7 day period.
-
 #### Ubuntu Snap Packages
 
-- John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes](https://github.com/claudioandre-br/packages/tree/master/john-the-ripper#john-the-ripper).
+- John the ripper, a password auditing software: check [John the Ripper](https://github.com/magnumripper/JohnTheRipper) for more details. See the [Installation notes](https://github.com/openwall/john-packages#john-the-ripper-packages).
 - IRPF, a Brazilian government tool: check this [text](https://claudioandre-br.github.io/outros/irpf_package.htm?id=git) for more details.
 - Namebench, a benchmark tool: check [namebench](https://code.google.com/archive/p/namebench)
 for more details.
@@ -31,21 +25,21 @@ Anyone can get, for free (as in beer), the reviewed packages from [**uAppExplore
 
 #### Flatpak Package
 
-- John the Ripper also has a Flatpak package available. [Click here](https://github.com/claudioandre-br/packages/tree/master/john-the-ripper#flatpak)
+- John the Ripper also has a Flatpak package available. [Click here](https://github.com/openwall/john-packages#flatpak)
 for more details.
 
 At this moment, I'm using **FlatHub** and **GitLab** to build the Flatpak package.
 
 #### Windows Package
 
-- John the Ripper also has a Windows package available. [Click here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/readme.md#windows)
+- John the Ripper also has a Windows package available. [Click here](https://github.com/openwall/john-packages#windows)
  for more details.
 
 At this moment, I'm using **AppVeyor CI** and **Azure DevOps** to build the Windows package.
 
 #### Docker Image
 
-- John the Ripper also has a Docker image. [Click here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/readme.md#docker-image)
+- John the Ripper also has a Docker image. [Click here](https://github.com/openwall/john-packages#docker-image)
  for more details.
 
 At this moment, I'm using **Travis CI** to build the Docker image.
@@ -95,7 +89,7 @@ Plans and future vision:
 - Develop a fully automated build and release pipeline using Azure DevOps Services
   to create the CI/CD pipeline and Azure Services for deploying to development/staging and
   production.
-  See the [release workflow here](https://github.com/claudioandre-br/packages/blob/master/john-the-ripper/CI-workflow.pdf).
+  See the [release workflow here](https://github.com/openwall/john-packages/blob/master/tests/CI-workflow.pdf).
 
 #### Supported and Tested SIMD Extensions
 
