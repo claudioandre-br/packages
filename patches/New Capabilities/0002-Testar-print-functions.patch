@@ -1,0 +1,76 @@
+From 4abffd2b8d0253102ad989959172761034c456df Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Wed, 14 Oct 2020 10:05:29 -0300
+Subject: [PATCH 2/2] Testar print functions
+
+---
+ src/opencl_rawsha512_gpl_fmt_plug.c | 46 ++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
+
+diff --git a/src/opencl_rawsha512_gpl_fmt_plug.c b/src/opencl_rawsha512_gpl_fmt_plug.c
+index f9ff3f254..c628f7851 100644
+--- a/src/opencl_rawsha512_gpl_fmt_plug.c
++++ b/src/opencl_rawsha512_gpl_fmt_plug.c
+@@ -36,6 +36,7 @@ john_register_one(&fmt_opencl_xsha512_gpl);
+ 
+ #include "mask_ext.h"
+ #include "../run/opencl/opencl_mask_extras.h"
++#include "util.h"
+ 
+ #define FORMAT_LABEL            "raw-SHA512-opencl"
+ #define FORMAT_NAME         ""
+@@ -576,7 +577,50 @@ static void release_kernel()
+ static void init_common(struct fmt_main *_self)
+ {
+ 	char *tmp_value;
+-
++int lines, cols;
++
++get_windows_size(&lines, &cols);
++printf ("Lines: %d\n", lines);
++printf ("Columns: %d\n", cols);
++puts("-------");
++
++fancy_print(OUT_STDOUT, VERB_DEFAULT, TRUE, 0,
++	"Lorem ipsum dolor sit amet, consectetur adipisicing "
++	"elit, sed do eiusmod tempor incididunt ut labore et "
++	"dolore magna aliqua.\n", "");
++fancy_print(OUT_CONSOLE, VERB_DEFAULT, FALSE, 8,
++	"Lorem ipsum dolor sit amet, consectetur adipisicing "
++	"elit, sed do eiusmod tempor incididunt ut labore et "
++	"dolore magna aliqua. Value is %d.\n", 10);
++fancy_print(OUT_CONSOLE, VERB_DEFAULT, FALSE, 8,
++	"Lorem ipsum dolor sit amet, \nconsectetur adipisicing "
++	"elit, sed do eiusmod tempor incididunt ut labore et "
++	"dolore magna aliqua. Value is %d.\n", 10);
++puts("-------");
++
++fancy_print_color(OUT_CONSOLE, VERB_DEFAULT, FALSE, red,
++    strlen("Lorem ipsum dolor sit amet, "),
++	"Lorem ipsum dolor sit amet, consectetur adipisicing "
++	"elit, sed do eiusmod tempor incididunt ut labore et "
++	"dolore magna aliqua. Value is %d.\n", 10);
++fancy_print_color(OUT_CONSOLE, VERB_DEFAULT, FALSE, green,
++    strlen("Lorem ipsum dolor sit amet, "),
++	"Lorem ipsum dolor sit amet, \nconsectetur adipisicing "
++	"elit, sed do eiusmod tempor incididunt ut labore et "
++	"dolore magna aliqua. Value is %d.\n", 10);
++
++fancy_print_color(OUT_CONSOLE, VERB_DEFAULT, FALSE, default_color, 0,
++   "Options:"
++);
++fancy_print_color(OUT_CONSOLE, VERB_DEFAULT, FALSE, orange,
++   strlen("      --config string      "),
++   "      --config string      Location of config files (default \"/home/claudio/.john\")"
++   "blablabla blabla blabla blabla bla bla blabla blabla bla bla blabla balabalbaaa.\n");
++fancy_print_color(OUT_CONSOLE, VERB_DEFAULT, FALSE, blue,
++   2,
++   "  -v, --version            Print version information and quit.");
++
++exit(0);
+ 	self = _self;
+ 	opencl_prepare_dev(gpu_id);
+ 	mask_int_cand_target = opencl_speed_index(gpu_id) / 300;
+-- 
+2.25.1
+

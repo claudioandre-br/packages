@@ -1,0 +1,282 @@
+From b4a06d7e3f90a1ebdd5f457d25558de20acee390 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Claudio=20Andr=C3=A9?= <claudioandre.br@gmail.com>
+Date: Tue, 13 Oct 2020 19:13:58 -0300
+Subject: [PATCH 1/2] maint: helper print funcions
+
+- Send to screen, or log, or both;
+- Line-wrap at word boundary;
+- Only print to parent process, or any/all;
+- Colorize serious notes (eg. yellow) and warnings (eg. red);
+- Minimum verbosity for sending to screen.
+---
+ src/Makefile.in |   4 +-
+ src/util.c      | 189 ++++++++++++++++++++++++++++++++++++++++++++++++
+ src/util.h      |  38 ++++++++++
+ 3 files changed, 230 insertions(+), 1 deletion(-)
+ create mode 100644 src/util.c
+ create mode 100644 src/util.h
+
+diff --git a/src/Makefile.in b/src/Makefile.in
+index ba2385449..c77289955 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -97,7 +97,7 @@ JOHN_OBJS = \
+ 	rar2john.o \
+ 	zip2john.o pkzip.o \
+ 	$(PLUGFORMATS_OBJS) \
+-	dyna_salt.o dummy.o \
++	dyna_salt.o dummy.o util.o \
+ 	gost.o \
+ 	gpu_common.o \
+ 	batch.o bench.o charset.o common.o compiler.o config.o cracker.o crc32.o external.o \
+@@ -306,6 +306,8 @@ dmg2john.o:	dmg2john.c autoconfig.h arch.h filevault.h misc.h jumbo.h memory.h o
+ 
+ dummy.o:	dummy.c common.h arch.h memory.h formats.h params.h misc.h jumbo.h autoconfig.h options.h list.h loader.h getopt.h os.h os-autoconf.h
+ 
++util.o:	util.c util.h
++
+ dynamic_big_crypt.o:	dynamic_big_crypt.c autoconfig.h openssl_local_overrides.h arch.h misc.h jumbo.h common.h memory.h formats.h params.h sha.h aligned.h md4.h md5.h sha2.h jtr_sha2.h johnswap.h stdbool.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h simd-intrinsics-load-flags.h dynamic_types.h gost.h sph_ripemd.h sph_types.h sph_tiger.h sph_haval.h sph_md2.h sph_panama.h sph_skein.h sph_whirlpool.h KeccakHash.h KeccakSponge.h KeccakF-1600-interface.h os.h os-autoconf.h
+ 
+ dynamic_compiler.o:	dynamic_compiler.c arch.h common.h memory.h formats.h params.h misc.h jumbo.h autoconfig.h list.h crc32.h johnswap.h dynamic.h simd-intrinsics.h pseudo_intrinsics.h aligned.h simd-intrinsics-load-flags.h dynamic_compiler.h base64_convert.h md5.h md4.h sha.h sha2.h openssl_local_overrides.h jtr_sha2.h stdbool.h gost.h unicode.h options.h loader.h getopt.h sph_ripemd.h sph_types.h sph_tiger.h sph_whirlpool.h sph_haval.h sph_md2.h sph_panama.h sph_skein.h KeccakHash.h KeccakSponge.h KeccakF-1600-interface.h os.h os-autoconf.h
+diff --git a/src/util.c b/src/util.c
+new file mode 100644
+index 000000000..d9f9f6fc0
+--- /dev/null
++++ b/src/util.c
+@@ -0,0 +1,189 @@
++/*
++ * Developed by Claudio André <claudioandre.br at gmail.com> in 2020
++ *
++ * Copyright (c) 2020 Claudio André <claudioandre.br at gmail.com>
++ *
++ * This program comes with ABSOLUTELY NO WARRANTY; express or implied .
++ * This is free software, and you are welcome to redistribute it
++ * under certain conditions; as expressed here
++ * http://www.gnu.org/licenses/gpl-2.0.html
++ */
++
++#ifndef __MINGW32__
++#include <sys/ioctl.h>
++#endif
++#include <stdarg.h>
++#include <stdio.h>
++#include <unistd.h>
++
++#include "config.h"
++#include "john.h"
++#include "logger.h"
++#include "options.h"
++#include "util.h"
++
++static int is_whitespace(char symbol)
++{
++	if (symbol == ' ' || symbol == '\t' || symbol == '\n' || symbol == '\r')
++		return 1;
++
++	return 0;
++}
++
++static int is_separator(char symbol)
++{
++	if (strchr(")]},.", symbol) || is_whitespace(symbol) || symbol == '\0')
++		return 1;
++
++	return 0;
++}
++
++static inline int wordlen(const char * str)
++{
++	int len = 0;
++
++	while (!is_separator(str[len]))
++		len++;
++
++	return len;
++}
++
++static int wrap(char * text, char * line, const int width, int first_line,
++    int identation)
++{
++	int line_len = 0, pos = 0, limit;
++
++	/* ltrim text. */
++	while (!first_line && text[0] != '\0' && is_whitespace(text[0])) {
++		text++; pos++;
++	}
++
++	/* Protection against invalid data. */
++	if (identation > width || first_line)
++		identation = 0;
++	limit = width - identation;
++
++	while (text[line_len] != '\0') {
++
++		if (is_separator(text[line_len]))
++			if ((text[line_len] == '\n') ||
++			     line_len + wordlen(&text[line_len + 1]) >= limit) {
++				/* If it is a "space", override it. */
++				if (is_whitespace(text[line_len]))
++					text[line_len] = '\0';
++
++				/* The separator belongs to this line. */
++				line_len++;
++				break;
++			}
++		line_len++;
++
++		/* Separator was not found. */
++		if (line_len == limit)
++			break;
++	}
++
++	if (identation)
++		memset(line, ' ', identation);
++	strncpy(line + identation, text, limit);
++	line[line_len + identation] = '\0';
++
++	return line_len + pos;
++}
++
++int get_windows_size(int *lines, int *cols)
++{
++#ifndef __MINGW32__
++	struct winsize w;
++
++	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0) {
++		const char *tmp_value;
++		int limit = 0;
++
++		*(lines) = w.ws_row;
++		*(cols) = w.ws_col;
++
++		if ((tmp_value = cfg_get_param(SECTION_OPTIONS, "", "MaxConsoleCols")))
++			limit = atoi(tmp_value);
++
++		/* Never use wider than n or john.conf option. */
++		if (limit && *(cols) > limit)
++			*(cols) = limit;
++		if (*(cols) > 140)
++			*(cols) = 140;
++		if (*(cols) < 60)
++			*(cols) = 60;
++		return 0;
++	}
++#endif
++	*(lines) = 24;
++	*(cols) = 80;
++	return -1;
++}
++
++static int has_colors()
++{
++	if (isatty(1) && getenv("TERM"))
++		return 1;
++	return 0;
++}
++
++void fancy_print_color(int destination, int verbosity, int main_only, color colors,
++         int identation, const char *format, ...)
++{
++	int lines, cols, pos, first_line = 1;
++    char *line, s[2048];
++
++	get_windows_size(&lines, &cols);
++	line = mem_alloc(cols + 1);
++
++	if (options.verbosity >= verbosity &&
++	   (!main_only || (main_only && john_main_process))) {
++		char *p, *color_seq = "", *color_normal = "";
++
++ 		va_list arg;
++		va_start(arg, format);
++		vsnprintf(s, 2048, format, arg);
++		va_end(arg);
++
++		if (has_colors() && colors != default_color) {
++			color_seq = terminal_colors[colors];
++			color_normal = COLOR_DEFAULT;
++		}
++
++		p = s;
++		while ((pos = wrap(p, line, cols, first_line, identation))) {
++			if (destination == OUT_STDOUT || destination == OUT_CONSOLE)
++				fprintf(stdout, "%s%s%s\n", color_seq, line, color_normal);
++			if (destination == OUT_STDERR)
++				fprintf(stderr, "%s\n", line);
++
++			first_line = 0;
++			p += pos;
++		}
++		if (destination == OUT_LOG)
++			log_event("%s", s);
++	}
++	MEM_FREE(line);
++}
++
++/*
++                 ## The help itself is more like a text file ##
++                 ## Ok, but help also word wrap, I have to handle it ##
++                 ## How many columns, 1, 2 or 3? ##
++
++Management Commands:
++  builder     Manage builds
++
++OpenCL options:
++  device      The device number
++  mask        The mask ...
++
++Options:
++      --config string      Location of config files (default "/home/claudio/.john")
++  -v, --version            Print version information and quit
++
++  ^
++  |-- Two (maybe three) columns text. Should we care about this?
++
++*/
+diff --git a/src/util.h b/src/util.h
+new file mode 100644
+index 000000000..0de03401b
+--- /dev/null
++++ b/src/util.h
+@@ -0,0 +1,38 @@
++/*
++ * Developed by Claudio André <claudioandre.br at gmail.com> in 2020
++ *
++ * Copyright (c) 2020 Claudio André <claudioandre.br at gmail.com>
++ *
++ * This program comes with ABSOLUTELY NO WARRANTY; express or implied .
++ * This is free software, and you are welcome to redistribute it
++ * under certain conditions; as expressed here
++ * http://www.gnu.org/licenses/gpl-2.0.html
++ */
++
++#define FALSE         0
++#define TRUE          1
++
++#define OUT_CONSOLE   (1 << 0)
++#define OUT_LOG       (1 << 1)
++#define OUT_STDOUT    (1 << 2)
++#define OUT_STDERR    (1 << 3)
++
++#define RED              "\033[31m"
++#define GREEN            "\033[32m"
++#define ORANGE           "\033[33m"
++#define BLUE             "\033[34m"
++#define COLOR_DEFAULT    "\033[39m"
++
++static char *terminal_colors[] = {RED, GREEN, ORANGE, BLUE};
++
++typedef enum {
++	red = 0, green, orange, blue, default_color
++} color;
++
++int get_windows_size(int *lines, int *cols);
++void fancy_print_color(int destination, int verbosity, int main_only, color colors,
++        int identation, const char *format, ...);
++
++#define fancy_print(destination, verbosity, main_only, identation, format, ...) \
++    fancy_print_color(destination,verbosity, main_only, default_color, identation, format, __VA_ARGS__)
++
+-- 
+2.25.1
+
