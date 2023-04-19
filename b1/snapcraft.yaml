@@ -1,7 +1,10 @@
 name: b1freearchiver
 version: 1.5.86.4890
+
 confinement: strict
 grade: stable
+base: core18
+
 summary: Free file archiver and encryption software
 description: |
   B1 Free Archiver is a free, multi language and simple to use compression and
@@ -16,38 +19,41 @@ apps:
 
   b1freearchiver:
     command: desktop-launch $SNAP/bin/b1manager
-    plugs: [home, x11, unity7, gsettings, network, hardware-observe, mount-observe, network-manager, desktop-legacy]
+    plugs: [home, x11, unity7, gsettings, hardware-observe, mount-observe, network-manager, desktop-legacy]
 
 parts:
   b1freearchiver:
     plugin: dump
     after: [desktop-qt4]
-    source: ./deb_data
+    source: http://cdn2.b1.org/smart-download/804173/os=deb64&v=1.5.86/b1freearchiver_current_stable_amd64.deb
 
     stage-packages:
+      - libgcc1
       - libqt4-dbus
       - libqt4-network
+      - libqtcore4
       - libqtgui4
       - libqtwebkit4
+      - libstdc++6
       - trash-cli
-      - appmenu-qt
-
-      - overlay-scrollbar
-      - libgail-common
-      - libatk-adaptor
-      - unity-gtk-module-common
-      - libcanberra-gtk-module
-
-      - libdbusmenu-qt2
-
-      - xdg-utils
-      - libdb5.3
-
-    prime:
-       - -my_usr/
 
     organize:
-      my_usr/bin/b1: bin/b1
-      my_usr/bin/b1manager: bin/b1manager
-      my_usr/lib/*: lib/x86_64-linux-gnu/
+      usr/bin/b1: bin/b1
+      usr/bin/b1manager: bin/b1manager
+      usr/lib/*: lib/x86_64-linux-gnu/
 
+  # Using Docker to build
+  #  https://snapcraft.io/docs/build-on-docker
+  #  Got the Dockerfile from: https://github.com/snapcore/snapcraft/tree/main/docker
+  #    docker build . --no-cache -f stable.Dockerfile --build-arg RISK=stable --build-arg UBUNTU=bionic --tag b1customimage:stable
+  #    docker run -v "$PWD":/build -w /build b1customimage:stable snapcraft
+
+  # Inside the Docker image
+  # snapcraft export-login ~/secrets.auth
+  # export SNAPCRAFT_STORE_CREDENTIALS=$(cat ~/secrets.auth)
+
+  desktop-qt4:
+    plugin: make
+    source-subdir: qt
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    
