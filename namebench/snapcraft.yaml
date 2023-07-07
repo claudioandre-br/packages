@@ -21,7 +21,7 @@ parts:
   namebench:
     plugin: python2
     after: [desktop-gtk2]
-    source: https://github.com/claudioandre/namebench.git
+    source: claudioandre-br/namebench
 
     stage-packages:
       - tcl
